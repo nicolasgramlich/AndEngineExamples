@@ -19,5 +19,6 @@
         <activity android:name=".PauseExample" />
         <activity android:name=".MenuExample" />
         <activity android:name=".SubMenuExample" />
+        <activity android:name=".FontExample" />
     </application>
 </manifest> 
