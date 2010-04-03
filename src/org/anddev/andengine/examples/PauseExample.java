@@ -8,7 +8,6 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.CameraScene;
 import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
-import org.anddev.andengine.entity.SceneWithChild;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.modifier.MoveModifier;
@@ -38,7 +37,7 @@ public class PauseExample extends BaseGameActivity {
 	private Camera mCamera;
 
 	private Texture mTexture;
-	private SceneWithChild mMainScene;
+	private Scene mMainScene;
 	private TiledTextureRegion mFaceTextureRegion;
 	private TextureRegion mPausedTextureRegion;
 	private CameraScene mPauseScene;
@@ -63,9 +62,9 @@ public class PauseExample extends BaseGameActivity {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128);
+		this.mTexture = new Texture(256, 128);
 		this.mPausedTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/paused.png", 0, 0);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 36, 2, 1);
+		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 50, 2, 1);
 
 		this.getEngine().loadTexture(this.mTexture);
 	}
@@ -84,7 +83,7 @@ public class PauseExample extends BaseGameActivity {
 		this.mPauseScene.setBackgroundEnabled(false);
 
 		/* Just a simple */
-		this.mMainScene = new SceneWithChild(1);
+		this.mMainScene = new Scene(1);
 		this.mMainScene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		final AnimatedSprite face = new AnimatedSprite(0, 0, this.mFaceTextureRegion);
@@ -104,7 +103,7 @@ public class PauseExample extends BaseGameActivity {
 	public boolean onKeyDown(final int pKeyCode, final KeyEvent pEvent) {
 		if(pKeyCode == KeyEvent.KEYCODE_MENU && pEvent.getAction() == KeyEvent.ACTION_DOWN) {
 			if(this.getEngine().isRunning()) {
-				this.mMainScene.setChildSceneModal(this.mPauseScene, false, true);
+				this.mMainScene.setChildScene(this.mPauseScene, false, true);
 				this.getEngine().stop();
 			} else {
 				this.mMainScene.clearChildScene();

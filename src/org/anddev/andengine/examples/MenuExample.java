@@ -7,26 +7,23 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
-import org.anddev.andengine.entity.SceneWithChild;
 import org.anddev.andengine.entity.menu.IOnMenuItemClickerListener;
 import org.anddev.andengine.entity.menu.MenuItem;
 import org.anddev.andengine.entity.menu.MenuScene;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
+import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.modifier.MoveModifier;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureRegion;
 import org.anddev.andengine.opengl.texture.TextureRegionFactory;
-import org.anddev.andengine.opengl.texture.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
-import org.anddev.andengine.util.Debug;
 
 import android.view.KeyEvent;
 
 /**
  * @author Nicolas Gramlich
- * @since 11:33:33 - 01.04.2010
+ * @since 01:30:15 - 02.04.2010
  */
-public class MenuExample extends BaseGameActivity {
+public class MenuExample extends BaseGameActivity implements IOnMenuItemClickerListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -34,25 +31,25 @@ public class MenuExample extends BaseGameActivity {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 	
-	private static final int MENU_RESET = 0;
-	private static final int MENU_QUIT = MENU_RESET + 1;
+	protected static final int MENU_RESET = 0;
+	protected static final int MENU_QUIT = MENU_RESET + 1;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
-	private Camera mCamera;
+	protected Camera mCamera;
 
-	private SceneWithChild mMainScene;
+	protected Scene mMainScene;
 
 	private Texture mTexture;
-	private TiledTextureRegion mFaceTextureRegion;
+	private TextureRegion mFaceTextureRegion;
 
-	private MenuScene mMenuScene;
+	protected MenuScene mMenuScene;
 
 	private Texture mMenuTexture;
-	private TextureRegion mMenuResetTextureRegion;
-	private TextureRegion mMenuQuitTextureRegion;
+	protected TextureRegion mMenuResetTextureRegion;
+	protected TextureRegion mMenuQuitTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -74,46 +71,27 @@ public class MenuExample extends BaseGameActivity {
 
 	@Override
 	public void onLoadResources() {
+		this.mTexture = new Texture(64, 64);
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);
+		this.getEngine().loadTexture(this.mTexture);
+
 		this.mMenuTexture = new Texture(256, 128);
 		this.mMenuResetTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_reset.png", 0, 0);
-		this.mMenuQuitTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_quit.png", 0, 64);
-
-		this.mTexture = new Texture(128, 128);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 36, 2, 1);
-
-		this.getEngine().loadTextures(this.mMenuTexture, this.mTexture);
+		this.mMenuQuitTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_quit.png", 0, 50);
+		this.getEngine().loadTexture(this.mMenuTexture);
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		this.getEngine().registerPreFrameHandler(new FPSCounter());
 
-		this.mMenuScene = new MenuScene(new IOnMenuItemClickerListener() {
-			@Override
-			public void onMenuItemClicked(final MenuScene pMenuScene, final MenuItem pMenuItem) {
-				switch(pMenuItem.getMenuID()) {
-					case MENU_RESET:
-						Debug.d("Reset");
-						break;
-					case MENU_QUIT:
-						Debug.d("Quit");
-						break;
-				}
-			}
-		}, this.mCamera);
-		
-		this.mMenuScene.addMenuItem(new MenuItem(MENU_RESET, this.mMenuResetTextureRegion));
-		this.mMenuScene.addMenuItem(new MenuItem(MENU_QUIT, this.mMenuQuitTextureRegion));
-		this.mMenuScene.build();
-		
-		this.mMenuScene.setBackgroundEnabled(false);
+		this.mMenuScene = this.createMenuScene();
 
-		/* */
-		this.mMainScene = new SceneWithChild(1);
+		/* Just a simple scene with an animated face flying around. */
+		this.mMainScene = new Scene(1);
 		this.mMainScene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
-		final AnimatedSprite face = new AnimatedSprite(0, 0, this.mFaceTextureRegion);
-		face.animate(100);
+		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
 		face.addSpriteModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
 		this.mMainScene.getTopLayer().addEntity(face);
 
@@ -122,16 +100,18 @@ public class MenuExample extends BaseGameActivity {
 
 	@Override
 	public void onLoadComplete() {
+		
 	}
 
 	@Override
 	public boolean onKeyDown(final int pKeyCode, final KeyEvent pEvent) {
 		if(pKeyCode == KeyEvent.KEYCODE_MENU && pEvent.getAction() == KeyEvent.ACTION_DOWN) {
 			if(this.mMainScene.hasChildScene()) {
-				this.mMainScene.clearChildScene();
-				this.mMenuScene.reset();
+				/* Remove the menu and reset it. */
+				this.mMenuScene.back();
 			} else {
-				this.mMainScene.setChildSceneModal(this.mMenuScene, false, true);
+				/* Attach the menu. */
+				this.mMainScene.setChildScene(this.mMenuScene, false, true);
 			}
 			return true;
 		} else {
@@ -139,9 +119,40 @@ public class MenuExample extends BaseGameActivity {
 		}
 	}
 
+	@Override
+	public void onMenuItemClicked(MenuScene pMenuScene, MenuItem pMenuItem) {
+		switch(pMenuItem.getMenuID()) {
+			case MENU_RESET:
+				/* Restart the animation. */
+				this.mMainScene.reset();
+				
+				/* Remove the menu and reset it. */
+				this.mMainScene.clearChildScene();
+				this.mMenuScene.reset();
+				break;
+			case MENU_QUIT:
+				/* End Activity. */
+				this.finish();
+				break;
+		}
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	protected MenuScene createMenuScene() {
+		final MenuScene menuScene = new MenuScene(this.mCamera);
+		
+		menuScene.addMenuItem(new MenuItem(MENU_RESET, this.mMenuResetTextureRegion));
+		menuScene.addMenuItem(new MenuItem(MENU_QUIT, this.mMenuQuitTextureRegion));
+		menuScene.buildAnimations();
+		
+		menuScene.setBackgroundEnabled(false);
+		
+		menuScene.setOnMenuItemClickerListener(this);
+		return menuScene;
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
