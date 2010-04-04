@@ -55,6 +55,7 @@ public class ExampleLauncher extends ListActivity {
 	// ===========================================================
 
 	private static enum Example {
+		LINE(LineExample.class, "Line Example"),
 		PAUSE(PauseExample.class, "Pause Example"),
 		MENU(MenuExample.class, "Menu Example"),
 		SUBMENU(SubMenuExample.class, "SubMenu Example"),

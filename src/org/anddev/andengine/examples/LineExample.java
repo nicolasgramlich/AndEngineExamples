@@ -7,20 +7,14 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
-import org.anddev.andengine.entity.text.Text;
-import org.anddev.andengine.entity.text.Text.HorizontalAlign;
-import org.anddev.andengine.opengl.text.Font;
-import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.entity.primitives.Line;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
-
-import android.graphics.Color;
-import android.graphics.Typeface;
 
 /**
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class FontExample extends BaseGameActivity {
+public class LineExample extends BaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -33,8 +27,6 @@ public class FontExample extends BaseGameActivity {
 	// ===========================================================
 
 	private Camera mCamera;
-	private Texture mFontTexture;
-	private Font mFont;
 
 	// ===========================================================
 	// Constructors
@@ -56,12 +48,7 @@ public class FontExample extends BaseGameActivity {
 
 	@Override
 	public void onLoadResources() {
-		this.mFontTexture = new Texture(256, 256);
-
-		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 24, true, Color.RED);
-
-		this.getEngine().loadTexture(this.mFontTexture);
-		this.getEngine().loadFont(this.mFont);
+		
 	}
 
 	@Override
@@ -70,9 +57,11 @@ public class FontExample extends BaseGameActivity {
 		
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
-		
-		final Text text = new Text(100, 50, this.mFont, "Hello AndEngine!\nYou can even have multilined text!", HorizontalAlign.CENTER);
-		scene.getTopLayer().addEntity(text);
+
+		final Line line = new Line(240, 320, 480, 160); // top left to bottom right
+		line.setColor(1, 0, 0);
+		line.setAngle(90);
+		scene.getTopLayer().addEntity(line);
 
 		return scene;
 	}

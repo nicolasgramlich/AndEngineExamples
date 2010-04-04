@@ -8,13 +8,11 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.CameraScene;
 import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.modifier.MoveModifier;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureRegion;
 import org.anddev.andengine.opengl.texture.TextureRegionFactory;
-import org.anddev.andengine.opengl.texture.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.view.KeyEvent;
@@ -38,7 +36,7 @@ public class PauseExample extends BaseGameActivity {
 
 	private Texture mTexture;
 	private Scene mMainScene;
-	private TiledTextureRegion mFaceTextureRegion;
+	private TextureRegion mFaceTextureRegion;
 	private TextureRegion mPausedTextureRegion;
 	private CameraScene mPauseScene;
 
@@ -64,7 +62,7 @@ public class PauseExample extends BaseGameActivity {
 	public void onLoadResources() {
 		this.mTexture = new Texture(256, 128);
 		this.mPausedTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/paused.png", 0, 0);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 50, 2, 1);
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 50);
 
 		this.getEngine().loadTexture(this.mTexture);
 	}
@@ -86,8 +84,7 @@ public class PauseExample extends BaseGameActivity {
 		this.mMainScene = new Scene(1);
 		this.mMainScene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
-		final AnimatedSprite face = new AnimatedSprite(0, 0, this.mFaceTextureRegion);
-		face.animate(100);
+		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
 		face.addSpriteModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
 		this.mMainScene.getTopLayer().addEntity(face);
 
