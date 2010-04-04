@@ -56,10 +56,12 @@ public class ExampleLauncher extends ListActivity {
 
 	private static enum Example {
 		LINE(LineExample.class, "Line Example"),
+		RECTANGLE(RectangleExample.class, "Rectangle Example"),
 		PAUSE(PauseExample.class, "Pause Example"),
 		MENU(MenuExample.class, "Menu Example"),
 		SUBMENU(SubMenuExample.class, "SubMenu Example"),
-		FONT(FontExample.class, "Font Example");
+		FONT(FontExample.class, "Font Example"),
+		PHYSICS(PhysicsExample.class, "Physics Example");
 
 		public final Class<? extends Activity> CLASS;
 		public final String NAME;

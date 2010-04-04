@@ -62,7 +62,7 @@ public class PauseExample extends BaseGameActivity {
 	public void onLoadResources() {
 		this.mTexture = new Texture(256, 128);
 		this.mPausedTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/paused.png", 0, 0);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 50);
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface_menu.png", 0, 50);
 
 		this.getEngine().loadTexture(this.mTexture);
 	}

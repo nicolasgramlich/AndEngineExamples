@@ -72,7 +72,7 @@ public class MenuExample extends BaseGameActivity implements IOnMenuItemClickerL
 	@Override
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 64);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface_menu.png", 0, 0);
 		this.getEngine().loadTexture(this.mTexture);
 
 		this.mMenuTexture = new Texture(256, 128);
