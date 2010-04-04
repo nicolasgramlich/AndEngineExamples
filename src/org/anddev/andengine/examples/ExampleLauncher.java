@@ -57,6 +57,7 @@ public class ExampleLauncher extends ListActivity {
 	private static enum Example {
 		LINE(LineExample.class, "Line Example"),
 		RECTANGLE(RectangleExample.class, "Rectangle Example"),
+		SPRITE(SpriteExample.class, "Sprite Example"),
 		PAUSE(PauseExample.class, "Pause Example"),
 		MENU(MenuExample.class, "Menu Example"),
 		SUBMENU(SubMenuExample.class, "SubMenu Example"),

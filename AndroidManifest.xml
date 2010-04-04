@@ -18,6 +18,7 @@
         
         <activity android:name=".LineExample" />
         <activity android:name=".RectangleExample" />
+        <activity android:name=".SpriteExample" />
         <activity android:name=".PauseExample" />
         <activity android:name=".MenuExample" />
         <activity android:name=".SubMenuExample" />
