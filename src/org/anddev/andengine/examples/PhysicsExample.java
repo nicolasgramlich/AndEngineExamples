@@ -68,7 +68,7 @@ public class PhysicsExample extends BaseGameActivity implements IAccelerometerLi
 	@Override
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32);
-		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0, 2, 1); // 64x32
+		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1); // 64x32
 		this.getEngine().loadTexture(this.mTexture);
 
 		this.enableAccelerometer(this);
