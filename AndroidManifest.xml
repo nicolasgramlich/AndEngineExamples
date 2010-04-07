@@ -20,11 +20,14 @@
         <activity android:name=".RectangleExample" />
         <activity android:name=".SpriteExample" />
         <activity android:name=".SpriteModifierExample" />
+        <activity android:name=".SpritesExample" />
+        <activity android:name=".TextureOptionsExample" />
         <activity android:name=".PauseExample" />
         <activity android:name=".MenuExample" />
         <activity android:name=".SubMenuExample" />
         <activity android:name=".FontExample" />
         <activity android:name=".ParticleSystemExample" />
         <activity android:name=".PhysicsExample" />
+        <activity android:name=".VBOExample" />
     </application>
 </manifest> 

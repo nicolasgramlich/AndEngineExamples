@@ -59,12 +59,15 @@ public class ExampleLauncher extends ListActivity {
 		RECTANGLE(RectangleExample.class, "Rectangle Example"),
 		SPRITE(SpriteExample.class, "Sprite Example"),
 		SPRITEMODIFIER(SpriteModifierExample.class, "SpriteModifier Example"),
+		SPRITES(SpritesExample.class, "Sprites Example"),
+		TEXTUREOPTIONS(TextureOptionsExample.class, "TextureOptions Example"),
 		PAUSE(PauseExample.class, "Pause Example"),
 		MENU(MenuExample.class, "Menu Example"),
 		SUBMENU(SubMenuExample.class, "SubMenu Example"),
 		FONT(FontExample.class, "Font Example"),
 		PARTICLESYSTEM(ParticleSystemExample.class, "ParticleSystem Example"),
-		PHYSICS(PhysicsExample.class, "Physics Example");
+		PHYSICS(PhysicsExample.class, "Physics Example"),
+		VBO(VBOExample.class, "VBO Example");
 
 		public final Class<? extends Activity> CLASS;
 		public final String NAME;

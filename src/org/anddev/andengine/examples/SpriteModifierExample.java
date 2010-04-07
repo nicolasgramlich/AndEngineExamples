@@ -7,19 +7,20 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
+import org.anddev.andengine.entity.shape.IModifierListener;
+import org.anddev.andengine.entity.shape.IShapeModifier;
+import org.anddev.andengine.entity.shape.Shape;
+import org.anddev.andengine.entity.shape.modifier.AlphaModifier;
+import org.anddev.andengine.entity.shape.modifier.DelayModifier;
+import org.anddev.andengine.entity.shape.modifier.RotateByModifier;
+import org.anddev.andengine.entity.shape.modifier.RotateModifier;
+import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
+import org.anddev.andengine.entity.shape.modifier.SequenceModifier;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
-import org.anddev.andengine.entity.sprite.BaseSprite;
-import org.anddev.andengine.entity.sprite.IModifierListener;
-import org.anddev.andengine.entity.sprite.ISpriteModifier;
-import org.anddev.andengine.entity.sprite.modifier.AlphaModifier;
-import org.anddev.andengine.entity.sprite.modifier.DelayModifier;
-import org.anddev.andengine.entity.sprite.modifier.RotateByModifier;
-import org.anddev.andengine.entity.sprite.modifier.RotateModifier;
-import org.anddev.andengine.entity.sprite.modifier.ScaleModifier;
-import org.anddev.andengine.entity.sprite.modifier.SequenceModifier;
 import org.anddev.andengine.opengl.texture.Texture;
-import org.anddev.andengine.opengl.texture.TextureRegionFactory;
-import org.anddev.andengine.opengl.texture.TiledTextureRegion;
+import org.anddev.andengine.opengl.texture.TextureManager;
+import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.widget.Toast;
@@ -67,7 +68,7 @@ public class SpriteModifierExample extends BaseGameActivity {
 		this.mTexture = new Texture(64, 32);
 		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);		
 		
-		this.getEngine().loadTexture(this.mTexture);
+		TextureManager.loadTexture(this.mTexture);
 	}
 
 	@Override
@@ -82,9 +83,9 @@ public class SpriteModifierExample extends BaseGameActivity {
 		final AnimatedSprite face = new AnimatedSprite(x, y, this.mFaceTextureRegion);
 		face.animate(100);
 		
-		face.addSpriteModifier(new SequenceModifier(new IModifierListener() {
+		face.addShapeModifier(new SequenceModifier(new IModifierListener() {
 			@Override
-			public void onModifierFinished(final ISpriteModifier pSpriteModifier, final BaseSprite pBaseSprite) {
+			public void onModifierFinished(final IShapeModifier pShapeModifier, final Shape pShape) {
 				SpriteModifierExample.this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
@@ -104,7 +105,6 @@ public class SpriteModifierExample extends BaseGameActivity {
 		new RotateByModifier(5, -90)));
 
 		scene.getTopLayer().addEntity(face);
-		scene.getTopLayer().addEntity(new AnimatedSprite(x, y, this.mFaceTextureRegion));
 
 		return scene;
 	}

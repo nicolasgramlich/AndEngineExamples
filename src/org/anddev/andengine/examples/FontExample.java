@@ -9,8 +9,10 @@ import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.text.Text.HorizontalAlign;
-import org.anddev.andengine.opengl.text.Font;
+import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.font.FontManager;
 import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.graphics.Color;
@@ -60,8 +62,8 @@ public class FontExample extends BaseGameActivity {
 
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 24, true, Color.RED);
 
-		this.getEngine().loadTexture(this.mFontTexture);
-		this.getEngine().loadFont(this.mFont);
+		TextureManager.loadTexture(this.mFontTexture);
+		FontManager.loadFont(this.mFont);
 	}
 
 	@Override

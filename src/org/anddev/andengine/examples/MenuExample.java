@@ -10,11 +10,12 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.menu.IOnMenuItemClickerListener;
 import org.anddev.andengine.entity.menu.MenuItem;
 import org.anddev.andengine.entity.menu.MenuScene;
+import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
-import org.anddev.andengine.entity.sprite.modifier.MoveModifier;
 import org.anddev.andengine.opengl.texture.Texture;
-import org.anddev.andengine.opengl.texture.TextureRegion;
-import org.anddev.andengine.opengl.texture.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.TextureManager;
+import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.view.KeyEvent;
@@ -73,12 +74,12 @@ public class MenuExample extends BaseGameActivity implements IOnMenuItemClickerL
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 64);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface_menu.png", 0, 0);
-		this.getEngine().loadTexture(this.mTexture);
+		TextureManager.loadTexture(this.mTexture);
 
 		this.mMenuTexture = new Texture(256, 128);
 		this.mMenuResetTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_reset.png", 0, 0);
 		this.mMenuQuitTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_quit.png", 0, 50);
-		this.getEngine().loadTexture(this.mMenuTexture);
+		TextureManager.loadTexture(this.mMenuTexture);
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public class MenuExample extends BaseGameActivity implements IOnMenuItemClickerL
 		this.mMainScene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
-		face.addSpriteModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
+		face.addShapeModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
 		this.mMainScene.getTopLayer().addEntity(face);
 
 		return this.mMainScene;
