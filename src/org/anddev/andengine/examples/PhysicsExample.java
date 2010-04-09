@@ -5,8 +5,8 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
+import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.primitives.Rectangle;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.input.touch.IOnSceneTouchListener;
@@ -35,8 +35,8 @@ public class PhysicsExample extends BaseGameActivity implements IAccelerometerLi
 	// Constants
 	// ===========================================================
 
-	private static final int GAME_WIDTH = 720;
-	private static final int GAME_HEIGHT = 480;
+	private static final int CAMERA_WIDTH = 720;
+	private static final int CAMERA_HEIGHT = 480;
 
 	// ===========================================================
 	// Fields
@@ -62,8 +62,8 @@ public class PhysicsExample extends BaseGameActivity implements IAccelerometerLi
 
 	@Override
 	public Engine onLoadEngine() {
-		final Camera camera = new Camera(0, 0, GAME_WIDTH, GAME_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(GAME_WIDTH, GAME_HEIGHT), camera));
+		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera));
 	}
 
 	@Override
@@ -80,26 +80,26 @@ public class PhysicsExample extends BaseGameActivity implements IAccelerometerLi
 		this.getEngine().registerPostFrameHandler(new FPSCounter());
 		
 		this.mPhysicsSpace = new Box2DPhysicsSpace();
-		this.mPhysicsSpace.createWorld(0, 0, GAME_WIDTH, GAME_HEIGHT);
+		this.mPhysicsSpace.createWorld(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mPhysicsSpace.setGravity(0, 2 * SensorManager.GRAVITY_EARTH);
 
 		final Scene scene = new Scene(2);
 		scene.setBackgroundColor(0, 0, 0);
 		scene.setOnSceneTouchListener(this);
 
-		final Rectangle ground = new Rectangle(0, GAME_HEIGHT - 1, GAME_WIDTH, 1);
+		final Rectangle ground = new Rectangle(0, CAMERA_HEIGHT - 1, CAMERA_WIDTH, 1);
 		scene.getLayer(0).addEntity(ground);
 		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(ground, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
 
-		final Rectangle roof = new Rectangle(0, 0, GAME_WIDTH, 2);
+		final Rectangle roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
 		scene.getLayer(0).addEntity(roof);
 		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(roof, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
 
-		final Rectangle left = new Rectangle(0, 0, 1, GAME_HEIGHT);
+		final Rectangle left = new Rectangle(0, 0, 1, CAMERA_HEIGHT);
 		scene.getLayer(0).addEntity(left);
 		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(left, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
 
-		final Rectangle right = new Rectangle(GAME_WIDTH - 1, 0, 1, GAME_HEIGHT);
+		final Rectangle right = new Rectangle(CAMERA_WIDTH - 1, 0, 1, CAMERA_HEIGHT);
 		scene.getLayer(0).addEntity(right);
 		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(right, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
 

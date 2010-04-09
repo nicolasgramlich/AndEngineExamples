@@ -5,8 +5,8 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
+import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.shape.IModifierListener;
 import org.anddev.andengine.entity.shape.IShapeModifier;
 import org.anddev.andengine.entity.shape.Shape;
@@ -81,7 +81,7 @@ public class SpriteModifierExample extends BaseGameActivity {
 		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		final AnimatedSprite face = new AnimatedSprite(x, y, this.mFaceTextureRegion);
-		face.animate(100);
+//		face.animate(100);
 		
 		face.addShapeModifier(new SequenceModifier(new IModifierListener() {
 			@Override
@@ -95,7 +95,7 @@ public class SpriteModifierExample extends BaseGameActivity {
 			}
 		},
 		new RotateByModifier(5, 90),
-		new DelayModifier(2),
+		new DelayModifier(1),
 		new AlphaModifier(3, 1, 0),
 		new AlphaModifier(3, 0, 1),
 		new ScaleModifier(3, 1, 0.5f),

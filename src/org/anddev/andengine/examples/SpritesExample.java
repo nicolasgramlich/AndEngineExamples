@@ -2,18 +2,21 @@ package org.anddev.andengine.examples;
 
 import java.util.Random;
 
+import javax.microedition.khronos.opengles.GL11;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
+import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
+import org.anddev.andengine.opengl.vertex.RectangleVertexBuffer;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 /**
@@ -75,8 +78,13 @@ public class SpritesExample extends BaseGameActivity {
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		final Random random = new Random(RANDOM_SEED);
+		
+		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
+		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW);
+		sharedVertexBuffer.onUpdate(0, 0, this.mFaceTextureRegion.getTileWidth(), this.mFaceTextureRegion.getTileHeight());
+		
 		for(int i = 0; i < SPRITE_COUNT; i++) {
-			final AnimatedSprite face = new AnimatedSprite(random.nextFloat() * (CAMERA_WIDTH - 32), random.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion);
+			final AnimatedSprite face = new AnimatedSprite(random.nextFloat() * (CAMERA_WIDTH - 32), random.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
 			scene.getTopLayer().addEntity(face);
 		}
 
