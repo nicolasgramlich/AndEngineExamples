@@ -6,15 +6,14 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.CameraScene;
-import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.FPSCounter;
+import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.view.KeyEvent;
 
@@ -22,7 +21,7 @@ import android.view.KeyEvent;
  * @author Nicolas Gramlich
  * @since 11:33:33 - 01.04.2010
  */
-public class PauseExample extends BaseGameActivity {
+public class PauseExample extends BaseExampleGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

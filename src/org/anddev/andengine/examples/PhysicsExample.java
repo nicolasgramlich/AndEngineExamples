@@ -5,8 +5,8 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.FPSCounter;
+import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.primitives.Rectangle;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.input.touch.IOnSceneTouchListener;
@@ -21,7 +21,6 @@ import org.anddev.andengine.physics.StaticPhysicsBody;
 import org.anddev.andengine.physics.box2d.Box2DPhysicsSpace;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
-import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.hardware.SensorManager;
 import android.view.MotionEvent;
@@ -30,7 +29,7 @@ import android.view.MotionEvent;
  * @author Nicolas Gramlich
  * @since 18:47:08 - 19.03.2010
  */
-public class PhysicsExample extends BaseGameActivity implements IAccelerometerListener, IOnSceneTouchListener {
+public class PhysicsExample extends BaseExampleGameActivity implements IAccelerometerListener, IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

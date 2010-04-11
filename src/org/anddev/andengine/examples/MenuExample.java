@@ -5,8 +5,8 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.FPSCounter;
+import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.menu.IOnMenuItemClickerListener;
 import org.anddev.andengine.entity.menu.MenuItem;
 import org.anddev.andengine.entity.menu.MenuScene;
@@ -16,7 +16,6 @@ import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.view.KeyEvent;
 
@@ -24,7 +23,7 @@ import android.view.KeyEvent;
  * @author Nicolas Gramlich
  * @since 01:30:15 - 02.04.2010
  */
-public class MenuExample extends BaseGameActivity implements IOnMenuItemClickerListener {
+public class MenuExample extends BaseExampleGameActivity implements IOnMenuItemClickerListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

@@ -5,15 +5,14 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.FPSCounter;
+import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.text.Text.HorizontalAlign;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontManager;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureManager;
-import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -22,7 +21,7 @@ import android.graphics.Typeface;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class FontExample extends BaseGameActivity {
+public class FontExample extends BaseExampleGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

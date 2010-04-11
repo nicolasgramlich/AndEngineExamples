@@ -5,20 +5,19 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.FPSCounter;
+import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
-import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 /**
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class SpriteExample extends BaseGameActivity {
+public class SpriteExample extends BaseExampleGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
