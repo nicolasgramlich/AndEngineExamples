@@ -28,7 +28,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class SpriteModifierExample extends BaseExampleGameActivity {
+public class ShapeModifierExample extends BaseExampleGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -85,19 +85,19 @@ public class SpriteModifierExample extends BaseExampleGameActivity {
 		face.addShapeModifier(new SequenceModifier(new IModifierListener() {
 			@Override
 			public void onModifierFinished(final IShapeModifier pShapeModifier, final Shape pShape) {
-				SpriteModifierExample.this.runOnUiThread(new Runnable() {
+				ShapeModifierExample.this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						Toast.makeText(SpriteModifierExample.this, "Sequence ended.", Toast.LENGTH_LONG).show();
+						Toast.makeText(ShapeModifierExample.this, "Sequence ended.", Toast.LENGTH_LONG).show();
 					}
 				});
 			}
 		},
 		new RotateByModifier(5, 90),
-		new DelayModifier(1),
 		new AlphaModifier(3, 1, 0),
 		new AlphaModifier(3, 0, 1),
 		new ScaleModifier(3, 1, 0.5f),
+		new DelayModifier(1),
 		new ScaleModifier(3, 0.5f, 5),
 		new ScaleModifier(3, 5, 1),
 		new RotateModifier(5, 45, 90),
