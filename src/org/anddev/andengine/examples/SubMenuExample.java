@@ -4,7 +4,6 @@ import org.anddev.andengine.entity.menu.MenuItem;
 import org.anddev.andengine.entity.menu.MenuScene;
 import org.anddev.andengine.entity.menu.animator.SlideMenuAnimator;
 import org.anddev.andengine.opengl.texture.Texture;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
@@ -51,7 +50,7 @@ public class SubMenuExample extends MenuExample {
 		this.mMenuOkTextureRegion = TextureRegionFactory.createFromAsset(this.mSubMenuTexture, this, "gfx/menu_ok.png", 0, 0);
 		this.mMenuBackTextureRegion = TextureRegionFactory.createFromAsset(this.mSubMenuTexture, this, "gfx/menu_back.png", 0, 50);
 
-		TextureManager.loadTexture(this.mSubMenuTexture);
+		this.getEngine().getTextureManager().loadTexture(this.mSubMenuTexture);
 	}
 
 	@Override

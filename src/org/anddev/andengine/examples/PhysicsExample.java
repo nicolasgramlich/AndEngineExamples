@@ -11,7 +11,6 @@ import org.anddev.andengine.entity.primitives.Rectangle;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.input.touch.IOnSceneTouchListener;
 import org.anddev.andengine.opengl.texture.Texture;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.physics.DynamicPhysicsBody;
@@ -69,7 +68,7 @@ public class PhysicsExample extends BaseExampleGameActivity implements IAccelero
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32);
 		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1); // 64x32
-		TextureManager.loadTexture(this.mTexture);
+		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 
 		this.enableAccelerometer(this);
 	}

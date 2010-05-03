@@ -13,7 +13,6 @@ import org.anddev.andengine.entity.menu.MenuScene;
 import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.opengl.texture.Texture;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
@@ -73,12 +72,12 @@ public class MenuExample extends BaseExampleGameActivity implements IOnMenuItemC
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 64);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface_menu.png", 0, 0);
-		TextureManager.loadTexture(this.mTexture);
+		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 
 		this.mMenuTexture = new Texture(256, 128);
 		this.mMenuResetTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_reset.png", 0, 0);
 		this.mMenuQuitTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_quit.png", 0, 50);
-		TextureManager.loadTexture(this.mMenuTexture);
+		this.getEngine().getTextureManager().loadTexture(this.mMenuTexture);
 	}
 
 	@Override

@@ -11,7 +11,6 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.opengl.texture.Texture;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
@@ -64,7 +63,7 @@ public class PauseExample extends BaseExampleGameActivity {
 		this.mPausedTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/paused.png", 0, 0);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface_menu.png", 0, 50);
 
-		TextureManager.loadTexture(this.mTexture);
+		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 	}
 
 	@Override

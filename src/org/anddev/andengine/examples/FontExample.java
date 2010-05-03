@@ -10,9 +10,7 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.text.Text.HorizontalAlign;
 import org.anddev.andengine.opengl.font.Font;
-import org.anddev.andengine.opengl.font.FontManager;
 import org.anddev.andengine.opengl.texture.Texture;
-import org.anddev.andengine.opengl.texture.TextureManager;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -61,8 +59,8 @@ public class FontExample extends BaseExampleGameActivity {
 
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 24, true, Color.RED);
 
-		TextureManager.loadTexture(this.mFontTexture);
-		FontManager.loadFont(this.mFont);
+		this.getEngine().getTextureManager().loadTexture(this.mFontTexture);
+		this.getEngine().getFontManager().loadFont(this.mFont);
 	}
 
 	@Override
