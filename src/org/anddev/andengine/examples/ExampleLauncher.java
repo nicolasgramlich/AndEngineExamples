@@ -58,7 +58,7 @@ public class ExampleLauncher extends ListActivity {
 		LINE(LineExample.class, "Line Example"),
 		RECTANGLE(RectangleExample.class, "Rectangle Example"),
 		SPRITE(SpriteExample.class, "Sprite Example"),
-		SPRITEMODIFIER(ShapeModifierExample.class, "SpriteModifier Example"),
+		SHAPEMODIFIER(ShapeModifierExample.class, "ShapeModifier Example"),
 		SPRITES(SpritesExample.class, "Sprites Example"),
 		ANIMATEDSPRITES(AnimatedSpritesExample.class, "Animated Sprites Example"),
 		TEXTUREOPTIONS(TextureOptionsExample.class, "TextureOptions Example"),
