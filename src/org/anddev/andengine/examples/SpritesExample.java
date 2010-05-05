@@ -32,7 +32,7 @@ public class SpritesExample extends BaseExampleGameActivity {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 	
-	private static final int SPRITE_COUNT = 30;
+	private static final int SPRITE_COUNT = 500;
 
 	// ===========================================================
 	// Fields
@@ -82,14 +82,7 @@ public class SpritesExample extends BaseExampleGameActivity {
 		sharedVertexBuffer.onUpdate(0, 0, this.mFaceTextureRegion.getTileWidth(), this.mFaceTextureRegion.getTileHeight());
 		
 		for(int i = 0; i < SPRITE_COUNT; i++) {
-			final AnimatedSprite face = new AnimatedSprite(random.nextFloat() * (CAMERA_WIDTH - 32), random.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer){
-				@Override
-				protected void onManagedUpdate(float pSecondsElapsed) {
-					super.onManagedUpdate(pSecondsElapsed);
-					this.setAngle(((int)(this.getAngle() + 360 * pSecondsElapsed)) % 360);
-				}
-			};
-			face.setAngle(i * 360 / SPRITE_COUNT);
+			final AnimatedSprite face = new AnimatedSprite(random.nextFloat() * (CAMERA_WIDTH - 32), random.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
 			scene.getTopLayer().addEntity(face);
 		}
 

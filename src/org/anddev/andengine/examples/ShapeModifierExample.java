@@ -15,6 +15,7 @@ import org.anddev.andengine.entity.shape.IShapeModifier;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.shape.modifier.AlphaModifier;
 import org.anddev.andengine.entity.shape.modifier.DelayModifier;
+import org.anddev.andengine.entity.shape.modifier.ParallelModifier;
 import org.anddev.andengine.entity.shape.modifier.RotateByModifier;
 import org.anddev.andengine.entity.shape.modifier.RotateModifier;
 import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
@@ -100,15 +101,20 @@ public class ShapeModifierExample extends BaseExampleGameActivity {
 				});
 			}
 		},
-		new RotateByModifier(5, 90),
-		new AlphaModifier(3, 1, 0),
-		new AlphaModifier(3, 0, 1),
-		new ScaleModifier(3, 1, 0.5f),
-		new DelayModifier(1),
-		new ScaleModifier(3, 0.5f, 5),
-		new ScaleModifier(3, 5, 1),
-		new RotateModifier(5, 45, 90),
-		new RotateByModifier(5, -90));
+		new RotateByModifier(2, 90),
+		new AlphaModifier(2, 1, 0),
+		new AlphaModifier(1, 0, 1),
+		new ScaleModifier(2, 1, 0.5f),
+		new DelayModifier(0.5f),
+		new ParallelModifier(
+				new ScaleModifier(3, 0.5f, 5),
+				new RotateByModifier(3, 90)
+			),
+		new ParallelModifier(
+				new ScaleModifier(3, 5, 1),
+				new RotateModifier(3, 180, 0)
+			)
+		);
 		
 		face.addShapeModifier(shapeModifier);
 		rect.addShapeModifier(shapeModifier.clone());

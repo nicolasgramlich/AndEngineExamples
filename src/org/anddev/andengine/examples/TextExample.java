@@ -11,6 +11,7 @@ import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.text.Text.HorizontalAlign;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureOptions;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -19,7 +20,7 @@ import android.graphics.Typeface;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class FontExample extends BaseExampleGameActivity {
+public class TextExample extends BaseExampleGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -55,9 +56,9 @@ public class FontExample extends BaseExampleGameActivity {
 
 	@Override
 	public void onLoadResources() {
-		this.mFontTexture = new Texture(256, 256);
+		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
 
-		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 24, true, Color.RED);
+		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.RED);
 
 		this.getEngine().getTextureManager().loadTexture(this.mFontTexture);
 		this.getEngine().getFontManager().loadFont(this.mFont);
@@ -69,9 +70,14 @@ public class FontExample extends BaseExampleGameActivity {
 		
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
-		
-		final Text text = new Text(100, 50, this.mFont, "Hello AndEngine!\nYou can even have multilined text!", HorizontalAlign.CENTER);
-		scene.getTopLayer().addEntity(text);
+
+		final Text textCenter = new Text(100, 60, this.mFont, "Hello AndEngine!\nYou can even have multilined text!", HorizontalAlign.CENTER);
+		final Text textLeft = new Text(100, 200, this.mFont, "Also left aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.LEFT);
+		final Text textRight = new Text(100, 340, this.mFont, "And right aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.RIGHT);
+
+		scene.getTopLayer().addEntity(textCenter);
+		scene.getTopLayer().addEntity(textLeft);
+		scene.getTopLayer().addEntity(textRight);
 
 		return scene;
 	}

@@ -27,7 +27,8 @@
         <activity android:name=".PauseExample" />
         <activity android:name=".MenuExample" />
         <activity android:name=".SubMenuExample" />
-        <activity android:name=".FontExample" />
+        <activity android:name=".TextExample" />
+        <activity android:name=".TickerTextExample" />
         <activity android:name=".ParticleSystemExample" />
         <activity android:name=".PhysicsExample" />
         <activity android:name=".VBOExample" />
