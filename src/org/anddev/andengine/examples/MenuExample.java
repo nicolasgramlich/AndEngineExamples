@@ -7,7 +7,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
-import org.anddev.andengine.entity.menu.IOnMenuItemClickerListener;
+import org.anddev.andengine.entity.menu.IOnMenuItemClickListener;
 import org.anddev.andengine.entity.menu.MenuItem;
 import org.anddev.andengine.entity.menu.MenuScene;
 import org.anddev.andengine.entity.shape.modifier.MoveModifier;
@@ -22,7 +22,7 @@ import android.view.KeyEvent;
  * @author Nicolas Gramlich
  * @since 01:30:15 - 02.04.2010
  */
-public class MenuExample extends BaseExampleGameActivity implements IOnMenuItemClickerListener {
+public class MenuExample extends BaseExampleGameActivity implements IOnMenuItemClickListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -119,8 +119,8 @@ public class MenuExample extends BaseExampleGameActivity implements IOnMenuItemC
 	}
 
 	@Override
-	public void onMenuItemClicked(MenuScene pMenuScene, MenuItem pMenuItem) {
-		switch(pMenuItem.getMenuID()) {
+	public boolean onMenuItemClicked(MenuScene pMenuScene, MenuItem pMenuItem) {
+		switch(pMenuItem.getID()) {
 			case MENU_RESET:
 				/* Restart the animation. */
 				this.mMainScene.reset();
@@ -128,11 +128,13 @@ public class MenuExample extends BaseExampleGameActivity implements IOnMenuItemC
 				/* Remove the menu and reset it. */
 				this.mMainScene.clearChildScene();
 				this.mMenuScene.reset();
-				break;
+				return true;
 			case MENU_QUIT:
 				/* End Activity. */
 				this.finish();
-				break;
+				return true;
+			default:
+				return false;
 		}
 	}
 
@@ -149,7 +151,7 @@ public class MenuExample extends BaseExampleGameActivity implements IOnMenuItemC
 		
 		menuScene.setBackgroundEnabled(false);
 		
-		menuScene.setOnMenuItemClickerListener(this);
+		menuScene.setOnMenuItemClickListener(this);
 		return menuScene;
 	}
 
