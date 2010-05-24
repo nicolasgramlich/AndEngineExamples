@@ -65,28 +65,30 @@ public class SubMenuExample extends MenuExample {
 
 		this.mSubMenuScene.setBackgroundEnabled(false);
 
-		this.mSubMenuScene.setOnMenuItemClickerListener(this);
+		this.mSubMenuScene.setOnMenuItemClickListener(this);
 
 		return mainMenuScene;
 	}
 
 	@Override
-	public void onMenuItemClicked(final MenuScene pMenuScene, final MenuItem pMenuItem) {
-		switch(pMenuItem.getMenuID()) {
+	public boolean onMenuItemClicked(final MenuScene pMenuScene, final MenuItem pMenuItem) {
+		switch(pMenuItem.getID()) {
 			case MENU_RESET:
 				this.mMainScene.reset();
 				
 				this.mMenuScene.back();
-				break;
+				return true;
 			case MENU_QUIT:
 				pMenuScene.setChildSceneModal(this.mSubMenuScene);
-				break;
+				return true;
 			case MENU_QUIT_BACK:
 				this.mSubMenuScene.back();
-				break;
+				return true;
 			case MENU_QUIT_OK:
 				this.finish();
-				break;
+				return true;
+			default:
+				return false;
 		}
 	}
 
