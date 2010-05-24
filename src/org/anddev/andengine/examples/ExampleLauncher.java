@@ -69,8 +69,7 @@ public class ExampleLauncher extends ListActivity {
 		TICKERTEXT(TickerTextExample.class, "TickerText Example"),
 		PARTICLESYSTEM(ParticleSystemExample.class, "ParticleSystem Example"),
 		PHYSICS(PhysicsExample.class, "Physics Example"),
-//		VBO(VBOExample.class, "VBO Example")
-		;
+		SPLITSCREEN(SplitScreenExample.class, "SplitScreen Example");
 
 		public final Class<? extends Activity> CLASS;
 		public final String NAME;

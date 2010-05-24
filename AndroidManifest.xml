@@ -31,6 +31,6 @@
         <activity android:name=".TickerTextExample" />
         <activity android:name=".ParticleSystemExample" />
         <activity android:name=".PhysicsExample" />
-        <activity android:name=".VBOExample" />
+        <activity android:name=".SplitScreenExample" />
     </application>
 </manifest> 
