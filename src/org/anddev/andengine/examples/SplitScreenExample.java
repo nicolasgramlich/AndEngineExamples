@@ -76,7 +76,7 @@ public class SplitScreenExample extends BaseExampleGameActivity implements IAcce
 		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1); // 64x32
 		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 
-		this.enableAccelerometer(this);
+		this.enableAccelerometerSensor(this);
 	}
 
 	@Override
