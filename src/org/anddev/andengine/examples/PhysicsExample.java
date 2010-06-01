@@ -10,14 +10,13 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.primitives.Rectangle;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.extension.physics.box2d.Box2DPhysicsSpace;
+import org.anddev.andengine.extension.physics.box2d.adt.DynamicPhysicsBody;
+import org.anddev.andengine.extension.physics.box2d.adt.PhysicsShape;
+import org.anddev.andengine.extension.physics.box2d.adt.StaticPhysicsBody;
 import org.anddev.andengine.input.touch.IOnSceneTouchListener;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
-import org.anddev.andengine.physics.DynamicPhysicsBody;
-import org.anddev.andengine.physics.IPhysicsSpace;
-import org.anddev.andengine.physics.PhysicsShape;
-import org.anddev.andengine.physics.StaticPhysicsBody;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 
@@ -44,7 +43,7 @@ public class PhysicsExample extends BaseExampleGameActivity implements IAccelero
 
 	private TiledTextureRegion mBoxFaceTextureRegion;
 
-	private IPhysicsSpace mPhysicsSpace;
+	private Box2DPhysicsSpace mPhysicsSpace;
 
 	// ===========================================================
 	// Constructors
