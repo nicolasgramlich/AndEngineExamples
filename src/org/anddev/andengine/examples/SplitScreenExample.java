@@ -66,7 +66,7 @@ public class SplitScreenExample extends BaseExampleGameActivity implements IAcce
 		final Camera firstCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		final ChaseCamera secondCamera = new ChaseCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, null);
 		this.mChaseCamera = secondCamera;
-		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new FillResolutionPolicy(), firstCamera, secondCamera));
+		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new FillResolutionPolicy(), firstCamera, secondCamera, false));
 	}
 
 	@Override

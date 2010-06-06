@@ -5,7 +5,6 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.FrameLengthLogger;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.particle.ParticleSystem;
 import org.anddev.andengine.entity.particle.modifier.AccelerationModifier;
@@ -51,7 +50,7 @@ public class ParticleSystemExample extends BaseExampleGameActivity {
 	@Override
 	public Engine onLoadEngine() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, false));
 	}
 
 	@Override
@@ -66,7 +65,7 @@ public class ParticleSystemExample extends BaseExampleGameActivity {
 	@Override
 	public Scene onLoadScene() {
 //		this.getEngine().registerPreFrameHandler(new FPSCounter());
-		this.getEngine().registerPreFrameHandler(new FrameLengthLogger(1000));
+//		this.getEngine().registerPreFrameHandler(new FrameLengthLogger(1000));
 		
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
