@@ -6,7 +6,7 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.ChaseCamera;
 import org.anddev.andengine.engine.options.SplitScreenEngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
-import org.anddev.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
+import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.primitives.Rectangle;
@@ -66,7 +66,7 @@ public class SplitScreenExample extends BaseExampleGameActivity implements IAcce
 		final Camera firstCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		final ChaseCamera secondCamera = new ChaseCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, null);
 		this.mChaseCamera = secondCamera;
-		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new FillResolutionPolicy(), firstCamera, secondCamera, false));
+		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), firstCamera, secondCamera, false));
 	}
 
 	@Override
