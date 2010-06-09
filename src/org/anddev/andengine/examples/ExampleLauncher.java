@@ -70,8 +70,8 @@ public class ExampleLauncher extends ListActivity {
 		PARTICLESYSTEM(ParticleSystemExample.class, "ParticleSystem Example"),
 		PHYSICS(PhysicsExample.class, "Physics Example"),
 		SPLITSCREEN(SplitScreenExample.class, "SplitScreen Example"),
-		CAMERA(CameraExample.class, "Camera Example"),
-		CAMERAHORIZON(CameraHorizonExample.class, "CameraHorizon Example");
+		AUGMENTEDREALITY(AugmentedRealityExample.class, "AugmentedReality Example"),
+		AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, "AugmentedReality Horizon Example");
 
 		public final Class<? extends Activity> CLASS;
 		public final String NAME;

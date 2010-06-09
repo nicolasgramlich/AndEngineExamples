@@ -8,7 +8,7 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
-import org.anddev.andengine.extension.camera.BaseCameraGameActivity;
+import org.anddev.andengine.extension.augmentedreality.BaseAugmentedRealityGameActivity;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
@@ -17,7 +17,7 @@ import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class CameraExample extends BaseCameraGameActivity {
+public class AugmentedRealityExample extends BaseAugmentedRealityGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
