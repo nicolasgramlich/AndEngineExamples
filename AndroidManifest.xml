@@ -33,7 +33,7 @@
         <activity android:name=".ParticleSystemExample" />
         <activity android:name=".PhysicsExample" />
         <activity android:name=".SplitScreenExample" />
-        <activity android:name=".CameraExample" />
-        <activity android:name=".CameraHorizonExample" />
+        <activity android:name=".AugmentedRealityExample" />
+        <activity android:name=".AugmentedRealityHorizonExample" />
     </application>
 </manifest> 
