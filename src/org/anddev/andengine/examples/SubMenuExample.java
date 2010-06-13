@@ -23,7 +23,7 @@ public class SubMenuExample extends MenuExample {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private MenuScene mSubMenuScene;
 
 	private Texture mSubMenuTexture;
@@ -75,7 +75,7 @@ public class SubMenuExample extends MenuExample {
 		switch(pMenuItem.getID()) {
 			case MENU_RESET:
 				this.mMainScene.reset();
-				
+
 				this.mMenuScene.back();
 				return true;
 			case MENU_QUIT:

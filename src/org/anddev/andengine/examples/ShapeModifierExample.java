@@ -68,28 +68,28 @@ public class ShapeModifierExample extends BaseExampleGameActivity {
 	@Override
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);		
-		
+		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);
+
 		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		this.getEngine().registerPreFrameHandler(new FPSCounter());
-		
+
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		
+
 		final Rectangle rect = new Rectangle(x + 100, y, 32, 32);
 		rect.setColor(1, 0, 0);
 		rect.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		final AnimatedSprite face = new AnimatedSprite(x - 100, y, this.mFaceTextureRegion);
 		face.animate(100);
-		
+
 		final SequenceModifier shapeModifier = new SequenceModifier(new IModifierListener() {
 			@Override
 			public void onModifierFinished(final IShapeModifier pShapeModifier, final Shape pShape) {
@@ -109,13 +109,13 @@ public class ShapeModifierExample extends BaseExampleGameActivity {
 		new ParallelModifier(
 				new ScaleModifier(3, 0.5f, 5),
 				new RotateByModifier(3, 90)
-			),
+		),
 		new ParallelModifier(
 				new ScaleModifier(3, 5, 1),
 				new RotateModifier(3, 180, 0)
-			)
+		)
 		);
-		
+
 		face.addShapeModifier(shapeModifier);
 		rect.addShapeModifier(shapeModifier.clone());
 

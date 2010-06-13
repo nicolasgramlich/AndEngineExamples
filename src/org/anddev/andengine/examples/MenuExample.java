@@ -29,7 +29,7 @@ public class MenuExample extends BaseExampleGameActivity implements IOnMenuItemC
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
-	
+
 	protected static final int MENU_RESET = 0;
 	protected static final int MENU_QUIT = MENU_RESET + 1;
 
@@ -99,7 +99,7 @@ public class MenuExample extends BaseExampleGameActivity implements IOnMenuItemC
 
 	@Override
 	public void onLoadComplete() {
-		
+
 	}
 
 	@Override
@@ -119,12 +119,12 @@ public class MenuExample extends BaseExampleGameActivity implements IOnMenuItemC
 	}
 
 	@Override
-	public boolean onMenuItemClicked(MenuScene pMenuScene, MenuItem pMenuItem) {
+	public boolean onMenuItemClicked(final MenuScene pMenuScene, final MenuItem pMenuItem) {
 		switch(pMenuItem.getID()) {
 			case MENU_RESET:
 				/* Restart the animation. */
 				this.mMainScene.reset();
-				
+
 				/* Remove the menu and reset it. */
 				this.mMainScene.clearChildScene();
 				this.mMenuScene.reset();
@@ -144,13 +144,13 @@ public class MenuExample extends BaseExampleGameActivity implements IOnMenuItemC
 
 	protected MenuScene createMenuScene() {
 		final MenuScene menuScene = new MenuScene(this.mCamera);
-		
+
 		menuScene.addMenuItem(new MenuItem(MENU_RESET, this.mMenuResetTextureRegion));
 		menuScene.addMenuItem(new MenuItem(MENU_QUIT, this.mMenuQuitTextureRegion));
 		menuScene.buildAnimations();
-		
+
 		menuScene.setBackgroundEnabled(false);
-		
+
 		menuScene.setOnMenuItemClickListener(this);
 		return menuScene;
 	}

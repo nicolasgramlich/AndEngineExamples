@@ -12,7 +12,7 @@ public class ExampleLauncher extends ListActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	final Example[] EXAMPLES = Example.values();
 
 	// ===========================================================
@@ -29,7 +29,7 @@ public class ExampleLauncher extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		// Create an ArrayAdapter, that will actually make the Strings above appear in the ListView
-		this.setListAdapter(new ArrayAdapter<Example>(this, android.R.layout.simple_list_item_1, EXAMPLES));
+		this.setListAdapter(new ArrayAdapter<Example>(this, android.R.layout.simple_list_item_1, this.EXAMPLES));
 	}
 
 	// ===========================================================
@@ -43,7 +43,7 @@ public class ExampleLauncher extends ListActivity {
 	@Override
 	protected void onListItemClick(final ListView pListView, final View pView, final int pPosition, final long pId) {
 		super.onListItemClick(pListView, pView, pPosition, pId);
-		startActivity(new Intent(this, EXAMPLES[pPosition].CLASS));
+		this.startActivity(new Intent(this, this.EXAMPLES[pPosition].CLASS));
 	}
 
 	// ===========================================================
@@ -73,7 +73,8 @@ public class ExampleLauncher extends ListActivity {
 		AUGMENTEDREALITY(AugmentedRealityExample.class, "AugmentedReality Example"),
 		AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, "AugmentedReality Horizon Example"),
 		UNLOADTEXTURE(UnloadTextureExample.class, "Unload Texture Example"),
-		SOUND(SoundExample.class, "Sound Example");
+		SOUND(SoundExample.class, "Sound Example"),
+		MUSIC(MusicExample.class, "Music Example");
 
 		public final Class<? extends Activity> CLASS;
 		public final String NAME;

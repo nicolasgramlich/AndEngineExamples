@@ -75,9 +75,9 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 
 		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		mFace = new Sprite(x, y, this.mFaceTextureRegion);
-//		face.addShapeModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
-		scene.getTopLayer().addEntity(mFace);
+		this.mFace = new Sprite(x, y, this.mFaceTextureRegion);
+		//		face.addShapeModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
+		scene.getTopLayer().addEntity(this.mFace);
 
 		return scene;
 	}
@@ -91,8 +91,8 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 	public void onOrientationChanged(final OrientationData pOrientationData) {
 		final float roll = pOrientationData.getRoll();
 		Debug.d("Roll: " + pOrientationData.getRoll());
-		
-		mFace.setPosition(CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2 + (roll - 40) * 5);
+
+		this.mFace.setPosition(CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2 + (roll - 40) * 5);
 	}
 
 	// ===========================================================

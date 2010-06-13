@@ -25,13 +25,13 @@ public class SpritesExample extends BaseExampleGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	/* Initializing the Random generator produces a comparable result over different versions. */
 	private static final long RANDOM_SEED = 1234567890;
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
-	
+
 	private static final int SPRITE_COUNT = 500;
 
 	// ===========================================================
@@ -63,25 +63,25 @@ public class SpritesExample extends BaseExampleGameActivity {
 	@Override
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);		
-		
+		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);
+
 		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		this.getEngine().registerPreFrameHandler(new FPSCounter());
-//		this.getEngine().registerPreFrameHandler(new FrameLengthLogger(1000));
-		
+		//		this.getEngine().registerPreFrameHandler(new FrameLengthLogger(1000));
+
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		final Random random = new Random(RANDOM_SEED);
-		
+
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
 		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW);
 		sharedVertexBuffer.onUpdate(0, 0, this.mFaceTextureRegion.getTileWidth(), this.mFaceTextureRegion.getTileHeight());
-		
+
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final AnimatedSprite face = new AnimatedSprite(random.nextFloat() * (CAMERA_WIDTH - 32), random.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
 			scene.getTopLayer().addEntity(face);

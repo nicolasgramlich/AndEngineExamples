@@ -47,16 +47,16 @@ public class RectangleExample extends BaseExampleGameActivity {
 
 	@Override
 	public void onLoadResources() {
-		
+
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		this.getEngine().registerPreFrameHandler(new FPSCounter());
-		
+
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0, 0, 0);
-//		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
+		//		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		final Rectangle rect1 = new Rectangle(180, 60, 180, 180);
 		rect1.setColor(1, 0, 0);

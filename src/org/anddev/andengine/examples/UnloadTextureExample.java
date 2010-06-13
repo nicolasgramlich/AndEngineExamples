@@ -80,7 +80,9 @@ public class UnloadTextureExample extends BaseExampleGameActivity {
 		scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
 			@Override
 			public boolean onAreaTouched(final ITouchArea pTouchArea, final MotionEvent pSceneMotionEvent) {
-				UnloadTextureExample.this.mEngine.getTextureManager().unloadTexture(UnloadTextureExample.this.mTexture);
+				if(pSceneMotionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+					UnloadTextureExample.this.mEngine.getTextureManager().unloadTexture(UnloadTextureExample.this.mTexture);
+				}
 				return true;
 			}
 		});

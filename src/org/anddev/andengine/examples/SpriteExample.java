@@ -53,15 +53,15 @@ public class SpriteExample extends BaseExampleGameActivity {
 	@Override
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);		
-		
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);
+
 		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		this.getEngine().registerPreFrameHandler(new FPSCounter());
-		
+
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
@@ -69,7 +69,7 @@ public class SpriteExample extends BaseExampleGameActivity {
 		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		final Sprite face = new Sprite(x, y, this.mFaceTextureRegion);
 		scene.getTopLayer().addEntity(face);
-		
+
 		return scene;
 	}
 

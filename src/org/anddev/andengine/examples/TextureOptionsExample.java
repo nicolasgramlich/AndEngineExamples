@@ -57,31 +57,31 @@ public class TextureOptionsExample extends BaseExampleGameActivity {
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32, TextureOptions.DEFAULT);
 		this.mTextureBilinear = new Texture(64, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);	
-		this.mFaceTextureRegionBilinear = TextureRegionFactory.createTiledFromAsset(this.mTextureBilinear, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);		
-		
+		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);
+		this.mFaceTextureRegionBilinear = TextureRegionFactory.createTiledFromAsset(this.mTextureBilinear, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);
+
 		this.getEngine().getTextureManager().loadTextures(this.mTexture, this.mTextureBilinear);
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		this.getEngine().registerPreFrameHandler(new FPSCounter());
-		
+
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		
+
 		final AnimatedSprite face = new AnimatedSprite(x - 120, y, this.mFaceTextureRegion);
 		face.setScale(4);
-		
+
 		final AnimatedSprite faceBilinear = new AnimatedSprite(x + 120, y, this.mFaceTextureRegionBilinear);
 		faceBilinear.setScale(4);
 
 		scene.getTopLayer().addEntity(face);
 		scene.getTopLayer().addEntity(faceBilinear);
-		
+
 		return scene;
 	}
 

@@ -19,13 +19,13 @@ public class LineExample extends BaseExampleGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	/* Initializing the Random generator produces a comparable result over different versions. */
 	private static final long RANDOM_SEED = 1234567890;
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
-	
+
 	private static final int LINE_COUNT = 100;
 
 	// ===========================================================
@@ -54,13 +54,13 @@ public class LineExample extends BaseExampleGameActivity {
 
 	@Override
 	public void onLoadResources() {
-		
+
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		this.getEngine().registerPreFrameHandler(new FPSCounter());
-		
+
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 

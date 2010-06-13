@@ -69,7 +69,7 @@ public class PauseExample extends BaseExampleGameActivity {
 	@Override
 	public Scene onLoadScene() {
 		this.getEngine().registerPreFrameHandler(new FPSCounter());
-		
+
 		this.mPauseScene = new CameraScene(1, this.mCamera);
 		/* Make the 'PAUSED'-label centered on the camera. */
 		final int x = CAMERA_WIDTH / 2 - this.mPausedTextureRegion.getWidth() / 2;
@@ -92,7 +92,7 @@ public class PauseExample extends BaseExampleGameActivity {
 
 	@Override
 	public void onLoadComplete() {
-		
+
 	}
 
 	@Override

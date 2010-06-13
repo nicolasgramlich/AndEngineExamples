@@ -38,9 +38,9 @@ public class SoundExample extends BaseExampleGameActivity {
 	// Fields
 	// ===========================================================
 
-	private Camera mCamera;
 	private Texture mTexture;
 	private TextureRegion mTankTextureRegion;
+
 	private Sound mExplosionSound;
 
 	// ===========================================================
@@ -57,9 +57,9 @@ public class SoundExample extends BaseExampleGameActivity {
 
 	@Override
 	public Engine onLoadEngine() {
-		Toast.makeText(this, "Touch the tank to hear a shot sound.", Toast.LENGTH_LONG).show();
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, true));
+		Toast.makeText(this, "Touch the tank to hear an explosion sound.", Toast.LENGTH_LONG).show();
+		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera, true));
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class SoundExample extends BaseExampleGameActivity {
 		SoundFactory.setAssetBasePath("mfx/");
 		try {
 			this.mExplosionSound = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, "explosion.ogg");
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			Debug.e("Error", e);
 		}
 
@@ -89,12 +89,14 @@ public class SoundExample extends BaseExampleGameActivity {
 		final int y = (CAMERA_HEIGHT - this.mTankTextureRegion.getHeight()) / 2;
 		final Sprite tank = new Sprite(x, y, this.mTankTextureRegion);
 		scene.getTopLayer().addEntity(tank);
-		
+
 		scene.registerTouchArea(tank);
 		scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
 			@Override
 			public boolean onAreaTouched(final ITouchArea pTouchArea, final MotionEvent pSceneMotionEvent) {
-				SoundExample.this.mExplosionSound.play();
+				if(pSceneMotionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+					SoundExample.this.mExplosionSound.play();
+				}
 				return true;
 			}
 		});

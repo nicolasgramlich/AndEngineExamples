@@ -57,17 +57,17 @@ public class AugmentedRealityExample extends BaseAugmentedRealityGameActivity {
 	@Override
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);		
-		
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);
+
 		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 	}
 
 	@Override
 	public Scene onLoadScene() {
-//		this.getEngine().registerPreFrameHandler(new FPSCounter());
-		
+		//		this.getEngine().registerPreFrameHandler(new FPSCounter());
+
 		final Scene scene = new Scene(1);
-//		scene.setBackgroundEnabled(false);
+		//		scene.setBackgroundEnabled(false);
 		scene.setBackgroundColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
@@ -75,7 +75,7 @@ public class AugmentedRealityExample extends BaseAugmentedRealityGameActivity {
 		final Sprite face = new Sprite(x, y, this.mFaceTextureRegion);
 		face.addShapeModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
 		scene.getTopLayer().addEntity(face);
-		
+
 		return scene;
 	}
 

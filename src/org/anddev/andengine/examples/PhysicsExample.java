@@ -79,7 +79,7 @@ public class PhysicsExample extends BaseExampleGameActivity implements IAccelero
 	@Override
 	public Scene onLoadScene() {
 		this.getEngine().registerPostFrameHandler(new FPSCounter());
-		
+
 		this.mPhysicsSpace = new Box2DPhysicsSpace();
 		this.mPhysicsSpace.createWorld(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mPhysicsSpace.setGravity(0, 2 * SensorManager.GRAVITY_EARTH);
@@ -121,7 +121,7 @@ public class PhysicsExample extends BaseExampleGameActivity implements IAccelero
 			face = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion);
 			this.mPhysicsSpace.addDynamicBody(new DynamicPhysicsBody(face, 1, 0.5f, 0.5f, PhysicsShape.CIRCLE, false));
 		}
-		
+
 		final Scene scene = this.getEngine().getScene();
 		face.animate(new long[]{200,200}, 0, 1, true);
 		scene.getLayer(1).addEntity(face);
@@ -130,7 +130,7 @@ public class PhysicsExample extends BaseExampleGameActivity implements IAccelero
 	public void onLoadComplete() {
 
 	}
-	
+
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final MotionEvent pSceneMotionEvent) {
 		if(this.mPhysicsSpace != null) {

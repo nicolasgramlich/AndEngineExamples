@@ -37,5 +37,6 @@
         <activity android:name=".AugmentedRealityHorizonExample" />
         <activity android:name=".UnloadTextureExample" />
         <activity android:name=".SoundExample" />
+        <activity android:name=".MusicExample" />
     </application>
 </manifest> 

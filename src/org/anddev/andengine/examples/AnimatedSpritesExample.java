@@ -56,17 +56,17 @@ public class AnimatedSpritesExample extends BaseExampleGameActivity {
 	public void onLoadResources() {
 		this.mTexture = new Texture(256, 128);
 
-		this.mHelicopterTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/helicopter_tiled.png", 0, 0, 2, 2);	
-		this.mBananaTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/banana_tiled.png", 96, 0, 4, 2);	
+		this.mHelicopterTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/helicopter_tiled.png", 0, 0, 2, 2);
+		this.mBananaTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/banana_tiled.png", 96, 0, 4, 2);
 		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 96, 70, 2, 1);
-		
+
 		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		this.getEngine().registerPreFrameHandler(new FPSCounter());
-		
+
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
@@ -79,17 +79,17 @@ public class AnimatedSpritesExample extends BaseExampleGameActivity {
 		final AnimatedSprite heli = new AnimatedSprite(550, 150, this.mHelicopterTextureRegion);
 		heli.animate(new long[]{100, 100}, 1, 2, true);
 		scene.getTopLayer().addEntity(heli);
-		
+
 		/* Continuously flying helicopter. */
 		final AnimatedSprite heli2 = new AnimatedSprite(550, 300, this.mHelicopterTextureRegion.clone());
 		heli2.animate(100);
 		scene.getTopLayer().addEntity(heli2);
-		
+
 		/* Funny banana. */
 		final AnimatedSprite banana = new AnimatedSprite(150, 300, this.mBananaTextureRegion);
 		banana.animate(100);
 		scene.getTopLayer().addEntity(banana);
-		
+
 		return scene;
 	}
 
