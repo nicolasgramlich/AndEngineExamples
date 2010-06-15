@@ -18,25 +18,26 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".LineExample" />
-        <activity android:name=".RectangleExample" />
-        <activity android:name=".SpriteExample" />
-        <activity android:name=".ShapeModifierExample" />
-        <activity android:name=".SpritesExample" />
         <activity android:name=".AnimatedSpritesExample" />
-        <activity android:name=".TextureOptionsExample" />
-        <activity android:name=".PauseExample" />
-        <activity android:name=".MenuExample" />
-        <activity android:name=".SubMenuExample" />
-        <activity android:name=".TextExample" />
-        <activity android:name=".TickerTextExample" />
-        <activity android:name=".ParticleSystemExample" />
-        <activity android:name=".PhysicsExample" />
-        <activity android:name=".SplitScreenExample" />
         <activity android:name=".AugmentedRealityExample" />
         <activity android:name=".AugmentedRealityHorizonExample" />
-        <activity android:name=".UnloadTextureExample" />
-        <activity android:name=".SoundExample" />
+        <activity android:name=".LineExample" />
+        <activity android:name=".MenuExample" />
         <activity android:name=".MusicExample" />
+        <activity android:name=".ParticleSystemExample" />
+        <activity android:name=".PauseExample" />
+        <activity android:name=".PhysicsExample" />
+        <activity android:name=".RectangleExample" />
+        <activity android:name=".ShapeModifierExample" />
+        <activity android:name=".SoundExample" />
+        <activity android:name=".SplitScreenExample" />
+        <activity android:name=".SpriteExample" />
+        <activity android:name=".SpritesExample" />
+        <activity android:name=".SubMenuExample" />
+        <activity android:name=".TextExample" />
+        <activity android:name=".TextureOptionsExample" />
+        <activity android:name=".TickerTextExample" />
+        <activity android:name=".TouchDragExample" />
+        <activity android:name=".UnloadTextureExample" />
     </application>
 </manifest> 
