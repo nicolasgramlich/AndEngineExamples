@@ -73,10 +73,10 @@ public class TouchDragExample extends BaseExampleGameActivity {
 		final Sprite face = new Sprite(x, y, this.mFaceTextureRegion);
 		face.setScale(4);
 		scene.getTopLayer().addEntity(face);
-		
+
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
-			public boolean onSceneTouchEvent(Scene pScene, MotionEvent pSceneMotionEvent) {
+			public boolean onSceneTouchEvent(final Scene pScene, final MotionEvent pSceneMotionEvent) {
 				face.setPosition(pSceneMotionEvent.getX() - face.getWidth() / 2, pSceneMotionEvent.getY() - face.getHeight() / 2);
 				return true;
 			}
