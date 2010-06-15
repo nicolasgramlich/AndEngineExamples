@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
- * @since 11:54:51 - 03.04.2010
+ * @since 11:54:51 - 11.06.2010
  */
 public class SoundExample extends BaseExampleGameActivity {
 	// ===========================================================

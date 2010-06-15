@@ -17,7 +17,7 @@ import android.view.MotionEvent;
 
 /**
  * @author Nicolas Gramlich
- * @since 11:54:51 - 03.04.2010
+ * @since 15:13:46 - 15.06.2010
  */
 public class TouchDragExample extends BaseExampleGameActivity {
 	// ===========================================================
