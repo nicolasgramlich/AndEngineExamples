@@ -58,7 +58,7 @@ public class TextExample extends BaseExampleGameActivity {
 	public void onLoadResources() {
 		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
 
-		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.RED);
+		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.BLACK);
 
 		this.getEngine().getTextureManager().loadTexture(this.mFontTexture);
 		this.getEngine().getFontManager().loadFont(this.mFont);
