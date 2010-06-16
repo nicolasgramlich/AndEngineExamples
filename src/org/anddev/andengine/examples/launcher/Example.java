@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.anddev.andengine.examples.launcher;
 
 import org.anddev.andengine.examples.AnimatedSpritesExample;

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AndEngineExamples</string>
+    
+    <string name="btn_get_involved_caption">Open Source - Get involved...</string>
 </resources>

@@ -1,12 +1,19 @@
 package org.anddev.andengine.examples.launcher;
 
+import org.anddev.andengine.examples.R;
 
 import android.app.ExpandableListActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ExpandableListView;
 
+/**
+ * @author Nicolas Gramlich
+ * @since 22:56:46 - 16.06.2010
+ */
 public class ExampleLauncher extends ExpandableListActivity {
 	// ===========================================================
 	// Constants
@@ -25,10 +32,19 @@ public class ExampleLauncher extends ExpandableListActivity {
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		this.setContentView(R.layout.list_examples);
 
 		this.mExpandableExampleLauncherListAdapter = new ExpandableExampleLauncherListAdapter(this);
 		
 		this.setListAdapter(this.mExpandableExampleLauncherListAdapter);
+		
+		this.findViewById(R.id.btn_get_involved).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View pView) {
+				ExampleLauncher.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.andengine.org")));
+			}
+		});
 	}
 
 	// ===========================================================
