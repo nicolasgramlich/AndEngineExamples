@@ -3,4 +3,7 @@
     <string name="app_name">AndEngineExamples</string>
     
     <string name="btn_get_involved_caption">Open Source - Get involved...</string>
+    
+    <string name="dialog_first_app_launch_title">AndEngine - Examples</string>
+    <string name="dialog_first_app_launch_message">Welcome to <b>AndEngine</b> the:\n - Free\n - Open Source\n - 2D OpenGL \n - Game-Engine\nfor the Google Android platform.\n\nThese <b>examples</b> are meant for <b>developers</b> to showcase what can be done with <b>AndEngine</b>.\n\nIt\'s Open Source - Get involved!\n\nBest Regards,\nNicolas Gramlich</string>
 </resources>

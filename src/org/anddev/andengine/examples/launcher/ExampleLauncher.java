@@ -2,8 +2,12 @@ package org.anddev.andengine.examples.launcher;
 
 import org.anddev.andengine.examples.R;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ExpandableListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +22,8 @@ public class ExampleLauncher extends ExpandableListActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+
+	private static final int DIALOG_FIRST_APP_LAUNCH = 0;
 
 	// ===========================================================
 	// Fields
@@ -45,6 +51,10 @@ public class ExampleLauncher extends ExpandableListActivity {
 				ExampleLauncher.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.andengine.org")));
 			}
 		});
+		
+		if(this.isFirstTime("first.app.launch")) {
+			this.showDialog(DIALOG_FIRST_APP_LAUNCH);
+		}
 	}
 
 	// ===========================================================
@@ -54,6 +64,21 @@ public class ExampleLauncher extends ExpandableListActivity {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+	
+	@Override
+	protected Dialog onCreateDialog(int pId) {
+		switch(pId) {
+			case DIALOG_FIRST_APP_LAUNCH:
+				return new AlertDialog.Builder(this)
+					.setTitle(R.string.dialog_first_app_launch_title)
+					.setMessage(R.string.dialog_first_app_launch_message)
+					.setIcon(android.R.drawable.ic_dialog_info)
+					.setPositiveButton(android.R.string.ok, null)
+					.create();
+			default:
+				return super.onCreateDialog(pId);
+		}
+	}
 
 	@Override
 	public boolean onChildClick(final ExpandableListView pParent, final View pV, final int pGroupPosition, final int pChildPosition, final long pId) {
@@ -62,6 +87,19 @@ public class ExampleLauncher extends ExpandableListActivity {
 		this.startActivity(new Intent(this, example.CLASS));
 		
 		return super.onChildClick(pParent, pV, pGroupPosition, pChildPosition, pId);
+	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	public boolean isFirstTime(final String pKey){
+		final SharedPreferences prefs = this.getPreferences(Context.MODE_PRIVATE);
+		if(prefs.getBoolean(pKey, true)){
+			prefs.edit().putBoolean(pKey, false).commit();
+			return true;
+		}
+		return false;
 	}
 
 	// ===========================================================
