@@ -27,6 +27,7 @@
         <activity android:name=".MovingBallExample" />
         <activity android:name=".MusicExample" />
         <activity android:name=".ParticleSystemExample" />
+        <activity android:name=".PathModifierExample" />
         <activity android:name=".PauseExample" />
         <activity android:name=".PhysicsExample" />
         <activity android:name=".RectangleExample" />

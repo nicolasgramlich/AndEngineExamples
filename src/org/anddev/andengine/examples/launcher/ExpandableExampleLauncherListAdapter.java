@@ -13,25 +13,25 @@ import android.widget.TextView;
  * @author Nicolas Gramlich
  * @since 20:43:54 - 16.06.2010
  */
-public class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
+class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	private static final String[] EXAMPLEGROUPS = {
-		"Simple Examples",
-		"Animation Examples",
-		"Touch Examples",
-		"Advanced Examples",
-		"Physics Examples",
-		"Text Examples",
-		"Audio Examples",
-		"Other Examples"
+		"Simple",
+		"Modifier & Animation",
+		"Touch",
+		"Advanced",
+		"Physics",
+		"Text",
+		"Audio",
+		"Other"
 	};
 
 	private static final Example[][] EXAMPLES = {
 		{ Example.LINE, Example.RECTANGLE, Example.SPRITE, Example.SPRITES},
-		{ Example.MOVINGBALL, Example.SHAPEMODIFIER, Example.ANIMATEDSPRITES },
+		{ Example.SHAPEMODIFIER, Example.PATHMODIFIER, Example.MOVINGBALL, Example.ANIMATEDSPRITES },
 		{ Example.TOUCHDRAG },
 		{ Example.SPLITSCREEN, Example.PARTICLESYSTEM, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON },
 		{ Example.PHYSICS },
