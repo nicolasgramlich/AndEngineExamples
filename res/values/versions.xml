@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="new_in_version_versioncode">
+    	<item>1</item>
+    	<item>2</item>
+    </array>
+    
+    <string-array name="new_in_version_changes">
+    	<item> - Initial import</item>
+    	<item> - PathModifier-Example</item>
+    </string-array>
+</resources>

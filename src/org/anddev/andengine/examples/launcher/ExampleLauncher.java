@@ -1,6 +1,9 @@
 package org.anddev.andengine.examples.launcher;
 
+import java.util.Arrays;
+
 import org.anddev.andengine.examples.R;
+import org.anddev.andengine.util.Debug;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,6 +11,8 @@ import android.app.ExpandableListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -23,13 +28,21 @@ public class ExampleLauncher extends ExpandableListActivity {
 	// Constants
 	// ===========================================================
 
+	private static final String PREF_LAST_APP_LAUNCH_VERSIONCODE_ID = "last.app.launch.versioncode";
+
 	private static final int DIALOG_FIRST_APP_LAUNCH = 0;
+
+	private static final int DIALOG_NEW_IN_THIS_VERSION = DIALOG_FIRST_APP_LAUNCH + 1;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private ExpandableExampleLauncherListAdapter mExpandableExampleLauncherListAdapter;
+
+	private int mVersionCodeCurrent;
+
+	private int mVersionCodeLastLaunch;
 
 	// ===========================================================
 	// Constructors
@@ -38,23 +51,32 @@ public class ExampleLauncher extends ExpandableListActivity {
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		this.setContentView(R.layout.list_examples);
 
 		this.mExpandableExampleLauncherListAdapter = new ExpandableExampleLauncherListAdapter(this);
-		
+
 		this.setListAdapter(this.mExpandableExampleLauncherListAdapter);
-		
+
 		this.findViewById(R.id.btn_get_involved).setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View pView) {
+			public void onClick(final View pView) {
 				ExampleLauncher.this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.andengine.org")));
 			}
 		});
-		
+
+		final SharedPreferences prefs = this.getPreferences(Context.MODE_PRIVATE);
+
+		this.mVersionCodeCurrent = this.getVersionCode();
+		this.mVersionCodeLastLaunch = prefs.getInt(PREF_LAST_APP_LAUNCH_VERSIONCODE_ID, -1);
+
 		if(this.isFirstTime("first.app.launch")) {
 			this.showDialog(DIALOG_FIRST_APP_LAUNCH);
+		} else if(this.mVersionCodeLastLaunch != -1 && this.mVersionCodeLastLaunch < this.mVersionCodeCurrent){
+			this.showDialog(DIALOG_NEW_IN_THIS_VERSION);
 		}
+
+		prefs.edit().putInt(PREF_LAST_APP_LAUNCH_VERSIONCODE_ID, this.mVersionCodeCurrent).commit();
 	}
 
 	// ===========================================================
@@ -64,14 +86,38 @@ public class ExampleLauncher extends ExpandableListActivity {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
+
 	@Override
-	protected Dialog onCreateDialog(int pId) {
+	protected Dialog onCreateDialog(final int pId) {
 		switch(pId) {
 			case DIALOG_FIRST_APP_LAUNCH:
 				return new AlertDialog.Builder(this)
 					.setTitle(R.string.dialog_first_app_launch_title)
 					.setMessage(R.string.dialog_first_app_launch_message)
+					.setIcon(android.R.drawable.ic_dialog_info)
+					.setPositiveButton(android.R.string.ok, null)
+					.create();
+			case DIALOG_NEW_IN_THIS_VERSION:
+				final int[] versionCodes = this.getResources().getIntArray(R.array.new_in_version_versioncode);
+				final int versionDescriptionsStartIndex = Math.max(0, Arrays.binarySearch(versionCodes, this.mVersionCodeLastLaunch) + 1);
+				
+				final String[] versionDescriptions = this.getResources().getStringArray(R.array.new_in_version_changes);
+				
+				final StringBuilder sb = new StringBuilder();
+				for(int i = versionDescriptions.length - 1; i >= versionDescriptionsStartIndex; i--) {
+					sb.append("--------------------------\n");
+					sb.append(">>>  Version: " + versionCodes[i] + "\n");
+					sb.append("--------------------------\n");
+					sb.append(versionDescriptions[i]);
+					
+					if(i > versionDescriptionsStartIndex){
+						sb.append("\n\n");
+					}
+				}
+				
+				return new AlertDialog.Builder(this)
+					.setTitle(R.string.dialog_new_in_this_version_title)
+					.setMessage(sb.toString())
 					.setIcon(android.R.drawable.ic_dialog_info)
 					.setPositiveButton(android.R.string.ok, null)
 					.create();
@@ -83,9 +129,9 @@ public class ExampleLauncher extends ExpandableListActivity {
 	@Override
 	public boolean onChildClick(final ExpandableListView pParent, final View pV, final int pGroupPosition, final int pChildPosition, final long pId) {
 		final Example example = this.mExpandableExampleLauncherListAdapter.getChild(pGroupPosition, pChildPosition);
-		
+
 		this.startActivity(new Intent(this, example.CLASS));
-		
+
 		return super.onChildClick(pParent, pV, pGroupPosition, pChildPosition, pId);
 	}
 
@@ -100,6 +146,16 @@ public class ExampleLauncher extends ExpandableListActivity {
 			return true;
 		}
 		return false;
+	}
+
+	public int getVersionCode() {
+		try {
+			final PackageInfo pi = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
+			return pi.versionCode;
+		} catch (final PackageManager.NameNotFoundException e) {
+			Debug.e("Package name not found", e);
+			return -1;
+		}
 	}
 
 	// ===========================================================
