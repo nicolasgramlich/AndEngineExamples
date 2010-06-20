@@ -23,6 +23,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		"Modifier & Animation",
 		"Touch",
 		"Advanced",
+		"Multiplayer",
 		"Physics",
 		"Text",
 		"Audio",
@@ -34,7 +35,8 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		{ Example.SHAPEMODIFIER, Example.PATHMODIFIER, Example.MOVINGBALL, Example.ANIMATEDSPRITES },
 		{ Example.TOUCHDRAG },
 		{ Example.SPLITSCREEN, Example.PARTICLESYSTEM, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON },
-		{ Example.PHYSICS },
+		{ Example.MULTIPLAYER },
+		{ Example.PHYSICS, Example.PHYSICSREMOVE },
 		{ Example.TEXT, Example.TICKERTEXT, Example.CUSTOMFONT},
 		{ Example.SOUND, Example.MUSIC },
 		{ Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTUREOPTIONS, Example.UNLOADTEXTURE }

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="org.anddev.andengine.examples"
-	android:versionCode="2"
-	android:versionName="1.0.2">
+	android:versionCode="3"
+	android:versionName="1.0.3">
 
 	<uses-sdk android:minSdkVersion="4" />
     
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WAKE_LOCK"/>
 	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.INTERNET" />
 	
     <application android:debuggable="true" android:icon="@drawable/icon" android:label="@string/app_name">
         <activity android:name=".launcher.ExampleLauncher" android:label="@string/app_name">
@@ -25,11 +26,13 @@
         <activity android:name=".LineExample" />
         <activity android:name=".MenuExample" />
         <activity android:name=".MovingBallExample" />
+        <activity android:name=".MultiplayerExample" />
         <activity android:name=".MusicExample" />
         <activity android:name=".ParticleSystemExample" />
         <activity android:name=".PathModifierExample" />
         <activity android:name=".PauseExample" />
         <activity android:name=".PhysicsExample" />
+        <activity android:name=".PhysicsRemoveExample" />
         <activity android:name=".RectangleExample" />
         <activity android:name=".ShapeModifierExample" />
         <activity android:name=".SoundExample" />

@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="lib/andengine.jar"/>
 	<classpathentry kind="lib" path="lib/andenginephysicsbox2dextension.jar"/>
 	<classpathentry kind="lib" path="lib/andenginecameraextension.jar"/>
+	<classpathentry kind="lib" path="lib/andenginemultiplayerextension.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

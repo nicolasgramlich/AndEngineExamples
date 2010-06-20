@@ -7,13 +7,16 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
+import org.anddev.andengine.entity.handler.runnable.RunnableHandler;
 import org.anddev.andengine.entity.primitives.Rectangle;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.extension.physics.box2d.Box2DPhysicsSpace;
 import org.anddev.andengine.extension.physics.box2d.adt.DynamicPhysicsBody;
 import org.anddev.andengine.extension.physics.box2d.adt.PhysicsShape;
 import org.anddev.andengine.extension.physics.box2d.adt.StaticPhysicsBody;
+import org.anddev.andengine.input.touch.IOnAreaTouchListener;
 import org.anddev.andengine.input.touch.IOnSceneTouchListener;
+import org.anddev.andengine.input.touch.ITouchArea;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
@@ -27,7 +30,7 @@ import android.view.MotionEvent;
  * @author Nicolas Gramlich
  * @since 18:47:08 - 19.03.2010
  */
-public class PhysicsExample extends BaseExampleGameActivity implements IAccelerometerListener, IOnSceneTouchListener {
+public class PhysicsRemoveExample extends BaseExampleGameActivity implements IAccelerometerListener, IOnSceneTouchListener, IOnAreaTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -46,6 +49,7 @@ public class PhysicsExample extends BaseExampleGameActivity implements IAccelero
 
 	private Box2DPhysicsSpace mPhysicsSpace;
 	private int mFaceCount = 0;
+	private RunnableHandler mRemoveRunnableHandler;
 
 	// ===========================================================
 	// Constructors
@@ -106,6 +110,11 @@ public class PhysicsExample extends BaseExampleGameActivity implements IAccelero
 
 		scene.registerPreFrameHandler(this.mPhysicsSpace);
 
+		scene.setOnAreaTouchListener(this);
+
+		this.mRemoveRunnableHandler = new RunnableHandler();
+		scene.registerPostFrameHandler(this.mRemoveRunnableHandler);
+
 		return scene;
 	}
 
@@ -124,7 +133,27 @@ public class PhysicsExample extends BaseExampleGameActivity implements IAccelero
 
 		final Scene scene = this.mEngine.getScene();
 		face.animate(new long[]{200,200}, 0, 1, true);
+		scene.registerTouchArea(face);
 		scene.getTopLayer().addEntity(face);
+	}
+
+	@Override
+	public boolean onAreaTouched(final ITouchArea pTouchArea, final MotionEvent pSceneMotionEvent) {
+		if(pSceneMotionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+			this.mRemoveRunnableHandler.addRunnable(new Runnable() {
+				@Override
+				public void run() {
+					final AnimatedSprite face = (AnimatedSprite)pTouchArea;
+					final Scene scene = PhysicsRemoveExample.this.mEngine.getScene();
+
+					PhysicsRemoveExample.this.mPhysicsSpace.removeDynamicBodyByShape(face);
+					scene.unregisterTouchArea(face);
+					scene.getTopLayer().removeEntity(face);
+				}
+			});
+		}
+
+		return false;
 	}
 
 	public void onLoadComplete() {

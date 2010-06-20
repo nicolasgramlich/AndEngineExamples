@@ -3,10 +3,12 @@
     <array name="new_in_version_versioncode">
     	<item>1</item>
     	<item>2</item>
+    	<item>3</item>
     </array>
     
     <string-array name="new_in_version_changes">
     	<item> - Initial import</item>
-    	<item> - PathModifier-Example</item>
+    	<item> - PathModifier Example</item>
+    	<item> - PhysicsRemove Example</item>
     </string-array>
 </resources>

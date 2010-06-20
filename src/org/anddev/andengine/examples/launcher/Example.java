@@ -7,11 +7,13 @@ import org.anddev.andengine.examples.CustomFontExample;
 import org.anddev.andengine.examples.LineExample;
 import org.anddev.andengine.examples.MenuExample;
 import org.anddev.andengine.examples.MovingBallExample;
+import org.anddev.andengine.examples.MultiplayerExample;
 import org.anddev.andengine.examples.MusicExample;
 import org.anddev.andengine.examples.ParticleSystemExample;
 import org.anddev.andengine.examples.PathModifierExample;
 import org.anddev.andengine.examples.PauseExample;
 import org.anddev.andengine.examples.PhysicsExample;
+import org.anddev.andengine.examples.PhysicsRemoveExample;
 import org.anddev.andengine.examples.RectangleExample;
 import org.anddev.andengine.examples.ShapeModifierExample;
 import org.anddev.andengine.examples.SoundExample;
@@ -43,11 +45,13 @@ enum Example {
 	LINE(LineExample.class, "Line Example"),
 	MENU(MenuExample.class, "Menu Example"),
 	MOVINGBALL(MovingBallExample.class, "Moving Ball Example"),
+	MULTIPLAYER(MultiplayerExample.class, "Multiplayer Example"),
 	MUSIC(MusicExample.class, "Music Example"),
 	PAUSE(PauseExample.class, "Pause Example"),
 	PATHMODIFIER(PathModifierExample.class, "PathModifier Example"),
 	PARTICLESYSTEM(ParticleSystemExample.class, "ParticleSystem Example"),
 	PHYSICS(PhysicsExample.class, "Physics Example"),
+	PHYSICSREMOVE(PhysicsRemoveExample.class, "Physics Remove Example"),
 	RECTANGLE(RectangleExample.class, "Rectangle Example"),
 	SHAPEMODIFIER(ShapeModifierExample.class, "ShapeModifier Example"),
 	SOUND(SoundExample.class, "Sound Example"),
