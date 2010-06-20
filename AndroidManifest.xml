@@ -19,31 +19,31 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".AnimatedSpritesExample" />
-        <activity android:name=".AugmentedRealityExample" />
-        <activity android:name=".AugmentedRealityHorizonExample" />
-        <activity android:name=".CustomFontExample" />
-        <activity android:name=".LineExample" />
-        <activity android:name=".MenuExample" />
-        <activity android:name=".MovingBallExample" />
-        <activity android:name=".MultiplayerExample" />
-        <activity android:name=".MusicExample" />
-        <activity android:name=".ParticleSystemExample" />
-        <activity android:name=".PathModifierExample" />
-        <activity android:name=".PauseExample" />
-        <activity android:name=".PhysicsExample" />
-        <activity android:name=".PhysicsRemoveExample" />
-        <activity android:name=".RectangleExample" />
-        <activity android:name=".ShapeModifierExample" />
-        <activity android:name=".SoundExample" />
-        <activity android:name=".SplitScreenExample" />
-        <activity android:name=".SpriteExample" />
-        <activity android:name=".SpritesExample" />
-        <activity android:name=".SubMenuExample" />
-        <activity android:name=".TextExample" />
-        <activity android:name=".TextureOptionsExample" />
-        <activity android:name=".TickerTextExample" />
-        <activity android:name=".TouchDragExample" />
-        <activity android:name=".UnloadTextureExample" />
+        <activity android:name=".AnimatedSpritesExample" android:configChanges="orientation" />
+        <activity android:name=".AugmentedRealityExample" android:configChanges="orientation" />
+        <activity android:name=".AugmentedRealityHorizonExample" android:configChanges="orientation" />
+        <activity android:name=".CustomFontExample" android:configChanges="orientation" />
+        <activity android:name=".LineExample" android:configChanges="orientation" />
+        <activity android:name=".MenuExample" android:configChanges="orientation" />
+        <activity android:name=".MovingBallExample" android:configChanges="orientation" />
+        <activity android:name=".MultiplayerExample" android:configChanges="orientation" />
+        <activity android:name=".MusicExample" android:configChanges="orientation" />
+        <activity android:name=".ParticleSystemExample" android:configChanges="orientation" />
+        <activity android:name=".PathModifierExample" android:configChanges="orientation" />
+        <activity android:name=".PauseExample" android:configChanges="orientation" />
+        <activity android:name=".PhysicsExample" android:configChanges="orientation" />
+        <activity android:name=".PhysicsRemoveExample" android:configChanges="orientation" />
+        <activity android:name=".RectangleExample" android:configChanges="orientation" />
+        <activity android:name=".ShapeModifierExample" android:configChanges="orientation" />
+        <activity android:name=".SoundExample" android:configChanges="orientation" />
+        <activity android:name=".SplitScreenExample" android:configChanges="orientation" />
+        <activity android:name=".SpriteExample" android:configChanges="orientation" />
+        <activity android:name=".SpritesExample" android:configChanges="orientation" />
+        <activity android:name=".SubMenuExample" android:configChanges="orientation" />
+        <activity android:name=".TextExample" android:configChanges="orientation" />
+        <activity android:name=".TextureOptionsExample" android:configChanges="orientation" />
+        <activity android:name=".TickerTextExample" android:configChanges="orientation" />
+        <activity android:name=".TouchDragExample" android:configChanges="orientation" />
+        <activity android:name=".UnloadTextureExample" android:configChanges="orientation" />
     </application>
 </manifest> 
