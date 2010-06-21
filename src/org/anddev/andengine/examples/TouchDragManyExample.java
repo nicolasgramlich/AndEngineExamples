@@ -15,6 +15,7 @@ import org.anddev.andengine.input.touch.IOnAreaTouchListener;
 import org.anddev.andengine.input.touch.IOnSceneTouchListener;
 import org.anddev.andengine.input.touch.ITouchArea;
 import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
@@ -64,7 +65,7 @@ public class TouchDragManyExample extends BaseGameActivity {
 
 	@Override
 	public void onLoadResources() {
-		this.mCardDeckTexture = new Texture(1024, 512);
+		this.mCardDeckTexture = new Texture(1024, 512, TextureOptions.BILINEAR);
 
 		TextureRegionFactory.createFromAsset(this.mCardDeckTexture, this, "gfx/carddeck_tiled.png", 0, 0);
 

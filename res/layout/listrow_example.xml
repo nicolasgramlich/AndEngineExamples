@@ -8,6 +8,8 @@
 		android:layout_width="fill_parent" 
 		android:layout_height="wrap_content"
 		android:paddingLeft="50px"
+		android:paddingTop="5px" 
+		android:paddingBottom="5px" 
 		android:textSize="20sp"
 		android:textStyle="italic" />
 </LinearLayout>
