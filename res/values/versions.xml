@@ -4,11 +4,13 @@
     	<item>1</item>
     	<item>2</item>
     	<item>3</item>
+    	<item>4</item>
     </array>
     
     <string-array name="new_in_version_changes">
     	<item> - Initial import</item>
     	<item> - PathModifier Example</item>
     	<item> - PhysicsRemove Example</item>
+    	<item> - Multiplayer Example\n - TouchDragMany Example</item>
     </string-array>
 </resources>

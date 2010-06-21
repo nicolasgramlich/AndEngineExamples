@@ -33,7 +33,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 	private static final Example[][] EXAMPLES = {
 		{ Example.LINE, Example.RECTANGLE, Example.SPRITE, Example.SPRITES},
 		{ Example.SHAPEMODIFIER, Example.PATHMODIFIER, Example.MOVINGBALL, Example.ANIMATEDSPRITES },
-		{ Example.TOUCHDRAG },
+		{ Example.TOUCHDRAG, Example.TOUCHDRAGMANY },
 		{ Example.SPLITSCREEN, Example.PARTICLESYSTEM, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON },
 		{ Example.MULTIPLAYER },
 		{ Example.PHYSICS, Example.PHYSICSREMOVE },

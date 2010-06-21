@@ -5,6 +5,7 @@ import org.anddev.andengine.examples.AugmentedRealityExample;
 import org.anddev.andengine.examples.AugmentedRealityHorizonExample;
 import org.anddev.andengine.examples.CustomFontExample;
 import org.anddev.andengine.examples.LineExample;
+import org.anddev.andengine.examples.TouchDragManyExample;
 import org.anddev.andengine.examples.MenuExample;
 import org.anddev.andengine.examples.MovingBallExample;
 import org.anddev.andengine.examples.MultiplayerExample;
@@ -63,6 +64,7 @@ enum Example {
 	TEXTUREOPTIONS(TextureOptionsExample.class, "TextureOptions Example"),
 	TICKERTEXT(TickerTextExample.class, "TickerText Example"),
 	TOUCHDRAG(TouchDragExample.class, "TouchDrag Example"),
+	TOUCHDRAGMANY(TouchDragManyExample.class, "TouchDrag Many Example"),
 	UNLOADTEXTURE(UnloadTextureExample.class, "Unload Texture Example");
 	
 	// ===========================================================
