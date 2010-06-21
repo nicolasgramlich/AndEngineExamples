@@ -15,8 +15,10 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.BaseClientMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.BaseServerMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionAcceptedServerMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionRefusedServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.client.BaseServerConnectionListener;
-import org.anddev.andengine.extension.multiplayer.protocol.client.IServerMessageSwitch;
+import org.anddev.andengine.extension.multiplayer.protocol.client.BaseServerMessageSwitch;
 import org.anddev.andengine.extension.multiplayer.protocol.client.ServerConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.client.ServerMessageExtractor;
 import org.anddev.andengine.extension.multiplayer.protocol.server.BaseClientConnectionListener;
@@ -57,7 +59,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 	private static final int SERVER_PORT = 4444;
 
 	private static final short FLAG_ADD_FACE = 1;
-	
+
 	private static final int DIALOG_CHOOSE_SERVER_OR_CLIENT_ID = 0;
 	private static final int DIALOG_ENTER_SERVER_IP_ID = DIALOG_CHOOSE_SERVER_OR_CLIENT_ID + 1;
 	private static final int DIALOG_SHOW_SERVER_IP_ID = DIALOG_ENTER_SERVER_IP_ID + 1;
@@ -87,9 +89,9 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
+
 	@Override
-	protected Dialog onCreateDialog(int pID) {
+	protected Dialog onCreateDialog(final int pID) {
 		switch(pID) {
 			case DIALOG_SHOW_SERVER_IP_ID:
 				return new AlertDialog.Builder(this)
@@ -106,43 +108,43 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 				.setView(ipEditText)
 				.setPositiveButton("Connect", new OnClickListener() {
 					@Override
-					public void onClick(DialogInterface pDialog, int pWhich) {
+					public void onClick(final DialogInterface pDialog, final int pWhich) {
 						MultiplayerExample.this.mServerIP = ipEditText.getText().toString();
 						MultiplayerExample.this.initClient();
 					}
 				})
 				.setNegativeButton(android.R.string.cancel, new OnClickListener() {
 					@Override
-					public void onClick(DialogInterface pDialog, int pWhich) {
-						MultiplayerExample.this.finish();							
+					public void onClick(final DialogInterface pDialog, final int pWhich) {
+						MultiplayerExample.this.finish();
 					}
 				})
 				.create();
 			case DIALOG_CHOOSE_SERVER_OR_CLIENT_ID:
 				return new AlertDialog.Builder(this)
-					.setIcon(android.R.drawable.ic_dialog_info)
-					.setTitle("Be Server or Client ...")
-					.setPositiveButton("Client", new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface pDialog, int pWhich) {
-							MultiplayerExample.this.showDialog(DIALOG_ENTER_SERVER_IP_ID);
-						}
-					})
-					.setNeutralButton("Server", new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface pDialog, int pWhich) {
-							MultiplayerExample.this.initServer();
-							MultiplayerExample.this.showDialog(DIALOG_SHOW_SERVER_IP_ID);		
-						}
-					})
-					.setNegativeButton("Both", new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface pDialog, int pWhich) {
-							MultiplayerExample.this.initServerAndClient();
-							MultiplayerExample.this.showDialog(DIALOG_SHOW_SERVER_IP_ID);							
-						}
-					})
-					.create();
+				.setIcon(android.R.drawable.ic_dialog_info)
+				.setTitle("Be Server or Client ...")
+				.setPositiveButton("Client", new OnClickListener() {
+					@Override
+					public void onClick(final DialogInterface pDialog, final int pWhich) {
+						MultiplayerExample.this.showDialog(DIALOG_ENTER_SERVER_IP_ID);
+					}
+				})
+				.setNeutralButton("Server", new OnClickListener() {
+					@Override
+					public void onClick(final DialogInterface pDialog, final int pWhich) {
+						MultiplayerExample.this.initServer();
+						MultiplayerExample.this.showDialog(DIALOG_SHOW_SERVER_IP_ID);
+					}
+				})
+				.setNegativeButton("Both", new OnClickListener() {
+					@Override
+					public void onClick(final DialogInterface pDialog, final int pWhich) {
+						MultiplayerExample.this.initServerAndClient();
+						MultiplayerExample.this.showDialog(DIALOG_SHOW_SERVER_IP_ID);
+					}
+				})
+				.create();
 			default:
 				return super.onCreateDialog(pID);
 		}
@@ -155,17 +157,17 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, false));
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		if(this.mServer != null) {
 			this.mServer.interrupt();
 		}
-		
+
 		if(this.mServerConnector != null) {
 			this.mServerConnector.interrupt();
 		}
-		
+
 		super.onDestroy();
 	}
 
@@ -213,7 +215,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	public void addFace(final Scene pScene, final float pX, final float pY) {
 		/* Create the face and add it to the scene. */
 		final Sprite face = new Sprite(pX, pY, this.mFaceTextureRegion);
@@ -223,7 +225,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 	private void log(final String pMessage) {
 		Debug.d(pMessage);
 	}
-	
+
 	private void toast(final String pMessage) {
 		this.runOnUiThread(new Runnable() {
 			@Override
@@ -232,7 +234,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 			}
 		});
 	}
-	
+
 	private void initServerAndClient() {
 		MultiplayerExample.this.initServer();
 
@@ -260,13 +262,14 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 					new BaseClientMessageSwitch() {
 						@Override
 						public void doSwitch(final BaseClientMessage pClientMessage) throws IOException {
+							super.doSwitch(pClientMessage);
 							MultiplayerExample.this.log("SERVER: ClientMessage received: " + pClientMessage.toString());
 						}
 					}
 				);
 			}
 		};
-		
+
 		this.mServer.start();
 	}
 
@@ -284,7 +287,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 						}
 					}
 				},
-				new IServerMessageSwitch() {
+				new BaseServerMessageSwitch() {
 					@Override
 					public void doSwitch(final BaseServerMessage pServerMessage) throws IOException {
 						switch(pServerMessage.getFlag()) {
@@ -293,8 +296,19 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 								MultiplayerExample.this.addFace(MultiplayerExample.this.mEngine.getScene(), addFaceServerMessage.mX, addFaceServerMessage.mY);
 								break;
 							default:
+								super.doSwitch(pServerMessage);
 								MultiplayerExample.this.log("CLIENT: ServerMessage received: " + pServerMessage.toString());
 						}
+					}
+	
+					@Override
+					protected void onHandleConnectionAcceptedServerMessage(final ConnectionAcceptedServerMessage pServerMessage) {
+						MultiplayerExample.this.log("CLIENT: Connection accepted.");
+					}
+	
+					@Override
+					protected void onHandleConnectionRefusedServerMessage(final ConnectionRefusedServerMessage pServerMessage) {
+						MultiplayerExample.this.log("CLIENT: Connection refused.");
 					}
 				}
 			);
@@ -349,6 +363,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 		@Override
 		protected void onDisconnectInner(final BaseConnector<BaseServerMessage> pConnector) {
 			MultiplayerExample.this.toast("CLIENT: Disconnected from Server...");
+			MultiplayerExample.this.finish();
 		}
 	}
 
