@@ -261,8 +261,8 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 					},
 					new BaseClientMessageSwitch() {
 						@Override
-						public void doSwitch(final BaseClientMessage pClientMessage) throws IOException {
-							super.doSwitch(pClientMessage);
+						public void doSwitch(final ClientConnector pClientConnector, final BaseClientMessage pClientMessage) throws IOException {
+							super.doSwitch(pClientConnector, pClientMessage);
 							MultiplayerExample.this.log("SERVER: ClientMessage received: " + pClientMessage.toString());
 						}
 					}
@@ -289,25 +289,25 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 				},
 				new BaseServerMessageSwitch() {
 					@Override
-					public void doSwitch(final BaseServerMessage pServerMessage) throws IOException {
+					public void doSwitch(final ServerConnector pServerConnector, final BaseServerMessage pServerMessage) throws IOException {
 						switch(pServerMessage.getFlag()) {
 							case FLAG_ADD_FACE:
 								final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
 								MultiplayerExample.this.addFace(MultiplayerExample.this.mEngine.getScene(), addFaceServerMessage.mX, addFaceServerMessage.mY);
 								break;
 							default:
-								super.doSwitch(pServerMessage);
+								super.doSwitch(pServerConnector, pServerMessage);
 								MultiplayerExample.this.log("CLIENT: ServerMessage received: " + pServerMessage.toString());
 						}
 					}
 	
 					@Override
-					protected void onHandleConnectionAcceptedServerMessage(final ConnectionAcceptedServerMessage pServerMessage) {
+					protected void onHandleConnectionAcceptedServerMessage(final ServerConnector pServerConnector, final ConnectionAcceptedServerMessage pServerMessage) {
 						MultiplayerExample.this.log("CLIENT: Connection accepted.");
 					}
 	
 					@Override
-					protected void onHandleConnectionRefusedServerMessage(final ConnectionRefusedServerMessage pServerMessage) {
+					protected void onHandleConnectionRefusedServerMessage(final ServerConnector pServerConnector, final ConnectionRefusedServerMessage pServerMessage) {
 						MultiplayerExample.this.log("CLIENT: Connection refused.");
 					}
 				}

@@ -142,7 +142,7 @@ public class PhysicsRemoveExample extends BaseExampleGameActivity implements IAc
 	@Override
 	public boolean onAreaTouched(final ITouchArea pTouchArea, final MotionEvent pSceneMotionEvent) {
 		if(pSceneMotionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-			this.mRemoveRunnableHandler.addRunnable(new Runnable() {
+			this.mRemoveRunnableHandler.postRunnable(new Runnable() {
 				@Override
 				public void run() {
 					final AnimatedSprite face = (AnimatedSprite)pTouchArea;
