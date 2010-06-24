@@ -85,6 +85,7 @@ public class TouchDragManyExample extends BaseGameActivity {
 		this.getEngine().registerPreFrameHandler(new FPSCounter());
 
 		final Scene scene = new Scene(1);
+		scene.setOnAreaTouchTraversalFrontToBack();
 
 		this.addCard(scene, Card.CLUB_ACE, 200, 100);
 		this.addCard(scene, Card.HEART_ACE, 200, 260);

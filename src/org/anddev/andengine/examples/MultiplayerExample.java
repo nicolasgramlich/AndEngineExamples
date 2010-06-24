@@ -72,7 +72,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 	private Texture mTexture;
 	private TextureRegion mFaceTextureRegion;
 
-	private BaseServer mServer;
+	private BaseServer<ClientConnector> mServer;
 
 	private ServerConnector mServerConnector;
 
@@ -249,7 +249,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 	}
 
 	private void initServer() {
-		this.mServer = new BaseServer(SERVER_PORT, new ExampleClientConnectionListener(), new ExampleServerStateListener()){
+		this.mServer = new BaseServer<ClientConnector>(SERVER_PORT, new ExampleClientConnectionListener(), new ExampleServerStateListener()){
 			@Override
 			protected ClientConnector newClientConnector(final Socket pClientSocket, final BaseClientConnectionListener pClientConnectionListener) throws Exception {
 				return new ClientConnector(pClientSocket, pClientConnectionListener,

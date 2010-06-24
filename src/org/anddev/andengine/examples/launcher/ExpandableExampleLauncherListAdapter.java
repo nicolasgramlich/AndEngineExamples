@@ -27,7 +27,8 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		"Physics",
 		"Text",
 		"Audio",
-		"Other"
+		"Other",
+		"Benchmark"
 	};
 
 	private static final Example[][] EXAMPLES = {
@@ -39,7 +40,8 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		{ Example.PHYSICS, Example.PHYSICSREMOVE },
 		{ Example.TEXT, Example.TICKERTEXT, Example.CUSTOMFONT},
 		{ Example.SOUND, Example.MUSIC },
-		{ Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTUREOPTIONS, Example.UNLOADTEXTURE }
+		{ Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTUREOPTIONS, Example.UNLOADTEXTURE },
+		{  }
 	};
 
 	// ===========================================================
