@@ -5,7 +5,6 @@ import org.anddev.andengine.examples.AugmentedRealityExample;
 import org.anddev.andengine.examples.AugmentedRealityHorizonExample;
 import org.anddev.andengine.examples.CustomFontExample;
 import org.anddev.andengine.examples.LineExample;
-import org.anddev.andengine.examples.TouchDragManyExample;
 import org.anddev.andengine.examples.MenuExample;
 import org.anddev.andengine.examples.MovingBallExample;
 import org.anddev.andengine.examples.MultiplayerExample;
@@ -26,7 +25,9 @@ import org.anddev.andengine.examples.TextExample;
 import org.anddev.andengine.examples.TextureOptionsExample;
 import org.anddev.andengine.examples.TickerTextExample;
 import org.anddev.andengine.examples.TouchDragExample;
+import org.anddev.andengine.examples.TouchDragManyExample;
 import org.anddev.andengine.examples.UnloadTextureExample;
+import org.anddev.andengine.examples.ZoomExample;
 
 import android.app.Activity;
 
@@ -65,7 +66,8 @@ enum Example {
 	TICKERTEXT(TickerTextExample.class, "TickerText Example"),
 	TOUCHDRAG(TouchDragExample.class, "TouchDrag Example"),
 	TOUCHDRAGMANY(TouchDragManyExample.class, "TouchDrag Many Example"),
-	UNLOADTEXTURE(UnloadTextureExample.class, "Unload Texture Example");
+	UNLOADTEXTURE(UnloadTextureExample.class, "Unload Texture Example"),
+	ZOOM(ZoomExample.class, "Zoom Example");
 	
 	// ===========================================================
 	// Constants
