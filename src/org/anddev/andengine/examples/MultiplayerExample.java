@@ -58,7 +58,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 
 	private static final int SERVER_PORT = 4444;
 
-	private static final short FLAG_ADD_FACE = 1;
+	private static final short FLAG_MESSAGE_SERVER_ADD_FACE = 1;
 
 	private static final int DIALOG_CHOOSE_SERVER_OR_CLIENT_ID = 0;
 	private static final int DIALOG_ENTER_SERVER_IP_ID = DIALOG_CHOOSE_SERVER_OR_CLIENT_ID + 1;
@@ -280,7 +280,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 					@Override
 					public BaseServerMessage readMessage(final short pFlag, final DataInputStream pDataInputStream) throws IOException {
 						switch(pFlag) {
-							case FLAG_ADD_FACE:
+							case FLAG_MESSAGE_SERVER_ADD_FACE:
 								return new AddFaceServerMessage(pDataInputStream);
 							default:
 								return super.readMessage(pFlag, pDataInputStream);
@@ -291,7 +291,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 					@Override
 					public void doSwitch(final ServerConnector pServerConnector, final BaseServerMessage pServerMessage) throws IOException {
 						switch(pServerMessage.getFlag()) {
-							case FLAG_ADD_FACE:
+							case FLAG_MESSAGE_SERVER_ADD_FACE:
 								final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
 								MultiplayerExample.this.addFace(MultiplayerExample.this.mEngine.getScene(), addFaceServerMessage.mX, addFaceServerMessage.mY);
 								break;
@@ -339,7 +339,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 
 		@Override
 		public short getFlag() {
-			return FLAG_ADD_FACE;
+			return FLAG_MESSAGE_SERVER_ADD_FACE;
 		}
 
 		@Override
