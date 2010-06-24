@@ -15,6 +15,7 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
@@ -50,6 +51,7 @@ public class ZoomExample extends BaseExampleGameActivity {
 
 	@Override
 	public Engine onLoadEngine() {
+		Toast.makeText(this, "Touch and hold the scene and the camera will smoothly zoom in.\nRelease the scene it to zoom out again.", Toast.LENGTH_LONG).show();
 		this.mSmoothCamera = new SmoothCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, 10, 10, 1.0f);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mSmoothCamera, false));
 	}
