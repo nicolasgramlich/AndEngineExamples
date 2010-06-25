@@ -39,6 +39,7 @@
 		<activity android:name=".SoundExample" android:configChanges="orientation" />
 		<activity android:name=".SplitScreenExample" android:configChanges="orientation" />
 		<activity android:name=".SpriteExample" android:configChanges="orientation" />
+		<activity android:name=".SpriteRemoveExample" android:configChanges="orientation" />
 		<activity android:name=".SpritesExample" android:configChanges="orientation" />
 		<activity android:name=".SubMenuExample" android:configChanges="orientation" />
 		<activity android:name=".TextExample" android:configChanges="orientation" />

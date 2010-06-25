@@ -15,6 +15,6 @@
     	<item> - PhysicsRemove Example</item>
     	<item> - Multiplayer Example\n - TouchDragMany Example</item>
     	<item> - Fixed Menu Examples</item>
-    	<item> - Zoom Example</item>
+    	<item> - Zoom Example\n - SpriteRemove Example</item>
     </string-array>
 </resources>

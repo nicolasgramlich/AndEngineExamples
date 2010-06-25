@@ -19,6 +19,7 @@ import org.anddev.andengine.examples.ShapeModifierExample;
 import org.anddev.andengine.examples.SoundExample;
 import org.anddev.andengine.examples.SplitScreenExample;
 import org.anddev.andengine.examples.SpriteExample;
+import org.anddev.andengine.examples.SpriteRemoveExample;
 import org.anddev.andengine.examples.SpritesExample;
 import org.anddev.andengine.examples.SubMenuExample;
 import org.anddev.andengine.examples.TextExample;
@@ -59,6 +60,7 @@ enum Example {
 	SOUND(SoundExample.class, "Sound Example"),
 	SPLITSCREEN(SplitScreenExample.class, "SplitScreen Example"),
 	SPRITE(SpriteExample.class, "Sprite Example"),
+	SPRITEREMOVE(SpriteRemoveExample.class, "Sprite Remove Example"),
 	SPRITES(SpritesExample.class, "Sprites Example"),
 	SUBMENU(SubMenuExample.class, "SubMenu Example"),
 	TEXT(TextExample.class, "Text Example"),
