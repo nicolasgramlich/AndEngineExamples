@@ -5,13 +5,13 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.FPSCounter;
-import org.anddev.andengine.entity.HorizontalAlign;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.text.Text;
+import org.anddev.andengine.entity.util.FPSCounter;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.util.HorizontalAlign;
 
 import android.graphics.Color;
 import android.graphics.Typeface;

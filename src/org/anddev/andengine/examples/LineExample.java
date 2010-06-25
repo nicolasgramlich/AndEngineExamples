@@ -7,9 +7,9 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.FPSCounter;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.primitives.Line;
+import org.anddev.andengine.entity.util.FPSCounter;
 
 /**
  * @author Nicolas Gramlich
