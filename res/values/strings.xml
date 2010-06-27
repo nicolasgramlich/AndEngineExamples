@@ -8,4 +8,50 @@
     <string name="dialog_first_app_launch_message">Welcome to <b>AndEngine</b> the:\n - Free\n - Open Source\n - 2D OpenGL \n - Game-Engine\nfor the Google Android platform.\n\nThese <b>examples</b> are meant for <b>developers</b> to showcase what can be done with <b>AndEngine</b>.\n\nIt\'s Open Source - Get involved!\n\nBest Regards,\nNicolas Gramlich</string>
     
     <string name="dialog_new_in_this_version_title">New in this version...</string>
+    
+    <!-- Example-Groups -->
+    <string name="examplegroup_simple">Simple</string>
+	<string name="examplegroup_modifier_and_animation">Modifier &amp; Animation</string>
+	<string name="examplegroup_touch">Touch</string>
+	<string name="examplegroup_advanced">Advanced</string>
+	<string name="examplegroup_multiplayer">Multiplayer</string>
+	<string name="examplegroup_physics">Physics</string>
+	<string name="examplegroup_text">Text</string>
+	<string name="examplegroup_audio">Audio</string>
+	<string name="examplegroup_others">Others</string>
+	<string name="examplegroup_benchmarks">Benchmarks</string>
+	
+	<!-- Examples -->
+	<string name="example_animatedsprites">Animated Sprites Example</string>
+	<string name="example_augmentedreality">AugmentedReality Example</string>
+	<string name="example_augmentedrealityhorizon">AugmentedReality Horizon Example</string>
+	<string name="example_customfont">Custom Font Example</string>
+	<string name="example_line">Line Example</string>
+	<string name="example_menu">Menu Example</string>
+	<string name="example_movingball">Moving Ball Example</string>
+	<string name="example_multiplayer">Multiplayer Example</string>
+	<string name="example_music">Music Example</string>
+	<string name="example_pause">Pause Example</string>
+	<string name="example_pathmodifier">PathModifier Example</string>
+	<string name="example_particlesystem">ParticleSystem Example</string>
+	<string name="example_physics">Physics Example</string>
+	<string name="example_physicsremove">Physics Remove Example</string>
+	<string name="example_rectangle">Rectangle Example</string>
+	<string name="example_shapemodifier">ShapeModifier Example</string>
+	<string name="example_sound">Sound Example</string>
+	<string name="example_splitscreen">SplitScreen Example</string>
+	<string name="example_sprite">Sprite Example</string>
+	<string name="example_spriteremove">Sprite Remove Example</string>
+	<string name="example_sprites">Sprites Example</string>
+	<string name="example_submenu">SubMenu Example</string>
+	<string name="example_text">Text Example</string>
+	<string name="example_textureoptions">TextureOptions Example</string>
+	<string name="example_tickertext">TickerText Example</string>
+	<string name="example_touchdrag">TouchDrag Example</string>
+	<string name="example_touchdragmany">TouchDrag Many Example</string>
+	<string name="example_unloadtexture">Unload Texture Example</string>
+	<string name="example_zoom">Zoom Example</string>
+	
+	<!-- Benchmarks -->
+	<string name="example_benchmark_sprites">Sprites Benchmark</string>
 </resources>

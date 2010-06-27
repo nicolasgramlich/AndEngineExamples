@@ -67,7 +67,7 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 
 	@Override
 	public Scene onLoadScene() {
-		//		this.getEngine().registerPreFrameHandler(new FPSCounter());
+		//		this.getEngine().registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
 		//		scene.setBackgroundEnabled(false);

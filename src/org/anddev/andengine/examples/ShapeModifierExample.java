@@ -20,7 +20,7 @@ import org.anddev.andengine.entity.shape.modifier.RotateModifier;
 import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
 import org.anddev.andengine.entity.shape.modifier.SequenceModifier;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
-import org.anddev.andengine.entity.util.FPSCounter;
+import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
@@ -31,7 +31,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class ShapeModifierExample extends BaseExampleGameActivity {
+public class ShapeModifierExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -75,7 +75,7 @@ public class ShapeModifierExample extends BaseExampleGameActivity {
 
 	@Override
 	public Scene onLoadScene() {
-		this.getEngine().registerPreFrameHandler(new FPSCounter());
+		this.getEngine().registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);

@@ -9,13 +9,13 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.primitives.Line;
-import org.anddev.andengine.entity.util.FPSCounter;
+import org.anddev.andengine.entity.util.FPSLogger;
 
 /**
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class LineExample extends BaseExampleGameActivity {
+public class LineExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -59,15 +59,24 @@ public class LineExample extends BaseExampleGameActivity {
 
 	@Override
 	public Scene onLoadScene() {
-		this.getEngine().registerPreFrameHandler(new FPSCounter());
+		this.getEngine().registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		final Random random = new Random(RANDOM_SEED);
+
 		for(int i = 0; i < LINE_COUNT; i++) {
-			final Line line = new Line(random.nextFloat() * CAMERA_WIDTH, random.nextFloat() * CAMERA_HEIGHT, random.nextFloat() * CAMERA_WIDTH, random.nextFloat() * CAMERA_HEIGHT); // top left to bottom right
+			final float x1 = random.nextFloat() * CAMERA_WIDTH;
+			final float x2 = random.nextFloat() * CAMERA_WIDTH;
+			final float y1 = random.nextFloat() * CAMERA_HEIGHT;
+			final float y2 = random.nextFloat() * CAMERA_HEIGHT;
+			final float lineWidth = random.nextFloat() * 5;
+
+			final Line line = new Line(x1, y1, x2, y2, lineWidth);
+
 			line.setColor(random.nextFloat(), random.nextFloat(), random.nextFloat());
+
 			scene.getTopLayer().addEntity(line);
 		}
 

@@ -7,7 +7,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.text.Text;
-import org.anddev.andengine.entity.util.FPSCounter;
+import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -20,7 +20,7 @@ import android.graphics.Typeface;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class TextExample extends BaseExampleGameActivity {
+public class TextExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -66,7 +66,7 @@ public class TextExample extends BaseExampleGameActivity {
 
 	@Override
 	public Scene onLoadScene() {
-		this.getEngine().registerPreFrameHandler(new FPSCounter());
+		this.getEngine().registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);

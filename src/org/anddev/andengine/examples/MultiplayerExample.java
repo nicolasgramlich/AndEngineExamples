@@ -13,7 +13,7 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.sprite.Sprite;
-import org.anddev.andengine.entity.util.FPSCounter;
+import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.BaseClientMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.BaseServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionAcceptedServerMessage;
@@ -48,7 +48,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 17:10:24 - 19.06.2010
  */
-public class MultiplayerExample extends BaseExampleGameActivity {
+public class MultiplayerExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -181,7 +181,7 @@ public class MultiplayerExample extends BaseExampleGameActivity {
 
 	@Override
 	public Scene onLoadScene() {
-		this.getEngine().registerPreFrameHandler(new FPSCounter());
+		this.getEngine().registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);

@@ -9,7 +9,7 @@ import org.anddev.andengine.entity.CameraScene;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
-import org.anddev.andengine.entity.util.FPSCounter;
+import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
@@ -20,7 +20,7 @@ import android.view.KeyEvent;
  * @author Nicolas Gramlich
  * @since 11:33:33 - 01.04.2010
  */
-public class PauseExample extends BaseExampleGameActivity {
+public class PauseExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -68,7 +68,7 @@ public class PauseExample extends BaseExampleGameActivity {
 
 	@Override
 	public Scene onLoadScene() {
-		this.getEngine().registerPreFrameHandler(new FPSCounter());
+		this.getEngine().registerPreFrameHandler(new FPSLogger());
 
 		this.mPauseScene = new CameraScene(1, this.mCamera);
 		/* Make the 'PAUSED'-label centered on the camera. */

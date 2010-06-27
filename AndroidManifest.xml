@@ -49,5 +49,7 @@
 		<activity android:name=".TouchDragManyExample" android:configChanges="orientation" />
 		<activity android:name=".UnloadTextureExample" android:configChanges="orientation" />
 		<activity android:name=".ZoomExample" android:configChanges="orientation" />
+		
+		<activity android:name=".benchmark.SpriteBenchmark" android:configChanges="orientation" />
 	</application>
 </manifest>

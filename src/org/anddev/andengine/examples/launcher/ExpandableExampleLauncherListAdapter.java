@@ -18,17 +18,17 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 	// Constants
 	// ===========================================================
 
-	private static final String[] EXAMPLEGROUPS = {
-		"Simple",
-		"Modifier & Animation",
-		"Touch",
-		"Advanced",
-		"Multiplayer",
-		"Physics",
-		"Text",
-		"Audio",
-		"Other",
-		"Benchmark"
+	private static final ExampleGroup[] EXAMPLEGROUPS = {
+		ExampleGroup.SIMPLE,
+		ExampleGroup.MODIFIER_AND_ANIMATION,
+		ExampleGroup.TOUCH,
+		ExampleGroup.ADVANCED,
+		ExampleGroup.MULTIPLAYER,
+		ExampleGroup.PHYSICS,
+		ExampleGroup.TEXT,
+		ExampleGroup.AUDIO,
+		ExampleGroup.OTHERS,
+		ExampleGroup.BENCHMARKS
 	};
 
 	private static final Example[][] EXAMPLES = {
@@ -41,7 +41,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		{ Example.TEXT, Example.TICKERTEXT, Example.CUSTOMFONT},
 		{ Example.SOUND, Example.MUSIC },
 		{ Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTUREOPTIONS, Example.UNLOADTEXTURE, Example.ZOOM },
-		{  }
+		{ Example.BENCHMARK_SPRITES }
 	};
 
 	// ===========================================================
@@ -90,7 +90,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 			childView = LayoutInflater.from(this.mContext).inflate(R.layout.listrow_example, null);
 		}
 
-		((TextView)childView.findViewById(R.id.tv_listrow_example_name)).setText(this.getChild(pGroupPosition, pChildPosition).toString());
+		((TextView)childView.findViewById(R.id.tv_listrow_example_name)).setText(this.getChild(pGroupPosition, pChildPosition).NAMERESID);
 		return childView;
 	}
 
@@ -103,12 +103,12 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 			groupView = LayoutInflater.from(this.mContext).inflate(R.layout.listrow_examplegroup, null);
 		}
 
-		((TextView)groupView.findViewById(R.id.tv_listrow_examplegroup_name)).setText(this.getGroup(pGroupPosition).toString());
+		((TextView)groupView.findViewById(R.id.tv_listrow_examplegroup_name)).setText(this.getGroup(pGroupPosition).NAMERESID);
 		return groupView;
 	}
 
 	@Override
-	public String getGroup(final int pGroupPosition) {
+	public ExampleGroup getGroup(final int pGroupPosition) {
 		return EXAMPLEGROUPS[pGroupPosition];
 	}
 

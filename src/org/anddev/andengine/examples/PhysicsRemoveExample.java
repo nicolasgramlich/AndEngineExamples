@@ -12,7 +12,7 @@ import org.anddev.andengine.entity.Scene.ITouchArea;
 import org.anddev.andengine.entity.handler.runnable.RunnableHandler;
 import org.anddev.andengine.entity.primitives.Rectangle;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
-import org.anddev.andengine.entity.util.FPSCounter;
+import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.Box2DPhysicsSpace;
 import org.anddev.andengine.extension.physics.box2d.adt.DynamicPhysicsBody;
 import org.anddev.andengine.extension.physics.box2d.adt.PhysicsShape;
@@ -31,7 +31,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 18:47:08 - 19.03.2010
  */
-public class PhysicsRemoveExample extends BaseExampleGameActivity implements IAccelerometerListener, IOnSceneTouchListener, IOnAreaTouchListener {
+public class PhysicsRemoveExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener, IOnAreaTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -84,7 +84,7 @@ public class PhysicsRemoveExample extends BaseExampleGameActivity implements IAc
 
 	@Override
 	public Scene onLoadScene() {
-		this.mEngine.registerPostFrameHandler(new FPSCounter());
+		this.mEngine.registerPostFrameHandler(new FPSLogger());
 
 		this.mPhysicsSpace = new Box2DPhysicsSpace();
 		this.mPhysicsSpace.createWorld(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);

@@ -19,7 +19,7 @@ import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class ParticleSystemExample extends BaseExampleGameActivity {
+public class ParticleSystemExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -64,7 +64,7 @@ public class ParticleSystemExample extends BaseExampleGameActivity {
 
 	@Override
 	public Scene onLoadScene() {
-		//		this.getEngine().registerPreFrameHandler(new FPSCounter());
+		//		this.getEngine().registerPreFrameHandler(new FPSLogger());
 		//		this.getEngine().registerPreFrameHandler(new FrameLengthLogger(1000));
 
 		final Scene scene = new Scene(1);

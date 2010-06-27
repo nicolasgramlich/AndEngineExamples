@@ -12,13 +12,12 @@ import org.anddev.andengine.entity.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.Scene.ITouchArea;
 import org.anddev.andengine.entity.sprite.Sprite;
-import org.anddev.andengine.entity.util.FPSCounter;
+import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.card.Card;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.view.MotionEvent;
 
@@ -26,7 +25,7 @@ import android.view.MotionEvent;
  * @author Nicolas Gramlich
  * @since 18:20:40 - 18.06.2010
  */
-public class TouchDragManyExample extends BaseGameActivity {
+public class TouchDragManyExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -82,7 +81,7 @@ public class TouchDragManyExample extends BaseGameActivity {
 
 	@Override
 	public Scene onLoadScene() {
-		this.getEngine().registerPreFrameHandler(new FPSCounter());
+		this.getEngine().registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
 		scene.setOnAreaTouchTraversalFrontToBack();

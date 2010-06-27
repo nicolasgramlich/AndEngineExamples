@@ -14,6 +14,7 @@ import org.anddev.andengine.examples.PathModifierExample;
 import org.anddev.andengine.examples.PauseExample;
 import org.anddev.andengine.examples.PhysicsExample;
 import org.anddev.andengine.examples.PhysicsRemoveExample;
+import org.anddev.andengine.examples.R;
 import org.anddev.andengine.examples.RectangleExample;
 import org.anddev.andengine.examples.ShapeModifierExample;
 import org.anddev.andengine.examples.SoundExample;
@@ -29,8 +30,8 @@ import org.anddev.andengine.examples.TouchDragExample;
 import org.anddev.andengine.examples.TouchDragManyExample;
 import org.anddev.andengine.examples.UnloadTextureExample;
 import org.anddev.andengine.examples.ZoomExample;
-
-import android.app.Activity;
+import org.anddev.andengine.examples.benchmark.SpriteBenchmark;
+import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 /**
  * @author Nicolas Gramlich
@@ -41,35 +42,37 @@ enum Example {
 	// Elements
 	// ===========================================================
 
-	ANIMATEDSPRITES(AnimatedSpritesExample.class, "Animated Sprites Example"),
-	AUGMENTEDREALITY(AugmentedRealityExample.class, "AugmentedReality Example"),
-	AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, "AugmentedReality Horizon Example"),
-	CUSTOMFONT(CustomFontExample.class, "Custom Font Example"),
-	LINE(LineExample.class, "Line Example"),
-	MENU(MenuExample.class, "Menu Example"),
-	MOVINGBALL(MovingBallExample.class, "Moving Ball Example"),
-	MULTIPLAYER(MultiplayerExample.class, "Multiplayer Example"),
-	MUSIC(MusicExample.class, "Music Example"),
-	PAUSE(PauseExample.class, "Pause Example"),
-	PATHMODIFIER(PathModifierExample.class, "PathModifier Example"),
-	PARTICLESYSTEM(ParticleSystemExample.class, "ParticleSystem Example"),
-	PHYSICS(PhysicsExample.class, "Physics Example"),
-	PHYSICSREMOVE(PhysicsRemoveExample.class, "Physics Remove Example"),
-	RECTANGLE(RectangleExample.class, "Rectangle Example"),
-	SHAPEMODIFIER(ShapeModifierExample.class, "ShapeModifier Example"),
-	SOUND(SoundExample.class, "Sound Example"),
-	SPLITSCREEN(SplitScreenExample.class, "SplitScreen Example"),
-	SPRITE(SpriteExample.class, "Sprite Example"),
-	SPRITEREMOVE(SpriteRemoveExample.class, "Sprite Remove Example"),
-	SPRITES(SpritesExample.class, "Sprites Example"),
-	SUBMENU(SubMenuExample.class, "SubMenu Example"),
-	TEXT(TextExample.class, "Text Example"),
-	TEXTUREOPTIONS(TextureOptionsExample.class, "TextureOptions Example"),
-	TICKERTEXT(TickerTextExample.class, "TickerText Example"),
-	TOUCHDRAG(TouchDragExample.class, "TouchDrag Example"),
-	TOUCHDRAGMANY(TouchDragManyExample.class, "TouchDrag Many Example"),
-	UNLOADTEXTURE(UnloadTextureExample.class, "Unload Texture Example"),
-	ZOOM(ZoomExample.class, "Zoom Example");
+	ANIMATEDSPRITES(AnimatedSpritesExample.class, R.string.example_animatedsprites),
+	AUGMENTEDREALITY(AugmentedRealityExample.class, R.string.example_augmentedreality),
+	AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, R.string.example_augmentedrealityhorizon),
+	CUSTOMFONT(CustomFontExample.class, R.string.example_customfont),
+	LINE(LineExample.class, R.string.example_line),
+	MENU(MenuExample.class, R.string.example_menu),
+	MOVINGBALL(MovingBallExample.class, R.string.example_movingball),
+	MULTIPLAYER(MultiplayerExample.class, R.string.example_multiplayer),
+	MUSIC(MusicExample.class, R.string.example_music),
+	PAUSE(PauseExample.class, R.string.example_pause),
+	PATHMODIFIER(PathModifierExample.class, R.string.example_pathmodifier),
+	PARTICLESYSTEM(ParticleSystemExample.class, R.string.example_particlesystem),
+	PHYSICS(PhysicsExample.class, R.string.example_physics),
+	PHYSICSREMOVE(PhysicsRemoveExample.class, R.string.example_physicsremove),
+	RECTANGLE(RectangleExample.class, R.string.example_rectangle),
+	SHAPEMODIFIER(ShapeModifierExample.class, R.string.example_shapemodifier),
+	SOUND(SoundExample.class, R.string.example_sound),
+	SPLITSCREEN(SplitScreenExample.class, R.string.example_splitscreen),
+	SPRITE(SpriteExample.class, R.string.example_sprite),
+	SPRITEREMOVE(SpriteRemoveExample.class, R.string.example_spriteremove),
+	SPRITES(SpritesExample.class, R.string.example_sprites),
+	SUBMENU(SubMenuExample.class, R.string.example_submenu),
+	TEXT(TextExample.class, R.string.example_text),
+	TEXTUREOPTIONS(TextureOptionsExample.class, R.string.example_textureoptions),
+	TICKERTEXT(TickerTextExample.class, R.string.example_tickertext),
+	TOUCHDRAG(TouchDragExample.class, R.string.example_touchdrag),
+	TOUCHDRAGMANY(TouchDragManyExample.class, R.string.example_touchdragmany),
+	UNLOADTEXTURE(UnloadTextureExample.class, R.string.example_unloadtexture),
+	ZOOM(ZoomExample.class, R.string.example_zoom),
+	
+	BENCHMARK_SPRITES(SpriteBenchmark.class, R.string.example_benchmark_sprites);
 	
 	// ===========================================================
 	// Constants
@@ -79,16 +82,16 @@ enum Example {
 	// Fields
 	// ===========================================================
 
-	public final Class<? extends Activity> CLASS;
-	public final String NAME;
+	public final Class<? extends BaseGameActivity> CLASS;
+	public final int NAMERESID;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	private Example(final Class<? extends Activity> pExampleClass, final String pExampleName) {
+	private Example(final Class<? extends BaseGameActivity> pExampleClass, final int pNameResID) {
 		this.CLASS = pExampleClass;
-		this.NAME = pExampleName;
+		this.NAMERESID = pNameResID;
 	}
 
 	// ===========================================================
@@ -98,11 +101,6 @@ enum Example {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-
-	@Override
-	public String toString() {
-		return this.NAME;
-	}
 
 	// ===========================================================
 	// Methods

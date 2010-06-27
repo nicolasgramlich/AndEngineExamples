@@ -11,7 +11,7 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.primitives.Rectangle;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
-import org.anddev.andengine.entity.util.FPSCounter;
+import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.Box2DPhysicsSpace;
 import org.anddev.andengine.extension.physics.box2d.adt.DynamicPhysicsBody;
 import org.anddev.andengine.extension.physics.box2d.adt.PhysicsShape;
@@ -30,7 +30,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 18:47:08 - 19.03.2010
  */
-public class SplitScreenExample extends BaseExampleGameActivity implements IAccelerometerListener, IOnSceneTouchListener {
+public class SplitScreenExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -90,7 +90,7 @@ public class SplitScreenExample extends BaseExampleGameActivity implements IAcce
 		scene.setBackgroundColor(0, 0, 0);
 		scene.setOnSceneTouchListener(this);
 
-		this.getEngine().registerPostFrameHandler(new FPSCounter());
+		this.getEngine().registerPostFrameHandler(new FPSLogger());
 
 		final Rectangle ground = new Rectangle(0, CAMERA_HEIGHT - 1, CAMERA_WIDTH, 1);
 		scene.getLayer(0).addEntity(ground);

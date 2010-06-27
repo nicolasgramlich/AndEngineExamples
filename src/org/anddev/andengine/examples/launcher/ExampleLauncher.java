@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
@@ -124,6 +125,15 @@ public class ExampleLauncher extends ExpandableListActivity {
 			default:
 				return super.onCreateDialog(pId);
 		}
+	}
+	
+	@Override
+	public void onGroupExpand(int pGroupPosition) {
+		switch(this.mExpandableExampleLauncherListAdapter.getGroup(pGroupPosition)){
+			case BENCHMARKS:
+				Toast.makeText(this, "When running a benchmark, a dialog with the results will appear after some seconds.", Toast.LENGTH_LONG).show();
+		}
+		super.onGroupExpand(pGroupPosition);
 	}
 
 	@Override

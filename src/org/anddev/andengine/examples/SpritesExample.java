@@ -11,7 +11,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
-import org.anddev.andengine.entity.util.FPSCounter;
+import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
@@ -21,7 +21,7 @@ import org.anddev.andengine.opengl.vertex.RectangleVertexBuffer;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class SpritesExample extends BaseExampleGameActivity {
+public class SpritesExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -70,7 +70,7 @@ public class SpritesExample extends BaseExampleGameActivity {
 
 	@Override
 	public Scene onLoadScene() {
-		this.getEngine().registerPreFrameHandler(new FPSCounter());
+		this.getEngine().registerPreFrameHandler(new FPSLogger());
 		//		this.getEngine().registerPreFrameHandler(new FrameLengthLogger(1000));
 
 		final Scene scene = new Scene(1);
