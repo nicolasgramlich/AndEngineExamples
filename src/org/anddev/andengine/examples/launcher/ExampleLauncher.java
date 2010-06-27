@@ -131,7 +131,7 @@ public class ExampleLauncher extends ExpandableListActivity {
 	public void onGroupExpand(int pGroupPosition) {
 		switch(this.mExpandableExampleLauncherListAdapter.getGroup(pGroupPosition)){
 			case BENCHMARKS:
-				Toast.makeText(this, "When running a benchmark, a dialog with the results will appear after some seconds.", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "When running a benchmark, a dialog with the results will appear after some seconds.", Toast.LENGTH_SHORT).show();
 		}
 		super.onGroupExpand(pGroupPosition);
 	}

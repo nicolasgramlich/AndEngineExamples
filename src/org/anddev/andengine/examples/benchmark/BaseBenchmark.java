@@ -82,7 +82,7 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 			case DIALOG_SHOW_RESULT:
 				return new AlertDialog.Builder(this)
 				.setTitle(this.getClass().getSimpleName() + "-Results")
-				.setMessage(String.format("FPS: %.2d", this.mFPS))
+				.setMessage(String.format("FPS: %.2f", this.mFPS))
 				.setPositiveButton(android.R.string.ok, new OnClickListener() {
 					@Override
 					public void onClick(final DialogInterface pDialog, final int pWhich) {
