@@ -9,7 +9,6 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.Scene.ITouchArea;
-import org.anddev.andengine.entity.handler.runnable.RunnableHandler;
 import org.anddev.andengine.entity.primitives.Rectangle;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -51,7 +50,6 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 
 	private Box2DPhysicsSpace mPhysicsSpace;
 	private int mFaceCount = 0;
-	private RunnableHandler mShootRunnableHandler;
 	
 	private float mGravityX;
 	private float mGravityY;
@@ -118,9 +116,6 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 
 		scene.setOnAreaTouchListener(this);
 
-		this.mShootRunnableHandler = new RunnableHandler();
-		scene.registerPostFrameHandler(this.mShootRunnableHandler);
-
 		return scene;
 	}
 
@@ -146,14 +141,9 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 	@Override
 	public boolean onAreaTouched(final ITouchArea pTouchArea, final MotionEvent pSceneMotionEvent) {
 		if(pSceneMotionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-			this.mShootRunnableHandler.postRunnable(new Runnable() {
-				@Override
-				public void run() {
-					final AnimatedSprite face = (AnimatedSprite)pTouchArea;
-					final DynamicPhysicsBody facePhysicsBody = PhysicsJumpExample.this.mPhysicsSpace.findDynamicBodyByShape(face);
-					PhysicsJumpExample.this.mPhysicsSpace.setVelocity(facePhysicsBody, PhysicsJumpExample.this.mGravityX * -10, PhysicsJumpExample.this.mGravityY * -10);
-				}
-			});
+			final AnimatedSprite face = (AnimatedSprite)pTouchArea;
+			final DynamicPhysicsBody facePhysicsBody = PhysicsJumpExample.this.mPhysicsSpace.findDynamicBodyByShape(face);
+			PhysicsJumpExample.this.mPhysicsSpace.setVelocity(facePhysicsBody, PhysicsJumpExample.this.mGravityX * -10, PhysicsJumpExample.this.mGravityY * -10);
 		}
 
 		return false;
