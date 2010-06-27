@@ -17,6 +17,7 @@ import org.anddev.andengine.extension.physics.box2d.adt.DynamicPhysicsBody;
 import org.anddev.andengine.extension.physics.box2d.adt.PhysicsShape;
 import org.anddev.andengine.extension.physics.box2d.adt.StaticPhysicsBody;
 import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
@@ -73,7 +74,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(64, 32);
+		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
 		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1); // 64x32
 		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 

@@ -9,6 +9,7 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
@@ -52,7 +53,7 @@ public class SpriteExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(64, 32);
+		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);
 
 		this.getEngine().getTextureManager().loadTexture(this.mTexture);

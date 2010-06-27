@@ -9,6 +9,7 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
@@ -54,7 +55,7 @@ public class AnimatedSpritesExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(256, 128);
+		this.mTexture = new Texture(256, 128, TextureOptions.BILINEAR);
 
 		this.mHelicopterTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/helicopter_tiled.png", 0, 0, 2, 2);
 		this.mBananaTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/banana_tiled.png", 96, 0, 4, 2);

@@ -15,6 +15,7 @@ import org.anddev.andengine.entity.Scene.ITouchArea;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.util.Debug;
@@ -64,7 +65,7 @@ public class SoundExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 256);
+		this.mTexture = new Texture(128, 256, TextureOptions.BILINEAR);
 		TextureRegionFactory.setAssetBasePath("gfx/");
 		this.mTankTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "tank.png", 0, 0);
 

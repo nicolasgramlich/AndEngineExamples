@@ -15,6 +15,7 @@ import org.anddev.andengine.entity.Scene.ITouchArea;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.util.Debug;
@@ -64,7 +65,7 @@ public class MusicExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128);
+		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR);
 		TextureRegionFactory.setAssetBasePath("gfx/");
 		this.mNotesTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "notes.png", 0, 0);
 

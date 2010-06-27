@@ -13,6 +13,7 @@ import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
@@ -70,11 +71,11 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(64, 64);
+		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface_menu.png", 0, 0);
 		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 
-		this.mMenuTexture = new Texture(256, 128);
+		this.mMenuTexture = new Texture(256, 128, TextureOptions.BILINEAR);
 		this.mMenuResetTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_reset.png", 0, 0);
 		this.mMenuQuitTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_quit.png", 0, 50);
 		this.getEngine().getTextureManager().loadTexture(this.mMenuTexture);

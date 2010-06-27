@@ -22,6 +22,7 @@ import org.anddev.andengine.entity.shape.modifier.SequenceModifier;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
@@ -67,7 +68,7 @@ public class ShapeModifierExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(64, 32);
+		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);
 
 		this.getEngine().getTextureManager().loadTexture(this.mTexture);
