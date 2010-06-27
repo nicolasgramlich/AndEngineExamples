@@ -17,6 +17,6 @@
     	<item> - Multiplayer Example\n - TouchDragMany Example</item>
     	<item> - Fixed Menu Examples</item>
     	<item> - Line Example now with random line width\n - Zoom Example\n - SpriteRemove Example\n - Sprites Benchmark</item>
-    	<item> - Benchmarks now can be submitted by mail</item>
+    	<item> - Benchmark results now can be submitted by mail</item>
     </string-array>
 </resources>
