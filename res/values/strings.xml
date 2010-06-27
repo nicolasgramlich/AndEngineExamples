@@ -42,7 +42,6 @@
 	<string name="example_splitscreen">SplitScreen Example</string>
 	<string name="example_sprite">Sprite Example</string>
 	<string name="example_spriteremove">Sprite Remove Example</string>
-	<string name="example_sprites">Sprites Example</string>
 	<string name="example_submenu">SubMenu Example</string>
 	<string name="example_text">Text Example</string>
 	<string name="example_textureoptions">TextureOptions Example</string>
@@ -54,4 +53,5 @@
 	
 	<!-- Benchmarks -->
 	<string name="example_benchmark_sprites">Sprites Benchmark</string>
+	<string name="example_benchmark_shapemodifier">ShapeModifier Benchmark</string>
 </resources>

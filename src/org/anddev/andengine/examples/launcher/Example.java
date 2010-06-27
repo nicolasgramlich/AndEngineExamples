@@ -21,7 +21,6 @@ import org.anddev.andengine.examples.SoundExample;
 import org.anddev.andengine.examples.SplitScreenExample;
 import org.anddev.andengine.examples.SpriteExample;
 import org.anddev.andengine.examples.SpriteRemoveExample;
-import org.anddev.andengine.examples.SpritesExample;
 import org.anddev.andengine.examples.SubMenuExample;
 import org.anddev.andengine.examples.TextExample;
 import org.anddev.andengine.examples.TextureOptionsExample;
@@ -30,6 +29,7 @@ import org.anddev.andengine.examples.TouchDragExample;
 import org.anddev.andengine.examples.TouchDragManyExample;
 import org.anddev.andengine.examples.UnloadTextureExample;
 import org.anddev.andengine.examples.ZoomExample;
+import org.anddev.andengine.examples.benchmark.ShapeModifierBenchmark;
 import org.anddev.andengine.examples.benchmark.SpriteBenchmark;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
@@ -62,7 +62,6 @@ enum Example {
 	SPLITSCREEN(SplitScreenExample.class, R.string.example_splitscreen),
 	SPRITE(SpriteExample.class, R.string.example_sprite),
 	SPRITEREMOVE(SpriteRemoveExample.class, R.string.example_spriteremove),
-	SPRITES(SpritesExample.class, R.string.example_sprites),
 	SUBMENU(SubMenuExample.class, R.string.example_submenu),
 	TEXT(TextExample.class, R.string.example_text),
 	TEXTUREOPTIONS(TextureOptionsExample.class, R.string.example_textureoptions),
@@ -71,8 +70,9 @@ enum Example {
 	TOUCHDRAGMANY(TouchDragManyExample.class, R.string.example_touchdragmany),
 	UNLOADTEXTURE(UnloadTextureExample.class, R.string.example_unloadtexture),
 	ZOOM(ZoomExample.class, R.string.example_zoom),
-	
-	BENCHMARK_SPRITES(SpriteBenchmark.class, R.string.example_benchmark_sprites);
+
+	BENCHMARK_SPRITES(SpriteBenchmark.class, R.string.example_benchmark_sprites),
+	BENCHMARK_SHAPEMODIFIER(ShapeModifierBenchmark.class, R.string.example_benchmark_shapemodifier);
 	
 	// ===========================================================
 	// Constants

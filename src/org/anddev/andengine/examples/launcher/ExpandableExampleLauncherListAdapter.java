@@ -32,16 +32,16 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 	};
 
 	private static final Example[][] EXAMPLES = {
-		{ Example.LINE, Example.RECTANGLE, Example.SPRITE, Example.SPRITEREMOVE, Example.SPRITES},
+		{ Example.LINE, Example.RECTANGLE, Example.SPRITE, Example.SPRITEREMOVE },
 		{ Example.SHAPEMODIFIER, Example.PATHMODIFIER, Example.MOVINGBALL, Example.ANIMATEDSPRITES },
 		{ Example.TOUCHDRAG, Example.TOUCHDRAGMANY },
 		{ Example.SPLITSCREEN, Example.PARTICLESYSTEM, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON },
 		{ Example.MULTIPLAYER },
 		{ Example.PHYSICS, Example.PHYSICSREMOVE },
-		{ Example.TEXT, Example.TICKERTEXT, Example.CUSTOMFONT},
+		{ Example.TEXT, Example.TICKERTEXT, Example.CUSTOMFONT },
 		{ Example.SOUND, Example.MUSIC },
 		{ Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTUREOPTIONS, Example.UNLOADTEXTURE, Example.ZOOM },
-		{ Example.BENCHMARK_SPRITES }
+		{ Example.BENCHMARK_SPRITES, Example.BENCHMARK_SHAPEMODIFIER }
 	};
 
 	// ===========================================================

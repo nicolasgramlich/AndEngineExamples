@@ -10,11 +10,11 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.Scene;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
+import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.opengl.vertex.RectangleVertexBuffer;
 
 /**
@@ -40,7 +40,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 	private Camera mCamera;
 	private Texture mTexture;
-	private TiledTextureRegion mFaceTextureRegion;
+	private TextureRegion mFaceTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -73,7 +73,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 	@Override
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);
 
 		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 	}
@@ -87,10 +87,10 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
 		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW);
-		sharedVertexBuffer.onUpdate(0, 0, this.mFaceTextureRegion.getTileWidth(), this.mFaceTextureRegion.getTileHeight());
+		sharedVertexBuffer.onUpdate(0, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
 
 		for(int i = 0; i < SPRITE_COUNT; i++) {
-			final AnimatedSprite face = new AnimatedSprite(random.nextFloat() * (CAMERA_WIDTH - 32), random.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
+			final Sprite face = new Sprite(random.nextFloat() * (CAMERA_WIDTH - 32), random.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
 			scene.getTopLayer().addEntity(face);
 		}
 

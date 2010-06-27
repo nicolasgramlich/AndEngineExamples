@@ -8,6 +8,7 @@
     	<item>5</item>
     	<item>6</item>
     	<item>7</item>
+    	<item>8</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -18,5 +19,6 @@
     	<item> - Fixed Menu Examples</item>
     	<item> - Line Example now with random line width\n - Zoom Example\n - SpriteRemove Example\n - Sprites Benchmark</item>
     	<item> - Benchmark results now can be submitted by mail</item>
+    	<item> - Removed SpritesExample\n - Added SpriteBenchmark</item>
     </string-array>
 </resources>
