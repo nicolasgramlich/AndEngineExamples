@@ -12,6 +12,7 @@ import org.anddev.andengine.examples.MusicExample;
 import org.anddev.andengine.examples.ParticleSystemExample;
 import org.anddev.andengine.examples.PathModifierExample;
 import org.anddev.andengine.examples.PauseExample;
+import org.anddev.andengine.examples.PhysicsJumpExample;
 import org.anddev.andengine.examples.PhysicsExample;
 import org.anddev.andengine.examples.PhysicsRemoveExample;
 import org.anddev.andengine.examples.R;
@@ -55,6 +56,7 @@ enum Example {
 	PATHMODIFIER(PathModifierExample.class, R.string.example_pathmodifier),
 	PARTICLESYSTEM(ParticleSystemExample.class, R.string.example_particlesystem),
 	PHYSICS(PhysicsExample.class, R.string.example_physics),
+	PHYSICSJUMP(PhysicsJumpExample.class, R.string.example_physicsjump),
 	PHYSICSREMOVE(PhysicsRemoveExample.class, R.string.example_physicsremove),
 	RECTANGLE(RectangleExample.class, R.string.example_rectangle),
 	SHAPEMODIFIER(ShapeModifierExample.class, R.string.example_shapemodifier),

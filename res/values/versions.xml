@@ -13,12 +13,12 @@
     
     <string-array name="new_in_version_changes">
     	<item> - Initial import</item>
-    	<item> - PathModifier Example</item>
-    	<item> - PhysicsRemove Example</item>
-    	<item> - Multiplayer Example\n - TouchDragMany Example</item>
+    	<item> - Added PathModifier Example</item>
+    	<item> - Added PhysicsRemove Example</item>
+    	<item> - Added Multiplayer Example\n - Added TouchDragMany Example</item>
     	<item> - Fixed Menu Examples</item>
-    	<item> - Line Example now with random line width\n - Zoom Example\n - SpriteRemove Example\n - Sprites Benchmark</item>
+    	<item> - Line Example now with random line width\n - Added Zoom Example\n - Added SpriteRemove Example\n - Added Sprites Benchmark</item>
     	<item> - Benchmark results now can be submitted by mail</item>
-    	<item> - Removed SpritesExample\n - Added SpriteBenchmark</item>
+    	<item> - Removed SpritesExample\n - Added SpriteBenchmark\n - Added PhysicsJump Example</item>
     </string-array>
 </resources>

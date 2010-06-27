@@ -35,6 +35,7 @@
 	<string name="example_pathmodifier">PathModifier Example</string>
 	<string name="example_particlesystem">ParticleSystem Example</string>
 	<string name="example_physics">Physics Example</string>
+	<string name="example_physicsjump">Physics Jump Example</string>
 	<string name="example_physicsremove">Physics Remove Example</string>
 	<string name="example_rectangle">Rectangle Example</string>
 	<string name="example_shapemodifier">ShapeModifier Example</string>

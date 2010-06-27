@@ -33,6 +33,7 @@
 		<activity android:name=".PathModifierExample" android:configChanges="orientation" />
 		<activity android:name=".PauseExample" android:configChanges="orientation" />
 		<activity android:name=".PhysicsExample" android:configChanges="orientation" />
+		<activity android:name=".PhysicsBulletExample" android:configChanges="orientation" />
 		<activity android:name=".PhysicsRemoveExample" android:configChanges="orientation" />
 		<activity android:name=".RectangleExample" android:configChanges="orientation" />
 		<activity android:name=".ShapeModifierExample" android:configChanges="orientation" />
