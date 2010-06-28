@@ -56,4 +56,5 @@
 	<string name="example_benchmark_animation">Animation Benchmark</string>
 	<string name="example_benchmark_shapemodifier">ShapeModifier Benchmark</string>
 	<string name="example_benchmark_sprite">Sprite Benchmark</string>
+	<string name="example_benchmark_tickertext">TickerText Benchmark</string>
 </resources>

@@ -10,6 +10,8 @@
     	<item>7</item>
     	<item>8</item>
     	<item>9</item>
+    	<item>10</item>
+    	<item>11</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -22,5 +24,7 @@
     	<item> - Benchmark results now can be submitted by mail</item>
     	<item> - Removed SpritesExample\n - New animation in AnimatedSpritesExample\n - Added PhysicsJump Example\n - Added SpriteBenchmark\n - Added AnimationBenchmark</item>
  		<item> - Made Benchmarks harder (so near-future devices do not already cap at 60 FPS)</item>
+ 		<item> - Possible performance fix for the Droid/Milestone</item>
+ 		<item> - Added TickerText Benchmark</item>
     </string-array>
 </resources>
