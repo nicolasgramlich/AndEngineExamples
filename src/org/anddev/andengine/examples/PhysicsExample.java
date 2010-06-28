@@ -117,7 +117,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 
 		final AnimatedSprite face;
 
-		if(this.mFaceCount % 2 == 1){
+		if(this.mFaceCount % 2 == 1) {
 			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
 			this.mPhysicsSpace.addDynamicBody(new DynamicPhysicsBody(face, 1, 0.5f, 0.5f, PhysicsShape.RECTANGLE, false));
 		} else {
@@ -126,7 +126,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 		}
 
 		final Scene scene = this.mEngine.getScene();
-		face.animate(new long[]{200,200}, 0, 1, true);
+		face.animate(new long[] { 200, 200 }, 0, 1, true);
 		scene.getTopLayer().addEntity(face);
 	}
 
