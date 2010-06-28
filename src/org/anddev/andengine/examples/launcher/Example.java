@@ -12,8 +12,8 @@ import org.anddev.andengine.examples.MusicExample;
 import org.anddev.andengine.examples.ParticleSystemExample;
 import org.anddev.andengine.examples.PathModifierExample;
 import org.anddev.andengine.examples.PauseExample;
-import org.anddev.andengine.examples.PhysicsJumpExample;
 import org.anddev.andengine.examples.PhysicsExample;
+import org.anddev.andengine.examples.PhysicsJumpExample;
 import org.anddev.andengine.examples.PhysicsRemoveExample;
 import org.anddev.andengine.examples.R;
 import org.anddev.andengine.examples.RectangleExample;
@@ -30,6 +30,7 @@ import org.anddev.andengine.examples.TouchDragExample;
 import org.anddev.andengine.examples.TouchDragManyExample;
 import org.anddev.andengine.examples.UnloadTextureExample;
 import org.anddev.andengine.examples.ZoomExample;
+import org.anddev.andengine.examples.benchmark.AnimationBenchmark;
 import org.anddev.andengine.examples.benchmark.ShapeModifierBenchmark;
 import org.anddev.andengine.examples.benchmark.SpriteBenchmark;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
@@ -73,8 +74,9 @@ enum Example {
 	UNLOADTEXTURE(UnloadTextureExample.class, R.string.example_unloadtexture),
 	ZOOM(ZoomExample.class, R.string.example_zoom),
 
-	BENCHMARK_SPRITES(SpriteBenchmark.class, R.string.example_benchmark_sprites),
-	BENCHMARK_SHAPEMODIFIER(ShapeModifierBenchmark.class, R.string.example_benchmark_shapemodifier);
+	BENCHMARK_ANIMATION(AnimationBenchmark.class, R.string.example_benchmark_animation),
+	BENCHMARK_SHAPEMODIFIER(ShapeModifierBenchmark.class, R.string.example_benchmark_shapemodifier),
+	BENCHMARK_SPRITE(SpriteBenchmark.class, R.string.example_benchmark_sprite);
 	
 	// ===========================================================
 	// Constants

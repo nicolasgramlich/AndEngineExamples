@@ -9,6 +9,7 @@
     	<item>6</item>
     	<item>7</item>
     	<item>8</item>
+    	<item>9</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -19,6 +20,7 @@
     	<item> - Fixed Menu Examples</item>
     	<item> - Line Example now with random line width\n - Added Zoom Example\n - Added SpriteRemove Example\n - Added Sprites Benchmark</item>
     	<item> - Benchmark results now can be submitted by mail</item>
-    	<item> - Removed SpritesExample\n - Added SpriteBenchmark\n - Added PhysicsJump Example</item>
+    	<item> - Removed SpritesExample\n - New animation in AnimatedSpritesExample\n - Added PhysicsJump Example\n - Added SpriteBenchmark\n - Added AnimationBenchmark</item>
+ 		<item> - Made Benchmarks harder (so near-future devices do not already cap at 60 FPS)</item>
     </string-array>
 </resources>

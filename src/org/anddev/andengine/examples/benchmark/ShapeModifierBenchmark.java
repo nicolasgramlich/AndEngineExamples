@@ -1,8 +1,7 @@
 package org.anddev.andengine.examples.benchmark;
 
-import java.util.Random;
-
 import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
@@ -24,6 +23,7 @@ import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.vertex.RectangleVertexBuffer;
 
 /**
  * @author Nicolas Gramlich
@@ -33,14 +33,11 @@ public class ShapeModifierBenchmark extends BaseBenchmark {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	/* Initializing the Random generator produces a comparable result over different versions. */
-	private static final long RANDOM_SEED = 1234567890;
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
-	
-	private static final int SPRITE_COUNT = 100;
+
+	private static final int SPRITE_COUNT = 200;
 
 	// ===========================================================
 	// Fields
@@ -61,15 +58,15 @@ public class ShapeModifierBenchmark extends BaseBenchmark {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
-	@Override
-	protected float getBenchmarkDuration() {
-		return 10;
-	}
 
 	@Override
 	protected float getBenchmarkStartOffset() {
 		return 2;
+	}
+
+	@Override
+	protected float getBenchmarkDuration() {
+		return 10;
 	}
 
 	@Override
@@ -94,33 +91,35 @@ public class ShapeModifierBenchmark extends BaseBenchmark {
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		final SequenceModifier shapeModifier = new SequenceModifier(
-			new RotateByModifier(2, 90),
-			new AlphaModifier(1.5f, 1, 0),
-			new AlphaModifier(1.5f, 0, 1),
-			new ScaleModifier(2.5f, 1, 0.5f),
-			new DelayModifier(0.5f),
-			new ParallelModifier(
-					new ScaleModifier(2f, 0.5f, 5),
-					new RotateByModifier(2, 90)
-			),
-			new ParallelModifier(
-					new ScaleModifier(2f, 5, 1),
-					new RotateModifier(2f, 180, 0)
-			)
+				new RotateByModifier(2, 90),
+				new AlphaModifier(1.5f, 1, 0),
+				new AlphaModifier(1.5f, 0, 1),
+				new ScaleModifier(2.5f, 1, 0.5f),
+				new DelayModifier(0.5f),
+				new ParallelModifier(
+						new ScaleModifier(2f, 0.5f, 5),
+						new RotateByModifier(2, 90)
+				),
+				new ParallelModifier(
+						new ScaleModifier(2f, 5, 1),
+						new RotateModifier(2f, 180, 0)
+				)
 		);
 
-		final Random random = new Random(RANDOM_SEED);
+		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
+		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW);
+		sharedVertexBuffer.onUpdate(0, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
 
 		for(int i = 0; i < SPRITE_COUNT; i++) {
-			final Rectangle rect = new Rectangle((CAMERA_WIDTH - 32) * random.nextFloat(), (CAMERA_HEIGHT - 32) * random.nextFloat(), 32, 32);
+			final Rectangle rect = new Rectangle((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), 32, 32, sharedVertexBuffer);
 			rect.setColor(1, 0, 0);
 			rect.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-	
-			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * random.nextFloat(), (CAMERA_HEIGHT - 32) * random.nextFloat(), this.mFaceTextureRegion);
-	
+
+			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, sharedVertexBuffer);
+
 			face.addShapeModifier(shapeModifier.clone());
 			rect.addShapeModifier(shapeModifier.clone());
-	
+
 			scene.getTopLayer().addEntity(face);
 			scene.getTopLayer().addEntity(rect);
 		}

@@ -1,5 +1,7 @@
 package org.anddev.andengine.examples.benchmark;
 
+import java.util.Random;
+
 import org.anddev.andengine.entity.handler.timer.ITimerCallback;
 import org.anddev.andengine.entity.handler.timer.TimerHandler;
 import org.anddev.andengine.entity.util.FPSCounter;
@@ -25,6 +27,9 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	/* Initializing the Random generator produces a comparable result over different versions. */
+	private static final long RANDOM_SEED = 1234567890;
 
 	private static final int DIALOG_SHOW_RESULT = 1;
 
@@ -33,6 +38,8 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 	// ===========================================================
 
 	private float mFPS;
+
+	protected final Random mRandom = new Random(RANDOM_SEED);
 
 	// ===========================================================
 	// Constructors
@@ -88,9 +95,9 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 		switch(pID) {
 			case DIALOG_SHOW_RESULT:
 				return new AlertDialog.Builder(this)
-				.setTitle(this.getClass().getSimpleName() + "-Results")
-				.setMessage(String.format("FPS: %.2f", this.mFPS))
-				.setPositiveButton("Submit", new OnClickListener() {
+				.setTitle(this.getClass().getSimpleName())
+				.setMessage(String.format("Result: %.2f FPS", this.mFPS))
+				.setPositiveButton("Submit (Please!)", new OnClickListener() {
 					@Override
 					public void onClick(final DialogInterface pDialog, final int pWhich) {
 						BaseBenchmark.this.sendResultMail();

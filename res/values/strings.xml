@@ -53,6 +53,7 @@
 	<string name="example_zoom">Zoom Example</string>
 	
 	<!-- Benchmarks -->
-	<string name="example_benchmark_sprites">Sprites Benchmark</string>
+	<string name="example_benchmark_animation">Animation Benchmark</string>
 	<string name="example_benchmark_shapemodifier">ShapeModifier Benchmark</string>
+	<string name="example_benchmark_sprite">Sprite Benchmark</string>
 </resources>
