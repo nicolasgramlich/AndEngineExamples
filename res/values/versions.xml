@@ -13,6 +13,7 @@
     	<item>10</item>
     	<item>11</item>
     	<item>12</item>
+    	<item>13</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -28,5 +29,6 @@
  		<item> - Added possible performance fix for the Droid/Milestone</item>
  		<item> - Added TickerText Benchmark</item>
  		<item> - Added ParticleSystemCool Example\n - Added ParticleSystemNexus Example\n - Added ParticleSystem Benchmark</item>
+ 		<item> - Added ImageFormat Example (PNG, JPG, GIF, BMP)</item>
     </string-array>
 </resources>
