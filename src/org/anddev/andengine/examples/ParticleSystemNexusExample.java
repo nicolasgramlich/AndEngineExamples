@@ -1,4 +1,4 @@
-package org.anddev.andengine.examples.benchmark;
+package org.anddev.andengine.examples;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -17,6 +17,7 @@ import org.anddev.andengine.entity.particle.modifier.ExpireModifier;
 import org.anddev.andengine.entity.particle.modifier.RotateInitializer;
 import org.anddev.andengine.entity.particle.modifier.ScaleModifier;
 import org.anddev.andengine.entity.particle.modifier.VelocityInitializer;
+import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
@@ -24,17 +25,17 @@ import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
 /**
  * @author Nicolas Gramlich
- * @since 09:27:21 - 29.06.2010
+ * @since 16:44:30 - 29.06.2010
  */
-public class ParticleSystemBenchmark extends BaseBenchmark {
+public class ParticleSystemNexusExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	private static final int CAMERA_WIDTH = 480;
 	private static final int CAMERA_HEIGHT = 320;
-	private static final float RATE_MIN = 15;
-	private static final float RATE_MAX = 20;
+	private static final float RATE_MIN = 8;
+	private static final float RATE_MAX = 12;
 	private static final int PARTICLES_MAX = 200;
 
 	// ===========================================================
@@ -58,16 +59,6 @@ public class ParticleSystemBenchmark extends BaseBenchmark {
 	// ===========================================================
 
 	@Override
-	protected float getBenchmarkStartOffset() {
-		return 5;
-	}
-
-	@Override
-	protected float getBenchmarkDuration() {
-		return 15;
-	}
-
-	@Override
 	public Engine onLoadEngine() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, false));
@@ -84,6 +75,8 @@ public class ParticleSystemBenchmark extends BaseBenchmark {
 
 	@Override
 	public Scene onLoadScene() {
+		this.getEngine().registerPreFrameHandler(new FPSLogger());
+
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.0f, 0.0f, 0.0f);
 
@@ -147,7 +140,7 @@ public class ParticleSystemBenchmark extends BaseBenchmark {
 			particleSystem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 
 			particleSystem.addParticleInitializer(new VelocityInitializer(-35, -45, 0, 10));
-			particleSystem.addParticleInitializer(new AccelerationInitializer(-5, 12));
+			particleSystem.addParticleInitializer(new AccelerationInitializer(-5, 11));
 			particleSystem.addParticleInitializer(new RotateInitializer(0.0f, 360.0f));
 			particleSystem.addParticleInitializer(new ColorInitializer(1.0f, 0.0f, 0.0f));
 
@@ -160,6 +153,11 @@ public class ParticleSystemBenchmark extends BaseBenchmark {
 		}
 
 		return scene;
+	}
+
+	@Override
+	public void onLoadComplete() {
+
 	}
 
 	// ===========================================================

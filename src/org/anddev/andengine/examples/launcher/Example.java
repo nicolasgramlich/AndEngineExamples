@@ -9,6 +9,7 @@ import org.anddev.andengine.examples.MenuExample;
 import org.anddev.andengine.examples.MovingBallExample;
 import org.anddev.andengine.examples.MultiplayerExample;
 import org.anddev.andengine.examples.MusicExample;
+import org.anddev.andengine.examples.ParticleSystemNexusExample;
 import org.anddev.andengine.examples.ParticleSystemCoolExample;
 import org.anddev.andengine.examples.ParticleSystemSimpleExample;
 import org.anddev.andengine.examples.PathModifierExample;
@@ -58,6 +59,7 @@ enum Example {
 	MUSIC(MusicExample.class, R.string.example_music),
 	PAUSE(PauseExample.class, R.string.example_pause),
 	PATHMODIFIER(PathModifierExample.class, R.string.example_pathmodifier),
+	PARTICLESYSTEMNEXUS(ParticleSystemNexusExample.class, R.string.example_particlesystemnexus),
 	PARTICLESYSTEMCOOL(ParticleSystemCoolExample.class, R.string.example_particlesystemcool),
 	PARTICLESYSTEMSIMPLE(ParticleSystemSimpleExample.class, R.string.example_particlesystemsimple),
 	PHYSICS(PhysicsExample.class, R.string.example_physics),

@@ -30,6 +30,7 @@
 		<activity android:name=".MultiplayerExample" android:configChanges="orientation" />
 		<activity android:name=".MusicExample" android:configChanges="orientation" />
 		<activity android:name=".ParticleSystemCoolExample" android:configChanges="orientation" />
+		<activity android:name=".ParticleSystemNexusExample" android:configChanges="orientation" />
 		<activity android:name=".ParticleSystemSimpleExample" android:configChanges="orientation" />
 		<activity android:name=".PathModifierExample" android:configChanges="orientation" />
 		<activity android:name=".PauseExample" android:configChanges="orientation" />

@@ -25,8 +25,8 @@
     	<item> - Benchmark results now can be submitted by mail</item>
     	<item> - Removed SpritesExample\n - New animation in AnimatedSpritesExample\n - Added PhysicsJump Example\n - Added SpriteBenchmark\n - Added AnimationBenchmark</item>
  		<item> - Made Benchmarks harder (so near-future devices do not already cap at 60 FPS)</item>
- 		<item> - Possible performance fix for the Droid/Milestone</item>
+ 		<item> - Added possible performance fix for the Droid/Milestone</item>
  		<item> - Added TickerText Benchmark</item>
- 		<item> - Added ParticleSystemCool Example\n - Added ParticleSystem Benchmark</item>
+ 		<item> - Added ParticleSystemCool Example\n - Added ParticleSystemNexus Example\n - Added ParticleSystem Benchmark</item>
     </string-array>
 </resources>
