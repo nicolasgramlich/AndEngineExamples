@@ -12,6 +12,7 @@
     	<item>9</item>
     	<item>10</item>
     	<item>11</item>
+    	<item>12</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -26,5 +27,6 @@
  		<item> - Made Benchmarks harder (so near-future devices do not already cap at 60 FPS)</item>
  		<item> - Possible performance fix for the Droid/Milestone</item>
  		<item> - Added TickerText Benchmark</item>
+ 		<item> - Added ParticleSystemCool Example\n - Added ParticleSystem Benchmark</item>
     </string-array>
 </resources>

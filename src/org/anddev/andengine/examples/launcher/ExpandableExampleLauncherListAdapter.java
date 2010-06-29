@@ -22,11 +22,12 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		ExampleGroup.SIMPLE,
 		ExampleGroup.MODIFIER_AND_ANIMATION,
 		ExampleGroup.TOUCH,
-		ExampleGroup.ADVANCED,
+		ExampleGroup.PARTICLESYSTEMS,
 		ExampleGroup.MULTIPLAYER,
 		ExampleGroup.PHYSICS,
 		ExampleGroup.TEXT,
 		ExampleGroup.AUDIO,
+		ExampleGroup.ADVANCED,
 		ExampleGroup.OTHERS,
 		ExampleGroup.BENCHMARKS
 	};
@@ -35,13 +36,14 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		{ Example.LINE, Example.RECTANGLE, Example.SPRITE, Example.SPRITEREMOVE },
 		{ Example.SHAPEMODIFIER, Example.PATHMODIFIER, Example.MOVINGBALL, Example.ANIMATEDSPRITES },
 		{ Example.TOUCHDRAG, Example.TOUCHDRAGMANY },
-		{ Example.SPLITSCREEN, Example.PARTICLESYSTEM, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON },
+		{ Example.PARTICLESYSTEMSIMPLE, Example.PARTICLESYSTEMCOOL },
 		{ Example.MULTIPLAYER },
 		{ Example.PHYSICS, Example.PHYSICSJUMP, Example.PHYSICSREMOVE },
 		{ Example.TEXT, Example.TICKERTEXT, Example.CUSTOMFONT },
 		{ Example.SOUND, Example.MUSIC },
+		{ Example.SPLITSCREEN, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON },
 		{ Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTUREOPTIONS, Example.UNLOADTEXTURE, Example.ZOOM },
-		{ Example.BENCHMARK_SPRITE, Example.BENCHMARK_SHAPEMODIFIER, Example.BENCHMARK_ANIMATION, Example.BENCHMARK_TICKERTEXT }
+		{ Example.BENCHMARK_SPRITE, Example.BENCHMARK_SHAPEMODIFIER, Example.BENCHMARK_ANIMATION, Example.BENCHMARK_TICKERTEXT, Example.BENCHMARK_PARTICLESYSTEM }
 	};
 
 	// ===========================================================

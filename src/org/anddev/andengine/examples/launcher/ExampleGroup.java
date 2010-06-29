@@ -15,11 +15,12 @@ public enum ExampleGroup {
 	SIMPLE(R.string.examplegroup_simple),
 	MODIFIER_AND_ANIMATION(R.string.examplegroup_modifier_and_animation),
 	TOUCH(R.string.examplegroup_touch),
-	ADVANCED(R.string.examplegroup_advanced),
+	PARTICLESYSTEMS(R.string.examplegroup_particlesystems),
 	MULTIPLAYER(R.string.examplegroup_multiplayer),
 	PHYSICS(R.string.examplegroup_physics),
 	TEXT(R.string.examplegroup_text),
 	AUDIO(R.string.examplegroup_audio),
+	ADVANCED(R.string.examplegroup_advanced),
 	OTHERS(R.string.examplegroup_others),
 	BENCHMARKS(R.string.examplegroup_benchmarks);
 

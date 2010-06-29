@@ -9,7 +9,8 @@ import org.anddev.andengine.examples.MenuExample;
 import org.anddev.andengine.examples.MovingBallExample;
 import org.anddev.andengine.examples.MultiplayerExample;
 import org.anddev.andengine.examples.MusicExample;
-import org.anddev.andengine.examples.ParticleSystemExample;
+import org.anddev.andengine.examples.ParticleSystemCoolExample;
+import org.anddev.andengine.examples.ParticleSystemSimpleExample;
 import org.anddev.andengine.examples.PathModifierExample;
 import org.anddev.andengine.examples.PauseExample;
 import org.anddev.andengine.examples.PhysicsExample;
@@ -31,6 +32,7 @@ import org.anddev.andengine.examples.TouchDragManyExample;
 import org.anddev.andengine.examples.UnloadTextureExample;
 import org.anddev.andengine.examples.ZoomExample;
 import org.anddev.andengine.examples.benchmark.AnimationBenchmark;
+import org.anddev.andengine.examples.benchmark.ParticleSystemBenchmark;
 import org.anddev.andengine.examples.benchmark.ShapeModifierBenchmark;
 import org.anddev.andengine.examples.benchmark.SpriteBenchmark;
 import org.anddev.andengine.examples.benchmark.TickerTextBenchmark;
@@ -56,7 +58,8 @@ enum Example {
 	MUSIC(MusicExample.class, R.string.example_music),
 	PAUSE(PauseExample.class, R.string.example_pause),
 	PATHMODIFIER(PathModifierExample.class, R.string.example_pathmodifier),
-	PARTICLESYSTEM(ParticleSystemExample.class, R.string.example_particlesystem),
+	PARTICLESYSTEMCOOL(ParticleSystemCoolExample.class, R.string.example_particlesystemcool),
+	PARTICLESYSTEMSIMPLE(ParticleSystemSimpleExample.class, R.string.example_particlesystemsimple),
 	PHYSICS(PhysicsExample.class, R.string.example_physics),
 	PHYSICSJUMP(PhysicsJumpExample.class, R.string.example_physicsjump),
 	PHYSICSREMOVE(PhysicsRemoveExample.class, R.string.example_physicsremove),
@@ -76,6 +79,7 @@ enum Example {
 	ZOOM(ZoomExample.class, R.string.example_zoom),
 
 	BENCHMARK_ANIMATION(AnimationBenchmark.class, R.string.example_benchmark_animation),
+	BENCHMARK_PARTICLESYSTEM(ParticleSystemBenchmark.class, R.string.example_benchmark_particlesystem),
 	BENCHMARK_SHAPEMODIFIER(ShapeModifierBenchmark.class, R.string.example_benchmark_shapemodifier),
 	BENCHMARK_SPRITE(SpriteBenchmark.class, R.string.example_benchmark_sprite),
 	BENCHMARK_TICKERTEXT(TickerTextBenchmark.class, R.string.example_benchmark_tickertext);
