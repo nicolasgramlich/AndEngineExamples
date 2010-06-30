@@ -74,7 +74,6 @@ public class UnloadTextureExample extends BaseExample {
 		final int x = (CAMERA_WIDTH - this.mClickToUnloadTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mClickToUnloadTextureRegion.getHeight()) / 2;
 		final Sprite clickToUnload = new Sprite(x, y, this.mClickToUnloadTextureRegion);
-		clickToUnload.setColor(0.0f, 1.0f, 0.0f);
 		scene.getTopLayer().addEntity(clickToUnload);
 
 		scene.registerTouchArea(clickToUnload);
