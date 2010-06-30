@@ -57,6 +57,7 @@
 		
 		<activity android:name=".benchmark.AnimationBenchmark" android:configChanges="orientation" />
 		<activity android:name=".benchmark.ParticleSystemBenchmark" android:configChanges="orientation" />
+		<activity android:name=".benchmark.PhysicsBenchmark" android:configChanges="orientation" />
 		<activity android:name=".benchmark.ShapeModifierBenchmark" android:configChanges="orientation" />
 		<activity android:name=".benchmark.SpriteBenchmark" android:configChanges="orientation" />
 		<activity android:name=".benchmark.TickerTextBenchmark" android:configChanges="orientation" />

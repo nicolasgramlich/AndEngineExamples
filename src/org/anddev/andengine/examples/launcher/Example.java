@@ -11,8 +11,8 @@ import org.anddev.andengine.examples.MenuExample;
 import org.anddev.andengine.examples.MovingBallExample;
 import org.anddev.andengine.examples.MultiplayerExample;
 import org.anddev.andengine.examples.MusicExample;
-import org.anddev.andengine.examples.ParticleSystemNexusExample;
 import org.anddev.andengine.examples.ParticleSystemCoolExample;
+import org.anddev.andengine.examples.ParticleSystemNexusExample;
 import org.anddev.andengine.examples.ParticleSystemSimpleExample;
 import org.anddev.andengine.examples.PathModifierExample;
 import org.anddev.andengine.examples.PauseExample;
@@ -37,6 +37,7 @@ import org.anddev.andengine.examples.UpdateTextureExample;
 import org.anddev.andengine.examples.ZoomExample;
 import org.anddev.andengine.examples.benchmark.AnimationBenchmark;
 import org.anddev.andengine.examples.benchmark.ParticleSystemBenchmark;
+import org.anddev.andengine.examples.benchmark.PhysicsBenchmark;
 import org.anddev.andengine.examples.benchmark.ShapeModifierBenchmark;
 import org.anddev.andengine.examples.benchmark.SpriteBenchmark;
 import org.anddev.andengine.examples.benchmark.TickerTextBenchmark;
@@ -88,6 +89,7 @@ enum Example {
 
 	BENCHMARK_ANIMATION(AnimationBenchmark.class, R.string.example_benchmark_animation),
 	BENCHMARK_PARTICLESYSTEM(ParticleSystemBenchmark.class, R.string.example_benchmark_particlesystem),
+	BENCHMARK_PHYSICS(PhysicsBenchmark.class, R.string.example_benchmark_physics),
 	BENCHMARK_SHAPEMODIFIER(ShapeModifierBenchmark.class, R.string.example_benchmark_shapemodifier),
 	BENCHMARK_SPRITE(SpriteBenchmark.class, R.string.example_benchmark_sprite),
 	BENCHMARK_TICKERTEXT(TickerTextBenchmark.class, R.string.example_benchmark_tickertext);

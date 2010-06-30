@@ -80,7 +80,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
-		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW);
+		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_STATIC_DRAW);
 		sharedVertexBuffer.onUpdate(0, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
 
 		final Layer topLayer = scene.getTopLayer();
