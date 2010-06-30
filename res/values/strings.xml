@@ -29,6 +29,7 @@
 	<string name="example_customfont">Using a Custom Font</string>
 	<string name="example_imageformats">Using ImageFormats (PNG, JPG, GIF, BMP)</string>
 	<string name="example_line">Drawing Lines</string>
+	<string name="example_loadtexture">Load Texture Dynamic</string>
 	<string name="example_menu">Using Menus</string>
 	<string name="example_movingball">A Moving Ball</string>
 	<string name="example_multiplayer">Multiplayer Example</string>
@@ -53,7 +54,8 @@
 	<string name="example_tickertext">Drawing a TickerText</string>
 	<string name="example_touchdrag">Touch &amp; Drag Sprites</string>
 	<string name="example_touchdragmany">Touch &amp; Drag Multiple Sprites</string>
-	<string name="example_unloadtexture">Unloading Textures</string>
+	<string name="example_unloadtexture">Unloading Textures Dynamic</string>
+	<string name="example_updatetexture">Updating Textures Dynamic</string>
 	<string name="example_zoom">Using a ZoomCamera</string>
 	
 	<!-- Benchmarks -->

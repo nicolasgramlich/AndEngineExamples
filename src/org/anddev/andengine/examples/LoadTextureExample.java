@@ -5,30 +5,30 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.Layer;
 import org.anddev.andengine.entity.Scene;
+import org.anddev.andengine.entity.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.Texture.ITextureStateListener;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.opengl.texture.source.ITextureSource;
+import org.anddev.andengine.util.MathUtils;
 
+import android.view.MotionEvent;
 import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
- * @since 11:54:51 - 03.04.2010
+ * @since 12:14:29 - 30.06.2010
  */
-public class ImageFormatsExample extends BaseExample {
+public class LoadTextureExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	private static final int CAMERA_WIDTH = 480;
-	private static final int CAMERA_HEIGHT = 320;
+	private static final int CAMERA_WIDTH = 720;
+	private static final int CAMERA_HEIGHT = 480;
 
 	// ===========================================================
 	// Fields
@@ -36,10 +36,6 @@ public class ImageFormatsExample extends BaseExample {
 
 	private Camera mCamera;
 	private Texture mTexture;
-	private TextureRegion mPngTextureRegion;
-	private TextureRegion mJpgTextureRegion;
-	private TextureRegion mGifTextureRegion;
-	private TextureRegion mBmpTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -55,31 +51,14 @@ public class ImageFormatsExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
-		Toast.makeText(this, "GIF is not supported yet. Use PNG instead, it's the better format anyway!", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Touch the screen to load a completely new Texture with every touch!", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, false));
 	}
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR, new ITextureStateListener.TextureStateAdapter() {
-			@Override
-			public void onTextureSourceLoadExeption(final Texture pTexture, final ITextureSource pTextureSource, final Throwable pThrowable) {
-				ImageFormatsExample.this.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						Toast.makeText(ImageFormatsExample.this, "Failed loading TextureSource: " + pTextureSource.toString(), Toast.LENGTH_LONG).show();
-					}
-				});
-			}
-		});
-
-		this.mPngTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_png.png", 0, 0);
-		this.mJpgTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_jpg.jpg", 49, 0);
-		this.mGifTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_gif.gif", 0, 49);
-		this.mBmpTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_bmp.bmp", 49, 49);
-
-		this.getEngine().getTextureManager().loadTexture(this.mTexture);
+		/* Nothing done here. */
 	}
 
 	@Override
@@ -89,13 +68,16 @@ public class ImageFormatsExample extends BaseExample {
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
-		/* Create the icons and add them to the scene. */
-		final Layer topLayer = scene.getTopLayer();
+		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
+			@Override
+			public boolean onSceneTouchEvent(final Scene pScene, final MotionEvent pSceneMotionEvent) {
+				if(pSceneMotionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+					LoadTextureExample.this.loadNewTexture();
+				}
 
-		topLayer.addEntity(new Sprite(160 - 24, 106 - 24, this.mPngTextureRegion));
-		topLayer.addEntity(new Sprite(160 - 24, 213 - 24, this.mJpgTextureRegion));
-		topLayer.addEntity(new Sprite(320 - 24, 106 - 24, this.mGifTextureRegion));
-		topLayer.addEntity(new Sprite(320 - 24, 213 - 24, this.mBmpTextureRegion));
+				return true;
+			}
+		});
 
 		return scene;
 	}
@@ -108,6 +90,18 @@ public class ImageFormatsExample extends BaseExample {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	private void loadNewTexture() {
+		this.mTexture  = new Texture(32, 32, TextureOptions.BILINEAR);
+		final TextureRegion faceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);
+
+		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+
+		final float x = (CAMERA_WIDTH - faceTextureRegion.getWidth()) * MathUtils.RANDOM.nextFloat();
+		final float y = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) * MathUtils.RANDOM.nextFloat();
+		final Sprite clickToUnload = new Sprite(x, y, faceTextureRegion);
+		this.mEngine.getScene().getTopLayer().addEntity(clickToUnload);
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
