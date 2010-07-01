@@ -106,7 +106,7 @@ public class MovingBallExample extends BaseExample {
 			
 			if(this.mY < 0) {
 				this.mVelocityY = DEMO_VELOCITY;
-			} else if(this.mY + this.getWidth() > CAMERA_HEIGHT) {
+			} else if(this.mY + this.getHeight() > CAMERA_HEIGHT) {
 				this.mVelocityY = -DEMO_VELOCITY;				
 			}
 			
