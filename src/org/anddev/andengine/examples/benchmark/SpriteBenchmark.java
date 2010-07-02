@@ -51,6 +51,11 @@ public class SpriteBenchmark extends BaseBenchmark {
 	// ===========================================================
 
 	@Override
+	protected int getBenchmarkID() {
+		return SPRITEBENCHMARK_ID;
+	}
+
+	@Override
 	protected float getBenchmarkStartOffset() {
 		return 2;
 	}

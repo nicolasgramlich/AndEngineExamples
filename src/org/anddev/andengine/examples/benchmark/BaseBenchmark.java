@@ -1,23 +1,37 @@
 package org.anddev.andengine.examples.benchmark;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Callable;
 
 import org.anddev.andengine.entity.handler.timer.ITimerCallback;
 import org.anddev.andengine.entity.handler.timer.TimerHandler;
 import org.anddev.andengine.entity.util.FPSCounter;
 import org.anddev.andengine.opengl.GLHelper;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
+import org.anddev.andengine.util.Callback;
 import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.StreamUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.telephony.TelephonyManager;
+import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
@@ -27,11 +41,20 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	/* Initializing the Random generator produces a comparable result over different versions. */
 	private static final long RANDOM_SEED = 1234567890;
 
 	private static final int DIALOG_SHOW_RESULT = 1;
+
+	private static final String SUBMIT_URL = "http://www.andengine.org/sys/benchmark/submit.php";
+
+	protected static final int ANIMATIONBENCHMARK_ID = 0;
+	protected static final int PARTICLESYSTEMBENCHMARK_ID = ANIMATIONBENCHMARK_ID + 1;
+	protected static final int PHYSICSBENCHMARK_ID = PARTICLESYSTEMBENCHMARK_ID + 1;
+	protected static final int SHAPEMODIFIERBENCHMARK_ID = PHYSICSBENCHMARK_ID + 1;
+	protected static final int SPRITEBENCHMARK_ID = SHAPEMODIFIERBENCHMARK_ID + 1;
+	protected static final int TICKERTEXTBENCHMARK_ID = SPRITEBENCHMARK_ID + 1;
 
 	// ===========================================================
 	// Fields
@@ -62,6 +85,8 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+
+	protected abstract int getBenchmarkID();
 
 	protected abstract float getBenchmarkDuration();
 
@@ -100,8 +125,7 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 				.setPositiveButton("Submit (Please!)", new OnClickListener() {
 					@Override
 					public void onClick(final DialogInterface pDialog, final int pWhich) {
-						BaseBenchmark.this.sendResultMail();
-						BaseBenchmark.this.finish();
+						BaseBenchmark.this.submitResults();
 					}
 				})
 				.setNegativeButton(android.R.string.cancel, new OnClickListener() {
@@ -120,56 +144,73 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 	// Methods
 	// ===========================================================
 
-	private void sendResultMail() {
-		final StringBuilder mailBodyBuilder = new StringBuilder();
-		mailBodyBuilder
-			.append("------ AndEngine Info ------\n")
-			.append("AndEngineExamples (").append(getVersionName(this)).append(" | v.").append(getVersionCode(this)).append(")").append("\n\n")
-			.append("Example: ").append(this.getClass().getSimpleName()).append("\n")
-			.append("FPS: ").append(this.mFPS).append("\n\n")
-			.append("VBO-Extension: ").append(GLHelper.EXTENSIONS_VERTEXBUFFEROBJECTS).append("\n")
-			.append("DrawTexture-Extension: ").append(GLHelper.EXTENSIONS_DRAWTEXTURE).append("\n\n")
-			.append("------ Device Info ------\n")
-			.append("Model: ").append(Build.MODEL).append("\n")
-			.append("Android-Version: ").append(Build.VERSION.RELEASE).append("\n")
-			.append("SDK: ").append(Build.VERSION.SDK).append("\n")
-			.append("Manufacturer: ").append(Build.MANUFACTURER).append("\n")
-			.append("Brand: ").append(Build.BRAND).append("\n")
-			.append("Build-ID: ").append(Build.ID).append("\n")
-			.append("Build: ").append(Build.DISPLAY).append("\n")
-			.append("Device: ").append(Build.DEVICE).append("\n")
-			.append("Product: ").append(Build.PRODUCT).append("\n")
-			.append("CPU-ABI: ").append(Build.CPU_ABI).append("\n")
-			.append("Board: ").append(Build.BOARD).append("\n")
-			.append("Fingerprint: ").append(Build.FINGERPRINT);
-		
-		final String mailBody = mailBodyBuilder.toString();
-		
-		/* Pseudo-Checksum that makes faking this a little harder. */
-		final int checksum = mailBody.hashCode();
-		
-		sendMail(this, mailBody + "\n\nChecksum: " + checksum, "AndEngine Benchmark: " + this.getClass().getSimpleName(), "benchmarks@andengine.org");
+	private void submitResults() {
+		this.doAsync(android.R.string.ok, android.R.string.ok, new Callable<Boolean>() {
+
+			@Override
+			public Boolean call() throws Exception {
+				// Create a new HttpClient and Post Header
+				final HttpClient httpClient = new DefaultHttpClient();
+				final HttpPost httpPost = new HttpPost(SUBMIT_URL);
+
+				// Add your data
+				final List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(18);
+				nameValuePairs.add(new BasicNameValuePair("benchmark_id", String.valueOf(BaseBenchmark.this.getBenchmarkID())));
+				nameValuePairs.add(new BasicNameValuePair("benchmark_versionname", BaseBenchmark.getVersionName(BaseBenchmark.this)));
+				nameValuePairs.add(new BasicNameValuePair("benchmark_versioncode", String.valueOf(BaseBenchmark.getVersionCode(BaseBenchmark.this))));
+				nameValuePairs.add(new BasicNameValuePair("benchmark_fps", String.valueOf(BaseBenchmark.this.mFPS).replace(",", ".")));
+				nameValuePairs.add(new BasicNameValuePair("device_model", Build.MODEL));
+				nameValuePairs.add(new BasicNameValuePair("device_android_version", Build.VERSION.RELEASE));
+				nameValuePairs.add(new BasicNameValuePair("device_sdk_version", String.valueOf(Build.VERSION.SDK_INT)));
+				nameValuePairs.add(new BasicNameValuePair("device_manufacturer", Build.MANUFACTURER));
+				nameValuePairs.add(new BasicNameValuePair("device_brand", Build.BRAND));
+				nameValuePairs.add(new BasicNameValuePair("device_build_id", Build.ID));
+				nameValuePairs.add(new BasicNameValuePair("device_build", Build.DISPLAY));
+				nameValuePairs.add(new BasicNameValuePair("device_device", Build.DEVICE));
+				nameValuePairs.add(new BasicNameValuePair("device_product", Build.PRODUCT));
+				nameValuePairs.add(new BasicNameValuePair("device_cpuabi", Build.CPU_ABI));
+				nameValuePairs.add(new BasicNameValuePair("device_board", Build.BOARD));
+				nameValuePairs.add(new BasicNameValuePair("device_fingerprint", Build.FINGERPRINT));
+				nameValuePairs.add(new BasicNameValuePair("benchmark_extension_vbo", GLHelper.EXTENSIONS_VERTEXBUFFEROBJECTS ? "1" : "0"));
+				nameValuePairs.add(new BasicNameValuePair("benchmark_extension_drawtexture", GLHelper.EXTENSIONS_DRAWTEXTURE ? "1" : "0"));
+				final TelephonyManager telephonyManager = (TelephonyManager)BaseBenchmark.this.getSystemService(Context.TELEPHONY_SERVICE);
+				nameValuePairs.add(new BasicNameValuePair("device_imei", telephonyManager.getDeviceId()));
+
+				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+				// Execute HTTP Post Request
+				final HttpResponse response = httpClient.execute(httpPost);
+
+				final int statusCode = response.getStatusLine().getStatusCode();
+				
+				Debug.d(StreamUtils.readFully(response.getEntity().getContent()));
+
+				if(statusCode == HttpStatus.SC_OK) {
+					return true;
+				} else {
+					throw new RuntimeException();
+				}
+			}
+		}, new Callback<Boolean>() {
+			@Override
+			public void onCallback(final Boolean pCallbackValue) {
+				BaseBenchmark.this.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(BaseBenchmark.this, "Success", Toast.LENGTH_LONG).show();
+						BaseBenchmark.this.finish();
+					}
+				});
+			}
+		}, new Callback<Throwable>() {
+			@Override
+			public void onCallback(Throwable pCallbackValue) {
+				Debug.e(pCallbackValue);
+				BaseBenchmark.this.finish();				
+			}
+		});
 	}
-	
-	private static void sendMail(final Context pCtx, final String pBody, final String pSubject, final String ... pReceivers) {
-		final Intent mailIntent = new Intent(android.content.Intent.ACTION_SEND);
-		mailIntent.setType("plain/text");
 
-		if(pReceivers != null && pReceivers.length > 0) {
-			mailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, pReceivers);
-		}
-
-		if(pSubject != null) {
-			mailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, pSubject);
-		}
-
-		if(pBody != null) {
-			mailIntent.putExtra(android.content.Intent.EXTRA_TEXT, pBody);
-		}
-
-		pCtx.startActivity(Intent.createChooser(mailIntent, "Select Mail Client"));
-	}
-	
 	public static String getVersionName(final Context ctx) {
 		try {
 			final PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
@@ -179,7 +220,7 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 			return "?";
 		}
 	}
-	
+
 	public static int getVersionCode(final Context ctx) {
 		try {
 			final PackageInfo pi = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);

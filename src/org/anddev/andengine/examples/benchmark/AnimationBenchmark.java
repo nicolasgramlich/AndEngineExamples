@@ -9,7 +9,6 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
-import org.anddev.andengine.opengl.GLHelper;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
@@ -56,6 +55,11 @@ public class AnimationBenchmark extends BaseBenchmark {
 	// ===========================================================
 
 	@Override
+	protected int getBenchmarkID() {
+		return ANIMATIONBENCHMARK_ID;
+	}
+
+	@Override
 	protected float getBenchmarkStartOffset() {
 		return 2;
 	}
@@ -67,9 +71,10 @@ public class AnimationBenchmark extends BaseBenchmark {
 
 	@Override
 	public Engine onLoadEngine() {
-		GLHelper.EXTENSIONS_VERTEXBUFFEROBJECTS_FORCE_DISABLE = true;
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, false));
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, false);
+		engineOptions.getRenderHints().disableExtensionVertexBufferObjects();
+		return new Engine(engineOptions);
 	}
 
 	@Override

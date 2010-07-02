@@ -11,7 +11,6 @@ import org.anddev.andengine.entity.handler.timer.ITimerCallback;
 import org.anddev.andengine.entity.handler.timer.TimerHandler;
 import org.anddev.andengine.entity.primitives.Rectangle;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
-import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.Box2DPhysicsSpace;
 import org.anddev.andengine.extension.physics.box2d.adt.DynamicPhysicsBody;
 import org.anddev.andengine.extension.physics.box2d.adt.PhysicsShape;
@@ -35,6 +34,7 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
+	
 	private static final int COUNT_HORIZONTAL = 17;
 	private static final int COUNT_VERTICAL = 15;
 
@@ -63,6 +63,11 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 	// ===========================================================
 
 	@Override
+	protected int getBenchmarkID() {
+		return PHYSICSBENCHMARK_ID;
+	}
+
+	@Override
 	protected float getBenchmarkStartOffset() {
 		return 2;
 	}
@@ -89,8 +94,6 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 
 	@Override
 	public Scene onLoadScene() {
-		this.mEngine.registerPostFrameHandler(new FPSLogger());
-
 		this.mPhysicsSpace = new Box2DPhysicsSpace();
 		this.mPhysicsSpace.createWorld(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mPhysicsSpace.setGravity(0, SensorManager.GRAVITY_EARTH);
