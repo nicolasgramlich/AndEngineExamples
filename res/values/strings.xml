@@ -12,6 +12,9 @@
     <string name="dialog_benchmark_submit_title">Submitting Result...</string>
     <string name="dialog_benchmark_submit_message">Please wait a moment...</string>
     
+    <string name="dialog_benchmarks_submit_please_title">Benchmarks</string>
+    <string name="dialog_benchmarks_submit_please_message">Hi,\n\nmaybe you already noticed that the <b>AndEngineExamples</b> contain some <b>Benchmarks</b>.\n\nThe reason for that is that I am building a public <b>Performance-Database</b> that everyone can access and use for i.e. a feasibility analysis.\n\nSo please submit Benchmarks from all your devices and from time to time when there is a new version of AndEngine, so I can analyze if the tweaks I added were for the good or for the bad ;)\n\nBest Regards,\nNicolas</string>
+    
     <!-- Example-Groups -->
     <string name="examplegroup_simple">Simple</string>
 	<string name="examplegroup_modifier_and_animation">Modifier &amp; Animation</string>

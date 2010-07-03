@@ -32,8 +32,8 @@ public class ExampleLauncher extends ExpandableListActivity {
 	private static final String PREF_LAST_APP_LAUNCH_VERSIONCODE_ID = "last.app.launch.versioncode";
 
 	private static final int DIALOG_FIRST_APP_LAUNCH = 0;
-
 	private static final int DIALOG_NEW_IN_THIS_VERSION = DIALOG_FIRST_APP_LAUNCH + 1;
+	private static final int DIALOG_BENCHMARKS_SUBMIT_PLEASE = DIALOG_NEW_IN_THIS_VERSION + 1;
 
 	// ===========================================================
 	// Fields
@@ -75,6 +75,8 @@ public class ExampleLauncher extends ExpandableListActivity {
 			this.showDialog(DIALOG_FIRST_APP_LAUNCH);
 		} else if(this.mVersionCodeLastLaunch != -1 && this.mVersionCodeLastLaunch < this.mVersionCodeCurrent){
 			this.showDialog(DIALOG_NEW_IN_THIS_VERSION);
+		} else if(isFirstTime("please.submit.benchmarks")){
+			this.showDialog(DIALOG_BENCHMARKS_SUBMIT_PLEASE);
 		}
 
 		prefs.edit().putInt(PREF_LAST_APP_LAUNCH_VERSIONCODE_ID, this.mVersionCodeCurrent).commit();
@@ -95,6 +97,13 @@ public class ExampleLauncher extends ExpandableListActivity {
 				return new AlertDialog.Builder(this)
 					.setTitle(R.string.dialog_first_app_launch_title)
 					.setMessage(R.string.dialog_first_app_launch_message)
+					.setIcon(android.R.drawable.ic_dialog_info)
+					.setPositiveButton(android.R.string.ok, null)
+					.create();
+			case DIALOG_BENCHMARKS_SUBMIT_PLEASE:
+				return new AlertDialog.Builder(this)
+					.setTitle(R.string.dialog_benchmarks_submit_please_title)
+					.setMessage(R.string.dialog_benchmarks_submit_please_message)
 					.setIcon(android.R.drawable.ic_dialog_info)
 					.setPositiveButton(android.R.string.ok, null)
 					.create();
