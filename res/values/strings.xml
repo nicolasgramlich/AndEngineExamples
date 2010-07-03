@@ -9,7 +9,7 @@
     
     <string name="dialog_new_in_this_version_title">New in this version...</string>
     
-    <string name="dialog_benchmark_submit_title">Submitting Benchmark...</string>
+    <string name="dialog_benchmark_submit_title">Submitting Result...</string>
     <string name="dialog_benchmark_submit_message">Please wait a moment...</string>
     
     <!-- Example-Groups -->
