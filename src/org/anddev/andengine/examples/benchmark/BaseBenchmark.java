@@ -8,6 +8,7 @@ import java.util.concurrent.Callable;
 import org.anddev.andengine.entity.handler.timer.ITimerCallback;
 import org.anddev.andengine.entity.handler.timer.TimerHandler;
 import org.anddev.andengine.entity.util.FPSCounter;
+import org.anddev.andengine.examples.R;
 import org.anddev.andengine.opengl.GLHelper;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.Callback;
@@ -145,8 +146,7 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 	// ===========================================================
 
 	private void submitResults() {
-		this.doAsync(android.R.string.ok, android.R.string.ok, new Callable<Boolean>() {
-
+		this.doAsync(R.string.dialog_benchmark_submit_title, R.string.dialog_benchmark_submit_message, new Callable<Boolean>() {
 			@Override
 			public Boolean call() throws Exception {
 				// Create a new HttpClient and Post Header
@@ -202,10 +202,11 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 					}
 				});
 			}
-		}, new Callback<Throwable>() {
+		}, new Callback<Exception>() {
 			@Override
-			public void onCallback(Throwable pCallbackValue) {
-				Debug.e(pCallbackValue);
+			public void onCallback(Exception pException) {
+				Debug.e(pException);
+				Toast.makeText(BaseBenchmark.this, "Exception occurred: " + pException.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
 				BaseBenchmark.this.finish();				
 			}
 		});
