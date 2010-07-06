@@ -13,8 +13,8 @@ import org.anddev.andengine.entity.primitives.Rectangle;
 import org.anddev.andengine.entity.shape.modifier.AlphaModifier;
 import org.anddev.andengine.entity.shape.modifier.DelayModifier;
 import org.anddev.andengine.entity.shape.modifier.ParallelModifier;
-import org.anddev.andengine.entity.shape.modifier.RotateByModifier;
-import org.anddev.andengine.entity.shape.modifier.RotateModifier;
+import org.anddev.andengine.entity.shape.modifier.RotationByModifier;
+import org.anddev.andengine.entity.shape.modifier.RotationModifier;
 import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
 import org.anddev.andengine.entity.shape.modifier.SequenceModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
@@ -93,18 +93,18 @@ public class ShapeModifierBenchmark extends BaseBenchmark {
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		final SequenceModifier shapeModifier = new SequenceModifier(
-				new RotateByModifier(2, 90),
+				new RotationByModifier(2, 90),
 				new AlphaModifier(1.5f, 1, 0),
 				new AlphaModifier(1.5f, 0, 1),
 				new ScaleModifier(2.5f, 1, 0.5f),
 				new DelayModifier(0.5f),
 				new ParallelModifier(
-						new ScaleModifier(2f, 0.5f, 5),
-						new RotateByModifier(2, 90)
+					new ScaleModifier(2f, 0.5f, 5),
+					new RotationByModifier(2, 90)
 				),
 				new ParallelModifier(
-						new ScaleModifier(2f, 5, 1),
-						new RotateModifier(2f, 180, 0)
+					new ScaleModifier(2f, 5, 1),
+					new RotationModifier(2f, 180, 0)
 				)
 		);
 

@@ -15,8 +15,8 @@ import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.shape.modifier.AlphaModifier;
 import org.anddev.andengine.entity.shape.modifier.DelayModifier;
 import org.anddev.andengine.entity.shape.modifier.ParallelModifier;
-import org.anddev.andengine.entity.shape.modifier.RotateByModifier;
-import org.anddev.andengine.entity.shape.modifier.RotateModifier;
+import org.anddev.andengine.entity.shape.modifier.RotationByModifier;
+import org.anddev.andengine.entity.shape.modifier.RotationModifier;
 import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
 import org.anddev.andengine.entity.shape.modifier.SequenceModifier;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
@@ -103,18 +103,18 @@ public class ShapeModifierExample extends BaseExample {
 					});
 				}
 			},
-			new RotateByModifier(2, 90),
+			new RotationByModifier(2, 90),
 			new AlphaModifier(2, 1, 0),
 			new AlphaModifier(1, 0, 1),
 			new ScaleModifier(2, 1, 0.5f),
 			new DelayModifier(0.5f),
 			new ParallelModifier(
-					new ScaleModifier(3, 0.5f, 5),
-					new RotateByModifier(3, 90)
+				new ScaleModifier(3, 0.5f, 5),
+				new RotationByModifier(3, 90)
 			),
 			new ParallelModifier(
-					new ScaleModifier(3, 5, 1),
-					new RotateModifier(3, 180, 0)
+				new ScaleModifier(3, 5, 1),
+				new RotationModifier(3, 180, 0)
 			)
 		);
 

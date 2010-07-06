@@ -6,27 +6,28 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.Scene;
-import org.anddev.andengine.entity.shape.modifier.AlphaModifier;
+import org.anddev.andengine.entity.shape.IModifierListener;
+import org.anddev.andengine.entity.shape.IShapeModifier;
+import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.shape.modifier.ParallelModifier;
+import org.anddev.andengine.entity.shape.modifier.RotationByModifier;
 import org.anddev.andengine.entity.shape.modifier.RotationModifier;
 import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
 import org.anddev.andengine.entity.shape.modifier.SequenceModifier;
-import org.anddev.andengine.entity.text.Text;
-import org.anddev.andengine.entity.text.TickerText;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.util.HorizontalAlign;
+import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
- * @since 11:54:51 - 03.04.2010
+ * @since 21:42:39 - 06.07.2010
  */
-public class TickerTextExample extends BaseExample {
+public class ShapeModifierIrregularExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -39,8 +40,8 @@ public class TickerTextExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private Texture mFontTexture;
-	private Font mFont;
+	private Texture mTexture;
+	private TiledTextureRegion mFaceTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -62,12 +63,10 @@ public class TickerTextExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);
 
-		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.BLACK);
-
-		this.getEngine().getTextureManager().loadTexture(this.mFontTexture);
-		this.getEngine().getFontManager().loadFont(this.mFont);
+		this.getEngine().getTextureManager().loadTexture(this.mTexture);
 	}
 
 	@Override
@@ -77,17 +76,50 @@ public class TickerTextExample extends BaseExample {
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
-		final Text text = new TickerText(30, 60, this.mFont, "There are also ticker texts!\n\nYou'll see the answer to life & universe in...\n\n5 4 3 2 1...\n\n42\n\nIndeed very funny!", HorizontalAlign.CENTER, 10);
-		text.addShapeModifier(
-			new SequenceModifier(
+		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		
+		final AnimatedSprite face1Reference = new AnimatedSprite(x - 100, y, this.mFaceTextureRegion);
+		final AnimatedSprite face2Reference = new AnimatedSprite(x + 100, y, this.mFaceTextureRegion);
+
+		final AnimatedSprite face1 = new AnimatedSprite(x - 100, y, this.mFaceTextureRegion);
+		face1.setRotationCenter(0, 0);
+		face1.setScaleCenter(0, 0);
+		face1.animate(100);
+
+		final AnimatedSprite face2 = new AnimatedSprite(x + 100, y, this.mFaceTextureRegion);
+		face2.animate(100);
+
+		final SequenceModifier shapeModifier = new SequenceModifier(
+				new IModifierListener() {
+					@Override
+					public void onModifierFinished(final IShapeModifier pShapeModifier, final Shape pShape) {
+						ShapeModifierIrregularExample.this.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								Toast.makeText(ShapeModifierIrregularExample.this, "Sequence ended.", Toast.LENGTH_LONG).show();
+							}
+						});
+					}
+				},
+				new ScaleModifier(2, 1, 1.25f, 1, 2.5f),
 				new ParallelModifier(
-						new AlphaModifier(10, 0.0f, 1.0f),
-						new ScaleModifier(10, 0.5f, 1.0f)
+					new ScaleModifier(3, 1.25f, 5, 2.5f, 5),
+					new RotationByModifier(3, 90)
 				),
-				new RotationModifier(5, 0, 360)
-			)
+				new ParallelModifier(
+					new ScaleModifier(3, 5, 1),
+					new RotationModifier(3, 180, 0)
+				)
 		);
-		scene.getTopLayer().addEntity(text);
+
+		face1.addShapeModifier(shapeModifier);
+		face2.addShapeModifier(shapeModifier.clone());
+
+		scene.getTopLayer().addEntity(face1);
+		scene.getTopLayer().addEntity(face2);
+		scene.getTopLayer().addEntity(face1Reference);
+		scene.getTopLayer().addEntity(face2Reference);
 
 		return scene;
 	}

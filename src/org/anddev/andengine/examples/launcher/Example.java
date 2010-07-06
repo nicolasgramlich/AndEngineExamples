@@ -22,6 +22,7 @@ import org.anddev.andengine.examples.PhysicsRemoveExample;
 import org.anddev.andengine.examples.R;
 import org.anddev.andengine.examples.RectangleExample;
 import org.anddev.andengine.examples.ShapeModifierExample;
+import org.anddev.andengine.examples.ShapeModifierIrregularExample;
 import org.anddev.andengine.examples.SoundExample;
 import org.anddev.andengine.examples.SplitScreenExample;
 import org.anddev.andengine.examples.SpriteExample;
@@ -73,6 +74,7 @@ enum Example {
 	PHYSICSREMOVE(PhysicsRemoveExample.class, R.string.example_physicsremove),
 	RECTANGLE(RectangleExample.class, R.string.example_rectangle),
 	SHAPEMODIFIER(ShapeModifierExample.class, R.string.example_shapemodifier),
+	SHAPEMODIFIERIRREGULAR(ShapeModifierIrregularExample.class, R.string.example_shapemodifierirregular),
 	SOUND(SoundExample.class, R.string.example_sound),
 	SPLITSCREEN(SplitScreenExample.class, R.string.example_splitscreen),
 	SPRITE(SpriteExample.class, R.string.example_sprite),

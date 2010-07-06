@@ -10,7 +10,7 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.entity.particle.ParticleSystem;
 import org.anddev.andengine.entity.particle.modifier.AccelerationInitializer;
 import org.anddev.andengine.entity.particle.modifier.ExpireModifier;
-import org.anddev.andengine.entity.particle.modifier.RotateInitializer;
+import org.anddev.andengine.entity.particle.modifier.RotationInitializer;
 import org.anddev.andengine.entity.particle.modifier.ScaleModifier;
 import org.anddev.andengine.entity.particle.modifier.VelocityInitializer;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -77,7 +77,7 @@ public class ParticleSystemSimpleExample extends BaseExample {
 		
 		particleSystem.addParticleInitializer(new VelocityInitializer(20, 30, -80, -120));
 		particleSystem.addParticleInitializer(new AccelerationInitializer(10, 20));
-		particleSystem.addParticleInitializer(new RotateInitializer(0.0f, 360.0f));
+		particleSystem.addParticleInitializer(new RotationInitializer(0.0f, 360.0f));
 		
 		particleSystem.addParticleModifier(new ScaleModifier(1.0f, 2.0f, 0, 5));
 		particleSystem.addParticleModifier(new ExpireModifier(12, 12));
