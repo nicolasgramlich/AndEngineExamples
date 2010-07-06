@@ -57,6 +57,7 @@ public class ShapeModifierIrregularExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
+		Toast.makeText(this, "Shapes can have variable rotation and scale centers.", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, false));
 	}
@@ -78,9 +79,6 @@ public class ShapeModifierIrregularExample extends BaseExample {
 
 		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		
-		final AnimatedSprite face1Reference = new AnimatedSprite(x - 100, y, this.mFaceTextureRegion);
-		final AnimatedSprite face2Reference = new AnimatedSprite(x + 100, y, this.mFaceTextureRegion);
 
 		final AnimatedSprite face1 = new AnimatedSprite(x - 100, y, this.mFaceTextureRegion);
 		face1.setRotationCenter(0, 0);
@@ -102,10 +100,11 @@ public class ShapeModifierIrregularExample extends BaseExample {
 						});
 					}
 				},
-				new ScaleModifier(2, 1, 1.25f, 1, 2.5f),
+				new ScaleModifier(2, 1.0f, 0.75f, 1.0f, 2.0f),
+				new ScaleModifier(2, 0.75f, 2.0f, 2.0f, 1.25f),
 				new ParallelModifier(
-					new ScaleModifier(3, 1.25f, 5, 2.5f, 5),
-					new RotationByModifier(3, 90)
+					new ScaleModifier(3, 2.0f, 5.0f, 1.25f, 5.0f),
+					new RotationByModifier(3, 180)
 				),
 				new ParallelModifier(
 					new ScaleModifier(3, 5, 1),
@@ -118,6 +117,11 @@ public class ShapeModifierIrregularExample extends BaseExample {
 
 		scene.getTopLayer().addEntity(face1);
 		scene.getTopLayer().addEntity(face2);
+
+		/* Create some not-modified sprites, that act as fixed references to the modified ones. */
+		final AnimatedSprite face1Reference = new AnimatedSprite(x - 100, y, this.mFaceTextureRegion);
+		final AnimatedSprite face2Reference = new AnimatedSprite(x + 100, y, this.mFaceTextureRegion);
+		
 		scene.getTopLayer().addEntity(face1Reference);
 		scene.getTopLayer().addEntity(face2Reference);
 
