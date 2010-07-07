@@ -17,6 +17,7 @@
     	<item>14</item>
     	<item>15</item>
     	<item>16</item>
+    	<item>17</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -36,5 +37,6 @@
  		<item> - Added LoadTexureExample\n - Added UpdateTexureExample</item>
  		<item> - Benchmarks now get submitted to a Server instead of mail to me.</item>
  		<item> - Added ShapeModifierIrregular Example</item>
+ 		<item> - Added TextMenu Example</item>
     </string-array>
 </resources>

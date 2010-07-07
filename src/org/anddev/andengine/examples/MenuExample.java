@@ -5,10 +5,11 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.Scene;
-import org.anddev.andengine.entity.menu.IOnMenuItemClickListener;
-import org.anddev.andengine.entity.menu.MenuItem;
-import org.anddev.andengine.entity.menu.MenuScene;
+import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.menu.MenuScene;
+import org.anddev.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
+import org.anddev.andengine.entity.scene.menu.item.IMenuItem;
+import org.anddev.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -73,17 +74,17 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface_menu.png", 0, 0);
-		this.getEngine().getTextureManager().loadTexture(this.mTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 
 		this.mMenuTexture = new Texture(256, 128, TextureOptions.BILINEAR);
 		this.mMenuResetTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_reset.png", 0, 0);
 		this.mMenuQuitTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_quit.png", 0, 50);
-		this.getEngine().getTextureManager().loadTexture(this.mMenuTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mMenuTexture);
 	}
 
 	@Override
 	public Scene onLoadScene() {
-		this.getEngine().registerPreFrameHandler(new FPSLogger());
+		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
 		this.mMenuScene = this.createMenuScene();
 
@@ -120,7 +121,7 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 	}
 
 	@Override
-	public boolean onMenuItemClicked(final MenuScene pMenuScene, final MenuItem pMenuItem) {
+	public boolean onMenuItemClicked(final MenuScene pMenuScene, final IMenuItem pMenuItem) {
 		switch(pMenuItem.getID()) {
 			case MENU_RESET:
 				/* Restart the animation. */
@@ -146,8 +147,8 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 	protected MenuScene createMenuScene() {
 		final MenuScene menuScene = new MenuScene(this.mCamera);
 
-		menuScene.addMenuItem(new MenuItem(MENU_RESET, this.mMenuResetTextureRegion));
-		menuScene.addMenuItem(new MenuItem(MENU_QUIT, this.mMenuQuitTextureRegion));
+		menuScene.addMenuItem(new SpriteMenuItem(MENU_RESET, this.mMenuResetTextureRegion));
+		menuScene.addMenuItem(new SpriteMenuItem(MENU_QUIT, this.mMenuQuitTextureRegion));
 		menuScene.buildAnimations();
 
 		menuScene.setBackgroundEnabled(false);

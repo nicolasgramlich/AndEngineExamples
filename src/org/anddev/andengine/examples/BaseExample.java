@@ -40,7 +40,7 @@ public abstract class BaseExample extends BaseGameActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(final Menu pMenu) {
-		pMenu.findItem(MENU_TRACE).setTitle(this.getEngine().isMethodTracing() ? "Stop Method Tracing" : "Start Method Tracing");
+		pMenu.findItem(MENU_TRACE).setTitle(this.mEngine.isMethodTracing() ? "Stop Method Tracing" : "Start Method Tracing");
 		return super.onPrepareOptionsMenu(pMenu);
 	}
 
@@ -48,10 +48,10 @@ public abstract class BaseExample extends BaseGameActivity {
 	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem) {
 		switch(pItem.getItemId()) {
 			case MENU_TRACE:
-				if(this.getEngine().isMethodTracing()) {
-					this.getEngine().stopMethodTracing();
+				if(this.mEngine.isMethodTracing()) {
+					this.mEngine.stopMethodTracing();
 				} else {
-					this.getEngine().startMethodTracing("AndEngine_" + System.currentTimeMillis() + ".trace");
+					this.mEngine.startMethodTracing("AndEngine_" + System.currentTimeMillis() + ".trace");
 				}
 				return true;
 			default:

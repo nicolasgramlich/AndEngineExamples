@@ -5,7 +5,7 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.Scene;
+import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.extension.augmentedreality.BaseAugmentedRealityGameActivity;
 import org.anddev.andengine.opengl.texture.Texture;
@@ -63,12 +63,12 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);
 
-		this.getEngine().getTextureManager().loadTexture(this.mTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
 
 	@Override
 	public Scene onLoadScene() {
-		//		this.getEngine().registerPreFrameHandler(new FPSLogger());
+		//		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
 		//		scene.setBackgroundEnabled(false);

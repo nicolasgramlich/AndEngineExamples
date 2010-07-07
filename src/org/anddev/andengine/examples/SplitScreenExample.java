@@ -7,9 +7,9 @@ import org.anddev.andengine.engine.camera.ChaseCamera;
 import org.anddev.andengine.engine.options.SplitScreenEngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.Scene;
-import org.anddev.andengine.entity.Scene.IOnSceneTouchListener;
-import org.anddev.andengine.entity.primitives.Rectangle;
+import org.anddev.andengine.entity.primitive.Rectangle;
+import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.Box2DPhysicsSpace;
@@ -76,7 +76,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
 		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1); // 64x32
-		this.getEngine().getTextureManager().loadTexture(this.mTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 
 		this.enableAccelerometerSensor(this);
 	}
@@ -91,7 +91,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		scene.setBackgroundColor(0, 0, 0);
 		scene.setOnSceneTouchListener(this);
 
-		this.getEngine().registerPostFrameHandler(new FPSLogger());
+		this.mEngine.registerPostFrameHandler(new FPSLogger());
 
 		final Rectangle ground = new Rectangle(0, CAMERA_HEIGHT - 1, CAMERA_WIDTH, 1);
 		scene.getLayer(0).addEntity(ground);
@@ -109,13 +109,13 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		scene.getLayer(0).addEntity(right);
 		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(right, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
 
-		this.getEngine().registerPreFrameHandler(this.mPhysicsSpace);
+		this.mEngine.registerPreFrameHandler(this.mPhysicsSpace);
 
 		return scene;
 	}
 
 	private void addFace(final float pX, final float pY) {
-		final Scene scene = this.getEngine().getScene();
+		final Scene scene = this.mEngine.getScene();
 
 		final AnimatedSprite face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
 

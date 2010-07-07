@@ -5,8 +5,8 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.CameraScene;
-import org.anddev.andengine.entity.Scene;
+import org.anddev.andengine.entity.scene.CameraScene;
+import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -64,12 +64,12 @@ public class PauseExample extends BaseExample {
 		this.mPausedTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/paused.png", 0, 0);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface_menu.png", 0, 50);
 
-		this.getEngine().getTextureManager().loadTexture(this.mTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
 
 	@Override
 	public Scene onLoadScene() {
-		this.getEngine().registerPreFrameHandler(new FPSLogger());
+		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
 		this.mPauseScene = new CameraScene(1, this.mCamera);
 		/* Make the 'PAUSED'-label centered on the camera. */
@@ -99,12 +99,12 @@ public class PauseExample extends BaseExample {
 	@Override
 	public boolean onKeyDown(final int pKeyCode, final KeyEvent pEvent) {
 		if(pKeyCode == KeyEvent.KEYCODE_MENU && pEvent.getAction() == KeyEvent.ACTION_DOWN) {
-			if(this.getEngine().isRunning()) {
+			if(this.mEngine.isRunning()) {
 				this.mMainScene.setChildScene(this.mPauseScene, false, true);
-				this.getEngine().stop();
+				this.mEngine.stop();
 			} else {
 				this.mMainScene.clearChildScene();
-				this.getEngine().start();
+				this.mEngine.start();
 			}
 			return true;
 		} else {

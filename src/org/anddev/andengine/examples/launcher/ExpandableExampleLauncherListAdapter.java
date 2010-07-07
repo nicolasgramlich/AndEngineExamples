@@ -42,7 +42,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		{ Example.TEXT, Example.TICKERTEXT, Example.CUSTOMFONT },
 		{ Example.SOUND, Example.MUSIC },
 		{ Example.SPLITSCREEN, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON },
-		{ Example.PAUSE, Example.MENU, Example.SUBMENU, Example.ZOOM , Example.IMAGEFORMATS, Example.TEXTUREOPTIONS, Example.LOADTEXTURE, Example.UPDATETEXTURE, Example.UNLOADTEXTURE},
+		{ Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTMENU, Example.ZOOM , Example.IMAGEFORMATS, Example.TEXTUREOPTIONS, Example.LOADTEXTURE, Example.UPDATETEXTURE, Example.UNLOADTEXTURE},
 		{ Example.BENCHMARK_SPRITE, Example.BENCHMARK_SHAPEMODIFIER, Example.BENCHMARK_ANIMATION, Example.BENCHMARK_TICKERTEXT, Example.BENCHMARK_PARTICLESYSTEM, Example.BENCHMARK_PHYSICS }
 	};
 

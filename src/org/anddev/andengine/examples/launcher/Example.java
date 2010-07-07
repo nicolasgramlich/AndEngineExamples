@@ -29,6 +29,7 @@ import org.anddev.andengine.examples.SpriteExample;
 import org.anddev.andengine.examples.SpriteRemoveExample;
 import org.anddev.andengine.examples.SubMenuExample;
 import org.anddev.andengine.examples.TextExample;
+import org.anddev.andengine.examples.TextMenuExample;
 import org.anddev.andengine.examples.TextureOptionsExample;
 import org.anddev.andengine.examples.TickerTextExample;
 import org.anddev.andengine.examples.TouchDragExample;
@@ -81,6 +82,7 @@ enum Example {
 	SPRITEREMOVE(SpriteRemoveExample.class, R.string.example_spriteremove),
 	SUBMENU(SubMenuExample.class, R.string.example_submenu),
 	TEXT(TextExample.class, R.string.example_text),
+	TEXTMENU(TextMenuExample.class, R.string.example_textmenu),
 	TEXTUREOPTIONS(TextureOptionsExample.class, R.string.example_textureoptions),
 	TICKERTEXT(TickerTextExample.class, R.string.example_tickertext),
 	TOUCHDRAG(TouchDragExample.class, R.string.example_touchdrag),

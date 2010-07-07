@@ -5,8 +5,8 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.Layer;
-import org.anddev.andengine.entity.Scene;
+import org.anddev.andengine.entity.layer.Layer;
+import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.text.TickerText;
 import org.anddev.andengine.opengl.font.Font;
@@ -78,8 +78,8 @@ public class TickerTextBenchmark extends BaseBenchmark {
 
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 22, true, Color.WHITE);
 
-		this.getEngine().getTextureManager().loadTexture(this.mFontTexture);
-		this.getEngine().getFontManager().loadFont(this.mFont);
+		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
+		this.mEngine.getFontManager().loadFont(this.mFont);
 	}
 
 	@Override

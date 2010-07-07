@@ -7,10 +7,10 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.Scene;
-import org.anddev.andengine.entity.Scene.IOnAreaTouchListener;
-import org.anddev.andengine.entity.Scene.IOnSceneTouchListener;
-import org.anddev.andengine.entity.Scene.ITouchArea;
+import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
+import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
+import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.card.Card;
@@ -20,6 +20,7 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
 import android.view.MotionEvent;
+import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
@@ -58,6 +59,7 @@ public class TouchDragManyExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
+		Toast.makeText(this, "This is NOT meant to be MultiTouch!", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, false));
 	}
@@ -76,12 +78,12 @@ public class TouchDragManyExample extends BaseExample {
 			this.mCardTotextureRegionMap.put(card, cardTextureRegion);
 		}
 
-		this.getEngine().getTextureManager().loadTexture(this.mCardDeckTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mCardDeckTexture);
 	}
 
 	@Override
 	public Scene onLoadScene() {
-		this.getEngine().registerPreFrameHandler(new FPSLogger());
+		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
 		scene.setOnAreaTouchTraversalFrontToBack();

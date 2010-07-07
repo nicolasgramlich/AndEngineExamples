@@ -9,7 +9,7 @@ import org.anddev.andengine.entity.handler.timer.ITimerCallback;
 import org.anddev.andengine.entity.handler.timer.TimerHandler;
 import org.anddev.andengine.entity.util.FPSCounter;
 import org.anddev.andengine.examples.R;
-import org.anddev.andengine.opengl.GLHelper;
+import org.anddev.andengine.opengl.util.GLHelper;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.Callback;
 import org.anddev.andengine.util.Debug;
@@ -106,9 +106,9 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 
 	protected void setUpBenchmarkHandling() {
 		final FPSCounter fpsCounter = new FPSCounter();
-		this.getEngine().registerPreFrameHandler(fpsCounter);
+		this.mEngine.registerPreFrameHandler(fpsCounter);
 
-		this.getEngine().registerPostFrameHandler(new TimerHandler(this.getBenchmarkDuration(), new ITimerCallback() {
+		this.mEngine.registerPostFrameHandler(new TimerHandler(this.getBenchmarkDuration(), new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
 				BaseBenchmark.this.showResult(fpsCounter.getFPS());

@@ -5,17 +5,16 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.Scene;
+import org.anddev.andengine.entity.layer.Layer;
+import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.util.HorizontalAlign;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 
 /**
  * @author Nicolas Gramlich
@@ -28,6 +27,8 @@ public class CustomFontExample extends BaseExample {
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
+	
+	private static final int FONT_SIZE = 48;
 
 	// ===========================================================
 	// Fields
@@ -35,11 +36,18 @@ public class CustomFontExample extends BaseExample {
 
 	private Camera mCamera;
 	
-	private Texture mFontTexture;
-	private Font mFont;
 
-	private Texture mCustomFontTexture;
-	private Font mCustomFont;
+	private Texture mDroidFontTexture;
+	private Font mPlokFont;
+	private Font mNeverwinterNightsFont;
+	private Font mUnrealTournamenFont;
+	private Font mKingdomOfHeartsFont;
+
+	private Font mDroidFont;
+	private Texture mPlokFontTexture;
+	private Texture mNeverwinterNightsFontTexture;
+	private Texture mUnrealTournamentFontTexture;
+	private Texture mKingdomOfHeartsFontTexture;
 
 	// ===========================================================
 	// Constructors
@@ -61,29 +69,37 @@ public class CustomFontExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
-		this.mCustomFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+		/* The custom fonts. */
+		this.mDroidFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+		this.mKingdomOfHeartsFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+		this.mNeverwinterNightsFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+		this.mPlokFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+		this.mUnrealTournamentFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
 
-		this.mFont = FontFactory.create(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48, true, Color.BLACK);
 		FontFactory.setAssetBasePath("fonts/");
-		this.mCustomFont = FontFactory.createFromAsset(this.mCustomFontTexture, this, "DroidSans.ttf", 48, true, Color.BLACK);
+		this.mDroidFont = FontFactory.createFromAsset(this.mDroidFontTexture, this, "Droid.ttf", FONT_SIZE, true, Color.BLACK);
+		this.mKingdomOfHeartsFont = FontFactory.createFromAsset(this.mKingdomOfHeartsFontTexture, this, "KingdomOfHearts.ttf", FONT_SIZE + 20, true, Color.BLACK);
+		this.mNeverwinterNightsFont = FontFactory.createFromAsset(this.mNeverwinterNightsFontTexture, this, "NeverwinterNights.ttf", FONT_SIZE, true, Color.BLACK);
+		this.mPlokFont = FontFactory.createFromAsset(this.mPlokFontTexture, this, "Plok.ttf", FONT_SIZE, true, Color.BLACK);
+		this.mUnrealTournamenFont = FontFactory.createFromAsset(this.mUnrealTournamentFontTexture, this, "UnrealTournament.ttf", FONT_SIZE, true, Color.BLACK);
 
-		this.getEngine().getTextureManager().loadTextures(this.mFontTexture, this.mCustomFontTexture);
-		this.getEngine().getFontManager().loadFonts(this.mFont, this.mCustomFont);
+		this.mEngine.getTextureManager().loadTextures(this.mDroidFontTexture, this.mKingdomOfHeartsFontTexture, this.mNeverwinterNightsFontTexture, this.mPlokFontTexture, this.mUnrealTournamentFontTexture);
+		this.mEngine.getFontManager().loadFonts(this.mDroidFont, this.mKingdomOfHeartsFont, this.mNeverwinterNightsFont, this.mPlokFont, this.mUnrealTournamenFont);
 	}
 
 	@Override
 	public Scene onLoadScene() {
-		this.getEngine().registerPreFrameHandler(new FPSLogger());
+		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
-		final Text textDefaultFont = new Text(100, 140, this.mFont, "Default font example... ", HorizontalAlign.CENTER);
-		final Text textCustomFont = new Text(90, 280, this.mCustomFont, "Custom font example... ", HorizontalAlign.CENTER);
-
-		scene.getTopLayer().addEntity(textDefaultFont);
-		scene.getTopLayer().addEntity(textCustomFont);
+		final Layer topLayer = scene.getTopLayer();
+		topLayer.addEntity(new Text(230, 30, this.mDroidFont, "Droid Font"));
+		topLayer.addEntity(new Text(160, 120, this.mKingdomOfHeartsFont, "Kingdom Of Hearts Font"));
+		topLayer.addEntity(new Text(110, 210, this.mNeverwinterNightsFont, "Neverwinter Nights Font"));
+		topLayer.addEntity(new Text(140, 300, this.mPlokFont, "Plok Font"));
+		topLayer.addEntity(new Text(25, 390, this.mUnrealTournamenFont, "Unreal Tournament Font"));
 
 		return scene;
 	}
