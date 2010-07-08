@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
-import org.anddev.andengine.entity.handler.timer.ITimerCallback;
-import org.anddev.andengine.entity.handler.timer.TimerHandler;
+import org.anddev.andengine.engine.handler.timer.ITimerCallback;
+import org.anddev.andengine.engine.handler.timer.TimerHandler;
 import org.anddev.andengine.entity.util.FPSCounter;
 import org.anddev.andengine.examples.R;
 import org.anddev.andengine.opengl.util.GLHelper;
