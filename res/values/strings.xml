@@ -15,6 +15,9 @@
     <string name="dialog_benchmarks_submit_please_title">Benchmarks</string>
     <string name="dialog_benchmarks_submit_please_message">Hi,\n\nmaybe you already noticed that the <b>AndEngineExamples</b> contain some <b>Benchmarks</b>.\n\nThe reason for that is that I am building a public <b>Performance-Database</b> that everyone can access and use for i.e. a feasibility analysis.\n\nSo please submit Benchmarks from all your devices and from time to time when there is a new version of AndEngine, so I can analyze if the tweaks I added were for the good or for the bad ;)\n\nBest Regards,\nNicolas</string>
     
+    <string name="dialog_modplayerexample_loading_to_external_title">Loading</string>
+    <string name="dialog_modplayerexample_loading_to_external_message">Transferring 'lepeltheme.mod' to SDCard...</string>
+    
     <!-- Example-Groups -->
     <string name="examplegroup_simple">Simple</string>
 	<string name="examplegroup_modifier_and_animation">Modifier &amp; Animation</string>
@@ -26,6 +29,7 @@
 	<string name="examplegroup_audio">Audio</string>
 	<string name="examplegroup_advanced">Advanced</string>
 	<string name="examplegroup_others">Others</string>
+	<string name="examplegroup_games">Games</string>
 	<string name="examplegroup_benchmarks">Benchmarks</string>
 	
 	<!-- Examples -->
@@ -33,10 +37,12 @@
 	<string name="example_augmentedreality">Using AugmentedReality</string>
 	<string name="example_augmentedrealityhorizon">An AugmentedReality Horizon</string>
 	<string name="example_customfont">Using a Custom Font</string>
+	<string name="example_changeabletext">Changeable Text</string>
 	<string name="example_imageformats">Using ImageFormats (PNG, JPG, GIF, BMP)</string>
 	<string name="example_line">Drawing Lines</string>
 	<string name="example_loadtexture">Load Texture Dynamic</string>
 	<string name="example_menu">Using Menus</string>
+	<string name="example_modplayer">Playing .MOD Music</string>
 	<string name="example_movingball">A Moving Ball</string>
 	<string name="example_multiplayer">Multiplayer Example</string>
 	<string name="example_music">Playing Music</string>

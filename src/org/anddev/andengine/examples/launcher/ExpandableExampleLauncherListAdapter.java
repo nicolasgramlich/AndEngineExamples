@@ -29,6 +29,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		ExampleGroup.AUDIO,
 		ExampleGroup.ADVANCED,
 		ExampleGroup.OTHERS,
+//		ExampleGroup.GAMES,
 		ExampleGroup.BENCHMARKS
 	};
 
@@ -39,8 +40,8 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		{ Example.PARTICLESYSTEMSIMPLE, Example.PARTICLESYSTEMCOOL, Example.PARTICLESYSTEMNEXUS },
 		{ Example.MULTIPLAYER },
 		{ Example.PHYSICS, Example.PHYSICSJUMP, Example.PHYSICSREMOVE },
-		{ Example.TEXT, Example.TICKERTEXT, Example.CUSTOMFONT },
-		{ Example.SOUND, Example.MUSIC },
+		{ Example.TEXT, Example.TICKERTEXT, Example.CHANGEABLETEXT, Example.CUSTOMFONT },
+		{ Example.SOUND, Example.MUSIC, Example.MODPLAYER },
 		{ Example.SPLITSCREEN, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON },
 		{ Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTMENU, Example.ZOOM , Example.IMAGEFORMATS, Example.TEXTUREOPTIONS, Example.LOADTEXTURE, Example.UPDATETEXTURE, Example.UNLOADTEXTURE},
 		{ Example.BENCHMARK_SPRITE, Example.BENCHMARK_SHAPEMODIFIER, Example.BENCHMARK_ANIMATION, Example.BENCHMARK_TICKERTEXT, Example.BENCHMARK_PARTICLESYSTEM, Example.BENCHMARK_PHYSICS }

@@ -3,11 +3,13 @@ package org.anddev.andengine.examples.launcher;
 import org.anddev.andengine.examples.AnimatedSpritesExample;
 import org.anddev.andengine.examples.AugmentedRealityExample;
 import org.anddev.andengine.examples.AugmentedRealityHorizonExample;
+import org.anddev.andengine.examples.ChangeableTextExample;
 import org.anddev.andengine.examples.CustomFontExample;
 import org.anddev.andengine.examples.ImageFormatsExample;
 import org.anddev.andengine.examples.LineExample;
 import org.anddev.andengine.examples.LoadTextureExample;
 import org.anddev.andengine.examples.MenuExample;
+import org.anddev.andengine.examples.ModPlayerExample;
 import org.anddev.andengine.examples.MovingBallExample;
 import org.anddev.andengine.examples.MultiplayerExample;
 import org.anddev.andengine.examples.MusicExample;
@@ -57,11 +59,13 @@ enum Example {
 	ANIMATEDSPRITES(AnimatedSpritesExample.class, R.string.example_animatedsprites),
 	AUGMENTEDREALITY(AugmentedRealityExample.class, R.string.example_augmentedreality),
 	AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, R.string.example_augmentedrealityhorizon),
+	CHANGEABLETEXT(ChangeableTextExample.class, R.string.example_changeabletext),
 	CUSTOMFONT(CustomFontExample.class, R.string.example_customfont),
 	IMAGEFORMATS(ImageFormatsExample.class, R.string.example_imageformats),
 	LINE(LineExample.class, R.string.example_line),
 	LOADTEXTURE(LoadTextureExample.class, R.string.example_loadtexture),
 	MENU(MenuExample.class, R.string.example_menu),
+	MODPLAYER(ModPlayerExample.class, R.string.example_modplayer),
 	MOVINGBALL(MovingBallExample.class, R.string.example_movingball),
 	MULTIPLAYER(MultiplayerExample.class, R.string.example_multiplayer),
 	MUSIC(MusicExample.class, R.string.example_music),

@@ -1,9 +1,7 @@
 package org.anddev.andengine.examples;
 
-import java.io.IOException;
+import java.util.concurrent.Callable;
 
-import org.anddev.andengine.audio.music.Music;
-import org.anddev.andengine.audio.music.MusicFactory;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -18,7 +16,9 @@ import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.Callback;
+import org.anddev.andengine.util.FileUtils;
+import org.helllabs.android.xmp.ModPlayer;
 
 import android.view.MotionEvent;
 import android.widget.Toast;
@@ -27,7 +27,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 15:51:47 - 13.06.2010
  */
-public class MusicExample extends BaseExample {
+public class ModPlayerExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -35,14 +35,16 @@ public class MusicExample extends BaseExample {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 
+	private static final String SAMPLE_MOD_FILENAME = "mfx/lepeltheme.mod";
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
 	private Texture mTexture;
-	private TextureRegion mNotesTextureRegion;
+	private TextureRegion mILove8BitTextureRegion;
 
-	private Music mMusic;
+	private final ModPlayer mModPlayer = ModPlayer.getInstance();
 
 	// ===========================================================
 	// Constructors
@@ -58,23 +60,33 @@ public class MusicExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
-		Toast.makeText(this, "Touch the notes to hear some Music.", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Touch the image to toggle the playback of this awesome 8-bit style .MOD music.", Toast.LENGTH_LONG).show();
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera, true));
 	}
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(128, 128, TextureOptions.DEFAULT);
 		TextureRegionFactory.setAssetBasePath("gfx/");
-		this.mNotesTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "notes.png", 0, 0);
+		this.mILove8BitTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "i_love_8_bit.png", 0, 0);
 
-		MusicFactory.setAssetBasePath("mfx/");
-		try {
-			this.mMusic = MusicFactory.createMusicFromAsset(this.mEngine.getMusicManager(), this, "wagner_the_ride_of_the_valkyries.ogg");
-			this.mMusic.setLooping(true);
-		} catch (final IOException e) {
-			Debug.e("Error", e);
+		if(FileUtils.isFileExistingOnExternalStorage(this, SAMPLE_MOD_FILENAME)) {
+			this.startPlayingMod();
+		} else {
+			this.doAsync(R.string.dialog_modplayerexample_loading_to_external_title, R.string.dialog_modplayerexample_loading_to_external_message, new Callable<Void>() {
+				@Override
+				public Void call() throws Exception {
+					FileUtils.ensureDirectoriesExistOnExternalStorage(ModPlayerExample.this, "mfx");
+					FileUtils.copyToExternalStorage(ModPlayerExample.this, SAMPLE_MOD_FILENAME, SAMPLE_MOD_FILENAME);
+					return null;
+				}
+			}, new Callback<Void>() {
+				@Override
+				public void onCallback(final Void pCallbackValue) {
+					ModPlayerExample.this.startPlayingMod();
+				}
+			});
 		}
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
@@ -87,22 +99,18 @@ public class MusicExample extends BaseExample {
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
-		final int x = (CAMERA_WIDTH - this.mNotesTextureRegion.getWidth()) / 2;
-		final int y = (CAMERA_HEIGHT - this.mNotesTextureRegion.getHeight()) / 2;
-		
-		final Sprite notes = new Sprite(x, y, this.mNotesTextureRegion);
-		scene.getTopLayer().addEntity(notes);
+		final int x = (CAMERA_WIDTH - this.mILove8BitTextureRegion.getWidth()) / 2;
+		final int y = (CAMERA_HEIGHT - this.mILove8BitTextureRegion.getHeight()) / 2;
 
-		scene.registerTouchArea(notes);
+		final Sprite iLove8Bit = new Sprite(x, y, this.mILove8BitTextureRegion);
+		scene.getTopLayer().addEntity(iLove8Bit);
+
+		scene.registerTouchArea(iLove8Bit);
 		scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
 			@Override
 			public boolean onAreaTouched(final ITouchArea pTouchArea, final MotionEvent pSceneMotionEvent) {
 				if(pSceneMotionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-					if(MusicExample.this.mMusic.isPlaying()) {
-						MusicExample.this.mMusic.pause();
-					} else {
-						MusicExample.this.mMusic.play();
-					}
+					ModPlayerExample.this.mModPlayer.pause();
 				}
 
 				return true;
@@ -116,16 +124,20 @@ public class MusicExample extends BaseExample {
 	public void onLoadComplete() {
 
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		this.mMusic.stop();
+		ModPlayerExample.this.mModPlayer.stop();
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	private void startPlayingMod() {
+		this.mModPlayer.play(FileUtils.getAbsolutePathOnExternalStorage(this, SAMPLE_MOD_FILENAME));
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

@@ -2,18 +2,26 @@ package org.anddev.andengine.examples;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.engine.handler.timer.ITimerCallback;
+import org.anddev.andengine.engine.handler.timer.TimerHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.entity.text.ChangeableText;
+import org.anddev.andengine.entity.util.FPSCounter;
+import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureOptions;
+
+import android.graphics.Color;
+import android.graphics.Typeface;
 
 /**
  * @author Nicolas Gramlich
- * @since 11:54:51 - 03.04.2010
+ * @since 20:06:15 - 08.07.2010
  */
-public class RectangleExample extends BaseExample {
+public class ChangeableTextExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -26,6 +34,8 @@ public class RectangleExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
+	private Texture mFontTexture;
+	private Font mFont;
 
 	// ===========================================================
 	// Constructors
@@ -47,29 +57,36 @@ public class RectangleExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
+		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
 
+		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48, true, Color.BLACK);
+
+		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
+		this.mEngine.getFontManager().loadFont(this.mFont);
 	}
 
 	@Override
 	public Scene onLoadScene() {
-		this.mEngine.registerPreFrameHandler(new FPSLogger());
+		final FPSCounter fpsCounter = new FPSCounter();
+		this.mEngine.registerPreFrameHandler(fpsCounter);
 
 		final Scene scene = new Scene(1);
-		scene.setBackgroundColor(0, 0, 0);
+		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
-		final Rectangle rect1 = new Rectangle(180, 60, 180, 180);
-		rect1.setColor(1, 0, 0);
-		final Rectangle rect2 = new Rectangle(360, 60, 180, 180);
-		rect2.setColor(0, 1, 0);
-		final Rectangle rect3 = new Rectangle(180, 240, 180, 180);
-		rect3.setColor(0, 0, 1);
-		final Rectangle rect4 = new Rectangle(360, 240, 180, 180);
-		rect4.setColor(1, 1, 0);
+		final ChangeableText elapsedText = new ChangeableText(100, 160, this.mFont, "Seconds elapsed:", "Seconds elapsed: XXXXX".length());
+		final ChangeableText fpsText = new ChangeableText(250, 240, this.mFont, "FPS:", "FPS: XXXXX".length());
 
-		scene.getTopLayer().addEntity(rect1);
-		scene.getTopLayer().addEntity(rect2);
-		scene.getTopLayer().addEntity(rect3);
-		scene.getTopLayer().addEntity(rect4);
+		scene.getTopLayer().addEntity(elapsedText);
+		scene.getTopLayer().addEntity(fpsText);
+		
+		scene.registerPreFrameHandler(new TimerHandler(0.05f, new ITimerCallback() {
+			@Override
+			public void onTimePassed(TimerHandler pTimerHandler) {
+				pTimerHandler.reset();
+				elapsedText.setText("Seconds elapsed: " + ChangeableTextExample.this.mEngine.getSecondsElapsedTotal());
+				fpsText.setText("FPS: " + fpsCounter.getFPS());
+			}
+		}));
 
 		return scene;
 	}

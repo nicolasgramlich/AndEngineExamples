@@ -22,6 +22,7 @@ public enum ExampleGroup {
 	AUDIO(R.string.examplegroup_audio),
 	ADVANCED(R.string.examplegroup_advanced),
 	OTHERS(R.string.examplegroup_others),
+	GAMES(R.string.examplegroup_games),
 	BENCHMARKS(R.string.examplegroup_benchmarks);
 
 	// ===========================================================
