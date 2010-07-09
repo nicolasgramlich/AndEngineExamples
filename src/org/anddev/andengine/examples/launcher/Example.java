@@ -45,6 +45,7 @@ import org.anddev.andengine.examples.benchmark.PhysicsBenchmark;
 import org.anddev.andengine.examples.benchmark.ShapeModifierBenchmark;
 import org.anddev.andengine.examples.benchmark.SpriteBenchmark;
 import org.anddev.andengine.examples.benchmark.TickerTextBenchmark;
+import org.anddev.andengine.examples.game.snake.SnakeGameActivity;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 /**
@@ -100,7 +101,9 @@ enum Example {
 	BENCHMARK_PHYSICS(PhysicsBenchmark.class, R.string.example_benchmark_physics),
 	BENCHMARK_SHAPEMODIFIER(ShapeModifierBenchmark.class, R.string.example_benchmark_shapemodifier),
 	BENCHMARK_SPRITE(SpriteBenchmark.class, R.string.example_benchmark_sprite),
-	BENCHMARK_TICKERTEXT(TickerTextBenchmark.class, R.string.example_benchmark_tickertext);
+	BENCHMARK_TICKERTEXT(TickerTextBenchmark.class, R.string.example_benchmark_tickertext),
+	
+	GAME_SNAKE(SnakeGameActivity.class, R.string.example_game_snake);
 	
 	// ===========================================================
 	// Constants

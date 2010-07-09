@@ -20,6 +20,7 @@
     	<item>17</item>
     	<item>18</item>
     	<item>19</item>
+    	<item>20</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -42,5 +43,6 @@
  		<item> - Added TextMenu Example</item>
  		<item> - Added ModPlayer Example\n - Added ChangeableText Example</item>
  		<item> - Optimized some Examples/Benchmarks by using the new FixedCapacityLayers</item>
+ 		<item> - Added Snake Game</item>
     </string-array>
 </resources>

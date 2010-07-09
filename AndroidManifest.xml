@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="org.anddev.andengine.examples"
-	android:versionCode="19"
-	android:versionName="1.1.9">
+	android:versionCode="20"
+	android:versionName="1.2.0">
 
 	<uses-sdk android:minSdkVersion="4" />
 
@@ -66,5 +66,7 @@
 		<activity android:name=".benchmark.ShapeModifierBenchmark" android:configChanges="orientation" />
 		<activity android:name=".benchmark.SpriteBenchmark" android:configChanges="orientation" />
 		<activity android:name=".benchmark.TickerTextBenchmark" android:configChanges="orientation" />
+		
+		<activity android:name=".game.snake.SnakeGameActivity" android:configChanges="orientation" />
 	</application>
 </manifest>
