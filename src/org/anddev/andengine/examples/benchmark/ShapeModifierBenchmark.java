@@ -89,7 +89,7 @@ public class ShapeModifierBenchmark extends BaseBenchmark {
 
 	@Override
 	public Scene onLoadScene() {
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene(1, true, 2 * SPRITE_COUNT);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		final SequenceModifier shapeModifier = new SequenceModifier(

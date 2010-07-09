@@ -19,6 +19,7 @@
     	<item>16</item>
     	<item>17</item>
     	<item>18</item>
+    	<item>19</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -40,5 +41,6 @@
  		<item> - Added ShapeModifierIrregular Example</item>
  		<item> - Added TextMenu Example</item>
  		<item> - Added ModPlayer Example\n - Added ChangeableText Example</item>
+ 		<item> - Optimized some Examples/Benchmarks by using the new FixedCapacityLayers</item>
     </string-array>
 </resources>

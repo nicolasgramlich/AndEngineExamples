@@ -92,7 +92,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 
 	@Override
 	public Scene onLoadScene() {
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene(1, true, 4 * SPRITE_COUNT);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
