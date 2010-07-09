@@ -31,10 +31,10 @@ public class Snake extends DynamicCapacityLayer {
 	// ===========================================================
 
 	public Snake(final Direction pInitialDirection, final int pCellX, final int pCellY, final TextureRegion pHeadTextureRegion, final TextureRegion pTailPartTextureRegion) {
-		this.mDirection = pInitialDirection;
 		this.mTailPartTextureRegion = pTailPartTextureRegion;
 		this.mHead = new SnakeHead(pCellX, pCellY, pHeadTextureRegion);
 		this.addEntity(this.mHead);
+		this.setDirection(pInitialDirection);
 	}
 
 	// ===========================================================
@@ -47,10 +47,15 @@ public class Snake extends DynamicCapacityLayer {
 
 	public void setDirection(final Direction pDirection) {
 		this.mDirection = pDirection;
+		this.mHead.setRotation(pDirection);
 	}
 
 	public int getTailLength() {
 		return this.mTail.size();
+	}
+
+	public SnakeHead getHead() {
+		return this.mHead;
 	}
 
 	// ===========================================================
@@ -60,6 +65,10 @@ public class Snake extends DynamicCapacityLayer {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	public void grow() {
+		this.mGrow = true;
+	}
 
 	public int getNextX() {
 		return Direction.addToX(this.mDirection, this.mHead.getCellX());
@@ -71,6 +80,7 @@ public class Snake extends DynamicCapacityLayer {
 
 	public void move() {
 		if(this.mGrow) {
+			this.mGrow = false;
 			/* If the snake should grow,
 			 * simply add a new part in the front of the tail,
 			 * where the head currently is. */

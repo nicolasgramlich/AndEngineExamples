@@ -24,8 +24,8 @@ public abstract class BaseSnakePart extends Sprite implements SnakeConstants {
 	// Constructors
 	// ===========================================================
 
-	public BaseSnakePart(final int pCellX, final int pCellY, final TextureRegion pTextureRegion) {
-		super(pCellX * CELL_WIDTH, pCellY * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT, pTextureRegion);
+	public BaseSnakePart(final int pCellX, final int pCellY, final int pWidth, final int pHeight, final TextureRegion pTextureRegion) {
+		super(pCellX * CELL_WIDTH, pCellY * CELL_HEIGHT, pWidth, pHeight, pTextureRegion);
 		this.mCellX = pCellX;
 		this.mCellY = pCellY;
 	}
