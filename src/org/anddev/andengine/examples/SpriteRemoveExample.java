@@ -54,7 +54,7 @@ public class SpriteRemoveExample extends BaseExample {
 	public Engine onLoadEngine() {
 		Toast.makeText(this, "Touch the screen to safely remove the sprite.", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, false));
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
 
 	@Override

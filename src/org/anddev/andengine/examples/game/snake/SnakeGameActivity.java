@@ -2,6 +2,9 @@ package org.anddev.andengine.examples.game.snake;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
+import org.anddev.andengine.engine.camera.hud.controls.DigitalOnScreenControl;
+import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl.OnScreenControlListener;
 import org.anddev.andengine.engine.handler.timer.ITimerCallback;
 import org.anddev.andengine.engine.handler.timer.TimerHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -45,6 +48,10 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	private Texture mBackgroundTexture;
 	private TextureRegion mBackgroundTextureRegion;
 
+	private Texture mOnScreenControlTexture;
+	private TextureRegion mOnScreenControlBaseTextureRegion;
+	private TextureRegion mOnScreenControlKnobTextureRegion;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -60,7 +67,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	@Override
 	public Engine onLoadEngine() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, false));
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
 
 	@Override
@@ -72,7 +79,11 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		this.mBackgroundTexture = new Texture(1024, 512, TextureOptions.DEFAULT);
 		this.mBackgroundTextureRegion = TextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "gfx/background_forest.png", 0, 0);
 
-		this.mEngine.getTextureManager().loadTextures(this.mBackgroundTexture, this.mTexture);
+		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR);
+		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "gfx/analog_onscreen_control_base.png", 0, 0);
+		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "gfx/analog_onscreen_control_knob.png", 128, 0);
+
+		this.mEngine.getTextureManager().loadTextures(this.mBackgroundTexture, this.mTexture, this.mOnScreenControlTexture);
 	}
 
 	@Override
@@ -86,30 +97,34 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 
 		/* Create the face and add it to the scene. */
 		final Snake snake = new Snake(Direction.RIGHT, 0, CELLS_VERTICAL / 2, this.mHeadTextureRegion, this.mTailPartTextureRegion);
+		snake.grow();
 		scene.getTopLayer().addEntity(snake);
+		
+		final DigitalOnScreenControl digitalOnScreenControl = new DigitalOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new OnScreenControlListener() {
+			@Override
+			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
+				if(pValueX == 1) {
+					snake.setDirection(Direction.RIGHT);
+				} else if(pValueX == -1) {
+					snake.setDirection(Direction.LEFT);
+				} else if(pValueY == 1) {
+					snake.setDirection(Direction.DOWN);
+				} else if(pValueY == -1) {
+					snake.setDirection(Direction.UP);
+				} 
+			}
+		});
 
-		scene.registerPreFrameHandler(new TimerHandler(1, 
+		scene.setChildScene(digitalOnScreenControl, false, false);
+
+		scene.registerPreFrameHandler(new TimerHandler(0.5f, 
 			new ITimerCallback() {
 				@Override
 				public void onTimePassed(final TimerHandler pTimerHandler) {
 					pTimerHandler.reset();
-					switch(MathUtils.random(0, 3)) {
-						case 0:
-							snake.setDirection(Direction.DOWN);
-							break;
-						case 1:
-							snake.setDirection(Direction.RIGHT);
-							break;
-						case 2:
-							snake.setDirection(Direction.LEFT);
-							break;
-						case 3:
-							snake.setDirection(Direction.UP);
-							break;
-					}
 					
 					// TODO Check if Snake ate food
-					if(MathUtils.RANDOM.nextFloat() > 0.5f) {
+					if(MathUtils.RANDOM.nextFloat() > 0.75f) {
 						snake.grow();
 					}
 					

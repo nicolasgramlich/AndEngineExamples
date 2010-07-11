@@ -69,7 +69,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		final Camera firstCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		final ChaseCamera secondCamera = new ChaseCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, null);
 		this.mChaseCamera = secondCamera;
-		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), firstCamera, secondCamera, false));
+		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), firstCamera, secondCamera));
 	}
 
 	@Override

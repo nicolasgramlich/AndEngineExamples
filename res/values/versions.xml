@@ -21,6 +21,7 @@
     	<item>18</item>
     	<item>19</item>
     	<item>20</item>
+    	<item>21</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -44,5 +45,6 @@
  		<item> - Added ModPlayer Example\n - Added ChangeableText Example</item>
  		<item> - Optimized some Examples/Benchmarks by using the new FixedCapacityLayers</item>
  		<item> - Added Snake Game</item>
+ 		<item> - Added Analog On-Screen Controls\n - Added Digital On-Screen Controls</item>
     </string-array>
 </resources>

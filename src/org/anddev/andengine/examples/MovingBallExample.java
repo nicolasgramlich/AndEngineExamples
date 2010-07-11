@@ -32,6 +32,7 @@ public class MovingBallExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
+	
 	private Texture mTexture;
 	private TiledTextureRegion mFaceTextureRegion;
 
@@ -50,7 +51,7 @@ public class MovingBallExample extends BaseExample {
 	@Override
 	public Engine onLoadEngine() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera, false));
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
 
 	@Override
