@@ -8,7 +8,7 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
  * @author Nicolas Gramlich
  * @since 17:13:44 - 09.07.2010
  */
-public abstract class CellEntity extends Sprite implements SnakeConstants {
+public abstract class CellEntity extends Sprite implements SnakeConstants, ICellEntity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -42,8 +42,8 @@ public abstract class CellEntity extends Sprite implements SnakeConstants {
 		return this.mCellY;
 	}
 
-	public void setCell(final CellEntity pSnakePart) {
-		this.setCell(pSnakePart.mCellX, pSnakePart.mCellY);
+	public void setCell(final ICellEntity pCellEntity) {
+		this.setCell(pCellEntity.getCellX(), pCellEntity.getCellY());
 	}
 
 	public void setCell(final int pCellX, final int pCellY) {
@@ -60,8 +60,9 @@ public abstract class CellEntity extends Sprite implements SnakeConstants {
 	// Methods
 	// ===========================================================
 	
-	public boolean isInSameCell(final CellEntity pCellEntity) {
-		return this.mCellX == pCellEntity.mCellX && this.mCellY == pCellEntity.mCellY;
+	@Override
+	public boolean isInSameCell(final ICellEntity pCellEntity) {
+		return this.mCellX == pCellEntity.getCellX() && this.mCellY == pCellEntity.getCellY();
 	}
 
 	// ===========================================================

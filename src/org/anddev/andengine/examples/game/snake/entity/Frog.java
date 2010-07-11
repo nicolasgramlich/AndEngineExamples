@@ -1,12 +1,12 @@
 package org.anddev.andengine.examples.game.snake.entity;
 
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
 /**
  * @author Nicolas Gramlich
  * @since 14:08:58 - 11.07.2010
  */
-public class Food extends CellEntity {
+public class Frog extends AnimatedCellEntity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -19,8 +19,8 @@ public class Food extends CellEntity {
 	// Constructors
 	// ===========================================================
 
-	public Food(int pCellX, int pCellY, int pWidth, int pHeight, TextureRegion pTextureRegion) {
-		super(pCellX, pCellY, pWidth, pHeight, pTextureRegion);
+	public Frog(final int pCellX, final int pCellY, final TiledTextureRegion pTiledTextureRegion) {
+		super(pCellX, pCellY, CELL_WIDTH, CELL_HEIGHT, pTiledTextureRegion);
 	}
 
 	// ===========================================================

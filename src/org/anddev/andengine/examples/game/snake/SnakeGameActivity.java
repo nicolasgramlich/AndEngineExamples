@@ -25,7 +25,7 @@ import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.game.snake.adt.Direction;
 import org.anddev.andengine.examples.game.snake.adt.SnakeSuicideException;
-import org.anddev.andengine.examples.game.snake.entity.Food;
+import org.anddev.andengine.examples.game.snake.entity.Frog;
 import org.anddev.andengine.examples.game.snake.entity.Snake;
 import org.anddev.andengine.examples.game.snake.entity.SnakeHead;
 import org.anddev.andengine.examples.game.snake.util.constants.SnakeConstants;
@@ -35,6 +35,7 @@ import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.Debug;
 import org.anddev.andengine.util.HorizontalAlign;
@@ -72,8 +73,8 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 
 	private Texture mTexture;
 	private TextureRegion mTailPartTextureRegion;
-	private TextureRegion mHeadTextureRegion;
-	private TextureRegion mFoodTextureRegion;
+	private TiledTextureRegion mHeadTextureRegion;
+	private TiledTextureRegion mFrogTextureRegion;
 
 	private Texture mBackgroundTexture;
 	private TextureRegion mBackgroundTextureRegion;
@@ -82,7 +83,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
 	private Snake mSnake;
-	private Food mFood;
+	private Frog mFrog;
 
 	private int mScore = 0;
 	private ChangeableText mScoreText;
@@ -121,11 +122,11 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		this.mEngine.getFontManager().loadFont(this.mFont);
 
 		/* Load all the textures this game needs. */
-		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR);
 		TextureRegionFactory.setAssetBasePath("gfx/");
-		this.mHeadTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "snake_head.png", 0, 0);
-		this.mTailPartTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "snake_tailpart.png", 32, 0);
-		this.mFoodTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "frog.png", 32, 32);
+		this.mHeadTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "snake_head.png", 0, 0, 3, 1);
+		this.mTailPartTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "snake_tailpart.png", 96, 0);
+		this.mFrogTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "frog.png", 0, 64, 3, 1);
 
 		this.mBackgroundTexture = new Texture(1024, 512, TextureOptions.DEFAULT);
 		this.mBackgroundTextureRegion = TextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "background_forest.png", 0, 0);
@@ -163,14 +164,16 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 
 		/* The Snake. */
 		this.mSnake = new Snake(Direction.RIGHT, 0, CELLS_VERTICAL / 2, this.mHeadTextureRegion, this.mTailPartTextureRegion);
+		this.mSnake.getHead().animate(200);
 		/* Snake starts with one tail. */
 		this.mSnake.grow();
 		scene.getLayer(LAYER_SNAKE).addEntity(this.mSnake);
 
-		/* Some food to approach and eat. */
-		this.mFood = new Food(0, 0, CELL_WIDTH, CELL_WIDTH, this.mFoodTextureRegion);
-		this.setFoodToRandomCell();
-		scene.getLayer(LAYER_FOOD).addEntity(this.mFood);
+		/* A frog to approach and eat. */
+		this.mFrog = new Frog(0, 0, this.mFrogTextureRegion);
+		this.mFrog.animate(1000);
+		this.setFrogToRandomCell();
+		scene.getLayer(LAYER_FOOD).addEntity(this.mFrog);
 
 		/* The On-Screen Controls to control the direction of the snake. */
 		this.mDigitalOnScreenControl = new DigitalOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new OnScreenControlListener() {
@@ -246,8 +249,8 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	// Methods
 	// ===========================================================
 
-	private void setFoodToRandomCell() {
-		this.mFood.setCell(MathUtils.random(1, CELLS_HORIZONTAL - 2), MathUtils.random(1, CELLS_VERTICAL - 2));
+	private void setFrogToRandomCell() {
+		this.mFrog.setCell(MathUtils.random(1, CELLS_HORIZONTAL - 2), MathUtils.random(1, CELLS_VERTICAL - 2));
 	}
 
 	private void handleNewSnakePosition() {
@@ -255,12 +258,12 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 
 		if(snakeHead.getCellX() < 0 || snakeHead.getCellX() >= CELLS_HORIZONTAL || snakeHead.getCellY() < 0 || snakeHead.getCellY() >= CELLS_VERTICAL) {
 			this.onGameOver();
-		} else if(snakeHead.isInSameCell(this.mFood)) {
+		} else if(snakeHead.isInSameCell(this.mFrog)) {
 			this.mScore += 50;
 			this.mScoreText.setText("Score: " + this.mScore);
 			this.mSnake.grow();
 			this.mMunchSound.play();
-			this.setFoodToRandomCell();
+			this.setFrogToRandomCell();
 		}
 	}
 
