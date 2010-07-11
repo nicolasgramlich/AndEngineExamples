@@ -1,5 +1,11 @@
 package org.anddev.andengine.examples.game.snake;
 
+import java.io.IOException;
+
+import javax.microedition.khronos.opengles.GL10;
+
+import org.anddev.andengine.audio.sound.Sound;
+import org.anddev.andengine.audio.sound.SoundFactory;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
@@ -11,17 +17,30 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.shape.modifier.RotationModifier;
+import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.text.ChangeableText;
+import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.game.snake.adt.Direction;
+import org.anddev.andengine.examples.game.snake.adt.SnakeSuicideException;
+import org.anddev.andengine.examples.game.snake.entity.Food;
 import org.anddev.andengine.examples.game.snake.entity.Snake;
+import org.anddev.andengine.examples.game.snake.entity.SnakeHead;
 import org.anddev.andengine.examples.game.snake.util.constants.SnakeConstants;
+import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.font.FontFactory;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
+import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.HorizontalAlign;
 import org.anddev.andengine.util.MathUtils;
+
+import android.graphics.Color;
 
 /**
  * @author Nicolas Gramlich
@@ -35,15 +54,26 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	private static final int CAMERA_WIDTH = CELLS_HORIZONTAL * CELL_WIDTH; // 640
 	private static final int CAMERA_HEIGHT = CELLS_VERTICAL * CELL_HEIGHT; // 480
 
+	private static final int LAYER_BACKGROUND = 0;
+	private static final int LAYER_FOOD = LAYER_BACKGROUND + 1;
+	private static final int LAYER_SNAKE = LAYER_FOOD + 1;
+	private static final int LAYER_SCORE = LAYER_SNAKE + 1;
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
 	private Camera mCamera;
-	
-	private Texture mTexture;	
+
+	private DigitalOnScreenControl mDigitalOnScreenControl;
+
+	private Texture mFontTexture;
+	private Font mFont;
+
+	private Texture mTexture;
 	private TextureRegion mTailPartTextureRegion;
 	private TextureRegion mHeadTextureRegion;
+	private TextureRegion mFoodTextureRegion;
 
 	private Texture mBackgroundTexture;
 	private TextureRegion mBackgroundTextureRegion;
@@ -51,6 +81,16 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	private Texture mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
+	private Snake mSnake;
+	private Food mFood;
+
+	private int mScore = 0;
+	private ChangeableText mScoreText;
+
+	private Sound mGameOverSound;
+	private Sound mMunchSound;
+	protected boolean mGameRunning;
+	private Text mGameOverText;
 
 	// ===========================================================
 	// Constructors
@@ -67,72 +107,127 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	@Override
 	public Engine onLoadEngine() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera).setNeedsSound(true));
 	}
 
 	@Override
 	public void onLoadResources() {
+		FontFactory.setAssetBasePath("fonts/");
+		this.mFontTexture = new Texture(512, 512, TextureOptions.BILINEAR);
+		this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "Plok.ttf", 32, true, Color.WHITE);
+
+		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
+		this.mEngine.getFontManager().loadFont(this.mFont);
+
 		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR);
-		this.mHeadTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/snake_head.png", 0, 0);
-		this.mTailPartTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/snake_tailpart.png", 32, 0);
+		TextureRegionFactory.setAssetBasePath("gfx/");
+		this.mHeadTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "snake_head.png", 0, 0);
+		this.mTailPartTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "snake_tailpart.png", 32, 0);
+		this.mFoodTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "frog.png", 32, 32);
 
 		this.mBackgroundTexture = new Texture(1024, 512, TextureOptions.DEFAULT);
-		this.mBackgroundTextureRegion = TextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "gfx/background_forest.png", 0, 0);
+		this.mBackgroundTextureRegion = TextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "background_forest.png", 0, 0);
 
 		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR);
-		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "gfx/analog_onscreen_control_base.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "gfx/analog_onscreen_control_knob.png", 128, 0);
+		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
+		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 
 		this.mEngine.getTextureManager().loadTextures(this.mBackgroundTexture, this.mTexture, this.mOnScreenControlTexture);
+
+		try {
+			SoundFactory.setAssetBasePath("mfx/");
+			this.mGameOverSound = SoundFactory.createSoundFromAsset(this.getSoundManager(), this, "game_over.ogg");
+			this.mMunchSound = SoundFactory.createSoundFromAsset(this.getSoundManager(), this, "munch.ogg");
+		} catch (final IOException e) {
+			Debug.e(e);
+		}
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
-		final Scene scene = new Scene(2);
-//		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
-		
-		scene.getBottomLayer().addEntity(new Sprite(0, 0, this.mBackgroundTextureRegion));
+		final Scene scene = new Scene(4);
+		/* No background color needed as we have a fullscreen background sprite. */
+		scene.setBackgroundEnabled(false);
+		scene.getLayer(LAYER_BACKGROUND).addEntity(new Sprite(0, 0, this.mBackgroundTextureRegion));
 
-		/* Create the face and add it to the scene. */
-		final Snake snake = new Snake(Direction.RIGHT, 0, CELLS_VERTICAL / 2, this.mHeadTextureRegion, this.mTailPartTextureRegion);
-		snake.grow();
-		scene.getTopLayer().addEntity(snake);
-		
-		final DigitalOnScreenControl digitalOnScreenControl = new DigitalOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new OnScreenControlListener() {
+		/* The ScoreText showing how many points the player scored. */
+		this.mScoreText = new ChangeableText(5, 5, this.mFont, "Score: 0", "Score: XXXX".length());
+		this.mScoreText.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		this.mScoreText.setAlpha(0.5f);
+		scene.getLayer(LAYER_SCORE).addEntity(this.mScoreText);
+
+		/* The Snake. */
+		this.mSnake = new Snake(Direction.RIGHT, 0, CELLS_VERTICAL / 2, this.mHeadTextureRegion, this.mTailPartTextureRegion);
+		/* Snake starts with one tail. */
+		this.mSnake.grow();
+		scene.getLayer(LAYER_SNAKE).addEntity(this.mSnake);
+
+		/* Some food to approach and eat. */
+		this.mFood = new Food(0, 0, CELL_WIDTH, CELL_WIDTH, this.mFoodTextureRegion);
+		this.setFoodToRandomCell();
+		scene.getLayer(LAYER_FOOD).addEntity(this.mFood);
+
+		/* The On-Screen Controls to control the direction of the snake. */
+		this.mDigitalOnScreenControl = new DigitalOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new OnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				if(pValueX == 1) {
-					snake.setDirection(Direction.RIGHT);
+					SnakeGameActivity.this.mSnake.setDirection(Direction.RIGHT);
 				} else if(pValueX == -1) {
-					snake.setDirection(Direction.LEFT);
+					SnakeGameActivity.this.mSnake.setDirection(Direction.LEFT);
 				} else if(pValueY == 1) {
-					snake.setDirection(Direction.DOWN);
+					SnakeGameActivity.this.mSnake.setDirection(Direction.DOWN);
 				} else if(pValueY == -1) {
-					snake.setDirection(Direction.UP);
-				} 
+					SnakeGameActivity.this.mSnake.setDirection(Direction.UP);
+				}
 			}
 		});
+		/* Make the controls semi-transparent. */
+		this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
+		this.mDigitalOnScreenControl.getControlKnob().setAlpha(0.5f);
 
-		scene.setChildScene(digitalOnScreenControl, false, false);
+		scene.setChildScene(this.mDigitalOnScreenControl, false, false);
 
-		scene.registerPreFrameHandler(new TimerHandler(0.5f, 
-			new ITimerCallback() {
-				@Override
-				public void onTimePassed(final TimerHandler pTimerHandler) {
-					pTimerHandler.reset();
-					
-					// TODO Check if Snake ate food
-					if(MathUtils.RANDOM.nextFloat() > 0.75f) {
-						snake.grow();
+		/* Make the Snake move every 0.5 seconds. */
+		scene.registerPreFrameHandler(new TimerHandler(0.5f, new ITimerCallback() {
+			@Override
+			public void onTimePassed(final TimerHandler pTimerHandler) {
+				pTimerHandler.reset();
+
+				if(SnakeGameActivity.this.mGameRunning) {
+					try {
+						SnakeGameActivity.this.mSnake.move();
+					} catch (final SnakeSuicideException e) {
+						SnakeGameActivity.this.onGameOver();
 					}
-					
-					// TODO Check if move is possible.
-					snake.move(); // IntoDirection(SnakeGameActivity.this.mDirection);
+
+					SnakeGameActivity.this.handleNewSnakePosition();
 				}
-			})
-		);
+			}
+		}));
+
+		/* The title text. */
+		final Text titleText = new Text(0, 0, this.mFont, "Snake\non a Phone!", HorizontalAlign.CENTER);
+		titleText.setPosition((CAMERA_WIDTH - titleText.getWidth()) * 0.5f, (CAMERA_HEIGHT - titleText.getHeight()) * 0.5f);
+		titleText.setScale(0.0f);
+		titleText.addShapeModifier(new ScaleModifier(2, 0.0f, 1.0f));
+		scene.getLayer(LAYER_SCORE).addEntity(titleText);
+
+		scene.registerPreFrameHandler(new TimerHandler(3.0f, new ITimerCallback() {
+			@Override
+			public void onTimePassed(final TimerHandler pTimerHandler) {
+				scene.unregisterPreFrameHandler(pTimerHandler);
+				scene.getLayer(LAYER_SCORE).removeEntity(titleText);
+				SnakeGameActivity.this.mGameRunning = true;
+			}
+		}));
+
+		this.mGameOverText = new Text(0, 0, this.mFont, "Game\nOver", HorizontalAlign.CENTER);
+		this.mGameOverText.setPosition((CAMERA_WIDTH - this.mGameOverText.getWidth()) * 0.5f, (CAMERA_HEIGHT - this.mGameOverText.getHeight()) * 0.5f);
+		this.mGameOverText.addShapeModifier(new ScaleModifier(3, 0.1f, 2.0f));
+		this.mGameOverText.addShapeModifier(new RotationModifier(3, 0, 720));
 
 		return scene;
 	}
@@ -145,6 +240,30 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	private void setFoodToRandomCell() {
+		this.mFood.setCell(MathUtils.random(1, CELLS_HORIZONTAL - 2), MathUtils.random(1, CELLS_VERTICAL - 2));
+	}
+
+	private void handleNewSnakePosition() {
+		final SnakeHead snakeHead = this.mSnake.getHead();
+
+		if(snakeHead.getCellX() < 0 || snakeHead.getCellX() >= CELLS_HORIZONTAL || snakeHead.getCellY() < 0 || snakeHead.getCellY() >= CELLS_VERTICAL) {
+			this.onGameOver();
+		} else if(snakeHead.isInSameCell(this.mFood)) {
+			this.mScore += 50;
+			this.mScoreText.setText("Score: " + this.mScore);
+			this.mSnake.grow();
+			this.mMunchSound.play();
+			this.setFoodToRandomCell();
+		}
+	}
+
+	private void onGameOver() {
+		this.mGameOverSound.play();
+		this.mEngine.getScene().getLayer(LAYER_SCORE).addEntity(this.mGameOverText);
+		this.mGameRunning = false;
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

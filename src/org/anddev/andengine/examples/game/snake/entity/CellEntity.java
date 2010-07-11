@@ -8,7 +8,7 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
  * @author Nicolas Gramlich
  * @since 17:13:44 - 09.07.2010
  */
-public abstract class BaseSnakePart extends Sprite implements SnakeConstants {
+public abstract class CellEntity extends Sprite implements SnakeConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -24,7 +24,7 @@ public abstract class BaseSnakePart extends Sprite implements SnakeConstants {
 	// Constructors
 	// ===========================================================
 
-	public BaseSnakePart(final int pCellX, final int pCellY, final int pWidth, final int pHeight, final TextureRegion pTextureRegion) {
+	public CellEntity(final int pCellX, final int pCellY, final int pWidth, final int pHeight, final TextureRegion pTextureRegion) {
 		super(pCellX * CELL_WIDTH, pCellY * CELL_HEIGHT, pWidth, pHeight, pTextureRegion);
 		this.mCellX = pCellX;
 		this.mCellY = pCellY;
@@ -42,7 +42,7 @@ public abstract class BaseSnakePart extends Sprite implements SnakeConstants {
 		return this.mCellY;
 	}
 
-	public void setCell(final BaseSnakePart pSnakePart) {
+	public void setCell(final CellEntity pSnakePart) {
 		this.setCell(pSnakePart.mCellX, pSnakePart.mCellY);
 	}
 
@@ -59,6 +59,10 @@ public abstract class BaseSnakePart extends Sprite implements SnakeConstants {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+	
+	public boolean isInSameCell(final CellEntity pCellEntity) {
+		return this.mCellX == pCellEntity.mCellX && this.mCellY == pCellEntity.mCellY;
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

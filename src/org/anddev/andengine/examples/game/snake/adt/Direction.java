@@ -37,8 +37,8 @@ public enum Direction {
 
 	public static int addToX(final Direction pDirection, final int pX) {
 		switch(pDirection) {
-			case DOWN:
 			case UP:
+			case DOWN:
 				return pX;
 			case LEFT:
 				return pX - 1;
@@ -60,6 +60,21 @@ public enum Direction {
 				return pY + 1;
 			default:
 				throw new IllegalArgumentException();
+		}
+	}
+
+	public static Direction opposite(final Direction pDirection) {
+		switch(pDirection) {
+			case UP:
+				return DOWN;
+			case DOWN:
+				return UP;
+			case LEFT:
+				return RIGHT;
+			case RIGHT:
+				return LEFT;
+			default:
+				return null;
 		}
 	}
 

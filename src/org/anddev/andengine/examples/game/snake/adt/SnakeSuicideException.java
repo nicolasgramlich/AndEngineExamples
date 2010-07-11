@@ -1,16 +1,15 @@
-package org.anddev.andengine.examples.game.snake.entity;
-
-import org.anddev.andengine.examples.game.snake.adt.Direction;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+package org.anddev.andengine.examples.game.snake.adt;
 
 /**
  * @author Nicolas Gramlich
- * @since 17:44:59 - 09.07.2010
+ * @since 15:29:42 - 11.07.2010
  */
-public class SnakeHead extends CellEntity {
+public class SnakeSuicideException extends Exception {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+
+	private static final long serialVersionUID = -4008723747610431268L;
 
 	// ===========================================================
 	// Fields
@@ -19,11 +18,6 @@ public class SnakeHead extends CellEntity {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
-	public SnakeHead(final int pCellX, final int pCellY, final TextureRegion pTextureRegion) {
-		super(pCellX, pCellY, CELL_WIDTH, 2 * CELL_HEIGHT, pTextureRegion);
-		this.setRotationCenterY(CELL_HEIGHT / 2);
-	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -36,23 +30,6 @@ public class SnakeHead extends CellEntity {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	public void setRotation(final Direction pDirection) {
-		switch(pDirection) {
-			case UP:
-				this.setRotation(180);
-				break;
-			case DOWN:
-				this.setRotation(0);
-				break;
-			case LEFT:
-				this.setRotation(90);
-				break;
-			case RIGHT:
-				this.setRotation(270);
-				break;
-		}
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
