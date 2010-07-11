@@ -112,6 +112,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 
 	@Override
 	public void onLoadResources() {
+		/* Load the font we are going to use. */
 		FontFactory.setAssetBasePath("fonts/");
 		this.mFontTexture = new Texture(512, 512, TextureOptions.BILINEAR);
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "Plok.ttf", 32, true, Color.WHITE);
@@ -119,6 +120,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
 		this.mEngine.getFontManager().loadFont(this.mFont);
 
+		/* Load all the textures this game needs. */
 		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR);
 		TextureRegionFactory.setAssetBasePath("gfx/");
 		this.mHeadTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "snake_head.png", 0, 0);
@@ -134,6 +136,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 
 		this.mEngine.getTextureManager().loadTextures(this.mBackgroundTexture, this.mTexture, this.mOnScreenControlTexture);
 
+		/* Load all the sounds this game needs. */
 		try {
 			SoundFactory.setAssetBasePath("mfx/");
 			this.mGameOverSound = SoundFactory.createSoundFromAsset(this.getSoundManager(), this, "game_over.ogg");
@@ -208,13 +211,14 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 			}
 		}));
 
-		/* The title text. */
+		/* The title-text. */
 		final Text titleText = new Text(0, 0, this.mFont, "Snake\non a Phone!", HorizontalAlign.CENTER);
 		titleText.setPosition((CAMERA_WIDTH - titleText.getWidth()) * 0.5f, (CAMERA_HEIGHT - titleText.getHeight()) * 0.5f);
 		titleText.setScale(0.0f);
 		titleText.addShapeModifier(new ScaleModifier(2, 0.0f, 1.0f));
 		scene.getLayer(LAYER_SCORE).addEntity(titleText);
 
+		/* The handler that removes the title-text and starst the game. */
 		scene.registerPreFrameHandler(new TimerHandler(3.0f, new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
@@ -224,6 +228,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 			}
 		}));
 
+		/* The game-over text. */
 		this.mGameOverText = new Text(0, 0, this.mFont, "Game\nOver", HorizontalAlign.CENTER);
 		this.mGameOverText.setPosition((CAMERA_WIDTH - this.mGameOverText.getWidth()) * 0.5f, (CAMERA_HEIGHT - this.mGameOverText.getHeight()) * 0.5f);
 		this.mGameOverText.addShapeModifier(new ScaleModifier(3, 0.1f, 2.0f));
