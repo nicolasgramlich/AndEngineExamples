@@ -49,6 +49,6 @@
  		<item> - Added Snake (Game)</item>
  		<item> - Added Analog On-Screen Controls\n - Added Digital On-Screen Controls</item>
  		<item> - Added Dual Analog On-Screen Controls\n - Improved Snake (Game)</item>
- 		<item> - Changes TextureOptionsExample to show repeating Textures</item>
+ 		<item> - Changes TextureOptionsExample to show repeating Textures\n - Added LoopModifier to ShapeModifier Example</item>
     </string-array>
 </resources>
