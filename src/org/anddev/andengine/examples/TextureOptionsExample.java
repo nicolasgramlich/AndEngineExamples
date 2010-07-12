@@ -5,13 +5,14 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.layer.ILayer;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
+import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
 /**
  * @author Nicolas Gramlich
@@ -30,10 +31,14 @@ public class TextureOptionsExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
+	
 	private Texture mTexture;
 	private Texture mTextureBilinear;
-	private TiledTextureRegion mFaceTextureRegion;
-	private TiledTextureRegion mFaceTextureRegionBilinear;
+	private Texture mTextureRepeating;
+	
+	private TextureRegion mFaceTextureRegion;
+	private TextureRegion mFaceTextureRegionBilinear;
+	private TextureRegion mFaceTextureRegionRepeating;
 
 	// ===========================================================
 	// Constructors
@@ -55,12 +60,20 @@ public class TextureOptionsExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(64, 32, TextureOptions.DEFAULT);
-		this.mTextureBilinear = new Texture(64, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);
-		this.mFaceTextureRegionBilinear = TextureRegionFactory.createTiledFromAsset(this.mTextureBilinear, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);
+		TextureRegionFactory.setAssetBasePath("gfx/");
+		this.mTexture = new Texture(32, 32, TextureOptions.DEFAULT);
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "boxface.png", 0, 0);
+		
+		this.mTextureBilinear = new Texture(32, 32, TextureOptions.BILINEAR);
+		this.mFaceTextureRegionBilinear = TextureRegionFactory.createFromAsset(this.mTextureBilinear, this, "boxface.png", 0, 0);
+		
+		this.mTextureRepeating = new Texture(32, 32, TextureOptions.REPEATING);
+		this.mFaceTextureRegionRepeating = TextureRegionFactory.createFromAsset(this.mTextureRepeating, this, "boxface.png", 0, 0);
+		/* The following statement causes the Texture to be printed horizontally 10x on any Sprite that uses it.
+		 * So we will later increase the width of such a sprite by the same factor to avoid distortion. */
+		this.mFaceTextureRegionRepeating.setWidth(10 * this.mFaceTextureRegionRepeating.getWidth());
 
-		this.mEngine.getTextureManager().loadTextures(this.mTexture, this.mTextureBilinear);
+		this.mEngine.getTextureManager().loadTextures(this.mTexture, this.mTextureBilinear, this.mTextureRepeating);
 	}
 
 	@Override
@@ -73,14 +86,20 @@ public class TextureOptionsExample extends BaseExample {
 		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
-		final AnimatedSprite face = new AnimatedSprite(x - 120, y, this.mFaceTextureRegion);
+		final Sprite face = new Sprite(x - 160, y - 40, this.mFaceTextureRegion);
 		face.setScale(4);
 
-		final AnimatedSprite faceBilinear = new AnimatedSprite(x + 120, y, this.mFaceTextureRegionBilinear);
+		final Sprite faceBilinear = new Sprite(x + 160, y - 40, this.mFaceTextureRegionBilinear);
 		faceBilinear.setScale(4);
 
-		scene.getTopLayer().addEntity(face);
-		scene.getTopLayer().addEntity(faceBilinear);
+		/* Make sure sprite has the same size as mTextureRegionRepeating.
+		 * Giving the sprite twice the height shows you'd also have to change the height of the TextureRegion! */
+		final Sprite faceRepeating = new Sprite(x - 160, y + 100, this.mFaceTextureRegionRepeating.getWidth(), this.mFaceTextureRegionRepeating.getHeight() * 2, this.mFaceTextureRegionRepeating);
+
+		final ILayer topLayer = scene.getTopLayer();
+		topLayer.addEntity(face);
+		topLayer.addEntity(faceBilinear);
+		topLayer.addEntity(faceRepeating);
 
 		return scene;
 	}
