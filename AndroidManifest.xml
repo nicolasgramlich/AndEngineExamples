@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="org.anddev.andengine.examples"
-	android:versionCode="20"
-	android:versionName="1.2.0">
+	android:versionCode="22"
+	android:versionName="1.2.2">
 
 	<uses-sdk android:minSdkVersion="4" />
 
@@ -22,6 +22,7 @@
 		</activity>
 
 		<activity android:name=".AnalogOnScreenControlExample" android:configChanges="orientation" />
+		<activity android:name=".AnalogOnScreenControlsExample" android:configChanges="orientation" />
 		<activity android:name=".AnimatedSpritesExample" android:configChanges="orientation" />
 		<activity android:name=".AugmentedRealityExample" android:configChanges="orientation" />
 		<activity android:name=".AugmentedRealityHorizonExample" android:configChanges="orientation" />

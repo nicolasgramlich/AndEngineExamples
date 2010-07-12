@@ -2,8 +2,8 @@ package org.anddev.andengine.examples;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
-import org.anddev.andengine.engine.camera.hud.controls.DigitalOnScreenControl;
 import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl.OnScreenControlListener;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -15,12 +15,13 @@ import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.util.MathUtils;
 
 /**
  * @author Nicolas Gramlich
  * @since 00:06:23 - 11.07.2010
  */
-public class DigitalOnScreenControlExample extends BaseExample {
+public class AnalogOnScreenControlsExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -84,16 +85,34 @@ public class DigitalOnScreenControlExample extends BaseExample {
 
 		scene.getTopLayer().addEntity(face);
 
-		final DigitalOnScreenControl digitalOnScreenControl = new DigitalOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new OnScreenControlListener() {
+		/* Velocity control (left). */
+		final AnalogOnScreenControl velocityOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new OnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				face.setVelocity(pValueX * 100, pValueY * 100);
 			}
 		});
-		digitalOnScreenControl.getControlBase().setAlpha(0.5f);
-		digitalOnScreenControl.getControlKnob().setAlpha(0.5f);
+		velocityOnScreenControl.getControlBase().setAlpha(0.5f);
+		velocityOnScreenControl.getControlKnob().setAlpha(0.5f);
 
-		scene.setChildScene(digitalOnScreenControl);
+		scene.setChildScene(velocityOnScreenControl);
+		
+
+		/* Rotation control (right). */		
+		final AnalogOnScreenControl rotationOnScreenControl = new AnalogOnScreenControl(CAMERA_WIDTH - this.mOnScreenControlBaseTextureRegion.getWidth(), CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new OnScreenControlListener() {
+			@Override
+			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
+				if(pValueX == 0 && pValueY == 0) {
+					face.setRotation(0);
+				} else {
+					face.setRotation(MathUtils.radToDeg((float)Math.atan2(pValueX, -pValueY)));
+				}
+			}
+		});
+		rotationOnScreenControl.getControlBase().setAlpha(0.5f);
+		rotationOnScreenControl.getControlKnob().setAlpha(0.5f);
+
+		velocityOnScreenControl.setChildScene(rotationOnScreenControl);
 
 		return scene;
 	}

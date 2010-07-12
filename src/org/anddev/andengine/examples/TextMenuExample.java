@@ -118,7 +118,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 				this.mMenuScene.back();
 			} else {
 				/* Attach the menu. */
-				this.mMainScene.setChildScene(this.mMenuScene, false, true);
+				this.mMainScene.setChildScene(this.mMenuScene, false, true, true);
 			}
 			return true;
 		} else {

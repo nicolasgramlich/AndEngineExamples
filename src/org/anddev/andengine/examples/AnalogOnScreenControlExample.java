@@ -16,6 +16,8 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
+import android.widget.Toast;
+
 /**
  * @author Nicolas Gramlich
  * @since 00:06:23 - 11.07.2010
@@ -55,6 +57,7 @@ public class AnalogOnScreenControlExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
+		Toast.makeText(this, "MultiTouch is NOT yet supported!", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
@@ -90,8 +93,10 @@ public class AnalogOnScreenControlExample extends BaseExample {
 				face.setVelocity(pValueX * 100, pValueY * 100);
 			}
 		});
+		analogOnScreenControl.getControlBase().setAlpha(0.5f);
+		analogOnScreenControl.getControlKnob().setAlpha(0.5f);
 
-		scene.setChildScene(analogOnScreenControl, false, false);
+		scene.setChildScene(analogOnScreenControl);
 
 		return scene;
 	}

@@ -100,7 +100,7 @@ public class PauseExample extends BaseExample {
 	public boolean onKeyDown(final int pKeyCode, final KeyEvent pEvent) {
 		if(pKeyCode == KeyEvent.KEYCODE_MENU && pEvent.getAction() == KeyEvent.ACTION_DOWN) {
 			if(this.mEngine.isRunning()) {
-				this.mMainScene.setChildScene(this.mPauseScene, false, true);
+				this.mMainScene.setChildScene(this.mPauseScene, false, true, true);
 				this.mEngine.stop();
 			} else {
 				this.mMainScene.clearChildScene();

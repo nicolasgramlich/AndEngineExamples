@@ -194,7 +194,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
 		this.mDigitalOnScreenControl.getControlKnob().setAlpha(0.5f);
 
-		scene.setChildScene(this.mDigitalOnScreenControl, false, false);
+		scene.setChildScene(this.mDigitalOnScreenControl);
 
 		/* Make the Snake move every 0.5 seconds. */
 		scene.registerPreFrameHandler(new TimerHandler(0.5f, new ITimerCallback() {

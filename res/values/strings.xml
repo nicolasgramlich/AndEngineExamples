@@ -34,6 +34,7 @@
 	
 	<!-- Examples -->
 	<string name="example_analogonscreencontrol">Analog OnScreen-Control</string>
+	<string name="example_analogonscreencontrols">Dual Analog OnScreen-Control</string>
 	<string name="example_animatedsprites">Drawing Animated Sprites</string>
 	<string name="example_augmentedreality">Using AugmentedReality</string>
 	<string name="example_augmentedrealityhorizon">An AugmentedReality Horizon</string>

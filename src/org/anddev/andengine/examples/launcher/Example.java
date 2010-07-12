@@ -1,6 +1,7 @@
 package org.anddev.andengine.examples.launcher;
 
 import org.anddev.andengine.examples.AnalogOnScreenControlExample;
+import org.anddev.andengine.examples.AnalogOnScreenControlsExample;
 import org.anddev.andengine.examples.AnimatedSpritesExample;
 import org.anddev.andengine.examples.AugmentedRealityExample;
 import org.anddev.andengine.examples.AugmentedRealityHorizonExample;
@@ -60,6 +61,7 @@ enum Example {
 	// ===========================================================
 
 	ANALOGONSCREENCONTROL(AnalogOnScreenControlExample.class, R.string.example_analogonscreencontrol),
+	ANALOGONSCREENCONTROLS(AnalogOnScreenControlsExample.class, R.string.example_analogonscreencontrols),
 	ANIMATEDSPRITES(AnimatedSpritesExample.class, R.string.example_animatedsprites),
 	AUGMENTEDREALITY(AugmentedRealityExample.class, R.string.example_augmentedreality),
 	AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, R.string.example_augmentedrealityhorizon),
