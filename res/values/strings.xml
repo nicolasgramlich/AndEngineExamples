@@ -16,7 +16,7 @@
     <string name="dialog_benchmarks_submit_please_message">Hi,\n\nmaybe you already noticed that the <b>AndEngineExamples</b> contain some <b>Benchmarks</b>.\n\nThe reason for that is that I am building a public <b>Performance-Database</b> that everyone can access and use for i.e. a feasibility analysis.\n\nSo please submit Benchmarks from all your devices and from time to time when there is a new version of AndEngine, so I can analyze if the tweaks I added were for the good or for the bad ;)\n\nBest Regards,\nNicolas</string>
     
     <string name="dialog_modplayerexample_loading_to_external_title">Loading</string>
-    <string name="dialog_modplayerexample_loading_to_external_message">Transferring 'lepeltheme.mod' to SDCard...</string>
+    <string name="dialog_modplayerexample_loading_to_external_message">Transferring \'lepeltheme.mod\' to SDCard...</string>
     
     <!-- Example-Groups -->
     <string name="examplegroup_simple">Simple</string>
@@ -48,6 +48,7 @@
 	<string name="example_modplayer">Playing .MOD Music</string>
 	<string name="example_movingball">A Moving Ball</string>
 	<string name="example_multiplayer">Multiplayer Example</string>
+	<string name="example_multitouch">MultiTouch Example</string>
 	<string name="example_music">Playing Music</string>
 	<string name="example_pause">Pausing the Game</string>
 	<string name="example_pathmodifier">Using a PathModifier</string>
@@ -70,7 +71,6 @@
 	<string name="example_textureoptions">Using TextureOptions</string>
 	<string name="example_tickertext">Drawing a TickerText</string>
 	<string name="example_touchdrag">Touch &amp; Drag Sprites</string>
-	<string name="example_touchdragmany">Touch &amp; Drag Multiple Sprites</string>
 	<string name="example_unloadtexture">Unloading Textures Dynamic</string>
 	<string name="example_updatetexture">Updating Textures Dynamic</string>
 	<string name="example_zoom">Using a ZoomCamera</string>

@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="lib/andenginemultiplayerextension.jar"/>
 	<classpathentry kind="lib" path="lib/andenginemodplayerextension.jar"/>
 	<classpathentry kind="lib" path="lib/andengineaugmentedrealityextension.jar"/>
+	<classpathentry kind="lib" path="lib/andenginemultitouchextension.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

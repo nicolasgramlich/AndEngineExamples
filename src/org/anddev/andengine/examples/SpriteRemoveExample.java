@@ -10,12 +10,12 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
-import android.view.MotionEvent;
 import android.widget.Toast;
 
 /**
@@ -89,7 +89,7 @@ public class SpriteRemoveExample extends BaseExample {
 		
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
-			public boolean onSceneTouchEvent(final Scene pScene, final MotionEvent pSceneMotionEvent) {
+			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 				runnableRemoveHandler.postRunnable(new Runnable() {
 					@Override
 					public void run() {

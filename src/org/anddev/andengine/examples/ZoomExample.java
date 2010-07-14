@@ -10,6 +10,7 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
@@ -84,8 +85,8 @@ public class ZoomExample extends BaseExample {
 		
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
-			public boolean onSceneTouchEvent(Scene pScene, MotionEvent pSceneMotionEvent) {
-				switch(pSceneMotionEvent.getAction()) {
+			public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+				switch(pSceneTouchEvent.getAction()) {
 					case MotionEvent.ACTION_DOWN:
 						ZoomExample.this.mSmoothCamera.setZoomFactor(5.0f);
 						break;

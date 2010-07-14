@@ -15,6 +15,7 @@ import org.anddev.andengine.extension.physics.box2d.Box2DPhysicsSpace;
 import org.anddev.andengine.extension.physics.box2d.adt.DynamicPhysicsBody;
 import org.anddev.andengine.extension.physics.box2d.adt.PhysicsShape;
 import org.anddev.andengine.extension.physics.box2d.adt.StaticPhysicsBody;
+import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
@@ -159,10 +160,10 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 	}
 
 	@Override
-	public boolean onSceneTouchEvent(final Scene pScene, final MotionEvent pSceneMotionEvent) {
+	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsSpace != null) {
-			if(pSceneMotionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-				this.addFace(pScene, pSceneMotionEvent.getX(), pSceneMotionEvent.getY());
+			if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				this.addFace(pScene, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;
 			}
 		}

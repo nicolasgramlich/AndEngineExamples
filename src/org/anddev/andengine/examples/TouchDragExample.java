@@ -9,12 +9,11 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-
-import android.view.MotionEvent;
 
 /**
  * @author Nicolas Gramlich
@@ -77,8 +76,8 @@ public class TouchDragExample extends BaseExample {
 
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
-			public boolean onSceneTouchEvent(final Scene pScene, final MotionEvent pSceneMotionEvent) {
-				face.setPosition(pSceneMotionEvent.getX() - face.getWidth() / 2, pSceneMotionEvent.getY() - face.getHeight() / 2);
+			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
+				face.setPosition(pSceneTouchEvent.getX() - face.getWidth() / 2, pSceneTouchEvent.getY() - face.getHeight() / 2);
 				return true;
 			}
 		});

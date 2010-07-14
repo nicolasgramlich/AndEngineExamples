@@ -38,7 +38,7 @@ import org.anddev.andengine.examples.TextMenuExample;
 import org.anddev.andengine.examples.TextureOptionsExample;
 import org.anddev.andengine.examples.TickerTextExample;
 import org.anddev.andengine.examples.TouchDragExample;
-import org.anddev.andengine.examples.TouchDragManyExample;
+import org.anddev.andengine.examples.MultiTouchExample;
 import org.anddev.andengine.examples.UnloadTextureExample;
 import org.anddev.andengine.examples.UpdateTextureExample;
 import org.anddev.andengine.examples.ZoomExample;
@@ -75,6 +75,7 @@ enum Example {
 	MODPLAYER(ModPlayerExample.class, R.string.example_modplayer),
 	MOVINGBALL(MovingBallExample.class, R.string.example_movingball),
 	MULTIPLAYER(MultiplayerExample.class, R.string.example_multiplayer),
+	MULTITOUCH(MultiTouchExample.class, R.string.example_multitouch),
 	MUSIC(MusicExample.class, R.string.example_music),
 	PAUSE(PauseExample.class, R.string.example_pause),
 	PATHMODIFIER(PathModifierExample.class, R.string.example_pathmodifier),
@@ -97,7 +98,6 @@ enum Example {
 	TEXTUREOPTIONS(TextureOptionsExample.class, R.string.example_textureoptions),
 	TICKERTEXT(TickerTextExample.class, R.string.example_tickertext),
 	TOUCHDRAG(TouchDragExample.class, R.string.example_touchdrag),
-	TOUCHDRAGMANY(TouchDragManyExample.class, R.string.example_touchdragmany),
 	UNLOADTEXTURE(UnloadTextureExample.class, R.string.example_unloadtexture),
 	UPDATETEXTURE(UpdateTextureExample.class, R.string.example_updatetexture),
 	ZOOM(ZoomExample.class, R.string.example_zoom),

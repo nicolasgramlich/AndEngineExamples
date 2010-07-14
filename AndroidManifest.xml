@@ -37,6 +37,7 @@
 		<activity android:name=".ModPlayerExample" android:configChanges="orientation" />
 		<activity android:name=".MovingBallExample" android:configChanges="orientation" />
 		<activity android:name=".MultiplayerExample" android:configChanges="orientation" />
+		<activity android:name=".MultiTouchExample" android:configChanges="orientation" />
 		<activity android:name=".MusicExample" android:configChanges="orientation" />
 		<activity android:name=".ParticleSystemCoolExample" android:configChanges="orientation" />
 		<activity android:name=".ParticleSystemNexusExample" android:configChanges="orientation" />
@@ -58,7 +59,6 @@
 		<activity android:name=".TextureOptionsExample" android:configChanges="orientation" />
 		<activity android:name=".TickerTextExample" android:configChanges="orientation" />
 		<activity android:name=".TouchDragExample" android:configChanges="orientation" />
-		<activity android:name=".TouchDragManyExample" android:configChanges="orientation" />
 		<activity android:name=".UnloadTextureExample" android:configChanges="orientation" />
 		<activity android:name=".UpdateTextureExample" android:configChanges="orientation" />
 		<activity android:name=".ZoomExample" android:configChanges="orientation" />

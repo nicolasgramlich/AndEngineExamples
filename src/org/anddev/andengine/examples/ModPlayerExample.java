@@ -12,6 +12,7 @@ import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
@@ -108,8 +109,8 @@ public class ModPlayerExample extends BaseExample {
 		scene.registerTouchArea(iLove8Bit);
 		scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
 			@Override
-			public boolean onAreaTouched(final ITouchArea pTouchArea, final MotionEvent pSceneMotionEvent) {
-				if(pSceneMotionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+			public boolean onAreaTouched(final ITouchArea pTouchArea, final TouchEvent pSceneTouchEvent) {
+				if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
 					ModPlayerExample.this.mModPlayer.pause();
 				}
 

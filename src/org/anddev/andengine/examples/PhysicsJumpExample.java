@@ -16,6 +16,7 @@ import org.anddev.andengine.extension.physics.box2d.Box2DPhysicsSpace;
 import org.anddev.andengine.extension.physics.box2d.adt.DynamicPhysicsBody;
 import org.anddev.andengine.extension.physics.box2d.adt.PhysicsShape;
 import org.anddev.andengine.extension.physics.box2d.adt.StaticPhysicsBody;
+import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
@@ -139,8 +140,8 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 	}
 
 	@Override
-	public boolean onAreaTouched(final ITouchArea pTouchArea, final MotionEvent pSceneMotionEvent) {
-		if(pSceneMotionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+	public boolean onAreaTouched(final ITouchArea pTouchArea, final TouchEvent pSceneTouchEvent) {
+		if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
 			final AnimatedSprite face = (AnimatedSprite)pTouchArea;
 			final DynamicPhysicsBody facePhysicsBody = PhysicsJumpExample.this.mPhysicsSpace.findDynamicBodyByShape(face);
 			PhysicsJumpExample.this.mPhysicsSpace.setVelocity(facePhysicsBody, PhysicsJumpExample.this.mGravityX * -10, PhysicsJumpExample.this.mGravityY * -10);
@@ -154,10 +155,10 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 	}
 
 	@Override
-	public boolean onSceneTouchEvent(final Scene pScene, final MotionEvent pSceneMotionEvent) {
+	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsSpace != null) {
-			if(pSceneMotionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-				this.addFace(pSceneMotionEvent.getX(), pSceneMotionEvent.getY());
+			if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;
 			}
 		}
