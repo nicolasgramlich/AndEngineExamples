@@ -74,14 +74,14 @@ public class ZoomExample extends BaseExample {
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
 		/* Calculate the coordinates for the screen-center. */
-		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		
 		/* Create some faces and add them to the scene. */
 		final ILayer topLayer = scene.getTopLayer();
-		topLayer.addEntity(new Sprite(x - 25, y - 25, this.mFaceTextureRegion));
-		topLayer.addEntity(new Sprite(x  + 25, y - 25, this.mFaceTextureRegion));
-		topLayer.addEntity(new Sprite(x, y + 25, this.mFaceTextureRegion));
+		topLayer.addEntity(new Sprite(centerX - 25, centerY - 25, this.mFaceTextureRegion));
+		topLayer.addEntity(new Sprite(centerX  + 25, centerY - 25, this.mFaceTextureRegion));
+		topLayer.addEntity(new Sprite(centerX, centerY + 25, this.mFaceTextureRegion));
 		
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override

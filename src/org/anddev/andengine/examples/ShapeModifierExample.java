@@ -77,14 +77,14 @@ public class ShapeModifierExample extends BaseExample {
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
-		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
-		final Rectangle rect = new Rectangle(x + 100, y, 32, 32);
+		final Rectangle rect = new Rectangle(centerX + 100, centerY, 32, 32);
 		rect.setColor(1, 0, 0);
 		rect.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
-		final AnimatedSprite face = new AnimatedSprite(x - 100, y, this.mFaceTextureRegion);
+		final AnimatedSprite face = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion);
 		face.animate(100);
 
 		final IShapeModifier shapeModifier = 

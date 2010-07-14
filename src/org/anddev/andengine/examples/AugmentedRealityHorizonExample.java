@@ -7,6 +7,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.augmentedreality.BaseAugmentedRealityGameActivity;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -68,16 +69,14 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 
 	@Override
 	public Scene onLoadScene() {
-		//		this.mEngine.registerPreFrameHandler(new FPSLogger());
-
+		this.mEngine.registerPreFrameHandler(new FPSLogger());
 		final Scene scene = new Scene(1);
-		//		scene.setBackgroundEnabled(false);
+//		scene.setBackgroundEnabled(false);
 		scene.setBackgroundColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		this.mFace = new Sprite(x, y, this.mFaceTextureRegion);
-		//		face.addShapeModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
+		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		this.mFace = new Sprite(centerX, centerY, this.mFaceTextureRegion);
 		scene.getTopLayer().addEntity(this.mFace);
 
 		return scene;

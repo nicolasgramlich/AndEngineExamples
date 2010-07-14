@@ -77,15 +77,15 @@ public class ShapeModifierIrregularExample extends BaseExample {
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
-		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
-		final AnimatedSprite face1 = new AnimatedSprite(x - 100, y, this.mFaceTextureRegion);
+		final AnimatedSprite face1 = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion);
 		face1.setRotationCenter(0, 0);
 		face1.setScaleCenter(0, 0);
 		face1.animate(100);
 
-		final AnimatedSprite face2 = new AnimatedSprite(x + 100, y, this.mFaceTextureRegion);
+		final AnimatedSprite face2 = new AnimatedSprite(centerX + 100, centerY, this.mFaceTextureRegion);
 		face2.animate(100);
 
 		final SequenceModifier shapeModifier = new SequenceModifier(
@@ -119,8 +119,8 @@ public class ShapeModifierIrregularExample extends BaseExample {
 		scene.getTopLayer().addEntity(face2);
 
 		/* Create some not-modified sprites, that act as fixed references to the modified ones. */
-		final AnimatedSprite face1Reference = new AnimatedSprite(x - 100, y, this.mFaceTextureRegion);
-		final AnimatedSprite face2Reference = new AnimatedSprite(x + 100, y, this.mFaceTextureRegion);
+		final AnimatedSprite face1Reference = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion);
+		final AnimatedSprite face2Reference = new AnimatedSprite(centerX + 100, centerY, this.mFaceTextureRegion);
 		
 		scene.getTopLayer().addEntity(face1Reference);
 		scene.getTopLayer().addEntity(face2Reference);

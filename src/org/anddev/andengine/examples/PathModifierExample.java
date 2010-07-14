@@ -74,12 +74,12 @@ public class PathModifierExample extends BaseExample {
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
-		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		final Sprite face = new Sprite(x, y, this.mFaceTextureRegion);
+		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
 
-		final Path path = new Path(7).to(x, y).to(100, 100).to(100, 200).to(200, 200).to(200, 100).to(100, 100).to(x, y);
-		face.addShapeModifier(new PathModifier(20, path, new IShapeModifierListener() {
+		final Path path = new Path(7).to(centerX, centerY).to(100, 100).to(100, 200).to(200, 200).to(200, 100).to(100, 100).to(centerX, centerY);
+		face.addShapeModifier(new PathModifier(12, path, new IShapeModifierListener() {
 			@Override
 			public void onModifierFinished(final IShapeModifier pShapeModifier, final IShape pShape) {
 				PathModifierExample.this.runOnUiThread(new Runnable() {

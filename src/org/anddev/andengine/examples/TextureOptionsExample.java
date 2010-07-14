@@ -83,18 +83,18 @@ public class TextureOptionsExample extends BaseExample {
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
-		final int x = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
-		final Sprite face = new Sprite(x - 160, y - 40, this.mFaceTextureRegion);
+		final Sprite face = new Sprite(centerX - 160, centerY - 40, this.mFaceTextureRegion);
 		face.setScale(4);
 
-		final Sprite faceBilinear = new Sprite(x + 160, y - 40, this.mFaceTextureRegionBilinear);
+		final Sprite faceBilinear = new Sprite(centerX + 160, centerY - 40, this.mFaceTextureRegionBilinear);
 		faceBilinear.setScale(4);
 
 		/* Make sure sprite has the same size as mTextureRegionRepeating.
 		 * Giving the sprite twice the height shows you'd also have to change the height of the TextureRegion! */
-		final Sprite faceRepeating = new Sprite(x - 160, y + 100, this.mFaceTextureRegionRepeating.getWidth(), this.mFaceTextureRegionRepeating.getHeight() * 2, this.mFaceTextureRegionRepeating);
+		final Sprite faceRepeating = new Sprite(centerX - 160, centerY + 100, this.mFaceTextureRegionRepeating.getWidth(), this.mFaceTextureRegionRepeating.getHeight() * 2, this.mFaceTextureRegionRepeating);
 
 		final ILayer topLayer = scene.getTopLayer();
 		topLayer.addEntity(face);
