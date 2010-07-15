@@ -99,6 +99,7 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
 				BaseBenchmark.this.mEngine.unregisterPostFrameHandler(pTimerHandler);
+				System.gc();
 				BaseBenchmark.this.setUpBenchmarkHandling();
 			}
 		}));

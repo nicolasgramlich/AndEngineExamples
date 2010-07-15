@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="org.anddev.andengine.examples"
-	android:versionCode="24"
-	android:versionName="1.2.4">
+	android:versionCode="26"
+	android:versionName="1.2.6">
 
 	<uses-sdk android:minSdkVersion="4" />
 
@@ -47,6 +47,7 @@
 		<activity android:name=".PhysicsExample" android:configChanges="orientation" />
 		<activity android:name=".PhysicsJumpExample" android:configChanges="orientation" />
 		<activity android:name=".PhysicsRemoveExample" android:configChanges="orientation" />
+		<activity android:name=".PhysicsRevoluteJointExample" android:configChanges="orientation" />
 		<activity android:name=".RectangleExample" android:configChanges="orientation" />
 		<activity android:name=".ShapeModifierExample" android:configChanges="orientation" />
 		<activity android:name=".SoundExample" android:configChanges="orientation" />
@@ -71,5 +72,6 @@
 		<activity android:name=".benchmark.TickerTextBenchmark" android:configChanges="orientation" />
 		
 		<activity android:name=".game.snake.SnakeGameActivity" android:configChanges="orientation" />
+		<activity android:name=".game.racer.RacerGameActivity" android:configChanges="orientation" />
 	</application>
 </manifest>

@@ -25,6 +25,8 @@
     	<item>22</item>
     	<item>23</item>
     	<item>24</item>
+    	<item>25</item>
+    	<item>26</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -41,7 +43,7 @@
  		<item> - Added TickerText Benchmark</item>
  		<item> - Added ParticleSystemCool Example\n - Added ParticleSystemNexus Example\n - Added ParticleSystem Benchmark</item>
  		<item> - Added ImageFormat Example (PNG, JPG, GIF, BMP)</item>
- 		<item> - Added LoadTexureExample\n - Added UpdateTexureExample</item>
+ 		<item> - Added LoadTexure Example\n - Added UpdateTexureExample</item>
  		<item> - Benchmarks now get submitted to a Server instead of mail to me.</item>
  		<item> - Added ShapeModifierIrregular Example</item>
  		<item> - Added TextMenu Example</item>
@@ -50,7 +52,9 @@
  		<item> - Added Snake (Game)</item>
  		<item> - Added Analog On-Screen Controls\n - Added Digital On-Screen Controls</item>
  		<item> - Added Dual Analog On-Screen Controls\n - Improved Snake (Game)</item>
- 		<item> - Changes TextureOptionsExample to show repeating Textures\n - Added a LoopModifier to ShapeModifier Example</item>
- 		<item> - Added MultiTouchExample\n - Removed TouchDragMany Example</item>
+ 		<item> - Changed TextureOptions Example to show repeating Textures\n - Added a LoopModifier to ShapeModifier Example</item>
+ 		<item> - Added MultiTouch Example\n - Removed TouchDragMany Example</item>
+ 		<item> - Now using the libGDX Box2D Wrapper\n - Added PhysicysRevoluteJoint Example</item>
+ 		<item> - Added Racer (Game)</item>
     </string-array>
 </resources>

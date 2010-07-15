@@ -33,21 +33,6 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		ExampleGroup.BENCHMARKS
 	};
 
-	private static final Example[][] EXAMPLES = {
-		{ Example.LINE, Example.RECTANGLE, Example.SPRITE, Example.SPRITEREMOVE },
-		{ Example.MOVINGBALL, Example.SHAPEMODIFIER, Example.SHAPEMODIFIERIRREGULAR, Example.PATHMODIFIER, Example.ANIMATEDSPRITES },
-		{ Example.TOUCHDRAG, Example.MULTITOUCH, Example.ANALOGONSCREENCONTROL, Example.DIGITALONSCREENCONTROL , Example.ANALOGONSCREENCONTROLS },
-		{ Example.PARTICLESYSTEMSIMPLE, Example.PARTICLESYSTEMCOOL, Example.PARTICLESYSTEMNEXUS },
-		{ Example.MULTIPLAYER },
-		{ Example.PHYSICS, Example.PHYSICSJUMP, Example.PHYSICSREMOVE },
-		{ Example.TEXT, Example.TICKERTEXT, Example.CHANGEABLETEXT, Example.CUSTOMFONT },
-		{ Example.SOUND, Example.MUSIC, Example.MODPLAYER },
-		{ Example.SPLITSCREEN, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON },
-		{ Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTMENU, Example.ZOOM , Example.IMAGEFORMATS, Example.TEXTUREOPTIONS, Example.LOADTEXTURE, Example.UPDATETEXTURE, Example.UNLOADTEXTURE},
-		{ Example.GAME_SNAKE },
-		{ Example.BENCHMARK_SPRITE, Example.BENCHMARK_SHAPEMODIFIER, Example.BENCHMARK_ANIMATION, Example.BENCHMARK_TICKERTEXT, Example.BENCHMARK_PARTICLESYSTEM, Example.BENCHMARK_PHYSICS }
-	};
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -72,7 +57,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public Example getChild(final int pGroupPosition, final int pChildPosition) {
-		return EXAMPLES[pGroupPosition][pChildPosition];
+		return EXAMPLEGROUPS[pGroupPosition].EXAMPLES[pChildPosition];
 	}
 
 	@Override
@@ -82,7 +67,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(final int pGroupPosition) {
-		return EXAMPLES[pGroupPosition].length;
+		return EXAMPLEGROUPS[pGroupPosition].EXAMPLES.length;
 	}
 
 	@Override

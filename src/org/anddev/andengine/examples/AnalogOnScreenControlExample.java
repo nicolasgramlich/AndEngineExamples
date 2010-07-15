@@ -16,8 +16,6 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
-import android.widget.Toast;
-
 /**
  * @author Nicolas Gramlich
  * @since 00:06:23 - 11.07.2010
@@ -57,19 +55,20 @@ public class AnalogOnScreenControlExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
-		Toast.makeText(this, "MultiTouch is NOT yet supported!", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
 
 	@Override
 	public void onLoadResources() {
+		TextureRegionFactory.setAssetBasePath("gfx/");
+		
 		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "boxface.png", 0, 0);
 
 		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR);
-		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "gfx/onscreen_control_base.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "gfx/onscreen_control_knob.png", 128, 0);
+		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
+		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 
 		this.mEngine.getTextureManager().loadTextures(this.mTexture, this.mOnScreenControlTexture);
 	}

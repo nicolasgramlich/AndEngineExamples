@@ -61,12 +61,14 @@ public class DigitalOnScreenControlExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
+		TextureRegionFactory.setAssetBasePath("gfx/");
+		
 		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "boxface.png", 0, 0);
 
 		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR);
-		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "gfx/onscreen_control_base.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "gfx/onscreen_control_knob.png", 128, 0);
+		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
+		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 
 		this.mEngine.getTextureManager().loadTextures(this.mTexture, this.mOnScreenControlTexture);
 	}
