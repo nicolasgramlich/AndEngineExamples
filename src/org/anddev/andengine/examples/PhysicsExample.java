@@ -76,8 +76,6 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "boxface_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mCircleFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "circleface_tiled.png", 0, 32, 2, 1); // 64x32
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
-
-		this.enableAccelerometerSensor(this);
 	}
 
 	@Override
@@ -132,7 +130,9 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	}
 
 	public void onLoadComplete() {
-
+		/* We are choosing SensorManager.SENSOR_DELAY_UI here to stay comparable to older versions of this example. 
+		 * Visually there is no difference noticeable. */
+		this.enableAccelerometerSensor(this, SensorManager.SENSOR_DELAY_UI);
 	}
 
 	@Override

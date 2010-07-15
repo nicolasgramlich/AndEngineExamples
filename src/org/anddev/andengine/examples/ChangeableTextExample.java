@@ -79,7 +79,7 @@ public class ChangeableTextExample extends BaseExample {
 		scene.getTopLayer().addEntity(elapsedText);
 		scene.getTopLayer().addEntity(fpsText);
 		
-		scene.registerPreFrameHandler(new TimerHandler(0.05f, new ITimerCallback() {
+		scene.registerPreFrameHandler(new TimerHandler(1 / 20.0f, new ITimerCallback() {
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
 				pTimerHandler.reset();
