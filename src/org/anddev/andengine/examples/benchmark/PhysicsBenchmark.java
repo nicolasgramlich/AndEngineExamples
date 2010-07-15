@@ -10,11 +10,11 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
+import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
-import org.anddev.andengine.extension.physics.box2d.Box2DPhysicsSpace;
-import org.anddev.andengine.extension.physics.box2d.adt.DynamicPhysicsBody;
-import org.anddev.andengine.extension.physics.box2d.adt.PhysicsShape;
-import org.anddev.andengine.extension.physics.box2d.adt.StaticPhysicsBody;
+import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
+import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
+import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -23,6 +23,10 @@ import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
 import android.hardware.SensorManager;
 import android.view.MotionEvent;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 /**
  * @author Nicolas Gramlich
@@ -48,7 +52,7 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 	private TiledTextureRegion mBoxFaceTextureRegion;
 	private TiledTextureRegion mCircleFaceTextureRegion;
 
-	private Box2DPhysicsSpace mPhysicsSpace;
+	private PhysicsWorld mPhysicsWorld;
 	private int mFaceCount = 0;
 
 	// ===========================================================
@@ -95,29 +99,26 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 
 	@Override
 	public Scene onLoadScene() {
-		this.mPhysicsSpace = new Box2DPhysicsSpace();
-		this.mPhysicsSpace.createWorld(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		this.mPhysicsSpace.setGravity(0, SensorManager.GRAVITY_EARTH);
-
 		final Scene scene = new Scene(2, true, 4, (COUNT_VERTICAL - 1) * (COUNT_HORIZONTAL - 1));
 		scene.setBackgroundColor(0, 0, 0);
 		scene.setOnSceneTouchListener(this);
 
-		final Rectangle ground = new Rectangle(0, CAMERA_HEIGHT - 1, CAMERA_WIDTH, 1);
+		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, 2 * SensorManager.GRAVITY_EARTH), false);
+
+		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
+		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
+		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
+		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
+
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody);
+
 		scene.getBottomLayer().addEntity(ground);
-		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(ground, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
-
-		final Rectangle roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
 		scene.getBottomLayer().addEntity(roof);
-		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(roof, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
-
-		final Rectangle left = new Rectangle(0, 0, 1, CAMERA_HEIGHT);
 		scene.getBottomLayer().addEntity(left);
-		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(left, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
-
-		final Rectangle right = new Rectangle(CAMERA_WIDTH - 1, 0, 1, CAMERA_HEIGHT);
 		scene.getBottomLayer().addEntity(right);
-		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(right, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
 		
 		for(int x = 1; x < COUNT_HORIZONTAL; x++) {
 			for(int y = 1; y < COUNT_VERTICAL; y++) {
@@ -131,11 +132,11 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
 				scene.unregisterPreFrameHandler(pTimerHandler);
-				scene.registerPreFrameHandler(PhysicsBenchmark.this.mPhysicsSpace);
+				scene.registerPreFrameHandler(PhysicsBenchmark.this.mPhysicsWorld);
 				scene.registerPreFrameHandler(new TimerHandler(10, new ITimerCallback() {
 					@Override
 					public void onTimePassed(TimerHandler pTimerHandler) {
-						PhysicsBenchmark.this.mPhysicsSpace.setGravity(0, -SensorManager.GRAVITY_EARTH);
+						PhysicsBenchmark.this.mPhysicsWorld.setGravity(new Vector2(0, -SensorManager.GRAVITY_EARTH));
 					}
 				}));
 			}
@@ -148,20 +149,25 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 		this.mFaceCount++;
 
 		final AnimatedSprite face;
-
-		if(this.mFaceCount % 2 == 1) {
-			face = new AnimatedSprite(pX - 16, pY - 16, this.mBoxFaceTextureRegion);
-			this.mPhysicsSpace.addDynamicBody(new DynamicPhysicsBody(face, 1, 0.5f, 0.5f, PhysicsShape.RECTANGLE, false));
+		final Body body;
+		
+		if(this.mFaceCount % 2 == 0) {
+			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
+			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody);
 		} else {
-			face = new AnimatedSprite(pX - 16, pY - 16, this.mCircleFaceTextureRegion);
-			this.mPhysicsSpace.addDynamicBody(new DynamicPhysicsBody(face, 1, 0.5f, 0.5f, PhysicsShape.CIRCLE, false));
+			face = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion);
+			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody);
 		}
+		
+		face.setUpdatePhysics(false);
+		
 		pScene.getTopLayer().addEntity(face);
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 	}
 
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-		if(this.mPhysicsSpace != null) {
+		if(this.mPhysicsWorld != null) {
 			if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
 				this.addFace(pScene, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;

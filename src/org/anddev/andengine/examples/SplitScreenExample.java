@@ -10,12 +10,12 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
+import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.extension.physics.box2d.Box2DPhysicsSpace;
-import org.anddev.andengine.extension.physics.box2d.adt.DynamicPhysicsBody;
-import org.anddev.andengine.extension.physics.box2d.adt.PhysicsShape;
-import org.anddev.andengine.extension.physics.box2d.adt.StaticPhysicsBody;
+import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
+import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
+import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -27,6 +27,10 @@ import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import android.hardware.SensorManager;
 import android.view.MotionEvent;
 import android.widget.Toast;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 /**
  * @author Nicolas Gramlich
@@ -43,14 +47,17 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	private ChaseCamera mChaseCamera;
 
 	private Texture mTexture;
 
 	private TiledTextureRegion mBoxFaceTextureRegion;
 
-	private Box2DPhysicsSpace mPhysicsSpace;
+	private PhysicsWorld mPhysicsWorld;
+	
 	private int mFaceCount;
-	private ChaseCamera mChaseCamera;
+	
+	private Vector2 mTempVector;
 
 	// ===========================================================
 	// Constructors
@@ -84,84 +91,32 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 
 	@Override
 	public Scene onLoadScene() {
-		this.mPhysicsSpace = new Box2DPhysicsSpace();
-		this.mPhysicsSpace.createWorld(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		this.mPhysicsSpace.setGravity(0, 2 * SensorManager.GRAVITY_EARTH);
+		this.mEngine.registerPostFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(2);
 		scene.setBackgroundColor(0, 0, 0);
 		scene.setOnSceneTouchListener(this);
 
-		this.mEngine.registerPostFrameHandler(new FPSLogger());
+		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, 2 * SensorManager.GRAVITY_EARTH), false);
 
-		final Rectangle ground = new Rectangle(0, CAMERA_HEIGHT - 1, CAMERA_WIDTH, 1);
-		scene.getLayer(0).addEntity(ground);
-		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(ground, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
+		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
+		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
+		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
+		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
 
-		final Rectangle roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
-		scene.getLayer(0).addEntity(roof);
-		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(roof, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody);
 
-		final Rectangle left = new Rectangle(0, 0, 1, CAMERA_HEIGHT);
-		scene.getLayer(0).addEntity(left);
-		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(left, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
+		scene.getBottomLayer().addEntity(ground);
+		scene.getBottomLayer().addEntity(roof);
+		scene.getBottomLayer().addEntity(left);
+		scene.getBottomLayer().addEntity(right);
 
-		final Rectangle right = new Rectangle(CAMERA_WIDTH - 1, 0, 1, CAMERA_HEIGHT);
-		scene.getLayer(0).addEntity(right);
-		this.mPhysicsSpace.addStaticBody(new StaticPhysicsBody(right, 0, 0.5f, 0.5f, PhysicsShape.RECTANGLE));
-
-		this.mEngine.registerPreFrameHandler(this.mPhysicsSpace);
+		scene.registerPreFrameHandler(this.mPhysicsWorld);
 
 		return scene;
-	}
-
-	private void addFace(final float pX, final float pY) {
-		final Scene scene = this.mEngine.getScene();
-
-		final AnimatedSprite face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
-
-		face.animate(new long[]{100,100}, 0, 1, true);
-
-		//		face.addSpriteModifier(new SequenceModifier(new IModifierListener() {
-		//			@Override
-		//			public void onModifierFinished(final ISpriteModifier pSpriteModifier, final BaseSprite pBaseSprite) {
-		//				Playground.this.runOnUiThread(new Runnable() {
-		//					@Override
-		//					public void run() {
-		//						Toast.makeText(Playground.this, "Sequence ended.", Toast.LENGTH_LONG).show();
-		//					}
-		//				});
-		//			}
-		//		},
-		//		new RotateByModifier(5, 90),
-		//		new DelayModifier(2),
-		//		new AlphaModifier(3, 1, 0),
-		//		new AlphaModifier(3, 0, 1),
-		//		new ScaleModifier(3, 1, 0.5f),
-		//		new ScaleModifier(3, 0.5f, 5),
-		//		new ScaleModifier(3, 5, 1),
-		//		new RotateModifier(5, 45, 90),
-		//		new RotateByModifier(5, -90)));
-
-		scene.getLayer(1).addEntity(face);
-
-		//		if(this.mFaceCount == 0) {
-		//			this.mPhysicsSpace.addDynamicBody(new DynamicPhysicsBody(face, 1, 0.5f, 0.5f, PhysicsShape.RECTANGLE, false, new ICollisionCallback() {
-		//				@Override
-		//				public boolean onCollision(final StaticEntity pCheckEntity, final StaticEntity pTargetStaticEntity) {
-		//					Debug.d("KLONK");
-		//					return false;
-		//				}
-		//			}));
-		//		} else {
-		this.mPhysicsSpace.addDynamicBody(new DynamicPhysicsBody(face, 1, 0.5f, 0.5f, PhysicsShape.RECTANGLE, false));
-
-		if(this.mFaceCount == 0){
-			this.mChaseCamera.setChaseEntity(face);
-		}
-		//		}
-		//
-		this.mFaceCount++;
 	}
 
 	public void onLoadComplete() {
@@ -170,9 +125,14 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-		if(this.mPhysicsSpace != null) {
+		if(this.mPhysicsWorld != null) {
 			if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
-				this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+				runOnUpdateThread(new Runnable() {				
+					@Override
+					public void run() {
+						SplitScreenExample.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+					}
+				});
 				return true;
 			}
 		}
@@ -181,12 +141,30 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 
 	@Override
 	public void onAccelerometerChanged(final AccelerometerData pAccelerometerData) {
-		this.mPhysicsSpace.setGravity(4 * pAccelerometerData.getY(), 4 * pAccelerometerData.getX());
+		this.mTempVector.set(4 * pAccelerometerData.getY(), 4 * pAccelerometerData.getX());
+
+		this.mPhysicsWorld.setGravity(this.mTempVector);
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	private void addFace(final float pX, final float pY) {
+		final Scene scene = this.mEngine.getScene();
+
+		final AnimatedSprite face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion).animate(100);
+		final Body body = PhysicsFactory.createBoxBody(mPhysicsWorld, face, BodyType.DynamicBody);
+
+		scene.getTopLayer().addEntity(face);
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
+
+		if(this.mFaceCount == 0){
+			this.mChaseCamera.setChaseEntity(face);
+		}
+
+		this.mFaceCount++;
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
