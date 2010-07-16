@@ -192,7 +192,6 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		});
 		/* Make the controls semi-transparent. */
 		this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
-		this.mDigitalOnScreenControl.getControlKnob().setAlpha(0.5f);
 
 		scene.setChildScene(this.mDigitalOnScreenControl);
 

@@ -23,7 +23,7 @@ public enum ExampleGroup {
 	MULTIPLAYER(R.string.examplegroup_multiplayer,
 			Example.MULTIPLAYER),
 	PHYSICS(R.string.examplegroup_physics,
-			Example.PHYSICS, Example.PHYSICSJUMP, Example.PHYSICSREVOLUTEJOINT, Example.PHYSICSREMOVE),
+			Example.COLLISIONDETECTION, Example.PHYSICS, Example.PHYSICSJUMP, Example.PHYSICSREVOLUTEJOINT, Example.PHYSICSREMOVE ),
 	TEXT(R.string.examplegroup_text,
 			Example.TEXT, Example.TICKERTEXT, Example.CHANGEABLETEXT, Example.CUSTOMFONT),
 	AUDIO(R.string.examplegroup_audio, 

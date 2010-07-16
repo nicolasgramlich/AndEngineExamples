@@ -93,7 +93,6 @@ public class DigitalOnScreenControlExample extends BaseExample {
 			}
 		});
 		digitalOnScreenControl.getControlBase().setAlpha(0.5f);
-		digitalOnScreenControl.getControlKnob().setAlpha(0.5f);
 
 		scene.setChildScene(digitalOnScreenControl);
 

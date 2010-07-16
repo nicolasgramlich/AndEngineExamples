@@ -27,6 +27,7 @@
     	<item>24</item>
     	<item>25</item>
     	<item>26</item>
+    	<item>27</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -56,5 +57,6 @@
  		<item> - Added MultiTouch Example\n - Removed TouchDragMany Example</item>
  		<item> - Now using the libGDX Box2D Wrapper\n - Added PhysicysRevoluteJoint Example</item>
  		<item> - Added Racer (Game)</item>
+ 		<item> - Added CollisionTest Example</item>
     </string-array>
 </resources>

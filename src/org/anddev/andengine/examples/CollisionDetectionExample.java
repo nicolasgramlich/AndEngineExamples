@@ -5,10 +5,17 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl.OnScreenControlListener;
+import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.shape.modifier.LoopModifier;
+import org.anddev.andengine.entity.shape.modifier.ParallelModifier;
+import org.anddev.andengine.entity.shape.modifier.RotationModifier;
+import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
+import org.anddev.andengine.entity.shape.modifier.SequenceModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouch;
@@ -26,7 +33,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 00:06:23 - 11.07.2010
  */
-public class AnalogOnScreenControlsExample extends BaseExample {
+public class CollisionDetectionExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -46,7 +53,7 @@ public class AnalogOnScreenControlsExample extends BaseExample {
 	private Texture mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
-	
+
 	private boolean mPlaceOnScreenControlsAtDifferentVerticalLocations = false;
 
 	// ===========================================================
@@ -65,7 +72,7 @@ public class AnalogOnScreenControlsExample extends BaseExample {
 	public Engine onLoadEngine() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		final Engine engine = new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
-		
+
 		try {
 			if(MultiTouch.isSupported(this)) {
 				engine.setTouchController(new MultiTouchController());
@@ -81,14 +88,14 @@ public class AnalogOnScreenControlsExample extends BaseExample {
 		} catch (final MultiTouchException e) {
 			Toast.makeText(this, "Sorry your Android Version does NOT support MultiTouch!\n\n(Falling back to SingleTouch.)\n\nControls are placed at different vertical locations.", Toast.LENGTH_LONG).show();
 		}
-		
+
 		return engine;
 	}
 
 	@Override
 	public void onLoadResources() {
 		TextureRegionFactory.setAssetBasePath("gfx/");
-		
+
 		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "boxface.png", 0, 0);
 
@@ -106,10 +113,17 @@ public class AnalogOnScreenControlsExample extends BaseExample {
 		final Scene scene = new Scene(1);
 		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
 
+
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
 
+		/* A spinning rectangle in the center of the screen. */
+		final Rectangle centerRectangle = new Rectangle(centerX, centerY, 32, 32);
+		centerRectangle.addShapeModifier(new LoopModifier(new ParallelModifier(new RotationModifier(6, 0, 360), new SequenceModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1)))));
+
+		scene.getTopLayer().addEntity(centerRectangle);
+
+		final Sprite face = new Sprite(centerX, centerY + 42, this.mFaceTextureRegion);
 		scene.getTopLayer().addEntity(face);
 
 		/* Velocity control (left). */
@@ -124,9 +138,9 @@ public class AnalogOnScreenControlsExample extends BaseExample {
 		velocityOnScreenControl.getControlBase().setAlpha(0.5f);
 
 		scene.setChildScene(velocityOnScreenControl);
-		
 
-		/* Rotation control (right). */		
+
+		/* Rotation control (right). */
 		final int y2 = (this.mPlaceOnScreenControlsAtDifferentVerticalLocations) ? 0 : y1;
 		final int x2 = CAMERA_WIDTH - this.mOnScreenControlBaseTextureRegion.getWidth();
 		final AnalogOnScreenControl rotationOnScreenControl = new AnalogOnScreenControl(x2, y2, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new OnScreenControlListener() {
@@ -142,6 +156,22 @@ public class AnalogOnScreenControlsExample extends BaseExample {
 		rotationOnScreenControl.getControlBase().setAlpha(0.5f);
 
 		velocityOnScreenControl.setChildScene(rotationOnScreenControl);
+
+		/* The actual collision-checking. */
+		scene.registerPreFrameHandler(new IUpdateHandler() {
+			
+			@Override
+			public void reset() { }
+			
+			@Override
+			public void onUpdate(float pSecondsElapsed) {
+				if(centerRectangle.collidesWith(face)) {
+					centerRectangle.setColor(1, 0, 0);
+				} else {
+					centerRectangle.setColor(0, 1, 0);
+				}
+			}
+		});
 
 		return scene;
 	}
