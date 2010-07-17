@@ -77,7 +77,7 @@ public class CollisionDetectionExample extends BaseExample {
 			if(MultiTouch.isSupported(this)) {
 				engine.setTouchController(new MultiTouchController());
 				if(MultiTouch.isSupportedDistinct(this)) {
-					Toast.makeText(this, "MultiTouch detected --> Both controls will work properly!", Toast.LENGTH_LONG).show();
+					Toast.makeText(this, "MultiTouch detected --> Both controls will work properly!", Toast.LENGTH_SHORT).show();
 				} else {
 					this.mPlaceOnScreenControlsAtDifferentVerticalLocations = true;
 					Toast.makeText(this, "MultiTouch detected, but your device has problems distinguishing between fingers.\n\nControls are placed at different vertical locations.", Toast.LENGTH_LONG).show();
