@@ -124,7 +124,7 @@ public class MultiTouchExample extends BaseExample {
 
 		scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
 			@Override
-			public boolean onAreaTouched(final ITouchArea pTouchArea, final TouchEvent pSceneTouchEvent) {
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
 					final Sprite sprite = (Sprite) pTouchArea;
 					sprite.setScale(1.2f);

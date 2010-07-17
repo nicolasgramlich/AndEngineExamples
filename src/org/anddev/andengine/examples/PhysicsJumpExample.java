@@ -127,7 +127,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 	}
 
 	@Override
-	public boolean onAreaTouched(final ITouchArea pTouchArea, final TouchEvent pSceneTouchEvent) {
+	public boolean onAreaTouched( final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea,final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 		if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
 			this.mPhysicsWorld.postRunnable(new Runnable() {
 				@Override

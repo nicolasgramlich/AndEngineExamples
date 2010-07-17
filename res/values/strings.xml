@@ -40,6 +40,7 @@
 	<string name="example_augmentedrealityhorizon">An AugmentedReality Horizon</string>
 	<string name="example_changeabletext">Changeable Text</string>
 	<string name="example_collisiondetection">Collision Detection</string>
+	<string name="example_coordinateconversion">Coordinate Conversion</string>
 	<string name="example_customfont">Using a Custom Font</string>
 	<string name="example_digitalonscreencontrol">Digital OnScreen-Control</string>
 	<string name="example_imageformats">Using ImageFormats (PNG, JPG, GIF, BMP)</string>

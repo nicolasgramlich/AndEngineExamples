@@ -7,6 +7,7 @@ import org.anddev.andengine.examples.AugmentedRealityExample;
 import org.anddev.andengine.examples.AugmentedRealityHorizonExample;
 import org.anddev.andengine.examples.ChangeableTextExample;
 import org.anddev.andengine.examples.CollisionDetectionExample;
+import org.anddev.andengine.examples.CoordinateConversionExample;
 import org.anddev.andengine.examples.CustomFontExample;
 import org.anddev.andengine.examples.DigitalOnScreenControlExample;
 import org.anddev.andengine.examples.ImageFormatsExample;
@@ -70,6 +71,7 @@ enum Example {
 	AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, R.string.example_augmentedrealityhorizon),
 	CHANGEABLETEXT(ChangeableTextExample.class, R.string.example_changeabletext),
 	COLLISIONDETECTION(CollisionDetectionExample.class, R.string.example_collisiondetection),
+	COORDINATECONVERSION(CoordinateConversionExample.class, R.string.example_coordinateconversion),
 	CUSTOMFONT(CustomFontExample.class, R.string.example_customfont),
 	DIGITALONSCREENCONTROL(DigitalOnScreenControlExample.class, R.string.example_digitalonscreencontrol),
 	IMAGEFORMATS(ImageFormatsExample.class, R.string.example_imageformats),

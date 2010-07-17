@@ -28,6 +28,7 @@
     	<item>25</item>
     	<item>26</item>
     	<item>27</item>
+    	<item>28</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -58,5 +59,6 @@
  		<item> - Now using the libGDX Box2D Wrapper\n - Added PhysicsRevoluteJoint Example</item>
  		<item> - Added Racer (Game)</item>
  		<item> - Added CollisionTest Example</item>
+ 		<item> - Added CoordinateConversion Example</item>
     </string-array>
 </resources>

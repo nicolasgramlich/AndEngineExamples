@@ -9,20 +9,26 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.shape.IShape;
 import org.anddev.andengine.entity.shape.modifier.AlphaModifier;
 import org.anddev.andengine.entity.shape.modifier.DelayModifier;
 import org.anddev.andengine.entity.shape.modifier.IShapeModifier;
+import org.anddev.andengine.entity.shape.modifier.LoopModifier;
 import org.anddev.andengine.entity.shape.modifier.ParallelModifier;
 import org.anddev.andengine.entity.shape.modifier.RotationByModifier;
 import org.anddev.andengine.entity.shape.modifier.RotationModifier;
 import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
 import org.anddev.andengine.entity.shape.modifier.SequenceModifier;
+import org.anddev.andengine.entity.shape.modifier.IShapeModifier.IShapeModifierListener;
+import org.anddev.andengine.entity.shape.modifier.LoopModifier.ILoopModifierListener;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
+
+import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
@@ -88,30 +94,30 @@ public class ShapeModifierExample extends BaseExample {
 		face.animate(100);
 
 		final IShapeModifier shapeModifier = 
-//			new LoopModifier(
-//				new IShapeModifierListener() {
-//					@Override
-//					public void onModifierFinished(final IShapeModifier pShapeModifier, final IShape pShape) {
-//						ShapeModifierExample.this.runOnUiThread(new Runnable() {
-//							@Override
-//							public void run() {
-//								Toast.makeText(ShapeModifierExample.this, "Sequence ended.", Toast.LENGTH_LONG).show();
-//							}
-//						});
-//					}
-//				},
-//				1,
-//				new ILoopModifierListener() {
-//					@Override
-//					public void onLoopFinished(final LoopModifier pLoopModifier, final int pLoopsRemaining) {
-//						ShapeModifierExample.this.runOnUiThread(new Runnable() {
-//							@Override
-//							public void run() {
-//								Toast.makeText(ShapeModifierExample.this, "Loops remaining: " + pLoopsRemaining, Toast.LENGTH_SHORT).show();
-//							}
-//						});
-//					}
-//				},
+			new LoopModifier(
+				new IShapeModifierListener() {
+					@Override
+					public void onModifierFinished(final IShapeModifier pShapeModifier, final IShape pShape) {
+						ShapeModifierExample.this.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								Toast.makeText(ShapeModifierExample.this, "Sequence ended.", Toast.LENGTH_LONG).show();
+							}
+						});
+					}
+				},
+				1,
+				new ILoopModifierListener() {
+					@Override
+					public void onLoopFinished(final LoopModifier pLoopModifier, final int pLoopsRemaining) {
+						ShapeModifierExample.this.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								Toast.makeText(ShapeModifierExample.this, "Loops remaining: " + pLoopsRemaining, Toast.LENGTH_SHORT).show();
+							}
+						});
+					}
+				},
 				new SequenceModifier(
 						new RotationModifier(1, 0, 90),
 						new AlphaModifier(2, 1, 0),
@@ -126,8 +132,8 @@ public class ShapeModifierExample extends BaseExample {
 								new ScaleModifier(3, 5, 1),
 								new RotationModifier(3, 180, 0)
 						)
-				);
-//		);
+				)
+		);
 
 		face.addShapeModifier(shapeModifier);
 		rect.addShapeModifier(shapeModifier.clone());

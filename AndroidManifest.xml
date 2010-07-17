@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="org.anddev.andengine.examples"
-	android:versionCode="26"
-	android:versionName="1.2.6">
+	android:versionCode="27"
+	android:versionName="1.2.7">
 
 	<uses-sdk android:minSdkVersion="4" />
 
@@ -28,6 +28,7 @@
 		<activity android:name=".AugmentedRealityHorizonExample" android:configChanges="orientation" />
 		<activity android:name=".ChangeableTextExample" android:configChanges="orientation" />
 		<activity android:name=".CollisionDetectionExample" android:configChanges="orientation" />
+		<activity android:name=".CoordinateConversionExample" android:configChanges="orientation" />
 		<activity android:name=".CustomFontExample" android:configChanges="orientation" />
 		<activity android:name=".DigitalOnScreenControlExample" android:configChanges="orientation" />
 		<activity android:name=".ImageFormatsExample" android:configChanges="orientation" />

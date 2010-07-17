@@ -73,7 +73,7 @@ public class SubMenuExample extends MenuExample {
 	}
 
 	@Override
-	public boolean onMenuItemClicked(final MenuScene pMenuScene, final IMenuItem pMenuItem) {
+	public boolean onMenuItemClicked(final MenuScene pMenuScene, final IMenuItem pMenuItem, final float pMenuItemLocalX, final float pMenuItemLocalY) {
 		switch(pMenuItem.getID()) {
 			case MENU_RESET:
 				this.mMainScene.reset();
