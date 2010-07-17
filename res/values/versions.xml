@@ -55,7 +55,7 @@
  		<item> - Added Dual Analog On-Screen Controls\n - Improved Snake (Game)</item>
  		<item> - Changed TextureOptions Example to show repeating Textures\n - Added a LoopModifier to ShapeModifier Example</item>
  		<item> - Added MultiTouch Example\n - Removed TouchDragMany Example</item>
- 		<item> - Now using the libGDX Box2D Wrapper\n - Added PhysicysRevoluteJoint Example</item>
+ 		<item> - Now using the libGDX Box2D Wrapper\n - Added PhysicsRevoluteJoint Example</item>
  		<item> - Added Racer (Game)</item>
  		<item> - Added CollisionTest Example</item>
     </string-array>
