@@ -57,7 +57,7 @@
 	<string name="example_particlesystemnexus">A Nexus ParticleSystem</string>
 	<string name="example_particlesystemsimple">A Simple ParticleSystem</string>
 	<string name="example_physics">Using Physics</string>
-	<string name="example_physicsrevolutejoint">Using a RevoluteJoints</string>
+	<string name="example_physicsrevolutejoint">Using a RevoluteJoint</string>
 	<string name="example_physicsjump">Combining Physics and Touch</string>
 	<string name="example_physicsremove">Removing a Physics Object</string>
 	<string name="example_rectangle">Drawing Rectangles</string>

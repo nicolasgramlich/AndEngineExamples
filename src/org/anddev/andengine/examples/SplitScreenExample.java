@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 /**
@@ -57,7 +58,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 	
 	private int mFaceCount;
 	
-	private Vector2 mTempVector;
+	private Vector2 mTempVector = new Vector2();
 
 	// ===========================================================
 	// Constructors
@@ -104,11 +105,12 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
 		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
 
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody);
-
+		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
+		
 		scene.getBottomLayer().addEntity(ground);
 		scene.getBottomLayer().addEntity(roof);
 		scene.getBottomLayer().addEntity(left);
@@ -141,7 +143,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 
 	@Override
 	public void onAccelerometerChanged(final AccelerometerData pAccelerometerData) {
-		this.mTempVector.set(4 * pAccelerometerData.getY(), 4 * pAccelerometerData.getX());
+		this.mTempVector.set(10 * pAccelerometerData.getY(), 10 * pAccelerometerData.getX());
 
 		this.mPhysicsWorld.setGravity(this.mTempVector);
 	}
@@ -153,8 +155,10 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 	private void addFace(final float pX, final float pY) {
 		final Scene scene = this.mEngine.getScene();
 
+		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
+
 		final AnimatedSprite face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion).animate(100);
-		final Body body = PhysicsFactory.createBoxBody(mPhysicsWorld, face, BodyType.DynamicBody);
+		final Body body = PhysicsFactory.createBoxBody(mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 
 		scene.getTopLayer().addEntity(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));

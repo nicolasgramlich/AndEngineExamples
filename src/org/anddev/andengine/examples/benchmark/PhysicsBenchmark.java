@@ -26,6 +26,7 @@ import android.view.MotionEvent;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 /**
@@ -110,10 +111,11 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
 		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
 
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody);
+		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
 		scene.getBottomLayer().addEntity(ground);
 		scene.getBottomLayer().addEntity(roof);
@@ -166,12 +168,15 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 		final AnimatedSprite face;
 		final Body body;
 		
+
+		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
+		
 		if(this.mFaceCount % 2 == 0) {
 			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
-			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody);
+			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 		} else {
 			face = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion);
-			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody);
+			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 		}
 		
 		face.setUpdatePhysics(false);
