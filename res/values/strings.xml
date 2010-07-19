@@ -28,9 +28,10 @@
 	<string name="examplegroup_text">Text</string>
 	<string name="examplegroup_audio">Audio</string>
 	<string name="examplegroup_advanced">Advanced</string>
-	<string name="examplegroup_others">Others</string>
-	<string name="examplegroup_games">Games</string>
-	<string name="examplegroup_benchmarks">Benchmarks</string>
+	<string name="examplegroup_background">Backgrounds</string>
+	<string name="examplegroup_other">Others</string>
+	<string name="examplegroup_game">Games</string>
+	<string name="examplegroup_benchmark">Benchmarks</string>
 	
 	<!-- Examples -->
 	<string name="example_analogonscreencontrol">Analog OnScreen-Control</string>
@@ -67,6 +68,7 @@
 	<string name="example_sound">Playing Sound</string>
 	<string name="example_splitscreen">Using a SplitScreen</string>
 	<string name="example_sprite">Drawing a Sprite</string>
+	<string name="example_spritebackground">Using a SpriteBackground</string>
 	<string name="example_spriteremove">Removing a Sprite</string>
 	<string name="example_submenu">Using SubMenus</string>
 	<string name="example_text">Drawing Text</string>

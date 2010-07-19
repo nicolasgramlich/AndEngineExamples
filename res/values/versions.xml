@@ -29,6 +29,7 @@
     	<item>26</item>
     	<item>27</item>
     	<item>28</item>
+    	<item>29</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -60,5 +61,6 @@
  		<item> - Added Racer (Game)</item>
  		<item> - Added CollisionTest Example</item>
  		<item> - Added CoordinateConversion Example</item>
+ 		<item> - Added SpriteBackground Example</item>
     </string-array>
 </resources>

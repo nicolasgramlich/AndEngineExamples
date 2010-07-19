@@ -22,15 +22,16 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		ExampleGroup.SIMPLE,
 		ExampleGroup.MODIFIER_AND_ANIMATION,
 		ExampleGroup.TOUCH,
-		ExampleGroup.PARTICLESYSTEMS,
+		ExampleGroup.PARTICLESYSTEM,
 		ExampleGroup.MULTIPLAYER,
 		ExampleGroup.PHYSICS,
 		ExampleGroup.TEXT,
 		ExampleGroup.AUDIO,
 		ExampleGroup.ADVANCED,
-		ExampleGroup.OTHERS,
-		ExampleGroup.GAMES,
-		ExampleGroup.BENCHMARKS
+		ExampleGroup.BACKGROUND,
+		ExampleGroup.OTHER,
+		ExampleGroup.GAME,
+		ExampleGroup.BENCHMARK
 	};
 
 	// ===========================================================

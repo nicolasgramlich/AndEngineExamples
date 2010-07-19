@@ -129,7 +129,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		this.mFrogTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "frog.png", 0, 64, 3, 1);
 
 		this.mBackgroundTexture = new Texture(1024, 512, TextureOptions.DEFAULT);
-		this.mBackgroundTextureRegion = TextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "background_forest.png", 0, 0);
+		this.mBackgroundTextureRegion = TextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "snake_background.png", 0, 0);
 
 		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR);
 		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);

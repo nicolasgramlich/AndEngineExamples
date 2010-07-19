@@ -18,7 +18,7 @@ public enum ExampleGroup {
 			Example.MOVINGBALL, Example.SHAPEMODIFIER, Example.SHAPEMODIFIERIRREGULAR, Example.PATHMODIFIER, Example.ANIMATEDSPRITES),
 	TOUCH(R.string.examplegroup_touch, 
 			Example.TOUCHDRAG, Example.MULTITOUCH, Example.ANALOGONSCREENCONTROL, Example.DIGITALONSCREENCONTROL, Example.ANALOGONSCREENCONTROLS, Example.COORDINATECONVERSION),
-	PARTICLESYSTEMS(R.string.examplegroup_particlesystems,
+	PARTICLESYSTEM(R.string.examplegroup_particlesystems,
 			Example.PARTICLESYSTEMSIMPLE, Example.PARTICLESYSTEMCOOL, Example.PARTICLESYSTEMNEXUS),
 	MULTIPLAYER(R.string.examplegroup_multiplayer,
 			Example.MULTIPLAYER),
@@ -30,11 +30,13 @@ public enum ExampleGroup {
 			Example.SOUND, Example.MUSIC, Example.MODPLAYER),
 	ADVANCED(R.string.examplegroup_advanced, 
 			Example.SPLITSCREEN, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON),
-	OTHERS(R.string.examplegroup_others, 
+	BACKGROUND(R.string.examplegroup_background, 
+			Example.SPRITEBACKGROUND),
+	OTHER(R.string.examplegroup_other, 
 			Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTMENU, Example.ZOOM , Example.IMAGEFORMATS, Example.TEXTUREOPTIONS, Example.LOADTEXTURE, Example.UPDATETEXTURE, Example.UNLOADTEXTURE),
-	GAMES(R.string.examplegroup_games, 
+	GAME(R.string.examplegroup_game, 
 			Example.GAME_SNAKE, Example.GAME_RACER),
-	BENCHMARKS(R.string.examplegroup_benchmarks, 
+	BENCHMARK(R.string.examplegroup_benchmark, 
 			Example.BENCHMARK_SPRITE, Example.BENCHMARK_SHAPEMODIFIER, Example.BENCHMARK_ANIMATION, Example.BENCHMARK_TICKERTEXT, Example.BENCHMARK_PARTICLESYSTEM, Example.BENCHMARK_PHYSICS);
 
 	// ===========================================================
