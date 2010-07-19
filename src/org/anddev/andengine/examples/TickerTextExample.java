@@ -6,6 +6,7 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.modifier.AlphaModifier;
 import org.anddev.andengine.entity.shape.modifier.ParallelModifier;
 import org.anddev.andengine.entity.shape.modifier.RotationModifier;
@@ -75,7 +76,7 @@ public class TickerTextExample extends BaseExample {
 		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
-		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
+		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final Text text = new TickerText(30, 60, this.mFont, "There are also ticker texts!\n\nYou'll see the answer to life & universe in...\n\n5 4 3 2 1...\n\n42\n\nIndeed very funny!", HorizontalAlign.CENTER, 10);
 		text.addShapeModifier(

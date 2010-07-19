@@ -13,6 +13,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.modifier.LoopModifier;
 import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
 import org.anddev.andengine.entity.shape.modifier.SequenceModifier;
@@ -112,7 +113,7 @@ public class CoordinateConversionExample extends BaseExample {
 		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(2);
-		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
+		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 		
 		/* Create three lines that will form an arrow pointing to the eye. */
 		final Line arrowLineMain = new Line(0, 0, 0, 0, 3);

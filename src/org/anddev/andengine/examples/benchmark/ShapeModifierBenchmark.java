@@ -10,6 +10,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.modifier.AlphaModifier;
 import org.anddev.andengine.entity.shape.modifier.DelayModifier;
 import org.anddev.andengine.entity.shape.modifier.ParallelModifier;
@@ -90,7 +91,7 @@ public class ShapeModifierBenchmark extends BaseBenchmark {
 	@Override
 	public Scene onLoadScene() {
 		final Scene scene = new Scene(1, true, 2 * SPRITE_COUNT);
-		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
+		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final SequenceModifier shapeModifier = new SequenceModifier(
 				new RotationByModifier(2, 90),

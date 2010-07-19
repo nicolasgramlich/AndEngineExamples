@@ -11,6 +11,7 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.layer.ILayer;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.TiledSprite;
@@ -112,7 +113,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		this.mEngine.registerPostFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(3);
-		scene.setBackgroundColor(0, 0, 0);
+		scene.setBackground(new ColorBackground(0, 0, 0));
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, 0), false);
 

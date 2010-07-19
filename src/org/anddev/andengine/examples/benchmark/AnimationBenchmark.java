@@ -8,6 +8,7 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -93,7 +94,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 	@Override
 	public Scene onLoadScene() {
 		final Scene scene = new Scene(1, true, 4 * SPRITE_COUNT);
-		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
+		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
 		final RectangleVertexBuffer faceSharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW);

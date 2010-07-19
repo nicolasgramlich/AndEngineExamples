@@ -11,6 +11,7 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.Scene.ITouchArea;
+import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.card.Card;
@@ -113,7 +114,7 @@ public class MultiTouchExample extends BaseExample {
 		this.addCard(scene, Card.DIAMOND_ACE, 440, 100);
 		this.addCard(scene, Card.SPADE_ACE, 440, 260);
 
-		scene.setBackgroundColor(0.09804f, 0.6274f, 0.8784f);
+		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override

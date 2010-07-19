@@ -7,6 +7,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.util.FPSLogger;
 
 /**
@@ -55,7 +56,7 @@ public class RectangleExample extends BaseExample {
 		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
-		scene.setBackgroundColor(0, 0, 0);
+		scene.setBackground(new ColorBackground(0, 0, 0));
 
 		final Rectangle rect1 = new Rectangle(180, 60, 180, 180);
 		rect1.setColor(1, 0, 0);

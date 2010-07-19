@@ -10,6 +10,7 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
+import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
@@ -101,7 +102,7 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 	@Override
 	public Scene onLoadScene() {
 		final Scene scene = new Scene(2, true, 4, (COUNT_VERTICAL - 1) * (COUNT_HORIZONTAL - 1));
-		scene.setBackgroundColor(0, 0, 0);
+		scene.setBackground(new ColorBackground(0, 0, 0));
 		scene.setOnSceneTouchListener(this);
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, 2 * SensorManager.GRAVITY_EARTH), false);
