@@ -60,6 +60,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 	private int mFaceCount;
 	
 	private Vector2 mTempVector = new Vector2();
+	private Camera mCamera;
 
 	// ===========================================================
 	// Constructors
@@ -76,10 +77,9 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 	@Override
 	public Engine onLoadEngine() {
 		Toast.makeText(this, "Touch the screen to add boxes.", Toast.LENGTH_LONG).show();
-		final Camera firstCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		final ChaseCamera secondCamera = new ChaseCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, null);
-		this.mChaseCamera = secondCamera;
-		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), firstCamera, secondCamera));
+		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+		this.mChaseCamera = new ChaseCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, null);
+		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera, this.mChaseCamera));
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		this.mEngine.registerPostFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(2);
-		scene.setBackground(new ColorBackground(0, 0, 0));
+		scene.setBackground(new ColorBackground());
 		scene.setOnSceneTouchListener(this);
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, 2 * SensorManager.GRAVITY_EARTH), false);
