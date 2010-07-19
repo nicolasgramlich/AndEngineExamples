@@ -61,6 +61,6 @@
  		<item> - Added Racer (Game)</item>
  		<item> - Added CollisionTest Example</item>
  		<item> - Added CoordinateConversion Example</item>
- 		<item> - Added SpriteBackground Example</item>
+ 		<item> - Added SpriteBackground Example\n - Improved PathModifier Example</item>
     </string-array>
 </resources>

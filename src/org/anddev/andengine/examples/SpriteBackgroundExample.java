@@ -6,13 +6,19 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.SpriteBackground;
-import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.scene.background.RepeatingSpriteBackground;
+import org.anddev.andengine.entity.shape.IShape;
+import org.anddev.andengine.entity.shape.modifier.LoopModifier;
+import org.anddev.andengine.entity.shape.modifier.PathModifier;
+import org.anddev.andengine.entity.shape.modifier.PathModifier.IPathModifierListener;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
+import org.anddev.andengine.opengl.texture.source.AssetTextureSource;
+import org.anddev.andengine.util.Path;
 
 /**
  * @author Nicolas Gramlich
@@ -31,12 +37,11 @@ public class SpriteBackgroundExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	
+
+	private RepeatingSpriteBackground mGrassBackground;
+
 	private Texture mTexture;
-	private TextureRegion mFaceTextureRegion;
-	
-	private Texture mBackgroundTexture;
-	private TextureRegion mBackgroundGrassTextureRegion;
+	private TiledTextureRegion mPlayerTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -58,15 +63,12 @@ public class SpriteBackgroundExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 0, 0);
+		this.mTexture = new Texture(128, 128, TextureOptions.DEFAULT);
+		this.mPlayerTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/player.png", 0, 0, 3, 4);
 
-		this.mBackgroundTexture = new Texture(32, 32, TextureOptions.REPEATING);
-		this.mBackgroundGrassTextureRegion = TextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "gfx/background_grass.png", 0, 0);
-		this.mBackgroundGrassTextureRegion.setWidth(CAMERA_WIDTH);
-		this.mBackgroundGrassTextureRegion.setHeight(CAMERA_HEIGHT);
+		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, this.mEngine.getTextureManager(), new AssetTextureSource(this, "gfx/background_grass.png"));
 
-		this.mEngine.getTextureManager().loadTextures(this.mTexture, this.mBackgroundTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
 
 	@Override
@@ -74,15 +76,37 @@ public class SpriteBackgroundExample extends BaseExample {
 		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
-		scene.setBackground(new SpriteBackground(this.mCamera, new Sprite(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, this.mBackgroundGrassTextureRegion)));
+		scene.setBackground(this.mGrassBackground);
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		
+		final int centerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getTileWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mPlayerTextureRegion.getTileHeight()) / 2;
+
 		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		scene.getTopLayer().addEntity(face);
+		final AnimatedSprite player = new AnimatedSprite(centerX, centerY, 48, 64, this.mPlayerTextureRegion);
+		
+		final Path path = new Path(5).to(10, 10).to(10, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, 10).to(10, 10);
+		
+		player.addShapeModifier(new LoopModifier(new PathModifier(30, path, null, new IPathModifierListener() {
+			@Override
+			public void onWaypointPassed(final PathModifier pPathModifier, final IShape pShape, final int pWaypointIndex) {
+				switch(pWaypointIndex) {
+					case 0:
+						player.animate(new long[]{200, 200, 200}, 6, 8, true);
+						break;
+					case 1:
+						player.animate(new long[]{200, 200, 200}, 3, 5, true);
+						break;
+					case 2:
+						player.animate(new long[]{200, 200, 200}, 0, 2, true);
+						break;
+					case 3:
+						player.animate(new long[]{200, 200, 200}, 9, 11, true);
+						break;
+				}
+			}
+		})));
+		scene.getTopLayer().addEntity(player);
 
 		return scene;
 	}
