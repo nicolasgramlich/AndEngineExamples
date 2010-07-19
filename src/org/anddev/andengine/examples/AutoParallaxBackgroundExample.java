@@ -6,25 +6,22 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.RepeatingSpriteBackground;
-import org.anddev.andengine.entity.shape.IShape;
-import org.anddev.andengine.entity.shape.modifier.LoopModifier;
-import org.anddev.andengine.entity.shape.modifier.PathModifier;
-import org.anddev.andengine.entity.shape.modifier.PathModifier.IPathModifierListener;
+import org.anddev.andengine.entity.scene.background.AutoParallaxBackground;
+import org.anddev.andengine.entity.scene.background.ParallaxBackground.ParallaxEntity;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
+import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
-import org.anddev.andengine.opengl.texture.source.AssetTextureSource;
-import org.anddev.andengine.util.Path;
 
 /**
  * @author Nicolas Gramlich
- * @since 13:58:48 - 19.07.2010
+ * @since 19:58:39 - 19.07.2010
  */
-public class SpriteBackgroundExample extends BaseExample {
+public class AutoParallaxBackgroundExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -38,10 +35,15 @@ public class SpriteBackgroundExample extends BaseExample {
 
 	private Camera mCamera;
 
-	private RepeatingSpriteBackground mGrassBackground;
-
 	private Texture mTexture;
 	private TiledTextureRegion mPlayerTextureRegion;
+	private TiledTextureRegion mEnemyTextureRegion;
+	
+	private Texture mAutoParallaxBackgroundTexture;
+	
+	private TextureRegion mParallaxLayerBack;
+	private TextureRegion mParallaxLayerMid;
+	private TextureRegion mParallaxLayerFront;
 
 	// ===========================================================
 	// Constructors
@@ -63,12 +65,16 @@ public class SpriteBackgroundExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128, TextureOptions.DEFAULT);
+		this.mTexture = new Texture(256, 128, TextureOptions.BILINEAR);
 		this.mPlayerTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/player.png", 0, 0, 3, 4);
+		this.mEnemyTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/enemy.png", 73, 0, 3, 4);
+		
+		this.mAutoParallaxBackgroundTexture = new Texture(1024, 1024, TextureOptions.DEFAULT);
+		this.mParallaxLayerFront = TextureRegionFactory.createFromAsset(this.mAutoParallaxBackgroundTexture, this, "gfx/parallax_background_layer_front.png", 0, 0);
+		this.mParallaxLayerBack = TextureRegionFactory.createFromAsset(this.mAutoParallaxBackgroundTexture, this, "gfx/parallax_background_layer_back.png", 0, 188);
+		this.mParallaxLayerMid = TextureRegionFactory.createFromAsset(this.mAutoParallaxBackgroundTexture, this, "gfx/parallax_background_layer_mid.png", 0, 669);
 
-		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, this.mEngine.getTextureManager(), new AssetTextureSource(this, "gfx/background_grass.png"));
-
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		this.mEngine.getTextureManager().loadTextures(this.mTexture, this.mAutoParallaxBackgroundTexture);
 	}
 
 	@Override
@@ -76,37 +82,29 @@ public class SpriteBackgroundExample extends BaseExample {
 		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
-		scene.setBackground(this.mGrassBackground);
+		final AutoParallaxBackground autoParallaxBackground = new AutoParallaxBackground(0, 0, 0, 5);
+		autoParallaxBackground.addParallaxEntity(new ParallaxEntity(0.0f, new Sprite(0, CAMERA_HEIGHT - this.mParallaxLayerBack.getHeight(), this.mParallaxLayerBack)));
+		autoParallaxBackground.addParallaxEntity(new ParallaxEntity(-5.0f, new Sprite(0, 80, this.mParallaxLayerMid)));
+		autoParallaxBackground.addParallaxEntity(new ParallaxEntity(-10.0f, new Sprite(0, CAMERA_HEIGHT - this.mParallaxLayerFront.getHeight(), this.mParallaxLayerFront)));
+		scene.setBackground(autoParallaxBackground);
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getTileWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mPlayerTextureRegion.getTileHeight()) / 2;
+		final int playerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getTileWidth()) / 2;
+		final int playerY = CAMERA_HEIGHT - this.mPlayerTextureRegion.getTileHeight() - 5;
 
-		/* Create the sprite and add it to the scene. */
-		final AnimatedSprite player = new AnimatedSprite(centerX, centerY, 48, 64, this.mPlayerTextureRegion);
+		/* Create two sprits and add it to the scene. */
+		final AnimatedSprite player = new AnimatedSprite(playerX, playerY, this.mPlayerTextureRegion);
+		player.setScaleCenterY(this.mPlayerTextureRegion.getTileHeight());
+		player.setScale(2);
+		player.animate(new long[]{200, 200, 200}, 3, 5, true);
 		
-		final Path path = new Path(5).to(10, 10).to(10, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, 10).to(10, 10);
-		
-		player.addShapeModifier(new LoopModifier(new PathModifier(30, path, null, new IPathModifierListener() {
-			@Override
-			public void onWaypointPassed(final PathModifier pPathModifier, final IShape pShape, final int pWaypointIndex) {
-				switch(pWaypointIndex) {
-					case 0:
-						player.animate(new long[]{200, 200, 200}, 6, 8, true);
-						break;
-					case 1:
-						player.animate(new long[]{200, 200, 200}, 3, 5, true);
-						break;
-					case 2:
-						player.animate(new long[]{200, 200, 200}, 0, 2, true);
-						break;
-					case 3:
-						player.animate(new long[]{200, 200, 200}, 9, 11, true);
-						break;
-				}
-			}
-		})));
+		final AnimatedSprite enemy = new AnimatedSprite(playerX - 80, playerY, this.mEnemyTextureRegion);
+		enemy.setScaleCenterY(this.mEnemyTextureRegion.getTileHeight());
+		enemy.setScale(2);
+		enemy.animate(new long[]{200, 200, 200}, 3, 5, true);
+
 		scene.getTopLayer().addEntity(player);
+		scene.getTopLayer().addEntity(enemy);
 
 		return scene;
 	}

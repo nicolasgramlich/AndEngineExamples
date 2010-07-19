@@ -26,6 +26,7 @@
 		<activity android:name=".AnimatedSpritesExample" android:configChanges="orientation" />
 		<activity android:name=".AugmentedRealityExample" android:configChanges="orientation" />
 		<activity android:name=".AugmentedRealityHorizonExample" android:configChanges="orientation" />
+		<activity android:name=".AutoParallaxBackgroundExample" android:configChanges="orientation" />
 		<activity android:name=".ChangeableTextExample" android:configChanges="orientation" />
 		<activity android:name=".CollisionDetectionExample" android:configChanges="orientation" />
 		<activity android:name=".CoordinateConversionExample" android:configChanges="orientation" />
