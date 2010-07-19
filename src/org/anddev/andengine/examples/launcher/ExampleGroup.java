@@ -31,7 +31,7 @@ public enum ExampleGroup {
 	ADVANCED(R.string.examplegroup_advanced, 
 			Example.SPLITSCREEN, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON),
 	BACKGROUND(R.string.examplegroup_background, 
-			Example.SPRITEBACKGROUND, Example.AUTOPARALLAXBACKGROUND),
+			Example.REPEATINGSPRITEBACKGROUND, Example.AUTOPARALLAXBACKGROUND),
 	OTHER(R.string.examplegroup_other, 
 			Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTMENU, Example.ZOOM , Example.IMAGEFORMATS, Example.TEXTUREOPTIONS, Example.LOADTEXTURE, Example.UPDATETEXTURE, Example.UNLOADTEXTURE),
 	GAME(R.string.examplegroup_game, 

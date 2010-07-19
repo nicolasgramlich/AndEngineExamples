@@ -52,11 +52,11 @@
 		<activity android:name=".PhysicsRemoveExample" android:configChanges="orientation" />
 		<activity android:name=".PhysicsRevoluteJointExample" android:configChanges="orientation" />
 		<activity android:name=".RectangleExample" android:configChanges="orientation" />
+		<activity android:name=".RepeatingSpriteBackgroundExample" android:configChanges="orientation" />
 		<activity android:name=".ShapeModifierExample" android:configChanges="orientation" />
 		<activity android:name=".SoundExample" android:configChanges="orientation" />
 		<activity android:name=".SplitScreenExample" android:configChanges="orientation" />
 		<activity android:name=".SpriteExample" android:configChanges="orientation" />
-		<activity android:name=".SpriteBackgroundExample" android:configChanges="orientation" />
 		<activity android:name=".SpriteRemoveExample" android:configChanges="orientation" />
 		<activity android:name=".SubMenuExample" android:configChanges="orientation" />
 		<activity android:name=".TextExample" android:configChanges="orientation" />

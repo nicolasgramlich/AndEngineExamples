@@ -24,7 +24,7 @@ import org.anddev.andengine.util.Path;
  * @author Nicolas Gramlich
  * @since 13:58:48 - 19.07.2010
  */
-public class SpriteBackgroundExample extends BaseExample {
+public class RepeatingSpriteBackgroundExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================

@@ -64,12 +64,12 @@
 	<string name="example_physicsjump">Combining Physics and Touch</string>
 	<string name="example_physicsremove">Removing a Physics Object</string>
 	<string name="example_rectangle">Drawing Rectangles</string>
+	<string name="example_repeatingspritebackground">Using a RepeatingSpriteBackground</string>
 	<string name="example_shapemodifier">Using ShapeModifiers</string>
 	<string name="example_shapemodifierirregular">Irregular ShapeModifiers</string>
 	<string name="example_sound">Playing Sound</string>
 	<string name="example_splitscreen">Using a SplitScreen</string>
 	<string name="example_sprite">Drawing a Sprite</string>
-	<string name="example_spritebackground">Using a SpriteBackground</string>
 	<string name="example_spriteremove">Removing a Sprite</string>
 	<string name="example_submenu">Using SubMenus</string>
 	<string name="example_text">Drawing Text</string>
