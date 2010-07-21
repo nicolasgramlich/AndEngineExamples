@@ -75,6 +75,7 @@
 	<string name="example_text">Drawing Text</string>
 	<string name="example_textmenu">Using TextMenus</string>
 	<string name="example_textureoptions">Using TextureOptions</string>
+	<string name="example_tmxtiledmap">Using a TMXTiledMap</string>
 	<string name="example_tickertext">Drawing a TickerText</string>
 	<string name="example_touchdrag">Touch &amp; Drag Sprites</string>
 	<string name="example_unloadtexture">Unloading Textures Dynamic</string>

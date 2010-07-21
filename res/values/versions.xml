@@ -30,6 +30,7 @@
     	<item>27</item>
     	<item>28</item>
     	<item>29</item>
+    	<item>30</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -62,5 +63,6 @@
  		<item> - Added CollisionTest Example</item>
  		<item> - Added CoordinateConversion Example</item>
  		<item> - Added SpriteBackground Example\n - Improved PathModifier Example</item>
+ 		<item> - Added TMXTiledMap Example</item>
     </string-array>
 </resources>

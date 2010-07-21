@@ -101,15 +101,15 @@ public class MovingBallExample extends BaseExample {
 		@Override
 		protected void onManagedUpdate(final float pSecondsElapsed) {
 			if(this.mX < 0) {
-				this.mVelocityX = DEMO_VELOCITY;
+				this.setVelocityX(DEMO_VELOCITY);
 			} else if(this.mX + this.getWidth() > CAMERA_WIDTH) {
-				this.mVelocityX = -DEMO_VELOCITY;				
+				this.setVelocityX(-DEMO_VELOCITY);				
 			}
 			
 			if(this.mY < 0) {
-				this.mVelocityY = DEMO_VELOCITY;
+				this.setVelocityY(DEMO_VELOCITY);
 			} else if(this.mY + this.getHeight() > CAMERA_HEIGHT) {
-				this.mVelocityY = -DEMO_VELOCITY;				
+				this.setVelocityY(-DEMO_VELOCITY);				
 			}
 			
 			super.onManagedUpdate(pSecondsElapsed);

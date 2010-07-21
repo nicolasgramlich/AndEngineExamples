@@ -31,14 +31,15 @@ import org.anddev.andengine.examples.PhysicsRemoveExample;
 import org.anddev.andengine.examples.PhysicsRevoluteJointExample;
 import org.anddev.andengine.examples.R;
 import org.anddev.andengine.examples.RectangleExample;
+import org.anddev.andengine.examples.RepeatingSpriteBackgroundExample;
 import org.anddev.andengine.examples.ShapeModifierExample;
 import org.anddev.andengine.examples.ShapeModifierIrregularExample;
 import org.anddev.andengine.examples.SoundExample;
 import org.anddev.andengine.examples.SplitScreenExample;
-import org.anddev.andengine.examples.RepeatingSpriteBackgroundExample;
 import org.anddev.andengine.examples.SpriteExample;
 import org.anddev.andengine.examples.SpriteRemoveExample;
 import org.anddev.andengine.examples.SubMenuExample;
+import org.anddev.andengine.examples.TMXTiledMapExample;
 import org.anddev.andengine.examples.TextExample;
 import org.anddev.andengine.examples.TextMenuExample;
 import org.anddev.andengine.examples.TextureOptionsExample;
@@ -107,6 +108,7 @@ enum Example {
 	TEXT(TextExample.class, R.string.example_text),
 	TEXTMENU(TextMenuExample.class, R.string.example_textmenu),
 	TEXTUREOPTIONS(TextureOptionsExample.class, R.string.example_textureoptions),
+	TMXTILEDMAP(TMXTiledMapExample.class, R.string.example_tmxtiledmap),
 	TICKERTEXT(TickerTextExample.class, R.string.example_tickertext),
 	TOUCHDRAG(TouchDragExample.class, R.string.example_touchdrag),
 	UNLOADTEXTURE(UnloadTextureExample.class, R.string.example_unloadtexture),

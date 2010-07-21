@@ -163,7 +163,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 
 		if(this.mFaceCount == 0){
-			this.mChaseCamera.setChaseEntity(face);
+			this.mChaseCamera.setChaseShape(face);
 		}
 
 		this.mFaceCount++;
