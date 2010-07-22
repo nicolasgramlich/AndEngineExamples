@@ -32,8 +32,8 @@ public class TMXTiledMapExample extends BaseExample {
 	// Constants
 	// ===========================================================
 
-	private static final int CAMERA_WIDTH = 800;
-	private static final int CAMERA_HEIGHT = 480;
+	private static final int CAMERA_WIDTH = 480;
+	private static final int CAMERA_HEIGHT = 320;
 
 	// ===========================================================
 	// Fields
