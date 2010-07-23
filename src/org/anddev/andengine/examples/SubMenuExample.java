@@ -56,8 +56,8 @@ public class SubMenuExample extends MenuExample {
 	}
 
 	@Override
-	protected MenuScene createMenuScene() {
-		final MenuScene mainMenuScene = super.createMenuScene();
+	protected void createMenuScene() {
+		super.createMenuScene();
 
 		this.mSubMenuScene = new MenuScene(this.mCamera);
 		this.mSubMenuScene.addMenuItem(new SpriteMenuItem(MENU_QUIT_OK, this.mMenuOkTextureRegion));
@@ -68,8 +68,6 @@ public class SubMenuExample extends MenuExample {
 		this.mSubMenuScene.setBackgroundEnabled(false);
 
 		this.mSubMenuScene.setOnMenuItemClickListener(this);
-
-		return mainMenuScene;
 	}
 
 	@Override
