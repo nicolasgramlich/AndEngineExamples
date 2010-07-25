@@ -116,7 +116,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		final Scene scene = new Scene(3);
 		scene.setBackground(new ColorBackground(0, 0, 0));
 
-		this.mPhysicsWorld = new FixedStepPhysicsWorld(new Vector2(0, 0), false);
+		this.mPhysicsWorld = new FixedStepPhysicsWorld(30, new Vector2(0, 0), false, 8, 1);
 
 		this.initRacetrack(scene);
 		this.initRacetrackBorders(scene);
