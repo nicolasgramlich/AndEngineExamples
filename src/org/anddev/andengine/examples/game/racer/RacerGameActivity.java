@@ -16,6 +16,7 @@ import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.TiledSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
@@ -115,7 +116,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		final Scene scene = new Scene(3);
 		scene.setBackground(new ColorBackground(0, 0, 0));
 
-		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, 0), false);
+		this.mPhysicsWorld = new FixedStepPhysicsWorld(new Vector2(0, 0), false);
 
 		this.initRacetrack(scene);
 		this.initRacetrackBorders(scene);

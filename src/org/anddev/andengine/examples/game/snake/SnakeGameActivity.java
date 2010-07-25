@@ -114,7 +114,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	@Override
 	public void onLoadResources() {
 		/* Load the font we are going to use. */
-		FontFactory.setAssetBasePath("fonts/");
+		FontFactory.setAssetBasePath("font/");
 		this.mFontTexture = new Texture(512, 512, TextureOptions.BILINEAR);
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "Plok.ttf", 32, true, Color.WHITE);
 

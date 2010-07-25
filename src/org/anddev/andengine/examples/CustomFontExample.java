@@ -38,13 +38,13 @@ public class CustomFontExample extends BaseExample {
 	private Camera mCamera;
 	
 
-	private Texture mDroidFontTexture;
+	private Font mDroidFont;
 	private Font mPlokFont;
 	private Font mNeverwinterNightsFont;
 	private Font mUnrealTournamenFont;
 	private Font mKingdomOfHeartsFont;
 
-	private Font mDroidFont;
+	private Texture mDroidFontTexture;
 	private Texture mPlokFontTexture;
 	private Texture mNeverwinterNightsFontTexture;
 	private Texture mUnrealTournamentFontTexture;
@@ -77,7 +77,7 @@ public class CustomFontExample extends BaseExample {
 		this.mPlokFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
 		this.mUnrealTournamentFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
 
-		FontFactory.setAssetBasePath("fonts/");
+		FontFactory.setAssetBasePath("font/");
 		this.mDroidFont = FontFactory.createFromAsset(this.mDroidFontTexture, this, "Droid.ttf", FONT_SIZE, true, Color.BLACK);
 		this.mKingdomOfHeartsFont = FontFactory.createFromAsset(this.mKingdomOfHeartsFontTexture, this, "KingdomOfHearts.ttf", FONT_SIZE + 20, true, Color.BLACK);
 		this.mNeverwinterNightsFont = FontFactory.createFromAsset(this.mNeverwinterNightsFontTexture, this, "NeverwinterNights.ttf", FONT_SIZE, true, Color.BLACK);
