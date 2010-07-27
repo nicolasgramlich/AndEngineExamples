@@ -113,7 +113,7 @@ public class TMXTiledMapExample extends BaseExample {
 		final AnimatedSprite player = new AnimatedSprite(centerX, centerY, this.mPlayerTextureRegion);
 		this.mChaseCamera.setChaseShape(player);
 
-		final Path path = new Path(5).to(10, 10).to(10, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, 10).to(10, 10);
+		final Path path = new Path(5).to(240, 160).to(240, 600).to(600, 600).to(600, 160).to(240, 160);
 
 		player.addShapeModifier(new LoopModifier(new PathModifier(30, path, null, new IPathModifierListener() {
 			@Override
