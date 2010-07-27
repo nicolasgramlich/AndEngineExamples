@@ -3,7 +3,6 @@ package org.anddev.andengine.examples;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.SingleSceneSplitScreenEngine;
 import org.anddev.andengine.engine.camera.Camera;
-import org.anddev.andengine.engine.camera.ChaseCamera;
 import org.anddev.andengine.engine.options.SplitScreenEngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -48,7 +47,9 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	private ChaseCamera mChaseCamera;
+
+	private Camera mCamera;
+	private Camera mChaseCamera;
 
 	private Texture mTexture;
 
@@ -59,7 +60,6 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 	private int mFaceCount;
 	
 	private Vector2 mTempVector = new Vector2();
-	private Camera mCamera;
 
 	// ===========================================================
 	// Constructors
@@ -77,7 +77,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 	public Engine onLoadEngine() {
 		Toast.makeText(this, "Touch the screen to add boxes.", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		this.mChaseCamera = new ChaseCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, null);
+		this.mChaseCamera = new Camera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2);
 		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera, this.mChaseCamera));
 	}
 
