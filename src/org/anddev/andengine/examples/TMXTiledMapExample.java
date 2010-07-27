@@ -1,13 +1,17 @@
 package org.anddev.andengine.examples;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.ChaseCamera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.layer.tiled.tmx.ITMXTilePropertiesListener;
+import org.anddev.andengine.entity.layer.tiled.tmx.TMXLayer;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXLoader;
+import org.anddev.andengine.entity.layer.tiled.tmx.TMXTileProperty;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXTiledMap;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.shape.IShape;
@@ -22,6 +26,8 @@ import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.util.Debug;
 import org.anddev.andengine.util.Path;
+
+import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
@@ -44,6 +50,7 @@ public class TMXTiledMapExample extends BaseExample {
 	private Texture mTexture;
 	private TiledTextureRegion mPlayerTextureRegion;
 	private TMXTiledMap mTMXTiledMap;
+	protected int mCactusCount;
 
 	// ===========================================================
 	// Constructors
@@ -69,7 +76,21 @@ public class TMXTiledMapExample extends BaseExample {
 		this.mPlayerTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/player.png", 0, 0, 3, 4);
 
 		try {
-			this.mTMXTiledMap = new TMXLoader(this, this.mEngine.getTextureManager()).load(this.getAssets().open("tmx/desert.tmx"));
+			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), new ITMXTilePropertiesListener() {
+				@Override
+				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final ArrayList<TMXTileProperty> pTMXTileProperties, final int pTileRow, final int pTileColumn, final int pTileWidth, final int pTileHeight) {
+					final int tmxTilePropertyCount = pTMXTileProperties.size();
+					for(int i = 0; i < tmxTilePropertyCount; i++) {
+						TMXTileProperty tmxTileProperty = pTMXTileProperties.get(i);
+						if(tmxTileProperty.getName().equals("cactus") && tmxTileProperty.getValue().equals("true")) {
+							TMXTiledMapExample.this.mCactusCount++;
+						}
+					}
+				}
+			});
+			this.mTMXTiledMap = tmxLoader.load(this.getAssets().open("tmx/desert.tmx"));
+			
+			Toast.makeText(this, "Cactus count in this TMXTiledMap: " + this.mCactusCount, Toast.LENGTH_LONG).show();
 		} catch (final IOException e) {
 			Debug.e(e);
 		}

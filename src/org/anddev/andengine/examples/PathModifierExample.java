@@ -11,6 +11,7 @@ import org.anddev.andengine.entity.shape.IShape;
 import org.anddev.andengine.entity.shape.modifier.LoopModifier;
 import org.anddev.andengine.entity.shape.modifier.PathModifier;
 import org.anddev.andengine.entity.shape.modifier.PathModifier.IPathModifierListener;
+import org.anddev.andengine.entity.shape.modifier.ease.EaseSineInOut;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
@@ -105,7 +106,7 @@ public class PathModifierExample extends BaseExample {
 						break;
 				}
 			}
-		})));
+		}, EaseSineInOut.getInstance())));
 		scene.getTopLayer().addEntity(player);
 
 		return scene;

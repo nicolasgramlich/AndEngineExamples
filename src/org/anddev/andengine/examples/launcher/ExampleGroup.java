@@ -25,7 +25,7 @@ public enum ExampleGroup {
 	PHYSICS(R.string.examplegroup_physics,
 			Example.COLLISIONDETECTION, Example.PHYSICS, Example.FIXEDSTEPPHYSICS, Example.PHYSICSJUMP, Example.PHYSICSREVOLUTEJOINT, Example.PHYSICSREMOVE ),
 	TEXT(R.string.examplegroup_text,
-			Example.TEXT, Example.TICKERTEXT, Example.CHANGEABLETEXT, Example.CUSTOMFONT),
+			Example.TEXT, Example.TICKERTEXT, Example.CHANGEABLETEXT, Example.CUSTOMFONT, Example.STROKEFONT),
 	AUDIO(R.string.examplegroup_audio, 
 			Example.SOUND, Example.MUSIC, Example.MODPLAYER),
 	ADVANCED(R.string.examplegroup_advanced, 

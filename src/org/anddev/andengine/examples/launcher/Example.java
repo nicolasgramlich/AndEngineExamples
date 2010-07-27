@@ -39,6 +39,7 @@ import org.anddev.andengine.examples.SoundExample;
 import org.anddev.andengine.examples.SplitScreenExample;
 import org.anddev.andengine.examples.SpriteExample;
 import org.anddev.andengine.examples.SpriteRemoveExample;
+import org.anddev.andengine.examples.StrokeFontExample;
 import org.anddev.andengine.examples.SubMenuExample;
 import org.anddev.andengine.examples.TMXTiledMapExample;
 import org.anddev.andengine.examples.TextExample;
@@ -106,6 +107,7 @@ enum Example {
 	SPLITSCREEN(SplitScreenExample.class, R.string.example_splitscreen),
 	SPRITE(SpriteExample.class, R.string.example_sprite),
 	SPRITEREMOVE(SpriteRemoveExample.class, R.string.example_spriteremove),
+	STROKEFONT(StrokeFontExample.class, R.string.example_strokefont),
 	SUBMENU(SubMenuExample.class, R.string.example_submenu),
 	TEXT(TextExample.class, R.string.example_text),
 	TEXTMENU(TextMenuExample.class, R.string.example_textmenu),
