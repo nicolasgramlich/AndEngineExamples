@@ -168,6 +168,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
 		analogOnScreenControl.getControlBase().setScale(0.75f);
 		analogOnScreenControl.getControlKnob().setScale(0.75f);
+		analogOnScreenControl.refreshControlKnobPosition();
 		
 		pScene.setChildScene(analogOnScreenControl);
 	}
