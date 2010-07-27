@@ -33,6 +33,7 @@
     	<item>30</item>
     	<item>31</item>
     	<item>32</item>
+    	<item>33</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -68,5 +69,6 @@
  		<item> - Added TMXTiledMap Example</item>
  		<item> - Added FixedStepPhysics Example</item>
  		<item> - Added StrokeFont Example</item>
+ 		<item> - Added BoundCamera Example</item>
     </string-array>
 </resources>

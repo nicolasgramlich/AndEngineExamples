@@ -40,6 +40,7 @@
 	<string name="example_augmentedreality">Using AugmentedReality</string>
 	<string name="example_augmentedrealityhorizon">An AugmentedReality Horizon</string>
 	<string name="example_autoparallaxbackground">Using an AutoParallaxBackground</string>
+	<string name="example_boundcamera">Using a BoundCamera</string>
 	<string name="example_changeabletext">Changeable Text</string>
 	<string name="example_collisiondetection">Collision Detection</string>
 	<string name="example_coordinateconversion">Coordinate Conversion</string>

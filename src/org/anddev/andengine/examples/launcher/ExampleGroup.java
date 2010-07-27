@@ -29,7 +29,7 @@ public enum ExampleGroup {
 	AUDIO(R.string.examplegroup_audio, 
 			Example.SOUND, Example.MUSIC, Example.MODPLAYER),
 	ADVANCED(R.string.examplegroup_advanced, 
-			Example.SPLITSCREEN, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON),
+			Example.SPLITSCREEN, Example.BOUNDCAMERA, Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON),
 	BACKGROUND(R.string.examplegroup_background, 
 			Example.REPEATINGSPRITEBACKGROUND, Example.AUTOPARALLAXBACKGROUND, Example.TMXTILEDMAP),
 	OTHER(R.string.examplegroup_other, 

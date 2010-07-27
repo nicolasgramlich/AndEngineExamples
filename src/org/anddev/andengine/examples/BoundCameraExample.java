@@ -4,6 +4,7 @@ import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.SingleSceneSplitScreenEngine;
 import org.anddev.andengine.engine.camera.BoundCamera;
 import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.engine.camera.hud.HUD;
 import org.anddev.andengine.engine.options.SplitScreenEngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -12,6 +13,7 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
+import org.anddev.andengine.entity.sprite.TiledSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
@@ -35,9 +37,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 /**
  * @author Nicolas Gramlich
- * @since 18:47:08 - 19.03.2010
+ * @since 18:08:29 - 27.07.2010
  */
-public class SplitScreenExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener {
+public class BoundCameraExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -50,12 +52,15 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 	// ===========================================================
 
 	private Camera mCamera;
-	private Camera mChaseCamera;
+	private BoundCamera mBoundChaseCamera;
 
 	private PhysicsWorld mPhysicsWorld;
 
 	private Texture mTexture;
 	private TiledTextureRegion mBoxFaceTextureRegion;
+
+	private Texture mHUDTexture;
+	private TiledTextureRegion mToggleButtonTextureRegion;
 
 	private int mFaceCount;
 
@@ -77,8 +82,8 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 	public Engine onLoadEngine() {
 		Toast.makeText(this, "Touch the screen to add boxes.", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		this.mChaseCamera = new BoundCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, 0, CAMERA_WIDTH, 0, CAMERA_HEIGHT);
-		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera, this.mChaseCamera));
+		this.mBoundChaseCamera = new BoundCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, 0, CAMERA_WIDTH, 0, CAMERA_HEIGHT);
+		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera, this.mBoundChaseCamera));
 	}
 
 	@Override
@@ -86,6 +91,10 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
 		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+
+		this.mHUDTexture = new Texture(256, 128,TextureOptions.BILINEAR);
+		this.mToggleButtonTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mHUDTexture, this, "gfx/toggle_button.png", 0, 0, 2, 1); // 256x128
+		this.mEngine.getTextureManager().loadTexture(this.mHUDTexture);
 
 		this.enableAccelerometerSensor(this);
 	}
@@ -117,6 +126,33 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 
 		scene.registerPreFrameHandler(this.mPhysicsWorld);
 
+		final HUD hud = new HUD();
+
+		final TiledSprite toggleButton = new TiledSprite(CAMERA_WIDTH / 2 - this.mToggleButtonTextureRegion.getTileWidth(), CAMERA_HEIGHT / 2 - this.mToggleButtonTextureRegion.getTileHeight(), this.mToggleButtonTextureRegion){
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+					final boolean boundsEnabled = BoundCameraExample.this.mBoundChaseCamera.isBoundsEnabled();
+					if(boundsEnabled) {
+						BoundCameraExample.this.mBoundChaseCamera.setBoundsEnabled(false);
+						this.setCurrentTileIndex(1);
+						Toast.makeText(BoundCameraExample.this, "Bounds Disabled.", Toast.LENGTH_SHORT).show();
+					} else {
+						BoundCameraExample.this.mBoundChaseCamera.setBoundsEnabled(true);
+						this.setCurrentTileIndex(0);
+						Toast.makeText(BoundCameraExample.this, "Bounds Enabled.", Toast.LENGTH_SHORT).show();
+					}
+				}
+				return true;
+			}
+		};
+		hud.registerTouchArea(toggleButton);
+		hud.getBottomLayer().addEntity(toggleButton);
+
+		this.mBoundChaseCamera.setHUD(hud);
+		
+//		scene.getTopLayer().addEntity(toggleButton);
+
 		return scene;
 	}
 
@@ -131,7 +167,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 				this.runOnUpdateThread(new Runnable() {
 					@Override
 					public void run() {
-						SplitScreenExample.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+						BoundCameraExample.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 					}
 				});
 				return true;
@@ -163,7 +199,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 
 		if(this.mFaceCount == 0){
-			this.mChaseCamera.setChaseShape(face);
+			this.mBoundChaseCamera.setChaseShape(face);
 		}
 
 		this.mFaceCount++;

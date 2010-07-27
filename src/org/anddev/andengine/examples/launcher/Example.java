@@ -6,6 +6,7 @@ import org.anddev.andengine.examples.AnimatedSpritesExample;
 import org.anddev.andengine.examples.AugmentedRealityExample;
 import org.anddev.andengine.examples.AugmentedRealityHorizonExample;
 import org.anddev.andengine.examples.AutoParallaxBackgroundExample;
+import org.anddev.andengine.examples.BoundCameraExample;
 import org.anddev.andengine.examples.ChangeableTextExample;
 import org.anddev.andengine.examples.CollisionDetectionExample;
 import org.anddev.andengine.examples.CoordinateConversionExample;
@@ -75,6 +76,7 @@ enum Example {
 	AUGMENTEDREALITY(AugmentedRealityExample.class, R.string.example_augmentedreality),
 	AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, R.string.example_augmentedrealityhorizon),
 	AUTOPARALLAXBACKGROUND(AutoParallaxBackgroundExample.class, R.string.example_autoparallaxbackground),
+	BOUNDCAMERA(BoundCameraExample.class, R.string.example_boundcamera),
 	CHANGEABLETEXT(ChangeableTextExample.class, R.string.example_changeabletext),
 	COLLISIONDETECTION(CollisionDetectionExample.class, R.string.example_collisiondetection),
 	COORDINATECONVERSION(CoordinateConversionExample.class, R.string.example_coordinateconversion),
