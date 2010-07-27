@@ -150,8 +150,6 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		hud.getBottomLayer().addEntity(toggleButton);
 
 		this.mBoundChaseCamera.setHUD(hud);
-		
-//		scene.getTopLayer().addEntity(toggleButton);
 
 		return scene;
 	}
