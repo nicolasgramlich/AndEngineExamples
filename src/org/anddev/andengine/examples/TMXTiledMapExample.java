@@ -75,6 +75,15 @@ public class TMXTiledMapExample extends BaseExample {
 		this.mTexture = new Texture(128, 128, TextureOptions.DEFAULT);
 		this.mPlayerTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/player.png", 0, 0, 3, 4);
 
+		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+	}
+
+	@Override
+	public Scene onLoadScene() {
+		this.mEngine.registerPreFrameHandler(new FPSLogger());
+
+		final Scene scene = new Scene(2);
+
 		try {
 			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), new ITMXTilePropertiesListener() {
 				@Override
@@ -94,15 +103,7 @@ public class TMXTiledMapExample extends BaseExample {
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
-
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
-	}
-
-	@Override
-	public Scene onLoadScene() {
-		this.mEngine.registerPreFrameHandler(new FPSLogger());
-
-		final Scene scene = new Scene(2);
+		
 		scene.getBottomLayer().addEntity(this.mTMXTiledMap.getTMXLayers().get(0));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
