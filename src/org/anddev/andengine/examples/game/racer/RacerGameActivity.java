@@ -153,7 +153,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
-				this.mVelocityTemp.set(pValueX * 200, pValueY * 200);
+				this.mVelocityTemp.set(pValueX * 5, pValueY * 5);
 				
 				final Body carBody = RacerGameActivity.this.mCarBody;
 				carBody.setLinearVelocity(this.mVelocityTemp);

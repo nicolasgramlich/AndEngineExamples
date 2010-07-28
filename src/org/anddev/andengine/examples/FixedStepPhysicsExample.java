@@ -98,7 +98,7 @@ public class FixedStepPhysicsExample extends BaseExample implements IAcceleromet
 		scene.setBackground(new ColorBackground(0, 0, 0));
 		scene.setOnSceneTouchListener(this);
 
-		this.mPhysicsWorld = new FixedStepPhysicsWorld(30, new Vector2(0, 2 * SensorManager.GRAVITY_EARTH), false, 3, 2);
+		this.mPhysicsWorld = new FixedStepPhysicsWorld(30, new Vector2(0, SensorManager.GRAVITY_EARTH), false, 3, 2);
 
 		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
 		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
@@ -143,7 +143,7 @@ public class FixedStepPhysicsExample extends BaseExample implements IAcceleromet
 
 	@Override
 	public void onAccelerometerChanged(final AccelerometerData pAccelerometerData) {
-		this.mPhysicsWorld.setGravity(new Vector2(10 * pAccelerometerData.getY(), 10 * pAccelerometerData.getX()));
+		this.mPhysicsWorld.setGravity(new Vector2(pAccelerometerData.getY(), pAccelerometerData.getX()));
 	}
 
 	// ===========================================================

@@ -98,7 +98,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 	public Scene onLoadScene() {
 		this.mEngine.registerPostFrameHandler(new FPSLogger());
 
-		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, 2 * SensorManager.GRAVITY_EARTH), false);
+		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
 
 		final Scene scene = new Scene(2);
 		scene.setBackground(new ColorBackground(0, 0, 0));
@@ -168,7 +168,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 		this.mGravityX = pAccelerometerData.getY();
 		this.mGravityY = pAccelerometerData.getX();
 
-		this.mTempVector.set(10 * this.mGravityX, 10 * this.mGravityY);
+		this.mTempVector.set(this.mGravityX, this.mGravityY);
 
 		this.mPhysicsWorld.setGravity(this.mTempVector);
 	}
