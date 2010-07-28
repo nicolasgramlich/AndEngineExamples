@@ -23,6 +23,7 @@ import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.MathUtils;
 
 import android.hardware.SensorManager;
 import android.view.MotionEvent;
@@ -160,11 +161,13 @@ public class BasePhysicsJointExample extends BaseExample implements IAcceleromet
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 		
 		if(this.mFaceCount % 2 == 0) {
-			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
-			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
-		} else {
 			face = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion);
+			face.setScale(MathUtils.random(0.5f, 1.25f));
 			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
+		} else {
+			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
+			face.setScale(MathUtils.random(0.5f, 1.25f));
+			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 		}
 
 		face.animate(200);
