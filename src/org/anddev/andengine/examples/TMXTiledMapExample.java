@@ -3,7 +3,7 @@ package org.anddev.andengine.examples;
 import java.util.ArrayList;
 
 import org.anddev.andengine.engine.Engine;
-import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.engine.camera.BoundCamera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -38,14 +38,14 @@ public class TMXTiledMapExample extends BaseExample {
 	// Constants
 	// ===========================================================
 
-	private static final int CAMERA_WIDTH = 480;
-	private static final int CAMERA_HEIGHT = 320;
+	private static final int CAMERA_WIDTH = 800;
+	private static final int CAMERA_HEIGHT = 480;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
-	private Camera mChaseCamera;
+	private BoundCamera mBoundChaseCamera;
 
 	private Texture mTexture;
 	private TiledTextureRegion mPlayerTextureRegion;
@@ -66,8 +66,8 @@ public class TMXTiledMapExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
-		this.mChaseCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mChaseCamera));
+		this.mBoundChaseCamera = new BoundCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mBoundChaseCamera));
 	}
 
 	@Override
@@ -85,10 +85,11 @@ public class TMXTiledMapExample extends BaseExample {
 		final Scene scene = new Scene(2);
 
 		try {
-			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), new ITMXTilePropertiesListener() {
+			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), TextureOptions.BILINEAR, new ITMXTilePropertiesListener() {
 				@Override
 				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final ArrayList<TMXTileProperty> pTMXTileProperties, final int pTileRow, final int pTileColumn, final int pTileWidth, final int pTileHeight) {
 					final int tmxTilePropertyCount = pTMXTileProperties.size();
+					/* We are going to count the tiles that have the property "cactus=true" set. */ 
 					for(int i = 0; i < tmxTilePropertyCount; i++) {
 						TMXTileProperty tmxTileProperty = pTMXTileProperties.get(i);
 						if(tmxTileProperty.getName().equals("cactus") && tmxTileProperty.getValue().equals("true")) {
@@ -105,9 +106,9 @@ public class TMXTiledMapExample extends BaseExample {
 		}
 		
 		final TMXLayer tmxLayer = this.mTMXTiledMap.getTMXLayers().get(0);
-		tmxLayer.setScale(0.5f);
-		tmxLayer.setScaleCenter(0, 0);
 		scene.getBottomLayer().addEntity(tmxLayer);
+		this.mBoundChaseCamera.setBounds(0, tmxLayer.getWidth(), 0, tmxLayer.getHeight());
+		this.mBoundChaseCamera.setBoundsEnabled(true);
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
 		final int centerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getTileWidth()) / 2;
@@ -115,9 +116,9 @@ public class TMXTiledMapExample extends BaseExample {
 
 		/* Create the sprite and add it to the scene. */
 		final AnimatedSprite player = new AnimatedSprite(centerX, centerY, this.mPlayerTextureRegion);
-		this.mChaseCamera.setChaseShape(player);
+		this.mBoundChaseCamera.setChaseShape(player);
 
-		final Path path = new Path(5).to(240, 160).to(240, 600).to(600, 600).to(600, 160).to(240, 160);
+		final Path path = new Path(5).to(0, 160).to(0, 500).to(600, 500).to(600, 160).to(0, 160);
 
 		player.addShapeModifier(new LoopModifier(new PathModifier(30, path, null, new IPathModifierListener() {
 			@Override
