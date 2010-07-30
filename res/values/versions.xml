@@ -72,6 +72,7 @@
  		<item> - Added FixedStepPhysics Example</item>
  		<item> - Added StrokeFont Example</item>
  		<item> - Added BoundCamera Example\n - Improved Racer Game with some boxes to collide with</item>
- 		<item> - Fixed TMXTiledMapExample</item>
+ 		<item> - Fixed TMXTiledMap Example</item>
+ 		<item> - Added EaseFunction Example</item>
     </string-array>
 </resources>

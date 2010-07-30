@@ -33,6 +33,7 @@
 		<activity android:name=".CoordinateConversionExample" android:configChanges="orientation" />
 		<activity android:name=".CustomFontExample" android:configChanges="orientation" />
 		<activity android:name=".DigitalOnScreenControlExample" android:configChanges="orientation" />
+		<activity android:name=".EaseFunctionExample" android:configChanges="orientation" />
 		<activity android:name=".FixedStepPhysicsExample" android:configChanges="orientation" />
 		<activity android:name=".ImageFormatsExample" android:configChanges="orientation" />
 		<activity android:name=".LineExample" android:configChanges="orientation" />
