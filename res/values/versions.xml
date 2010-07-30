@@ -35,6 +35,7 @@
     	<item>32</item>
     	<item>33</item>
     	<item>34</item>
+    	<item>35</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -71,5 +72,6 @@
  		<item> - Added FixedStepPhysics Example</item>
  		<item> - Added StrokeFont Example</item>
  		<item> - Added BoundCamera Example\n - Improved Racer Game with some boxes to collide with</item>
+ 		<item> - Fixed TMXTiledMapExample</item>
     </string-array>
 </resources>
