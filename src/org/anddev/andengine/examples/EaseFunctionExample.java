@@ -9,7 +9,6 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.layer.ILayer;
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.shape.modifier.ease.EaseBackIn;
 import org.anddev.andengine.entity.shape.modifier.ease.EaseBackInOut;
@@ -176,7 +175,7 @@ public class EaseFunctionExample extends BaseExample {
 		/* The font. */
 		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
 
-		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.BLACK);
+		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.WHITE);
 
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
 		this.mEngine.getFontManager().loadFont(this.mFont);
@@ -184,7 +183,7 @@ public class EaseFunctionExample extends BaseExample {
 		/* The textures. */
 		this.mTexture = new Texture(256, 128, TextureOptions.BILINEAR);
 		this.mNextTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/next.png", 0, 0);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface.png", 97, 0);
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/badge.png", 97, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
@@ -194,7 +193,6 @@ public class EaseFunctionExample extends BaseExample {
 		this.mEngine.registerPreFrameHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final HUD hud = new HUD();
 
