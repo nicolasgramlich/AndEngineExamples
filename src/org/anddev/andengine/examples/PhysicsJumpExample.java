@@ -138,6 +138,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 					PhysicsJumpExample.this.jumpFace(face);
 				}
 			});
+			return true;
 		}
 
 		return false;

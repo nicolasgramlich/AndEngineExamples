@@ -134,6 +134,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 					removeFace(face);
 				}
 			});
+			return true;
 		}
 
 		return false;
@@ -186,6 +187,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		face.animate(200, true);
 		face.setUpdatePhysics(false);
 		
+		scene.registerTouchArea(face);
 		scene.getTopLayer().addEntity(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 	}
