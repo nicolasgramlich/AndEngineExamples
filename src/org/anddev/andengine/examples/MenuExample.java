@@ -85,7 +85,7 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 
 	@Override
 	public Scene onLoadScene() {
-		this.mEngine.registerPreFrameHandler(new FPSLogger());
+		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.createMenuScene();
 

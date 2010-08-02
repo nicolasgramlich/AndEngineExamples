@@ -91,7 +91,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 
 	@Override
 	public Scene onLoadScene() {
-		this.mEngine.registerPreFrameHandler(new FPSLogger());
+		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mMenuScene = this.createMenuScene();
 

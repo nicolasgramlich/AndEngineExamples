@@ -149,7 +149,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 
 	@Override
 	public Scene onLoadScene() {
-		this.mEngine.registerPreFrameHandler(new FPSLogger());
+		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene(4);
 		/* No background color needed as we have a fullscreen background sprite. */
@@ -196,7 +196,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		scene.setChildScene(this.mDigitalOnScreenControl);
 
 		/* Make the Snake move every 0.5 seconds. */
-		scene.registerPreFrameHandler(new TimerHandler(0.5f, new ITimerCallback() {
+		scene.registerUpdateHandler(new TimerHandler(0.5f, new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
 				pTimerHandler.reset();
@@ -221,10 +221,10 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		scene.getLayer(LAYER_SCORE).addEntity(titleText);
 
 		/* The handler that removes the title-text and starst the game. */
-		scene.registerPreFrameHandler(new TimerHandler(3.0f, new ITimerCallback() {
+		scene.registerUpdateHandler(new TimerHandler(3.0f, new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
-				scene.unregisterPreFrameHandler(pTimerHandler);
+				scene.unregisterUpdateHandler(pTimerHandler);
 				scene.getLayer(LAYER_SCORE).removeEntity(titleText);
 				SnakeGameActivity.this.mGameRunning = true;
 			}

@@ -95,10 +95,10 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 
 	@Override
 	public void onLoadComplete() {
-		this.mEngine.registerPostFrameHandler(new TimerHandler(this.getBenchmarkStartOffset(), new ITimerCallback() {
+		this.mEngine.registerUpdateHandler(new TimerHandler(this.getBenchmarkStartOffset(), new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
-				BaseBenchmark.this.mEngine.unregisterPostFrameHandler(pTimerHandler);
+				BaseBenchmark.this.mEngine.unregisterUpdateHandler(pTimerHandler);
 				System.gc();
 				BaseBenchmark.this.setUpBenchmarkHandling();
 			}
@@ -107,9 +107,9 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 
 	protected void setUpBenchmarkHandling() {
 		final FPSCounter fpsCounter = new FPSCounter();
-		this.mEngine.registerPreFrameHandler(fpsCounter);
+		this.mEngine.registerUpdateHandler(fpsCounter);
 
-		this.mEngine.registerPostFrameHandler(new TimerHandler(this.getBenchmarkDuration(), new ITimerCallback() {
+		this.mEngine.registerUpdateHandler(new TimerHandler(this.getBenchmarkDuration(), new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
 				BaseBenchmark.this.showResult(fpsCounter.getFPS());

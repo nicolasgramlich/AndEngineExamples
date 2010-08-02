@@ -5,7 +5,7 @@ import org.anddev.andengine.engine.SingleSceneSplitScreenEngine;
 import org.anddev.andengine.engine.camera.BoundCamera;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.HUD;
-import org.anddev.andengine.engine.options.SplitScreenEngineOptions;
+import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.primitive.Rectangle;
@@ -83,7 +83,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		Toast.makeText(this, "Touch the screen to add boxes.", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mBoundChaseCamera = new BoundCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, 0, CAMERA_WIDTH, 0, CAMERA_HEIGHT);
-		return new SingleSceneSplitScreenEngine(new SplitScreenEngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera, this.mBoundChaseCamera));
+		return new SingleSceneSplitScreenEngine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera), this.mBoundChaseCamera);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 
 	@Override
 	public Scene onLoadScene() {
-		this.mEngine.registerPostFrameHandler(new FPSLogger());
+		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene(2);
 		scene.setOnSceneTouchListener(this);
@@ -124,7 +124,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		scene.getBottomLayer().addEntity(left);
 		scene.getBottomLayer().addEntity(right);
 
-		scene.registerPreFrameHandler(this.mPhysicsWorld);
+		scene.registerUpdateHandler(this.mPhysicsWorld);
 
 		final HUD hud = new HUD();
 

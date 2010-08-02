@@ -132,12 +132,12 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 			}
 		}
 
-		scene.registerPreFrameHandler(new TimerHandler(2, new ITimerCallback() {
+		scene.registerUpdateHandler(new TimerHandler(2, new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
-				scene.unregisterPreFrameHandler(pTimerHandler);
-				scene.registerPreFrameHandler(PhysicsBenchmark.this.mPhysicsWorld);
-				scene.registerPreFrameHandler(new TimerHandler(10, new ITimerCallback() {
+				scene.unregisterUpdateHandler(pTimerHandler);
+				scene.registerUpdateHandler(PhysicsBenchmark.this.mPhysicsWorld);
+				scene.registerUpdateHandler(new TimerHandler(10, new ITimerCallback() {
 					@Override
 					public void onTimePassed(TimerHandler pTimerHandler) {
 						PhysicsBenchmark.this.mPhysicsWorld.setGravity(new Vector2(0, -SensorManager.GRAVITY_EARTH / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT));

@@ -93,7 +93,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 	@Override
 	public Scene onLoadScene() {
-		this.mEngine.registerPostFrameHandler(new FPSLogger());
+		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene(2);
 		scene.setBackground(new ColorBackground(0, 0, 0));
@@ -117,7 +117,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		scene.getBottomLayer().addEntity(left);
 		scene.getBottomLayer().addEntity(right);
 
-		scene.registerPreFrameHandler(this.mPhysicsWorld);
+		scene.registerUpdateHandler(this.mPhysicsWorld);
 
 		scene.setOnAreaTouchListener(this);
 

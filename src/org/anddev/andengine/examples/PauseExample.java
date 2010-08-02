@@ -70,7 +70,7 @@ public class PauseExample extends BaseExample {
 
 	@Override
 	public Scene onLoadScene() {
-		this.mEngine.registerPreFrameHandler(new FPSLogger());
+		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mPauseScene = new CameraScene(1, this.mCamera);
 		/* Make the 'PAUSED'-label centered on the camera. */
