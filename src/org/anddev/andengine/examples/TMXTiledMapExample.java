@@ -4,15 +4,18 @@ import java.util.ArrayList;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.BoundCamera;
+import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXLayer;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXLoader;
+import org.anddev.andengine.entity.layer.tiled.tmx.TMXTile;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXTileProperty;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXTiledMap;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXLoader.ITMXTilePropertiesListener;
 import org.anddev.andengine.entity.layer.tiled.tmx.util.exception.TMXLoadException;
+import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.shape.IShape;
 import org.anddev.andengine.entity.shape.modifier.LoopModifier;
@@ -26,6 +29,7 @@ import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.util.Debug;
 import org.anddev.andengine.util.Path;
+import org.anddev.andengine.util.constants.Constants;
 
 import android.widget.Toast;
 
@@ -38,8 +42,8 @@ public class TMXTiledMapExample extends BaseExample {
 	// Constants
 	// ===========================================================
 
-	private static final int CAMERA_WIDTH = 800;
-	private static final int CAMERA_HEIGHT = 480;
+	private static final int CAMERA_WIDTH = 480;
+	private static final int CAMERA_HEIGHT = 320;
 
 	// ===========================================================
 	// Fields
@@ -66,6 +70,7 @@ public class TMXTiledMapExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
+		Toast.makeText(this, "The tile the player is walking on will be highlighted.", Toast.LENGTH_LONG).show();
 		this.mBoundChaseCamera = new BoundCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mBoundChaseCamera));
 	}
@@ -73,7 +78,7 @@ public class TMXTiledMapExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		this.mTexture = new Texture(128, 128, TextureOptions.DEFAULT);
-		this.mPlayerTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/player.png", 0, 0, 3, 4);
+		this.mPlayerTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/player.png", 0, 0, 3, 4); // 72x128
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
@@ -87,11 +92,11 @@ public class TMXTiledMapExample extends BaseExample {
 		try {
 			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), TextureOptions.BILINEAR, new ITMXTilePropertiesListener() {
 				@Override
-				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final ArrayList<TMXTileProperty> pTMXTileProperties, final int pTileRow, final int pTileColumn, final int pTileWidth, final int pTileHeight) {
+				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final ArrayList<TMXTileProperty> pTMXTileProperties) {
 					final int tmxTilePropertyCount = pTMXTileProperties.size();
-					/* We are going to count the tiles that have the property "cactus=true" set. */ 
+					/* We are going to count the tiles that have the property "cactus=true" set. */
 					for(int i = 0; i < tmxTilePropertyCount; i++) {
-						TMXTileProperty tmxTileProperty = pTMXTileProperties.get(i);
+						final TMXTileProperty tmxTileProperty = pTMXTileProperties.get(i);
 						if(tmxTileProperty.getName().equals("cactus") && tmxTileProperty.getValue().equals("true")) {
 							TMXTiledMapExample.this.mCactusCount++;
 						}
@@ -99,14 +104,16 @@ public class TMXTiledMapExample extends BaseExample {
 				}
 			});
 			this.mTMXTiledMap = tmxLoader.loadFromAsset(this, "tmx/desert.tmx");
-			
+
 			Toast.makeText(this, "Cactus count in this TMXTiledMap: " + this.mCactusCount, Toast.LENGTH_LONG).show();
-		} catch (final TMXLoadException tmxe) {
-			Debug.e(tmxe);
+		} catch (final TMXLoadException tmxle) {
+			Debug.e(tmxle);
 		}
-		
+
 		final TMXLayer tmxLayer = this.mTMXTiledMap.getTMXLayers().get(0);
 		scene.getBottomLayer().addEntity(tmxLayer);
+		
+		/* Make the camera not exceed the bounds of the TMXLayer. */
 		this.mBoundChaseCamera.setBounds(0, tmxLayer.getWidth(), 0, tmxLayer.getHeight());
 		this.mBoundChaseCamera.setBoundsEnabled(true);
 
@@ -139,8 +146,30 @@ public class TMXTiledMapExample extends BaseExample {
 				}
 			}
 		})));
-		scene.getTopLayer().addEntity(player);
+		
+		/* Now we are going to create a rectangle that will  always highlight the tile below the feet of the player. */
+		final Rectangle currentTileRectangle = new Rectangle(0, 0, this.mTMXTiledMap.getTileWidth(), this.mTMXTiledMap.getTileHeight());
+		currentTileRectangle.setColor(1, 0, 0, 0.25f);
+		scene.getTopLayer().addEntity(currentTileRectangle);
+		
+		scene.registerUpdateHandler(new IUpdateHandler() {
+			@Override
+			public void reset() { }
 
+			@Override
+			public void onUpdate(final float pSecondsElapsed) {
+				/* Get the scene-coordinates of the players feet. */
+				final float[] playerFootCordinates = player.convertLocalToSceneCoordinates(12, 31);
+				/* Get the tile the feet of the player are currently waking on. */
+				final TMXTile tmxTile = tmxLayer.getTMXTileAt(playerFootCordinates[Constants.VERTEX_INDEX_X], playerFootCordinates[Constants.VERTEX_INDEX_Y]);
+				if(tmxTile != null) {
+					// tmxTile.setTextureRegion(null); <-- Rubber-style removing of tiles =D  
+					currentTileRectangle.setPosition(tmxTile.getTileX(), tmxTile.getTileY());
+				}
+			}
+		});
+		scene.getTopLayer().addEntity(player);
+		
 		return scene;
 	}
 
