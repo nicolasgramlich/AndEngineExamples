@@ -63,7 +63,7 @@ public class UpdateTextureExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1);
+		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/face_box_tiled.png", 0, 0, 2, 1);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
@@ -109,7 +109,7 @@ public class UpdateTextureExample extends BaseExample {
 	private void toggle() {
 		this.mTexture.clearTextureSources();
 		this.mToggleBox = !this.mToggleBox;
-		TextureRegionFactory.createTiledFromAsset(this.mTexture, this, this.mToggleBox ? "gfx/boxface_tiled.png" : "gfx/circleface_tiled.png", 0, 0, 2, 1);
+		TextureRegionFactory.createTiledFromAsset(this.mTexture, this, this.mToggleBox ? "gfx/face_box_tiled.png" : "gfx/face_circle_tiled.png", 0, 0, 2, 1);
 	}
 
 	// ===========================================================

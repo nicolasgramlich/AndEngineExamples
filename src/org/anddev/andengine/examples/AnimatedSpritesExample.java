@@ -65,7 +65,7 @@ public class AnimatedSpritesExample extends BaseExample {
 		this.mSnapdragonTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "snapdragon_tiled.png", 0, 0, 4, 3);
 		this.mHelicopterTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "helicopter_tiled.png", 400, 0, 2, 2);
 		this.mBananaTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "banana_tiled.png", 0, 180, 4, 2);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "boxface_tiled.png", 132, 180, 2, 1);
+		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_box_tiled.png", 132, 180, 2, 1);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}

@@ -85,7 +85,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 		
 		/* Load Sprite-Textures. */
 		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/boxface_menu.png", 0, 0);
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box_menu.png", 0, 0);
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
 

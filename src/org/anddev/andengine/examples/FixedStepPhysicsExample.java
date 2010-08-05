@@ -83,8 +83,8 @@ public class FixedStepPhysicsExample extends BaseExample implements IAcceleromet
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR);
 		TextureRegionFactory.setAssetBasePath("gfx/");
-		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "boxface_tiled.png", 0, 0, 2, 1); // 64x32
-		this.mCircleFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "circleface_tiled.png", 0, 32, 2, 1); // 64x32
+		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
+		this.mCircleFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 
 		this.enableAccelerometerSensor(this);

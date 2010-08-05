@@ -89,7 +89,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 	@Override
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
-		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/boxface_tiled.png", 0, 0, 2, 1); // 64x32
+		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/face_box_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 
 		this.mHUDTexture = new Texture(256, 128,TextureOptions.BILINEAR);

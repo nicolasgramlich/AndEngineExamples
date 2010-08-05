@@ -58,7 +58,7 @@ public class MovingBallExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/circleface_tiled.png", 0, 0, 2, 1);
+		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/face_circle_tiled.png", 0, 0, 2, 1);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
