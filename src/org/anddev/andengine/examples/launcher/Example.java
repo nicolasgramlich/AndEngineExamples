@@ -47,6 +47,7 @@ import org.anddev.andengine.examples.TMXTiledMapExample;
 import org.anddev.andengine.examples.TextExample;
 import org.anddev.andengine.examples.TextMenuExample;
 import org.anddev.andengine.examples.TextureOptionsExample;
+import org.anddev.andengine.examples.ColorKeyTextureSourceDecoratorExample;
 import org.anddev.andengine.examples.TickerTextExample;
 import org.anddev.andengine.examples.TouchDragExample;
 import org.anddev.andengine.examples.UnloadTextureExample;
@@ -80,6 +81,7 @@ enum Example {
 	BOUNDCAMERA(BoundCameraExample.class, R.string.example_boundcamera),
 	CHANGEABLETEXT(ChangeableTextExample.class, R.string.example_changeabletext),
 	COLLISIONDETECTION(CollisionDetectionExample.class, R.string.example_collisiondetection),
+	COLORKEYTEXTURESOURCEDECORATOR(ColorKeyTextureSourceDecoratorExample.class, R.string.example_colorkeytexturesourcedecorator),
 	COORDINATECONVERSION(CoordinateConversionExample.class, R.string.example_coordinateconversion),
 	CUSTOMFONT(CustomFontExample.class, R.string.example_customfont),
 	DIGITALONSCREENCONTROL(DigitalOnScreenControlExample.class, R.string.example_digitalonscreencontrol),

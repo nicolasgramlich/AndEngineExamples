@@ -5,34 +5,41 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.layer.ILayer;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.source.AssetTextureSource;
+import org.anddev.andengine.opengl.texture.source.decorator.ColorKeyTextureSourceDecorator;
+
+import android.graphics.Color;
 
 /**
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class SpriteExample extends BaseExample {
+public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	private static final int CAMERA_WIDTH = 720;
-	private static final int CAMERA_HEIGHT = 480;
+	private static final int CAMERA_WIDTH = 480;
+	private static final int CAMERA_HEIGHT = 320;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
 	private Camera mCamera;
+	
 	private Texture mTexture;
-	private TextureRegion mFaceTextureRegion;
+	
+	private TextureRegion mChromaticCircleTextureRegion;
+	private TextureRegion mChromaticCircleColorKeyedTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -54,8 +61,20 @@ public class SpriteExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box.png", 0, 0);
+		this.mTexture = new Texture(256, 128, TextureOptions.BILINEAR);
+
+		/* The actual AssetTextureSource. */
+		final AssetTextureSource baseTextureSource = new AssetTextureSource(this, "gfx/chromatic_circle.png");
+		
+		this.mChromaticCircleTextureRegion = TextureRegionFactory.createFromSource(this.mTexture, baseTextureSource, 0, 0);
+
+		/* We will remove both the red and the green segment of the chromatic circle, 
+		 * by nesting two ColorKeyTextureSourceDecorators around the actual baseTextureSource. */
+		final int colorKeyRed = Color.rgb(255, 0, 51); // Red segment
+		final int colorKeyGreen = Color.rgb(0, 179, 0); // Green segment
+		final ColorKeyTextureSourceDecorator colorKeyedTextureSource = new ColorKeyTextureSourceDecorator(new ColorKeyTextureSourceDecorator(baseTextureSource, colorKeyRed), colorKeyGreen);
+		
+		this.mChromaticCircleColorKeyedTextureRegion = TextureRegionFactory.createFromSource(this.mTexture, colorKeyedTextureSource, 128, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
@@ -65,15 +84,17 @@ public class SpriteExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene(1);
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		
-		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		scene.getTopLayer().addEntity(face);
+		final int centerX = (CAMERA_WIDTH - this.mChromaticCircleTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mChromaticCircleTextureRegion.getHeight()) / 2;
+
+		final Sprite chromaticCircle = new Sprite(centerX - 80, centerY, this.mChromaticCircleTextureRegion);
+
+		final Sprite chromaticCircleColorKeyed = new Sprite(centerX + 80, centerY, this.mChromaticCircleColorKeyedTextureRegion);
+
+		final ILayer topLayer = scene.getTopLayer();
+		topLayer.addEntity(chromaticCircle);
+		topLayer.addEntity(chromaticCircleColorKeyed);
 
 		return scene;
 	}

@@ -56,10 +56,10 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 	private TiledTextureRegion mCircleFaceTextureRegion;
 
 	private PhysicsWorld mPhysicsWorld;
-	
+
 	private int mFaceCount = 0;
-	
-	private Vector2 mTempVector = new Vector2();
+
+	private final Vector2 mTempVector = new Vector2();
 
 	// ===========================================================
 	// Constructors
@@ -131,7 +131,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 				@Override
 				public void run() {
 					final AnimatedSprite face = (AnimatedSprite)pTouchArea;
-					removeFace(face);
+					PhysicsRemoveExample.this.removeFace(face);
 				}
 			});
 			return true;
@@ -168,14 +168,14 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 	private void addFace(final float pX, final float pY) {
 		final Scene scene = this.mEngine.getScene();
-		
+
 		this.mFaceCount++;
 
 		final AnimatedSprite face;
 		final Body body;
 
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
-		
+
 		if(this.mFaceCount % 2 == 0) {
 			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
 			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
@@ -186,17 +186,17 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 		face.animate(200, true);
 		face.setUpdatePhysics(false);
-		
+
 		scene.registerTouchArea(face);
 		scene.getTopLayer().addEntity(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 	}
 
 	private void removeFace(final AnimatedSprite face) {
-		final Scene scene = PhysicsRemoveExample.this.mEngine.getScene();
+		final Scene scene = this.mEngine.getScene();
 
-		final Body faceBody = PhysicsRemoveExample.this.mPhysicsWorld.getPhysicsConnectorManager().findBodyByShape(face);
-		PhysicsRemoveExample.this.mPhysicsWorld.destroyBody(faceBody);
+		final Body faceBody = this.mPhysicsWorld.getPhysicsConnectorManager().findBodyByShape(face);
+		this.mPhysicsWorld.destroyBody(faceBody);
 		scene.unregisterTouchArea(face);
 		scene.getTopLayer().removeEntity(face);
 	}

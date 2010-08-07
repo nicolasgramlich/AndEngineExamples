@@ -43,6 +43,7 @@
 	<string name="example_boundcamera">Using a BoundCamera</string>
 	<string name="example_changeabletext">Changeable Text</string>
 	<string name="example_collisiondetection">Collision Detection</string>
+	<string name="example_colorkeytexturesourcedecorator">Using a ColorKeyTextureSourceDecorator</string>
 	<string name="example_coordinateconversion">Coordinate Conversion</string>
 	<string name="example_customfont">Using a Custom Font</string>
 	<string name="example_digitalonscreencontrol">Digital OnScreen-Control</string>
