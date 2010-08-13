@@ -62,7 +62,7 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box.png", 0, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);

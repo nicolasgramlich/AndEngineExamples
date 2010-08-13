@@ -74,7 +74,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box.png", 0, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
@@ -92,7 +92,14 @@ public class SpriteBenchmark extends BaseBenchmark {
 		final ILayer topLayer = scene.getTopLayer();
 
 		for(int i = 0; i < SPRITE_COUNT; i++) {
-			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
+			final Sprite face;
+//			if(i % 2 == 0) {
+				face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
+//			} else {
+//				face = new Sprite(CAMERA_WIDTH + this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
+//			}
+//			face.setCullingEnabled(true);
+//			face.setIgnoreUpdate(true);
 			topLayer.addEntity(face);
 		}
 
