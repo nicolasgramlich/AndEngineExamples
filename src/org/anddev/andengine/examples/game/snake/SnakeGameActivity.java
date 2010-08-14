@@ -196,11 +196,9 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		scene.setChildScene(this.mDigitalOnScreenControl);
 
 		/* Make the Snake move every 0.5 seconds. */
-		scene.registerUpdateHandler(new TimerHandler(0.5f, new ITimerCallback() {
+		scene.registerUpdateHandler(new TimerHandler(0.5f, true, new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
-				pTimerHandler.reset();
-
 				if(SnakeGameActivity.this.mGameRunning) {
 					try {
 						SnakeGameActivity.this.mSnake.move();

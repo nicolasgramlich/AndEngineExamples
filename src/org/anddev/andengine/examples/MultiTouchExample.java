@@ -8,9 +8,6 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
-import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
-import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -45,8 +42,6 @@ public class MultiTouchExample extends BaseExample {
 
 	private Camera mCamera;
 	private Texture mCardDeckTexture;
-
-	protected HashMap<Integer, Sprite> mPointerIDToSpriteMap = new HashMap<Integer, Sprite>();
 
 	private HashMap<Card, TextureRegion> mCardTotextureRegionMap;
 
@@ -115,28 +110,8 @@ public class MultiTouchExample extends BaseExample {
 		this.addCard(scene, Card.SPADE_ACE, 440, 260);
 
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
-
-		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
-			@Override
-			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-				return MultiTouchExample.this.updateSelectedCardPosition(pSceneTouchEvent);
-			}
-		});
-
-		scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
-			@Override
-			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
-					final Sprite sprite = (Sprite) pTouchArea;
-					sprite.setScale(1.2f);
-					/* Associate Pointer with card-sprite. */
-					MultiTouchExample.this.mPointerIDToSpriteMap.put(pSceneTouchEvent.getPointerID(), sprite);
-					return true;
-				} else {
-					return MultiTouchExample.this.updateSelectedCardPosition(pSceneTouchEvent);
-				}
-			}
-		});
+		
+		scene.setTouchAreaBindingEnabled(true);
 
 		return scene;
 	}
@@ -150,25 +125,24 @@ public class MultiTouchExample extends BaseExample {
 	// Methods
 	// ===========================================================
 
-	private boolean updateSelectedCardPosition(final TouchEvent pSceneTouchEvent) {
-		if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_MOVE) {
-			/* Get associated card-sprite (if available). */
-			final Sprite card = this.mPointerIDToSpriteMap.get(pSceneTouchEvent.getPointerID());
-			if(card != null) {
-				card.setPosition(pSceneTouchEvent.getX() - Card.CARD_WIDTH / 2, pSceneTouchEvent.getY() - Card.CARD_HEIGHT / 2);
-			}
-		} else if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_UP) {
-			/* 'Reset' associated card-sprite (if available). */
-			final Sprite removed = this.mPointerIDToSpriteMap.remove(pSceneTouchEvent.getPointerID());
-			if(removed != null) {
-				removed.setScale(1.0f);
-			}
-		}
-		return true;
-	}
-
 	private void addCard(final Scene pScene, final Card pCard, final int pX, final int pY) {
-		final Sprite sprite = new Sprite(pX, pY, this.mCardTotextureRegionMap.get(pCard));
+		final Sprite sprite = new Sprite(pX, pY, this.mCardTotextureRegionMap.get(pCard)) {
+			@Override
+			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				switch(pSceneTouchEvent.getAction()) {
+					case MotionEvent.ACTION_DOWN:
+						this.setScale(1.25f);
+						break;
+					case MotionEvent.ACTION_MOVE:
+						this.setPosition(pSceneTouchEvent.getX() - Card.CARD_WIDTH / 2, pSceneTouchEvent.getY() - Card.CARD_HEIGHT / 2);
+						break;
+					case MotionEvent.ACTION_UP:
+						this.setScale(1.0f);						
+						break;
+				}
+				return true;
+			}
+		};
 
 		pScene.getTopLayer().addEntity(sprite);
 		pScene.registerTouchArea(sprite);
