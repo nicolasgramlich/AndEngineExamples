@@ -258,19 +258,19 @@ public class MultiplayerExample extends BaseExample {
 			@Override
 			protected ClientConnector newClientConnector(final Socket pClientSocket, final BaseClientConnectionListener pClientConnectionListener) throws Exception {
 				return new ClientConnector(pClientSocket, pClientConnectionListener,
-					new ClientMessageExtractor(){
-						@Override
-						public BaseClientMessage readMessage(final short pFlag, final DataInputStream pDataInputStream) throws IOException {
-							return super.readMessage(pFlag, pDataInputStream);
-						}
-					},
-					new BaseClientMessageSwitch() {
-						@Override
-						public void doSwitch(final ClientConnector pClientConnector, final BaseClientMessage pClientMessage) throws IOException {
-							super.doSwitch(pClientConnector, pClientMessage);
-							MultiplayerExample.this.log("SERVER: ClientMessage received: " + pClientMessage.toString());
-						}
+						new ClientMessageExtractor(){
+					@Override
+					public BaseClientMessage readMessage(final short pFlag, final DataInputStream pDataInputStream) throws IOException {
+						return super.readMessage(pFlag, pDataInputStream);
 					}
+				},
+				new BaseClientMessageSwitch() {
+					@Override
+					public void doSwitch(final ClientConnector pClientConnector, final BaseClientMessage pClientMessage) throws IOException {
+						super.doSwitch(pClientConnector, pClientMessage);
+						MultiplayerExample.this.log("SERVER: ClientMessage received: " + pClientMessage.toString());
+					}
+				}
 				);
 			}
 		};
@@ -281,41 +281,41 @@ public class MultiplayerExample extends BaseExample {
 	private void initClient() {
 		try {
 			this.mServerConnector = new ServerConnector(new Socket(this.mServerIP, SERVER_PORT), new ExampleServerConnectionListener(),
-				new ServerMessageExtractor() {
-					@Override
-					public BaseServerMessage readMessage(final short pFlag, final DataInputStream pDataInputStream) throws IOException {
-						switch(pFlag) {
-							case FLAG_MESSAGE_SERVER_ADD_FACE:
-								return new AddFaceServerMessage(pDataInputStream);
-							default:
-								return super.readMessage(pFlag, pDataInputStream);
-						}
-					}
-				},
-				new BaseServerMessageSwitch() {
-					@Override
-					public void doSwitch(final ServerConnector pServerConnector, final BaseServerMessage pServerMessage) throws IOException {
-						switch(pServerMessage.getFlag()) {
-							case FLAG_MESSAGE_SERVER_ADD_FACE:
-								final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
-								MultiplayerExample.this.addFace(MultiplayerExample.this.mEngine.getScene(), addFaceServerMessage.mX, addFaceServerMessage.mY);
-								break;
-							default:
-								super.doSwitch(pServerConnector, pServerMessage);
-								MultiplayerExample.this.log("CLIENT: ServerMessage received: " + pServerMessage.toString());
-						}
-					}
-	
-					@Override
-					protected void onHandleConnectionAcceptedServerMessage(final ServerConnector pServerConnector, final ConnectionAcceptedServerMessage pServerMessage) {
-						MultiplayerExample.this.log("CLIENT: Connection accepted.");
-					}
-	
-					@Override
-					protected void onHandleConnectionRefusedServerMessage(final ServerConnector pServerConnector, final ConnectionRefusedServerMessage pServerMessage) {
-						MultiplayerExample.this.log("CLIENT: Connection refused.");
+					new ServerMessageExtractor() {
+				@Override
+				public BaseServerMessage readMessage(final short pFlag, final DataInputStream pDataInputStream) throws IOException {
+					switch(pFlag) {
+						case FLAG_MESSAGE_SERVER_ADD_FACE:
+							return new AddFaceServerMessage(pDataInputStream);
+						default:
+							return super.readMessage(pFlag, pDataInputStream);
 					}
 				}
+			},
+			new BaseServerMessageSwitch() {
+				@Override
+				public void doSwitch(final ServerConnector pServerConnector, final BaseServerMessage pServerMessage) throws IOException {
+					switch(pServerMessage.getFlag()) {
+						case FLAG_MESSAGE_SERVER_ADD_FACE:
+							final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
+							MultiplayerExample.this.addFace(MultiplayerExample.this.mEngine.getScene(), addFaceServerMessage.mX, addFaceServerMessage.mY);
+							break;
+						default:
+							super.doSwitch(pServerConnector, pServerMessage);
+							MultiplayerExample.this.log("CLIENT: ServerMessage received: " + pServerMessage.toString());
+					}
+				}
+
+				@Override
+				protected void onHandleConnectionAcceptedServerMessage(final ServerConnector pServerConnector, final ConnectionAcceptedServerMessage pServerMessage) {
+					MultiplayerExample.this.log("CLIENT: Connection accepted.");
+				}
+
+				@Override
+				protected void onHandleConnectionRefusedServerMessage(final ServerConnector pServerConnector, final ConnectionRefusedServerMessage pServerMessage) {
+					MultiplayerExample.this.log("CLIENT: Connection refused.");
+				}
+			}
 			);
 
 			this.mServerConnector.start();

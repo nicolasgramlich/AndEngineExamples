@@ -89,7 +89,7 @@ public class UpdateTextureExample extends BaseExample {
 			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 				if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
 					UpdateTextureExample.this.toggle();
-				}					
+				}
 				return true;
 			}
 		});

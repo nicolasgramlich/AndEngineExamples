@@ -56,7 +56,7 @@ public class BasePhysicsJointExample extends BaseExample implements IAcceleromet
 	protected TiledTextureRegion mCircleFaceTextureRegion;
 
 	protected PhysicsWorld mPhysicsWorld;
-	
+
 	private int mFaceCount = 0;
 
 	// ===========================================================
@@ -151,7 +151,7 @@ public class BasePhysicsJointExample extends BaseExample implements IAcceleromet
 
 	private void addFace(final float pX, final float pY) {
 		final Scene scene = this.mEngine.getScene();
-		
+
 		this.mFaceCount++;
 		Debug.d("Faces: " + this.mFaceCount);
 
@@ -159,7 +159,7 @@ public class BasePhysicsJointExample extends BaseExample implements IAcceleromet
 		final Body body;
 
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
-		
+
 		if(this.mFaceCount % 2 == 0) {
 			face = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion);
 			face.setScale(MathUtils.random(0.5f, 1.25f));
@@ -172,7 +172,7 @@ public class BasePhysicsJointExample extends BaseExample implements IAcceleromet
 
 		face.animate(200);
 		face.setUpdatePhysics(false);
-		
+
 		scene.getTopLayer().addEntity(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 	}

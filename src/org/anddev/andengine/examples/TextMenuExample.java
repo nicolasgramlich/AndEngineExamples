@@ -49,7 +49,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 
 	private Texture mTexture;
 	private TextureRegion mFaceTextureRegion;
-	
+
 	private Texture mFontTexture;
 	private Font mFont;
 
@@ -82,7 +82,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "Plok.ttf", 48, true, Color.WHITE);
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
 		this.mEngine.getFontManager().loadFont(this.mFont);
-		
+
 		/* Load Sprite-Textures. */
 		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box_menu.png", 0, 0);

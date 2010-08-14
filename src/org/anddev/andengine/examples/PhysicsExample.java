@@ -174,10 +174,10 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 		} else if (this.mFaceCount % 4 == 2) {
 			face = new AnimatedSprite(pX, pY, this.mTriangleFaceTextureRegion);
-			body = createTriangleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
+			body = PhysicsExample.createTriangleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 		} else {
 			face = new AnimatedSprite(pX, pY, this.mHexagonFaceTextureRegion);
-			body = createHexagonBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
+			body = PhysicsExample.createHexagonBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 		}
 
 		face.animate(200);
@@ -189,7 +189,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 
 	/**
 	 * Creates a {@link Body} based on a {@link PolygonShape} in the form of a triangle:
-	 * <pre> 
+	 * <pre>
 	 *  /\
 	 * /__\
 	 * </pre>
@@ -204,19 +204,19 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 		final float left = -halfHeight;
 		final float centerX = 0;
 		final float right = halfWidth;
-		
+
 		final Vector2[] vertices = {
 				new Vector2(centerX, top),
 				new Vector2(right, bottom),
 				new Vector2(left, bottom)
 		};
-		
+
 		return PhysicsFactory.createPolygonBody(pPhysicsWorld, pShape, vertices, pBodyType, pFixtureDef);
 	}
-	
+
 	/**
 	 * Creates a {@link Body} based on a {@link PolygonShape} in the form of a hexagon:
-	 * <pre> 
+	 * <pre>
 	 *  /\
 	 * /  \
 	 * |  |
@@ -235,13 +235,13 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 		final float bottom = halfHeight;
 
 		final float centerX = 0;
-		
+
 		/* The left and right vertices of the heaxgon are not on the edge of the hexagon-sprite, so we need to inset them a little. */
 		final float left = -halfWidth + 2.5f / PIXEL_TO_METER_RATIO_DEFAULT;
 		final float right = halfWidth - 2.5f / PIXEL_TO_METER_RATIO_DEFAULT;
 		final float higher = top + 8.25f / PIXEL_TO_METER_RATIO_DEFAULT;
 		final float lower = bottom - 8.25f / PIXEL_TO_METER_RATIO_DEFAULT;
-		
+
 		final Vector2[] vertices = {
 				new Vector2(centerX, top),
 				new Vector2(right, higher),
@@ -250,7 +250,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 				new Vector2(left, lower),
 				new Vector2(left, higher)
 		};
-		
+
 		return PhysicsFactory.createPolygonBody(pPhysicsWorld, pShape, vertices, pBodyType, pFixtureDef);
 	}
 

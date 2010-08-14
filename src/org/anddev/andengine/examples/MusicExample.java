@@ -91,7 +91,7 @@ public class MusicExample extends BaseExample {
 
 		final int x = (CAMERA_WIDTH - this.mNotesTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mNotesTextureRegion.getHeight()) / 2;
-		
+
 		final Sprite notes = new Sprite(x, y, this.mNotesTextureRegion);
 		scene.getTopLayer().addEntity(notes);
 
@@ -118,7 +118,7 @@ public class MusicExample extends BaseExample {
 	public void onLoadComplete() {
 
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

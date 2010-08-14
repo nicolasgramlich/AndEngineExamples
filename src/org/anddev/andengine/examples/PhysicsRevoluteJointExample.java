@@ -55,7 +55,7 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 	private void initJoints(final Scene pScene) {
 		final int centerX = CAMERA_WIDTH / 2;
 		final int centerY = CAMERA_HEIGHT / 2;
-		
+
 		final int spriteWidth = this.mBoxFaceTextureRegion.getTileWidth();
 		final int spriteHeight = this.mBoxFaceTextureRegion.getTileHeight();
 
@@ -78,12 +78,12 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 
 			pScene.getTopLayer().addEntity(anchorFace);
 			pScene.getTopLayer().addEntity(movingFace);
-			
+
 			final Line connectionLine = new Line(anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2, anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2);
 			pScene.getBottomLayer().addEntity(connectionLine);
 			this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(anchorFace, anchorBody, true, true, false, false){
 				@Override
-				public void onUpdate(float pSecondsElapsed) {
+				public void onUpdate(final float pSecondsElapsed) {
 					super.onUpdate(pSecondsElapsed);
 					final Vector2 movingBodyWorldCenter = movingBody.getWorldCenter();
 					connectionLine.setPosition(connectionLine.getX1(), connectionLine.getY1(), movingBodyWorldCenter.x * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT, movingBodyWorldCenter.y * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT);

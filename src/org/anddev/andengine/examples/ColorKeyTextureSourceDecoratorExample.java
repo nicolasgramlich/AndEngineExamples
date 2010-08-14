@@ -35,9 +35,9 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	
+
 	private Texture mTexture;
-	
+
 	private TextureRegion mChromaticCircleTextureRegion;
 	private TextureRegion mChromaticCircleColorKeyedTextureRegion;
 
@@ -65,15 +65,15 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 		/* The actual AssetTextureSource. */
 		final AssetTextureSource baseTextureSource = new AssetTextureSource(this, "gfx/chromatic_circle.png");
-		
+
 		this.mChromaticCircleTextureRegion = TextureRegionFactory.createFromSource(this.mTexture, baseTextureSource, 0, 0);
 
-		/* We will remove both the red and the green segment of the chromatic circle, 
+		/* We will remove both the red and the green segment of the chromatic circle,
 		 * by nesting two ColorKeyTextureSourceDecorators around the actual baseTextureSource. */
 		final int colorKeyRed = Color.rgb(255, 0, 51); // Red segment
 		final int colorKeyGreen = Color.rgb(0, 179, 0); // Green segment
 		final ColorKeyTextureSourceDecorator colorKeyedTextureSource = new ColorKeyTextureSourceDecorator(new ColorKeyTextureSourceDecorator(baseTextureSource, colorKeyRed), colorKeyGreen);
-		
+
 		this.mChromaticCircleColorKeyedTextureRegion = TextureRegionFactory.createFromSource(this.mTexture, colorKeyedTextureSource, 128, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);

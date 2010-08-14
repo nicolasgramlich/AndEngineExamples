@@ -110,7 +110,7 @@ public class MultiTouchExample extends BaseExample {
 		this.addCard(scene, Card.SPADE_ACE, 440, 260);
 
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
-		
+
 		scene.setTouchAreaBindingEnabled(true);
 
 		return scene;
@@ -128,7 +128,7 @@ public class MultiTouchExample extends BaseExample {
 	private void addCard(final Scene pScene, final Card pCard, final int pX, final int pY) {
 		final Sprite sprite = new Sprite(pX, pY, this.mCardTotextureRegionMap.get(pCard)) {
 			@Override
-			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				switch(pSceneTouchEvent.getAction()) {
 					case MotionEvent.ACTION_DOWN:
 						this.setScale(1.25f);
@@ -137,7 +137,7 @@ public class MultiTouchExample extends BaseExample {
 						this.setPosition(pSceneTouchEvent.getX() - Card.CARD_WIDTH / 2, pSceneTouchEvent.getY() - Card.CARD_HEIGHT / 2);
 						break;
 					case MotionEvent.ACTION_UP:
-						this.setScale(1.0f);						
+						this.setScale(1.0f);
 						break;
 				}
 				return true;

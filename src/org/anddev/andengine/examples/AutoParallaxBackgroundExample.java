@@ -38,9 +38,9 @@ public class AutoParallaxBackgroundExample extends BaseExample {
 	private Texture mTexture;
 	private TiledTextureRegion mPlayerTextureRegion;
 	private TiledTextureRegion mEnemyTextureRegion;
-	
+
 	private Texture mAutoParallaxBackgroundTexture;
-	
+
 	private TextureRegion mParallaxLayerBack;
 	private TextureRegion mParallaxLayerMid;
 	private TextureRegion mParallaxLayerFront;
@@ -68,7 +68,7 @@ public class AutoParallaxBackgroundExample extends BaseExample {
 		this.mTexture = new Texture(256, 128, TextureOptions.BILINEAR);
 		this.mPlayerTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/player.png", 0, 0, 3, 4);
 		this.mEnemyTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/enemy.png", 73, 0, 3, 4);
-		
+
 		this.mAutoParallaxBackgroundTexture = new Texture(1024, 1024, TextureOptions.DEFAULT);
 		this.mParallaxLayerFront = TextureRegionFactory.createFromAsset(this.mAutoParallaxBackgroundTexture, this, "gfx/parallax_background_layer_front.png", 0, 0);
 		this.mParallaxLayerBack = TextureRegionFactory.createFromAsset(this.mAutoParallaxBackgroundTexture, this, "gfx/parallax_background_layer_back.png", 0, 188);
@@ -97,7 +97,7 @@ public class AutoParallaxBackgroundExample extends BaseExample {
 		player.setScaleCenterY(this.mPlayerTextureRegion.getTileHeight());
 		player.setScale(2);
 		player.animate(new long[]{200, 200, 200}, 3, 5, true);
-		
+
 		final AnimatedSprite enemy = new AnimatedSprite(playerX - 80, playerY, this.mEnemyTextureRegion);
 		enemy.setScaleCenterY(this.mEnemyTextureRegion.getTileHeight());
 		enemy.setScale(2);

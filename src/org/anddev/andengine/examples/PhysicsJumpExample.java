@@ -187,7 +187,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 		final Body body;
 
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
-		
+
 		if(this.mFaceCount % 2 == 1){
 			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
 			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);

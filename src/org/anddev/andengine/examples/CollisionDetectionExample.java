@@ -4,7 +4,7 @@ import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
-import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl.OnScreenControlListener;
+import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -130,10 +130,15 @@ public class CollisionDetectionExample extends BaseExample {
 		/* Velocity control (left). */
 		final int x1 = 0;
 		final int y1 = CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight();
-		final AnalogOnScreenControl velocityOnScreenControl = new AnalogOnScreenControl(x1, y1, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new OnScreenControlListener() {
+		final AnalogOnScreenControl velocityOnScreenControl = new AnalogOnScreenControl(x1, y1, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				face.setVelocity(pValueX * 100, pValueY * 100);
+			}
+
+			@Override
+			public void onControlClick(final AnalogOnScreenControl pAnalogOnScreenControl) {
+				/* Nothing. */
 			}
 		});
 		velocityOnScreenControl.getControlBase().setAlpha(0.5f);
@@ -144,7 +149,7 @@ public class CollisionDetectionExample extends BaseExample {
 		/* Rotation control (right). */
 		final int y2 = (this.mPlaceOnScreenControlsAtDifferentVerticalLocations) ? 0 : y1;
 		final int x2 = CAMERA_WIDTH - this.mOnScreenControlBaseTextureRegion.getWidth();
-		final AnalogOnScreenControl rotationOnScreenControl = new AnalogOnScreenControl(x2, y2, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new OnScreenControlListener() {
+		final AnalogOnScreenControl rotationOnScreenControl = new AnalogOnScreenControl(x2, y2, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				if(pValueX == x1 && pValueY == x1) {
@@ -153,6 +158,11 @@ public class CollisionDetectionExample extends BaseExample {
 					face.setRotation(MathUtils.radToDeg((float)Math.atan2(pValueX, -pValueY)));
 				}
 			}
+
+			@Override
+			public void onControlClick(final AnalogOnScreenControl pAnalogOnScreenControl) {
+				/* Nothing. */
+			}
 		});
 		rotationOnScreenControl.getControlBase().setAlpha(0.5f);
 
@@ -160,12 +170,12 @@ public class CollisionDetectionExample extends BaseExample {
 
 		/* The actual collision-checking. */
 		scene.registerUpdateHandler(new IUpdateHandler() {
-			
+
 			@Override
 			public void reset() { }
-			
+
 			@Override
-			public void onUpdate(float pSecondsElapsed) {
+			public void onUpdate(final float pSecondsElapsed) {
 				if(centerRectangle.collidesWith(face)) {
 					centerRectangle.setColor(1, 0, 0);
 				} else {

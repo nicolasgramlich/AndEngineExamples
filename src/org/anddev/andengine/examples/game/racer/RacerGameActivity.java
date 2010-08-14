@@ -4,7 +4,7 @@ import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
-import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl.OnScreenControlListener;
+import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -148,7 +148,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 	// ===========================================================
 
 	private void initOnScreenControls(final Scene pScene) {
-		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new OnScreenControlListener() {
+		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
 			private Vector2 mVelocityTemp = new Vector2();
 
 			@Override
@@ -162,6 +162,11 @@ public class RacerGameActivity  extends BaseGameActivity {
 				carBody.setTransform(carBody.getWorldCenter(), rotationInRad);
 				
 				RacerGameActivity.this.mCar.setRotation(MathUtils.radToDeg(rotationInRad));
+			}
+
+			@Override
+			public void onControlClick(AnalogOnScreenControl pAnalogOnScreenControl) {
+				/* Nothing. */
 			}
 		});
 		analogOnScreenControl.getControlBase().setAlpha(0.5f);

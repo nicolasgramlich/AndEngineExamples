@@ -32,11 +32,11 @@ public class TextureOptionsExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	
+
 	private Texture mTexture;
 	private Texture mTextureBilinear;
 	private Texture mTextureRepeating;
-	
+
 	private TextureRegion mFaceTextureRegion;
 	private TextureRegion mFaceTextureRegionBilinear;
 	private TextureRegion mFaceTextureRegionRepeating;
@@ -64,10 +64,10 @@ public class TextureOptionsExample extends BaseExample {
 		TextureRegionFactory.setAssetBasePath("gfx/");
 		this.mTexture = new Texture(32, 32, TextureOptions.DEFAULT);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "face_box.png", 0, 0);
-		
+
 		this.mTextureBilinear = new Texture(32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegionBilinear = TextureRegionFactory.createFromAsset(this.mTextureBilinear, this, "face_box.png", 0, 0);
-		
+
 		this.mTextureRepeating = new Texture(32, 32, TextureOptions.REPEATING);
 		this.mFaceTextureRegionRepeating = TextureRegionFactory.createFromAsset(this.mTextureRepeating, this, "face_box.png", 0, 0);
 		/* The following statement causes the Texture to be printed horizontally 10x on any Sprite that uses it.

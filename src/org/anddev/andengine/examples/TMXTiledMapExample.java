@@ -112,7 +112,7 @@ public class TMXTiledMapExample extends BaseExample {
 
 		final TMXLayer tmxLayer = this.mTMXTiledMap.getTMXLayers().get(0);
 		scene.getBottomLayer().addEntity(tmxLayer);
-		
+
 		/* Make the camera not exceed the bounds of the TMXLayer. */
 		this.mBoundChaseCamera.setBounds(0, tmxLayer.getWidth(), 0, tmxLayer.getHeight());
 		this.mBoundChaseCamera.setBoundsEnabled(true);
@@ -146,12 +146,12 @@ public class TMXTiledMapExample extends BaseExample {
 				}
 			}
 		})));
-		
+
 		/* Now we are going to create a rectangle that will  always highlight the tile below the feet of the player. */
 		final Rectangle currentTileRectangle = new Rectangle(0, 0, this.mTMXTiledMap.getTileWidth(), this.mTMXTiledMap.getTileHeight());
 		currentTileRectangle.setColor(1, 0, 0, 0.25f);
 		scene.getTopLayer().addEntity(currentTileRectangle);
-		
+
 		scene.registerUpdateHandler(new IUpdateHandler() {
 			@Override
 			public void reset() { }
@@ -163,13 +163,13 @@ public class TMXTiledMapExample extends BaseExample {
 				/* Get the tile the feet of the player are currently waking on. */
 				final TMXTile tmxTile = tmxLayer.getTMXTileAt(playerFootCordinates[Constants.VERTEX_INDEX_X], playerFootCordinates[Constants.VERTEX_INDEX_Y]);
 				if(tmxTile != null) {
-					// tmxTile.setTextureRegion(null); <-- Rubber-style removing of tiles =D  
+					// tmxTile.setTextureRegion(null); <-- Rubber-style removing of tiles =D
 					currentTileRectangle.setPosition(tmxTile.getTileX(), tmxTile.getTileY());
 				}
 			}
 		});
 		scene.getTopLayer().addEntity(player);
-		
+
 		return scene;
 	}
 

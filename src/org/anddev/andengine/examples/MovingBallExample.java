@@ -25,7 +25,7 @@ public class MovingBallExample extends BaseExample {
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
-	
+
 	private static final float DEMO_VELOCITY = 100.0f;
 
 	// ===========================================================
@@ -33,7 +33,7 @@ public class MovingBallExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	
+
 	private Texture mTexture;
 	private TiledTextureRegion mFaceTextureRegion;
 
@@ -74,7 +74,7 @@ public class MovingBallExample extends BaseExample {
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		final Ball ball = new Ball(centerX, centerY, this.mFaceTextureRegion);
 		ball.setVelocity(DEMO_VELOCITY, DEMO_VELOCITY);
-		
+
 		scene.getTopLayer().addEntity(ball);
 
 		return scene;
@@ -103,15 +103,15 @@ public class MovingBallExample extends BaseExample {
 			if(this.mX < 0) {
 				this.setVelocityX(DEMO_VELOCITY);
 			} else if(this.mX + this.getWidth() > CAMERA_WIDTH) {
-				this.setVelocityX(-DEMO_VELOCITY);				
+				this.setVelocityX(-DEMO_VELOCITY);
 			}
-			
+
 			if(this.mY < 0) {
 				this.setVelocityY(DEMO_VELOCITY);
 			} else if(this.mY + this.getHeight() > CAMERA_HEIGHT) {
-				this.setVelocityY(-DEMO_VELOCITY);				
+				this.setVelocityY(-DEMO_VELOCITY);
 			}
-			
+
 			super.onManagedUpdate(pSecondsElapsed);
 		}
 	}

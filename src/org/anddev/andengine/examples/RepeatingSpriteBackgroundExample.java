@@ -84,9 +84,9 @@ public class RepeatingSpriteBackgroundExample extends BaseExample {
 
 		/* Create the sprite and add it to the scene. */
 		final AnimatedSprite player = new AnimatedSprite(centerX, centerY, 48, 64, this.mPlayerTextureRegion);
-		
+
 		final Path path = new Path(5).to(10, 10).to(10, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, 10).to(10, 10);
-		
+
 		player.addShapeModifier(new LoopModifier(new PathModifier(30, path, null, new IPathModifierListener() {
 			@Override
 			public void onWaypointPassed(final PathModifier pPathModifier, final IShape pShape, final int pWaypointIndex) {

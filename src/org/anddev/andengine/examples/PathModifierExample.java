@@ -84,9 +84,9 @@ public class PathModifierExample extends BaseExample {
 
 		/* Create the face and add it to the scene. */
 		final AnimatedSprite player = new AnimatedSprite(10, 10, 48, 64, this.mPlayerTextureRegion);
-		
+
 		final Path path = new Path(5).to(10, 10).to(10, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, 10).to(10, 10);
-		
+
 		/* Add the proper animation when a waypoint of the path is passed. */
 		player.addShapeModifier(new LoopModifier(new PathModifier(30, path, null, new IPathModifierListener() {
 			@Override

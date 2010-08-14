@@ -77,16 +77,16 @@ public class ZoomExample extends BaseExample {
 		/* Calculate the coordinates for the screen-center. */
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		
+
 		/* Create some faces and add them to the scene. */
 		final ILayer topLayer = scene.getTopLayer();
 		topLayer.addEntity(new Sprite(centerX - 25, centerY - 25, this.mFaceTextureRegion));
 		topLayer.addEntity(new Sprite(centerX  + 25, centerY - 25, this.mFaceTextureRegion));
 		topLayer.addEntity(new Sprite(centerX, centerY + 25, this.mFaceTextureRegion));
-		
+
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
-			public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 				switch(pSceneTouchEvent.getAction()) {
 					case MotionEvent.ACTION_DOWN:
 						ZoomExample.this.mSmoothCamera.setZoomFactor(5.0f);

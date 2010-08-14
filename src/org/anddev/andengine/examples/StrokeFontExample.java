@@ -28,7 +28,7 @@ public class StrokeFontExample extends BaseExample {
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
-	
+
 	private static final int FONT_SIZE = 48;
 
 	// ===========================================================
@@ -36,7 +36,7 @@ public class StrokeFontExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	
+
 	private Texture mFontTexture;
 	private Texture mStrokeFontTexture;
 	private Texture mStrokeOnlyFontTexture;

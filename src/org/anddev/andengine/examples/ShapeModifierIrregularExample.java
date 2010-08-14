@@ -104,12 +104,12 @@ public class ShapeModifierIrregularExample extends BaseExample {
 				new ScaleModifier(2, 1.0f, 0.75f, 1.0f, 2.0f),
 				new ScaleModifier(2, 0.75f, 2.0f, 2.0f, 1.25f),
 				new ParallelModifier(
-					new ScaleModifier(3, 2.0f, 5.0f, 1.25f, 5.0f),
-					new RotationByModifier(3, 180)
+						new ScaleModifier(3, 2.0f, 5.0f, 1.25f, 5.0f),
+						new RotationByModifier(3, 180)
 				),
 				new ParallelModifier(
-					new ScaleModifier(3, 5, 1),
-					new RotationModifier(3, 180, 0)
+						new ScaleModifier(3, 5, 1),
+						new RotationModifier(3, 180, 0)
 				)
 		);
 
@@ -122,7 +122,7 @@ public class ShapeModifierIrregularExample extends BaseExample {
 		/* Create some not-modified sprites, that act as fixed references to the modified ones. */
 		final AnimatedSprite face1Reference = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion);
 		final AnimatedSprite face2Reference = new AnimatedSprite(centerX + 100, centerY, this.mFaceTextureRegion);
-		
+
 		scene.getTopLayer().addEntity(face1Reference);
 		scene.getTopLayer().addEntity(face2Reference);
 

@@ -70,7 +70,7 @@ public class SpriteExample extends BaseExample {
 		/* Calculate the coordinates for the face, so its centered on the camera. */
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		
+
 		/* Create the face and add it to the scene. */
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
 		scene.getTopLayer().addEntity(face);

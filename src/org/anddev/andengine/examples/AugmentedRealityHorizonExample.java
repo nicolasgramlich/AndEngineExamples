@@ -72,7 +72,7 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 		final Scene scene = new Scene(1);
-//		scene.setBackgroundEnabled(false);
+		//		scene.setBackgroundEnabled(false);
 		scene.setBackground(new ColorBackground(0.0f, 0.0f, 0.0f, 0.0f));
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
