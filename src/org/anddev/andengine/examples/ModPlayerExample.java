@@ -37,7 +37,8 @@ public class ModPlayerExample extends BaseExample {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 
-	private static final String SAMPLE_MOD_FILENAME = "mfx/lepeltheme.mod";
+	private static final String SAMPLE_MOD_DIRECTORY = "mfx/";
+	private static final String SAMPLE_MOD_FILENAME = "lepeltheme.mod";
 
 	// ===========================================================
 	// Fields
@@ -73,14 +74,14 @@ public class ModPlayerExample extends BaseExample {
 		TextureRegionFactory.setAssetBasePath("gfx/");
 		this.mILove8BitTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "i_love_8_bit.png", 0, 0);
 
-		if(FileUtils.isFileExistingOnExternalStorage(this, SAMPLE_MOD_FILENAME)) {
+		if(FileUtils.isFileExistingOnExternalStorage(this, SAMPLE_MOD_DIRECTORY + SAMPLE_MOD_FILENAME)) {
 			this.startPlayingMod();
 		} else {
 			this.doAsync(R.string.dialog_modplayerexample_loading_to_external_title, R.string.dialog_modplayerexample_loading_to_external_message, new Callable<Void>() {
 				@Override
 				public Void call() throws Exception {
-					FileUtils.ensureDirectoriesExistOnExternalStorage(ModPlayerExample.this, "mfx");
-					FileUtils.copyToExternalStorage(ModPlayerExample.this, SAMPLE_MOD_FILENAME, SAMPLE_MOD_FILENAME);
+					FileUtils.ensureDirectoriesExistOnExternalStorage(ModPlayerExample.this, SAMPLE_MOD_DIRECTORY);
+					FileUtils.copyToExternalStorage(ModPlayerExample.this, SAMPLE_MOD_DIRECTORY + SAMPLE_MOD_FILENAME, SAMPLE_MOD_DIRECTORY + SAMPLE_MOD_FILENAME);
 					return null;
 				}
 			}, new Callback<Void>() {
@@ -138,7 +139,7 @@ public class ModPlayerExample extends BaseExample {
 	// ===========================================================
 
 	private void startPlayingMod() {
-		this.mModPlayer.play(FileUtils.getAbsolutePathOnExternalStorage(this, SAMPLE_MOD_FILENAME));
+		this.mModPlayer.play(FileUtils.getAbsolutePathOnExternalStorage(this, SAMPLE_MOD_DIRECTORY + SAMPLE_MOD_FILENAME));
 	}
 
 	// ===========================================================
