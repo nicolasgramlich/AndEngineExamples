@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples;
 
-import java.util.ArrayList;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.BoundCamera;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
@@ -10,6 +8,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXLayer;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXLoader;
+import org.anddev.andengine.entity.layer.tiled.tmx.TMXProperties;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXTile;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXTileProperty;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXTiledMap;
@@ -92,7 +91,7 @@ public class TMXTiledMapExample extends BaseExample {
 		try {
 			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), TextureOptions.BILINEAR, new ITMXTilePropertiesListener() {
 				@Override
-				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final ArrayList<TMXTileProperty> pTMXTileProperties) {
+				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) {
 					final int tmxTilePropertyCount = pTMXTileProperties.size();
 					/* We are going to count the tiles that have the property "cactus=true" set. */
 					for(int i = 0; i < tmxTilePropertyCount; i++) {
