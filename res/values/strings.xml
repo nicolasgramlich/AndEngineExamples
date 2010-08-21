@@ -83,8 +83,8 @@
 	<string name="example_tmxtiledmap">Using a TMXTiledMap</string>
 	<string name="example_tickertext">Drawing a TickerText</string>
 	<string name="example_touchdrag">Touch &amp; Drag Sprites</string>
-	<string name="example_unloadtexture">Unloading Textures Dynamic</string>
-	<string name="example_updatetexture">Updating Textures Dynamic</string>
+	<string name="example_unloadresources">Unloading Resources</string>
+	<string name="example_updatetexture">Updating Textures Dynamically</string>
 	<string name="example_zoom">Using a ZoomCamera</string>
 	
 	<!-- Benchmarks -->

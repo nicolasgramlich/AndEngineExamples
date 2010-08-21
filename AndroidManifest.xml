@@ -70,7 +70,7 @@
 		<activity android:name=".TMXTiledMapExample" android:configChanges="orientation" />
 		<activity android:name=".TickerTextExample" android:configChanges="orientation" />
 		<activity android:name=".TouchDragExample" android:configChanges="orientation" />
-		<activity android:name=".UnloadTextureExample" android:configChanges="orientation" />
+		<activity android:name=".UnloadResourcesExample" android:configChanges="orientation" />
 		<activity android:name=".UpdateTextureExample" android:configChanges="orientation" />
 		<activity android:name=".ZoomExample" android:configChanges="orientation" />
 		

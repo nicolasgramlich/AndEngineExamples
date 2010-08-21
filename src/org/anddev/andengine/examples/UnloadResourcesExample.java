@@ -20,7 +20,7 @@ import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class UnloadTextureExample extends BaseExample {
+public class UnloadResourcesExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -77,8 +77,8 @@ public class UnloadTextureExample extends BaseExample {
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				/* Completely remove all resources associated with this sprite. */
 				BufferObjectManager.getActiveInstance().unloadBufferObject(this.getVertexBuffer());
-				BufferObjectManager.getActiveInstance().unloadBufferObject(UnloadTextureExample.this.mClickToUnloadTextureRegion.getTextureBuffer());
-				UnloadTextureExample.this.mEngine.getTextureManager().unloadTexture(UnloadTextureExample.this.mTexture);
+				BufferObjectManager.getActiveInstance().unloadBufferObject(UnloadResourcesExample.this.mClickToUnloadTextureRegion.getTextureBuffer());
+				UnloadResourcesExample.this.mEngine.getTextureManager().unloadTexture(UnloadResourcesExample.this.mTexture);
 				
 				/* And remove the sprite from the Scene. */
 				final Sprite thisRef = this;
