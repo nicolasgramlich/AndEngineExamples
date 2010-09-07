@@ -12,11 +12,11 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
-import org.anddev.andengine.entity.shape.modifier.LoopModifier;
-import org.anddev.andengine.entity.shape.modifier.ParallelModifier;
+import org.anddev.andengine.entity.shape.modifier.LoopShapeModifier;
+import org.anddev.andengine.entity.shape.modifier.ParallelShapeModifier;
 import org.anddev.andengine.entity.shape.modifier.RotationModifier;
 import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
-import org.anddev.andengine.entity.shape.modifier.SequenceModifier;
+import org.anddev.andengine.entity.shape.modifier.SequenceShapeModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouch;
@@ -120,7 +120,7 @@ public class CollisionDetectionExample extends BaseExample {
 
 		/* A spinning rectangle in the center of the screen. */
 		final Rectangle centerRectangle = new Rectangle(centerX, centerY, 32, 32);
-		centerRectangle.addShapeModifier(new LoopModifier(new ParallelModifier(new RotationModifier(6, 0, 360), new SequenceModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1)))));
+		centerRectangle.addShapeModifier(new LoopShapeModifier(new ParallelShapeModifier(new RotationModifier(6, 0, 360), new SequenceShapeModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1)))));
 
 		scene.getTopLayer().addEntity(centerRectangle);
 
