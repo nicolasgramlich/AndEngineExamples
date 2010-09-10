@@ -14,6 +14,7 @@ import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.Callback;
 import org.anddev.andengine.util.Debug;
 import org.anddev.andengine.util.StreamUtils;
+import org.anddev.andengine.util.SystemUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -32,6 +33,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 /**
@@ -176,6 +178,18 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 				nameValuePairs.add(new BasicNameValuePair("benchmark_extension_drawtexture", GLHelper.EXTENSIONS_DRAWTEXTURE ? "1" : "0"));
 				final TelephonyManager telephonyManager = (TelephonyManager)BaseBenchmark.this.getSystemService(Context.TELEPHONY_SERVICE);
 				nameValuePairs.add(new BasicNameValuePair("device_imei", telephonyManager.getDeviceId()));
+				final DisplayMetrics displayMetrics = new DisplayMetrics();
+				BaseBenchmark.this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+				nameValuePairs.add(new BasicNameValuePair("device_displaymetrics_widthpixels", String.valueOf(displayMetrics.widthPixels)));
+				nameValuePairs.add(new BasicNameValuePair("device_displaymetrics_heightpixels", String.valueOf(displayMetrics.heightPixels)));
+				nameValuePairs.add(new BasicNameValuePair("device_displaymetrics_xdpi", String.valueOf(displayMetrics.xdpi)));
+				nameValuePairs.add(new BasicNameValuePair("device_displaymetrics_ydpi", String.valueOf(displayMetrics.ydpi)));
+				try{
+					final float bogoMips = SystemUtils.getBogoMips();
+					nameValuePairs.add(new BasicNameValuePair("device_cpuinfo_bogomips", String.valueOf(bogoMips)));
+				}catch(IllegalStateException e) {
+					Debug.e(e);
+				}
 
 				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -183,7 +197,7 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 				final HttpResponse response = httpClient.execute(httpPost);
 
 				final int statusCode = response.getStatusLine().getStatusCode();
-				
+
 				Debug.d(StreamUtils.readFully(response.getEntity().getContent()));
 
 				if(statusCode == HttpStatus.SC_OK) {
@@ -205,10 +219,10 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 			}
 		}, new Callback<Exception>() {
 			@Override
-			public void onCallback(Exception pException) {
+			public void onCallback(final Exception pException) {
 				Debug.e(pException);
 				Toast.makeText(BaseBenchmark.this, "Exception occurred: " + pException.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
-				BaseBenchmark.this.finish();				
+				BaseBenchmark.this.finish();
 			}
 		});
 	}
