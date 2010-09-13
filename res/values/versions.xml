@@ -36,6 +36,7 @@
     	<item>33</item>
     	<item>34</item>
     	<item>35</item>
+    	<item>36</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -74,5 +75,6 @@
  		<item> - Added BoundCamera Example\n - Improved Racer Game with some boxes to collide with</item>
  		<item> - Fixed TMXTiledMap Example</item>
  		<item> - Added EaseFunction Example</item>
+ 		<item> - Adaptions due to changes in AndEngine</item>
     </string-array>
 </resources>
