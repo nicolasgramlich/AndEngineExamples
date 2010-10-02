@@ -8,6 +8,7 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.particle.ParticleSystem;
+import org.anddev.andengine.entity.particle.emitter.PointParticleEmitter;
 import org.anddev.andengine.entity.particle.modifier.AccelerationInitializer;
 import org.anddev.andengine.entity.particle.modifier.AlphaModifier;
 import org.anddev.andengine.entity.particle.modifier.ColorInitializer;
@@ -66,7 +67,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 	public void onLoadResources() {
 		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR);
 
-		this.mParticleTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/particle.png", 0, 0);
+		this.mParticleTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/particle_fire.png", 0, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
@@ -80,7 +81,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 
 		/* Left to right Particle System. */
 		{
-			final ParticleSystem particleSystem = new ParticleSystem(0, CAMERA_HEIGHT, 0, 0, 6, 10, 200, this.mParticleTextureRegion);
+			final ParticleSystem particleSystem = new ParticleSystem(new PointParticleEmitter(0, CAMERA_HEIGHT), 6, 10, 200, this.mParticleTextureRegion);
 			particleSystem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 
 			particleSystem.addParticleInitializer(new VelocityInitializer(15, 22, -60, -90));
@@ -100,7 +101,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 
 		/* Right to left Particle System. */
 		{
-			final ParticleSystem particleSystem = new ParticleSystem(CAMERA_WIDTH - 32, CAMERA_HEIGHT, 0, 0, 8, 12, 200, this.mParticleTextureRegion);
+			final ParticleSystem particleSystem = new ParticleSystem(new PointParticleEmitter(CAMERA_WIDTH - 32, CAMERA_HEIGHT), 8, 12, 200, this.mParticleTextureRegion);
 			particleSystem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
 
 			particleSystem.addParticleInitializer(new VelocityInitializer(-15, -22, -60, -90));
