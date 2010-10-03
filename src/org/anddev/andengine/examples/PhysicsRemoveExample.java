@@ -77,7 +77,11 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 	public Engine onLoadEngine() {
 		Toast.makeText(this, "Touch the screen to add objects. Touch an object to remove it.", Toast.LENGTH_LONG).show();
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera));
+
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		engineOptions.getTouchOptions().setRunOnUpdateThread(true);
+
+		return new Engine(engineOptions);
 	}
 
 	@Override
@@ -127,13 +131,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 	@Override
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 		if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
-			this.runOnUpdateThread(new Runnable() {
-				@Override
-				public void run() {
-					final AnimatedSprite face = (AnimatedSprite)pTouchArea;
-					PhysicsRemoveExample.this.removeFace(face);
-				}
-			});
+			PhysicsRemoveExample.this.removeFace((AnimatedSprite)pTouchArea);
 			return true;
 		}
 
@@ -195,8 +193,11 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 	private void removeFace(final AnimatedSprite face) {
 		final Scene scene = this.mEngine.getScene();
 
-		final Body faceBody = this.mPhysicsWorld.getPhysicsConnectorManager().findBodyByShape(face);
-		this.mPhysicsWorld.destroyBody(faceBody);
+		final PhysicsConnector facePhysicsConnector = this.mPhysicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(face);
+
+		this.mPhysicsWorld.unregisterPhysicsConnector(facePhysicsConnector);
+		this.mPhysicsWorld.destroyBody(facePhysicsConnector.getBody());
+
 		scene.unregisterTouchArea(face);
 		scene.getTopLayer().removeEntity(face);
 	}
