@@ -40,6 +40,7 @@
     	<item>37</item>
     	<item>38</item>
     	<item>39</item>
+    	<item>40</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -82,5 +83,6 @@
  		<item> - Benchmarks now also submit CPU-speed (MHz)</item>
  		<item> - Benchmarks now also submit info about Memory</item>
  		<item> - Updated SimpleParticle Example</item>
+ 		<item> - Added PhysicsCollisionFiltering Example</item>
     </string-array>
 </resources>

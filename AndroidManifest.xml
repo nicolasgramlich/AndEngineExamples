@@ -35,7 +35,6 @@
 		<activity android:name=".CustomFontExample" android:configChanges="orientation"/>
 		<activity android:name=".DigitalOnScreenControlExample" android:configChanges="orientation"/>
 		<activity android:name=".EaseFunctionExample" android:configChanges="orientation"/>
-		<activity android:name=".FixedStepPhysicsExample" android:configChanges="orientation"/>
 		<activity android:name=".ImageFormatsExample" android:configChanges="orientation"/>
 		<activity android:name=".LineExample" android:configChanges="orientation"/>
 		<activity android:name=".LoadTextureExample" android:configChanges="orientation"/>
@@ -50,7 +49,9 @@
 		<activity android:name=".ParticleSystemSimpleExample" android:configChanges="orientation"/>
 		<activity android:name=".PathModifierExample" android:configChanges="orientation"/>
 		<activity android:name=".PauseExample" android:configChanges="orientation"/>
+		<activity android:name=".PhysicsCollisionFilteringExample" android:configChanges="orientation"/>
 		<activity android:name=".PhysicsExample" android:configChanges="orientation"/>
+		<activity android:name=".PhysicsFixedStepExample" android:configChanges="orientation"/>
 		<activity android:name=".PhysicsJumpExample" android:configChanges="orientation"/>
 		<activity android:name=".PhysicsRemoveExample" android:configChanges="orientation"/>
 		<activity android:name=".PhysicsRevoluteJointExample" android:configChanges="orientation"/>

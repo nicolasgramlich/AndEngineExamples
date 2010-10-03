@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples;
 
-import static org.anddev.andengine.extension.physics.box2d.util.constants.PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -33,20 +31,33 @@ import android.widget.Toast;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 /**
  * @author Nicolas Gramlich
- * @since 18:47:08 - 19.03.2010
+ * @since 14:33:38 - 03.10.2010
  */
-public class PhysicsExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener {
+public class PhysicsCollisionFilteringExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
+	
+	/* The categories. */
+	public static final short CATEGORYBIT_WALL = 1;
+	public static final short CATEGORYBIT_BOX = 2;
+	public static final short CATEGORYBIT_CIRCLE = 4;
+
+	/* And what should collide with what. */
+	public static final short MASKBITS_WALL = CATEGORYBIT_WALL + CATEGORYBIT_BOX + CATEGORYBIT_CIRCLE;
+	public static final short MASKBITS_BOX = CATEGORYBIT_WALL + CATEGORYBIT_BOX; // Missing: CATEGORYBIT_CIRCLE
+	public static final short MASKBITS_CIRCLE = CATEGORYBIT_WALL + CATEGORYBIT_CIRCLE; // Missing: CATEGORYBIT_BOX
+
+	public static final FixtureDef WALL_FIXTURE_DEF = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f, false, CATEGORYBIT_WALL, MASKBITS_WALL, (short)0);
+	public static final FixtureDef BOX_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f, false, CATEGORYBIT_BOX, MASKBITS_BOX, (short)0);
+	public static final FixtureDef CIRCLE_FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f, false, CATEGORYBIT_CIRCLE, MASKBITS_CIRCLE, (short)0);
 
 	// ===========================================================
 	// Fields
@@ -56,8 +67,6 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 
 	private TiledTextureRegion mBoxFaceTextureRegion;
 	private TiledTextureRegion mCircleFaceTextureRegion;
-	private TiledTextureRegion mTriangleFaceTextureRegion;
-	private TiledTextureRegion mHexagonFaceTextureRegion;
 
 	private PhysicsWorld mPhysicsWorld;
 
@@ -78,6 +87,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	@Override
 	public Engine onLoadEngine() {
 		Toast.makeText(this, "Touch the screen to add objects.", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Boxes will only collide with boxes.\nCircles will only collide with circles.", Toast.LENGTH_LONG).show();
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera));
 	}
@@ -85,14 +95,12 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	@Override
 	public void onLoadResources() {
 		/* Textures. */
-		this.mTexture = new Texture(64, 128, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR);
 		TextureRegionFactory.setAssetBasePath("gfx/");
 
 		/* TextureRegions. */
 		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mCircleFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
-		this.mTriangleFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_triangle_tiled.png", 0, 64, 2, 1); // 64x32
-		this.mHexagonFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_hexagon_tiled.png", 0, 96, 2, 1); // 64x32
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 
 		this.enableAccelerometerSensor(this);
@@ -113,11 +121,10 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 		final Shape left = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
 		final Shape right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT);
 
-		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, WALL_FIXTURE_DEF);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, roof, BodyType.StaticBody, WALL_FIXTURE_DEF);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, WALL_FIXTURE_DEF);
+		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, WALL_FIXTURE_DEF);
 
 		scene.getBottomLayer().addEntity(ground);
 		scene.getBottomLayer().addEntity(roof);
@@ -140,7 +147,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 				this.runOnUpdateThread(new Runnable() {
 					@Override
 					public void run() {
-						PhysicsExample.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+						PhysicsCollisionFilteringExample.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 					}
 				});
 				return true;
@@ -166,21 +173,13 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 
 		final AnimatedSprite face;
 		final Body body;
-
-		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
-
-		if(this.mFaceCount % 4 == 0) {
+		
+		if(this.mFaceCount % 2 == 0) {
 			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
-			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
-		} else if (this.mFaceCount % 4 == 1) {
-			face = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion);
-			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
-		} else if (this.mFaceCount % 4 == 2) {
-			face = new AnimatedSprite(pX, pY, this.mTriangleFaceTextureRegion);
-			body = PhysicsExample.createTriangleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
+			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, BOX_FIXTURE_DEF);
 		} else {
-			face = new AnimatedSprite(pX, pY, this.mHexagonFaceTextureRegion);
-			body = PhysicsExample.createHexagonBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
+			face = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion);
+			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, CIRCLE_FIXTURE_DEF);
 		}
 
 		face.animate(200);
@@ -188,73 +187,6 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 
 		scene.getTopLayer().addEntity(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
-	}
-
-	/**
-	 * Creates a {@link Body} based on a {@link PolygonShape} in the form of a triangle:
-	 * <pre>
-	 *  /\
-	 * /__\
-	 * </pre>
-	 */
-	private static Body createTriangleBody(final PhysicsWorld pPhysicsWorld, final Shape pShape, final BodyType pBodyType, final FixtureDef pFixtureDef) {
-		/* Remember that the vertices are relative to the center-coordinates of the Shape. */
-		final float halfWidth = pShape.getWidthScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
-		final float halfHeight = pShape.getHeightScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
-
-		final float top = -halfHeight;
-		final float bottom = halfHeight;
-		final float left = -halfHeight;
-		final float centerX = 0;
-		final float right = halfWidth;
-
-		final Vector2[] vertices = {
-				new Vector2(centerX, top),
-				new Vector2(right, bottom),
-				new Vector2(left, bottom)
-		};
-
-		return PhysicsFactory.createPolygonBody(pPhysicsWorld, pShape, vertices, pBodyType, pFixtureDef);
-	}
-
-	/**
-	 * Creates a {@link Body} based on a {@link PolygonShape} in the form of a hexagon:
-	 * <pre>
-	 *  /\
-	 * /  \
-	 * |  |
-	 * |  |
-	 * \  /
-	 *  \/
-	 * </pre>
-	 */
-	private static Body createHexagonBody(final PhysicsWorld pPhysicsWorld, final Shape pShape, final BodyType pBodyType, final FixtureDef pFixtureDef) {
-		/* Remember that the vertices are relative to the center-coordinates of the Shape. */
-		final float halfWidth = pShape.getWidthScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
-		final float halfHeight = pShape.getHeightScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
-
-		/* The top and bottom vertex of the hexagon are on the bottom and top of hexagon-sprite. */
-		final float top = -halfHeight;
-		final float bottom = halfHeight;
-
-		final float centerX = 0;
-
-		/* The left and right vertices of the heaxgon are not on the edge of the hexagon-sprite, so we need to inset them a little. */
-		final float left = -halfWidth + 2.5f / PIXEL_TO_METER_RATIO_DEFAULT;
-		final float right = halfWidth - 2.5f / PIXEL_TO_METER_RATIO_DEFAULT;
-		final float higher = top + 8.25f / PIXEL_TO_METER_RATIO_DEFAULT;
-		final float lower = bottom - 8.25f / PIXEL_TO_METER_RATIO_DEFAULT;
-
-		final Vector2[] vertices = {
-				new Vector2(centerX, top),
-				new Vector2(right, higher),
-				new Vector2(right, lower),
-				new Vector2(centerX, bottom),
-				new Vector2(left, lower),
-				new Vector2(left, higher)
-		};
-
-		return PhysicsFactory.createPolygonBody(pPhysicsWorld, pShape, vertices, pBodyType, pFixtureDef);
 	}
 
 	// ===========================================================

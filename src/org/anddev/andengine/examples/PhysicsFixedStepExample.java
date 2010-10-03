@@ -38,7 +38,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
  * @author Nicolas Gramlich
  * @since 18:47:08 - 19.03.2010
  */
-public class FixedStepPhysicsExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener {
+public class PhysicsFixedStepExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -132,7 +132,7 @@ public class FixedStepPhysicsExample extends BaseExample implements IAcceleromet
 				this.runOnUpdateThread(new Runnable() {
 					@Override
 					public void run() {
-						FixedStepPhysicsExample.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+						PhysicsFixedStepExample.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 					}
 				});
 				return true;
