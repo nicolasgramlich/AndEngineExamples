@@ -41,6 +41,7 @@
     	<item>38</item>
     	<item>39</item>
     	<item>40</item>
+    	<item>41</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -84,5 +85,6 @@
  		<item> - Benchmarks now also submit info about Memory</item>
  		<item> - Updated SimpleParticle Example</item>
  		<item> - Added PhysicsCollisionFiltering Example</item>
+ 		<item> - Added XMLLayout Example</item>
     </string-array>
 </resources>

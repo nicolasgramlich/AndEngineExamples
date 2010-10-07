@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<string name="tv_xmllayoutexample_above">You can put <b>one</b> <i>AndEngine</i> View into any Activity.</string>
+	<string name="tv_xmllayoutexample_below">Lorem ipsum dolor sit amat...</string>
+
     <string name="app_name">AndEngineExamples</string>
     
     <string name="btn_get_involved_caption">Open Source - Get involved...</string>
@@ -86,6 +89,7 @@
 	<string name="example_touchdrag">Touch &amp; Drag Sprites</string>
 	<string name="example_unloadresources">Unloading Resources</string>
 	<string name="example_updatetexture">Updating Textures Dynamically</string>
+	<string name="example_xmllayout">Using an XMLLayout</string>
 	<string name="example_zoom">Using a ZoomCamera</string>
 	
 	<!-- Benchmarks -->

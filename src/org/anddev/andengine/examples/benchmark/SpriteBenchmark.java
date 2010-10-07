@@ -87,7 +87,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
 		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_STATIC_DRAW);
-		sharedVertexBuffer.onUpdate(0, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
+		sharedVertexBuffer.update(0, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
 
 		final ILayer topLayer = scene.getTopLayer();
 
@@ -99,7 +99,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 //				face = new Sprite(CAMERA_WIDTH + this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
 //			}
 //			face.setCullingEnabled(true);
-//			face.setIgnoreUpdate(true);
+			face.setIgnoreUpdate(true);
 			topLayer.addEntity(face);
 		}
 

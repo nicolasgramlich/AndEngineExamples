@@ -25,6 +25,7 @@ import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.ui.activity.LayoutGameActivity;
 
 import android.widget.Toast;
 
@@ -32,7 +33,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class ParticleSystemSimpleExample extends BaseExample {
+public class XMLLayoutExample extends LayoutGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -59,6 +60,16 @@ public class ParticleSystemSimpleExample extends BaseExample {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+	
+	@Override
+	protected int getLayoutID() {
+		return R.layout.xmllayoutexample;
+	}
+
+	@Override
+	protected int getRenderSurfaceViewID() {
+		return R.id.xmllayoutexample_rendersurfaceview;
+	}
 
 	@Override
 	public Engine onLoadEngine() {

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="org.anddev.andengine.examples"
-	android:versionCode="40"
-	android:versionName="1.4.0">
+	android:versionCode="41"
+	android:versionName="1.4.1">
 
 	<uses-sdk android:minSdkVersion="4" />
 
@@ -73,6 +73,7 @@
 		<activity android:name=".TouchDragExample" android:configChanges="orientation"/>
 		<activity android:name=".UnloadResourcesExample" android:configChanges="orientation"/>
 		<activity android:name=".UpdateTextureExample" android:configChanges="orientation"/>
+		<activity android:name=".XMLLayoutExample" android:configChanges="orientation"/>
 		<activity android:name=".ZoomExample" android:configChanges="orientation"/>
 		
 		<activity android:name=".benchmark.AnimationBenchmark" android:configChanges="orientation"/>

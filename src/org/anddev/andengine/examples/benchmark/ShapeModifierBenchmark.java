@@ -111,7 +111,7 @@ public class ShapeModifierBenchmark extends BaseBenchmark {
 
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
 		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW);
-		sharedVertexBuffer.onUpdate(0, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
+		sharedVertexBuffer.update(0, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
 
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Rectangle rect = new Rectangle((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), 32, 32, sharedVertexBuffer);
