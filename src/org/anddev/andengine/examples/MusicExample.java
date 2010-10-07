@@ -119,12 +119,6 @@ public class MusicExample extends BaseExample {
 
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		this.mMusic.stop();
-	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
