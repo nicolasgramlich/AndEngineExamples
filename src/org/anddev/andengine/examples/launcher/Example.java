@@ -14,6 +14,7 @@ import org.anddev.andengine.examples.CoordinateConversionExample;
 import org.anddev.andengine.examples.CustomFontExample;
 import org.anddev.andengine.examples.DigitalOnScreenControlExample;
 import org.anddev.andengine.examples.EaseFunctionExample;
+import org.anddev.andengine.examples.LevelLoaderExample;
 import org.anddev.andengine.examples.PhysicsCollisionFilteringExample;
 import org.anddev.andengine.examples.PhysicsFixedStepExample;
 import org.anddev.andengine.examples.ImageFormatsExample;
@@ -90,6 +91,7 @@ enum Example {
 	DIGITALONSCREENCONTROL(DigitalOnScreenControlExample.class, R.string.example_digitalonscreencontrol),
 	EASEFUNCTION(EaseFunctionExample.class, R.string.example_easefunction),
 	IMAGEFORMATS(ImageFormatsExample.class, R.string.example_imageformats),
+	LEVELLOADER(LevelLoaderExample.class, R.string.example_levelloader),
 	LINE(LineExample.class, R.string.example_line),
 	LOADTEXTURE(LoadTextureExample.class, R.string.example_loadtexture),
 	MENU(MenuExample.class, R.string.example_menu),

@@ -48,6 +48,8 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 
+	private static final FixtureDef FIXTURE_DEF = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -167,20 +169,18 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 		final AnimatedSprite face;
 		final Body body;
 
-		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
-
 		if(this.mFaceCount % 4 == 0) {
 			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
-			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
+			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
 		} else if (this.mFaceCount % 4 == 1) {
 			face = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion);
-			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
+			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
 		} else if (this.mFaceCount % 4 == 2) {
 			face = new AnimatedSprite(pX, pY, this.mTriangleFaceTextureRegion);
-			body = PhysicsExample.createTriangleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
+			body = PhysicsExample.createTriangleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
 		} else {
 			face = new AnimatedSprite(pX, pY, this.mHexagonFaceTextureRegion);
-			body = PhysicsExample.createHexagonBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
+			body = PhysicsExample.createHexagonBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
 		}
 
 		face.animate(200);

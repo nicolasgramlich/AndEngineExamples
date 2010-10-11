@@ -52,6 +52,7 @@
 	<string name="example_digitalonscreencontrol">Digital OnScreen-Control</string>
 	<string name="example_easefunction">Using EaseFunctions</string>
 	<string name="example_imageformats">Using ImageFormats (PNG, JPG, GIF, BMP)</string>
+	<string name="example_levelloader">Loading a Level from XML</string>
 	<string name="example_line">Drawing Lines</string>
 	<string name="example_loadtexture">Load Texture Dynamic</string>
 	<string name="example_menu">Using Menus</string>

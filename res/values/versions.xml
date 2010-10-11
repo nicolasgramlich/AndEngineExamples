@@ -43,6 +43,7 @@
     	<item>40</item>
     	<item>41</item>
     	<item>42</item>
+    	<item>43</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -88,5 +89,6 @@
  		<item> - Added PhysicsCollisionFiltering Example</item>
  		<item> - Added XMLLayout Example</item>
  		<item> - Added Rotation3D Example</item>
+ 		<item> - Added LevelLoader Example</item>
     </string-array>
 </resources>

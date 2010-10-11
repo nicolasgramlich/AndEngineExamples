@@ -21,7 +21,7 @@ import org.anddev.andengine.opengl.util.GLHelper;
 
 /**
  * @author Nicolas Gramlich
- * @since 11:54:51 - 03.04.2010
+ * @since 10:10:10 - 10.10.2010
  */
 public class Rotation3DExample extends BaseExample {
 	// ===========================================================
