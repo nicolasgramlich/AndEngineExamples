@@ -60,7 +60,7 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box.png", 0, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);

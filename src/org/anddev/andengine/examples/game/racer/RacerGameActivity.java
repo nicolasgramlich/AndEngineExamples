@@ -101,18 +101,18 @@ public class RacerGameActivity  extends BaseGameActivity {
 	public void onLoadResources() {
 		TextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mVehiclesTexture = new Texture(128, 16, TextureOptions.BILINEAR);
+		this.mVehiclesTexture = new Texture(128, 16, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mVehiclesTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mVehiclesTexture, this, "vehicles.png", 0, 0, 6, 1);
 
 		this.mRacetrackTexture = new Texture(128, 256, TextureOptions.REPEATING_BILINEAR);
 		this.mRacetrackStraightTextureRegion = TextureRegionFactory.createFromAsset(this.mRacetrackTexture, this, "racetrack_straight.png", 0, 0);
 		this.mRacetrackCurveTextureRegion = TextureRegionFactory.createFromAsset(this.mRacetrackTexture, this, "racetrack_curve.png", 0, 128);
 
-		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR);
+		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 
-		this.mBoxTexture = new Texture(32, 32, TextureOptions.BILINEAR);
+		this.mBoxTexture = new Texture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mBoxTextureRegion = TextureRegionFactory.createFromAsset(this.mBoxTexture, this, "box.png", 0, 0);
 
 		this.mEngine.getTextureManager().loadTextures(this.mVehiclesTexture, this.mRacetrackTexture, this.mOnScreenControlTexture, this.mBoxTexture);

@@ -63,7 +63,7 @@ public class ImageFormatsExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR, new ITextureStateListener.TextureStateAdapter() {
+		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA, new ITextureStateListener.TextureStateAdapter() {
 			@Override
 			public void onTextureSourceLoadExeption(final Texture pTexture, final ITextureSource pTextureSource, final Throwable pThrowable) {
 				ImageFormatsExample.this.runOnUiThread(new Runnable() {

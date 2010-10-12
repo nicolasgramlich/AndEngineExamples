@@ -89,7 +89,7 @@ public class TMXTiledMapExample extends BaseExample {
 		final Scene scene = new Scene(2);
 
 		try {
-			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), TextureOptions.BILINEAR, new ITMXTilePropertiesListener() {
+			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, new ITMXTilePropertiesListener() {
 				@Override
 				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) {
 					final int tmxTilePropertyCount = pTMXTileProperties.size();

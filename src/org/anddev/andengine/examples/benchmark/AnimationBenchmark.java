@@ -80,7 +80,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(512, 256, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		TextureRegionFactory.setAssetBasePath("gfx/");
 		this.mSnapdragonTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "snapdragon_tiled.png", 0, 0, 4, 3);

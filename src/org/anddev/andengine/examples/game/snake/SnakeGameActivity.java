@@ -115,14 +115,14 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	public void onLoadResources() {
 		/* Load the font we are going to use. */
 		FontFactory.setAssetBasePath("font/");
-		this.mFontTexture = new Texture(512, 512, TextureOptions.BILINEAR);
+		this.mFontTexture = new Texture(512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "Plok.ttf", 32, true, Color.WHITE);
 
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
 		this.mEngine.getFontManager().loadFont(this.mFont);
 
 		/* Load all the textures this game needs. */
-		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		TextureRegionFactory.setAssetBasePath("gfx/");
 		this.mHeadTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "snake_head.png", 0, 0, 3, 1);
 		this.mTailPartTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "snake_tailpart.png", 96, 0);
@@ -131,7 +131,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		this.mBackgroundTexture = new Texture(1024, 512, TextureOptions.DEFAULT);
 		this.mBackgroundTextureRegion = TextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "snake_background.png", 0, 0);
 
-		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR);
+		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 

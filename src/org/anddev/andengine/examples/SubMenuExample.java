@@ -47,7 +47,7 @@ public class SubMenuExample extends MenuExample {
 	@Override
 	public void onLoadResources() {
 		super.onLoadResources();
-		this.mSubMenuTexture = new Texture(256, 128, TextureOptions.BILINEAR);
+		this.mSubMenuTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		this.mMenuOkTextureRegion = TextureRegionFactory.createFromAsset(this.mSubMenuTexture, this, "gfx/menu_ok.png", 0, 0);
 		this.mMenuBackTextureRegion = TextureRegionFactory.createFromAsset(this.mSubMenuTexture, this, "gfx/menu_back.png", 0, 50);

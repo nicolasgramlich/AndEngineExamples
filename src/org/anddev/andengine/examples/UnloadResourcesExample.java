@@ -56,7 +56,7 @@ public class UnloadResourcesExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		TextureRegionFactory.setAssetBasePath("gfx/");
 		this.mClickToUnloadTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "click_to_unload.png", 0, 0);
 

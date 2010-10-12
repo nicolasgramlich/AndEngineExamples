@@ -87,7 +87,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	@Override
 	public void onLoadResources() {
 		/* Textures. */
-		this.mTexture = new Texture(64, 128, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(64, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		TextureRegionFactory.setAssetBasePath("gfx/");
 
 		/* TextureRegions. */

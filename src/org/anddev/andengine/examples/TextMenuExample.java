@@ -76,7 +76,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 	@Override
 	public void onLoadResources() {
 		/* Load Font/Textures. */
-		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		FontFactory.setAssetBasePath("font/");
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "Plok.ttf", 48, true, Color.WHITE);
@@ -84,7 +84,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 		this.mEngine.getFontManager().loadFont(this.mFont);
 
 		/* Load Sprite-Textures. */
-		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box_menu.png", 0, 0);
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}

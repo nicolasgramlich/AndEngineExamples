@@ -173,7 +173,7 @@ public class EaseFunctionExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		/* The font. */
-		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.WHITE);
 
@@ -181,7 +181,7 @@ public class EaseFunctionExample extends BaseExample {
 		this.mEngine.getFontManager().loadFont(this.mFont);
 
 		/* The textures. */
-		this.mTexture = new Texture(256, 128, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mNextTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/next.png", 0, 0);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/badge.png", 97, 0);
 

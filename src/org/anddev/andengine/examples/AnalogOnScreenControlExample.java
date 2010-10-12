@@ -69,10 +69,10 @@ public class AnalogOnScreenControlExample extends BaseExample {
 	public void onLoadResources() {
 		TextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "face_box.png", 0, 0);
 
-		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR);
+		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 

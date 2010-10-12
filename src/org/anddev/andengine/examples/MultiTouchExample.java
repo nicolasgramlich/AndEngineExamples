@@ -82,7 +82,7 @@ public class MultiTouchExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mCardDeckTexture = new Texture(1024, 512, TextureOptions.BILINEAR);
+		this.mCardDeckTexture = new Texture(1024, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		TextureRegionFactory.createFromAsset(this.mCardDeckTexture, this, "gfx/carddeck_tiled.png", 0, 0);
 

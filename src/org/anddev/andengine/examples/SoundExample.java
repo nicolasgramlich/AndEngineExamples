@@ -67,7 +67,7 @@ public class SoundExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 256, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(128, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		TextureRegionFactory.setAssetBasePath("gfx/");
 		this.mTankTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "tank.png", 0, 0);
 

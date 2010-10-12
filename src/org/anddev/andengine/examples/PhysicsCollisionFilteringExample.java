@@ -95,7 +95,7 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 	@Override
 	public void onLoadResources() {
 		/* Textures. */
-		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR);
+		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		TextureRegionFactory.setAssetBasePath("gfx/");
 
 		/* TextureRegions. */

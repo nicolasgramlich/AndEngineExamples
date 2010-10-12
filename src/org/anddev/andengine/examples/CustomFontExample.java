@@ -71,11 +71,11 @@ public class CustomFontExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		/* The custom fonts. */
-		this.mDroidFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
-		this.mKingdomOfHeartsFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
-		this.mNeverwinterNightsFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
-		this.mPlokFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
-		this.mUnrealTournamentFontTexture = new Texture(256, 256, TextureOptions.BILINEAR);
+		this.mDroidFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mKingdomOfHeartsFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mNeverwinterNightsFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mPlokFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mUnrealTournamentFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		FontFactory.setAssetBasePath("font/");
 		this.mDroidFont = FontFactory.createFromAsset(this.mDroidFontTexture, this, "Droid.ttf", FONT_SIZE, true, Color.BLACK);
