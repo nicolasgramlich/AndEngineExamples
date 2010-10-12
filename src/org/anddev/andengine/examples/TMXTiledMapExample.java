@@ -92,13 +92,9 @@ public class TMXTiledMapExample extends BaseExample {
 			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, new ITMXTilePropertiesListener() {
 				@Override
 				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) {
-					final int tmxTilePropertyCount = pTMXTileProperties.size();
 					/* We are going to count the tiles that have the property "cactus=true" set. */
-					for(int i = 0; i < tmxTilePropertyCount; i++) {
-						final TMXTileProperty tmxTileProperty = pTMXTileProperties.get(i);
-						if(tmxTileProperty.getName().equals("cactus") && tmxTileProperty.getValue().equals("true")) {
-							TMXTiledMapExample.this.mCactusCount++;
-						}
+					if(pTMXTileProperties.containsTMXProperty("cactus", "true")) {
+						TMXTiledMapExample.this.mCactusCount++;
 					}
 				}
 			});
