@@ -3,6 +3,8 @@ package org.anddev.andengine.examples;
 import static org.anddev.andengine.util.constants.Constants.VERTEX_INDEX_X;
 import static org.anddev.andengine.util.constants.Constants.VERTEX_INDEX_Y;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
@@ -163,6 +165,7 @@ public class CoordinateConversionExample extends BaseExample {
 				/* Nothing. */
 			}
 		});
+		velocityOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		velocityOnScreenControl.getControlBase().setAlpha(0.5f);
 
 		scene.setChildScene(velocityOnScreenControl);
@@ -186,6 +189,7 @@ public class CoordinateConversionExample extends BaseExample {
 				/* Nothing. */
 			}
 		});
+		rotationOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		rotationOnScreenControl.getControlBase().setAlpha(0.5f);
 
 		velocityOnScreenControl.setChildScene(rotationOnScreenControl);

@@ -1,5 +1,7 @@
 package org.anddev.andengine.examples;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -154,8 +156,14 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 	protected MenuScene createMenuScene() {
 		final MenuScene menuScene = new MenuScene(this.mCamera);
 
-		menuScene.addMenuItem(new ColoredTextMenuItem(MENU_RESET, this.mFont, "RESET", 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f));
-		menuScene.addMenuItem(new ColoredTextMenuItem(MENU_QUIT, this.mFont, "QUIT", 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f));
+		final ColoredTextMenuItem resetMenuItem = new ColoredTextMenuItem(MENU_RESET, this.mFont, "RESET", 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		resetMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		menuScene.addMenuItem(resetMenuItem);
+		
+		final ColoredTextMenuItem quitMenuItem = new ColoredTextMenuItem(MENU_QUIT, this.mFont, "QUIT", 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		menuScene.addMenuItem(quitMenuItem);
+		
 		menuScene.buildAnimations();
 
 		menuScene.setBackgroundEnabled(false);

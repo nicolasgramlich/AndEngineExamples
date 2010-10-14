@@ -90,10 +90,10 @@ public class ShapeModifierExample extends BaseExample {
 
 		final Rectangle rect = new Rectangle(centerX + 100, centerY, 32, 32);
 		rect.setColor(1, 0, 0);
-		rect.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
 		final AnimatedSprite face = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion);
 		face.animate(100);
+		face.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
 		final LoopShapeModifier shapeModifier =
 			new LoopShapeModifier(

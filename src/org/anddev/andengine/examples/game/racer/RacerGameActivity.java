@@ -1,5 +1,7 @@
 package org.anddev.andengine.examples.game.racer;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
@@ -104,7 +106,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		this.mVehiclesTexture = new Texture(128, 16, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mVehiclesTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mVehiclesTexture, this, "vehicles.png", 0, 0, 6, 1);
 
-		this.mRacetrackTexture = new Texture(128, 256, TextureOptions.REPEATING_BILINEAR);
+		this.mRacetrackTexture = new Texture(128, 256, TextureOptions.REPEATING_BILINEAR_PREMULTIPLYALPHA);
 		this.mRacetrackStraightTextureRegion = TextureRegionFactory.createFromAsset(this.mRacetrackTexture, this, "racetrack_straight.png", 0, 0);
 		this.mRacetrackCurveTextureRegion = TextureRegionFactory.createFromAsset(this.mRacetrackTexture, this, "racetrack_curve.png", 0, 128);
 
@@ -169,6 +171,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 				/* Nothing. */
 			}
 		});
+		analogOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		analogOnScreenControl.getControlBase().setAlpha(0.5f);
 		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
 		analogOnScreenControl.getControlBase().setScale(0.75f);

@@ -1,5 +1,7 @@
 package org.anddev.andengine.examples;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
@@ -93,6 +95,7 @@ public class DigitalOnScreenControlExample extends BaseExample {
 				face.setVelocity(pValueX * 100, pValueY * 100);
 			}
 		});
+		digitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		digitalOnScreenControl.getControlBase().setAlpha(0.5f);
 		digitalOnScreenControl.getControlBase().setScaleCenter(0, 128);
 		digitalOnScreenControl.getControlBase().setScale(1.25f);

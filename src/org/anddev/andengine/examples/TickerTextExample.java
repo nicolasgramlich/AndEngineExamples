@@ -1,5 +1,7 @@
 package org.anddev.andengine.examples;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -88,6 +90,7 @@ public class TickerTextExample extends BaseExample {
 						new RotationModifier(5, 0, 360)
 				)
 		);
+		text.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		scene.getTopLayer().addEntity(text);
 
 		return scene;

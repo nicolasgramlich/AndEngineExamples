@@ -1,5 +1,7 @@
 package org.anddev.andengine.examples;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -148,8 +150,14 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 	protected void createMenuScene() {
 		this.mMenuScene = new MenuScene(this.mCamera);
 
-		this.mMenuScene.addMenuItem(new SpriteMenuItem(MENU_RESET, this.mMenuResetTextureRegion));
-		this.mMenuScene.addMenuItem(new SpriteMenuItem(MENU_QUIT, this.mMenuQuitTextureRegion));
+		final SpriteMenuItem resetMenuItem = new SpriteMenuItem(MENU_RESET, this.mMenuResetTextureRegion);
+		resetMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		this.mMenuScene.addMenuItem(resetMenuItem);
+		
+		final SpriteMenuItem quitMenuItem = new SpriteMenuItem(MENU_QUIT, this.mMenuQuitTextureRegion);
+		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		this.mMenuScene.addMenuItem(quitMenuItem);
+		
 		this.mMenuScene.buildAnimations();
 
 		this.mMenuScene.setBackgroundEnabled(false);
