@@ -33,6 +33,7 @@
 	<string name="examplegroup_advanced">Advanced</string>
 	<string name="examplegroup_background">Backgrounds</string>
 	<string name="examplegroup_other">Others</string>
+	<string name="examplegroup_app">Apps</string>
 	<string name="examplegroup_game">Games</string>
 	<string name="examplegroup_benchmark">Benchmarks</string>
 	
@@ -105,4 +106,7 @@
 	<!-- Games -->
 	<string name="example_game_snake">Snake</string>
 	<string name="example_game_racer">Racer</string>
+	
+	<!-- Apps -->
+	<string name="example_app_cityradar">CityRadar</string>
 </resources>

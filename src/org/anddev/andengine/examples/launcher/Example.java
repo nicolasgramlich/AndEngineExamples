@@ -57,6 +57,7 @@ import org.anddev.andengine.examples.UnloadResourcesExample;
 import org.anddev.andengine.examples.UpdateTextureExample;
 import org.anddev.andengine.examples.XMLLayoutExample;
 import org.anddev.andengine.examples.ZoomExample;
+import org.anddev.andengine.examples.app.cityradar.CityRadarActivity;
 import org.anddev.andengine.examples.benchmark.AnimationBenchmark;
 import org.anddev.andengine.examples.benchmark.ParticleSystemBenchmark;
 import org.anddev.andengine.examples.benchmark.PhysicsBenchmark;
@@ -139,6 +140,8 @@ enum Example {
 	BENCHMARK_SHAPEMODIFIER(ShapeModifierBenchmark.class, R.string.example_benchmark_shapemodifier),
 	BENCHMARK_SPRITE(SpriteBenchmark.class, R.string.example_benchmark_sprite),
 	BENCHMARK_TICKERTEXT(TickerTextBenchmark.class, R.string.example_benchmark_tickertext),
+
+	APP_CITYRADAR(CityRadarActivity.class, R.string.example_app_cityradar),
 
 	GAME_SNAKE(SnakeGameActivity.class, R.string.example_game_snake),
 	GAME_RACER(RacerGameActivity.class, R.string.example_game_racer);

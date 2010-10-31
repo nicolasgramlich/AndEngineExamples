@@ -30,6 +30,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		ExampleGroup.ADVANCED,
 		ExampleGroup.BACKGROUND,
 		ExampleGroup.OTHER,
+		ExampleGroup.APP,
 		ExampleGroup.GAME,
 		ExampleGroup.BENCHMARK
 	};

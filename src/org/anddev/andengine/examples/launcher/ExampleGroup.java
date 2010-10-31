@@ -34,6 +34,8 @@ public enum ExampleGroup {
 			Example.REPEATINGSPRITEBACKGROUND, Example.AUTOPARALLAXBACKGROUND, Example.TMXTILEDMAP),
 	OTHER(R.string.examplegroup_other, 
 			Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTMENU, Example.ZOOM , Example.IMAGEFORMATS, Example.TEXTUREOPTIONS, Example.COLORKEYTEXTURESOURCEDECORATOR, Example.LOADTEXTURE, Example.UPDATETEXTURE, Example.XMLLAYOUT, Example.LEVELLOADER),
+	APP(R.string.examplegroup_app, 
+			Example.APP_CITYRADAR),
 	GAME(R.string.examplegroup_game, 
 			Example.GAME_SNAKE, Example.GAME_RACER),
 	BENCHMARK(R.string.examplegroup_benchmark, 
