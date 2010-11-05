@@ -74,10 +74,10 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 			if(MultiTouch.isSupported(this)) {
 				engine.setTouchController(new MultiTouchController());
 			} else {
-				Toast.makeText(this, "Sorry your device does NOT support MultiTouch!\n\n(Falling back to SingleTouch.)", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, "Sorry your device does NOT support MultiTouch!\n\n(No PinchZoom is possible!)", Toast.LENGTH_LONG).show();
 			}
 		} catch (final MultiTouchException e) {
-			Toast.makeText(this, "Sorry your Android Version does NOT support MultiTouch!\n\n(Falling back to SingleTouch.)", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Sorry your Android Version does NOT support MultiTouch!\n\n(No PinchZoom is possible!)", Toast.LENGTH_LONG).show();
 		}
 
 		return engine;
