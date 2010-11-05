@@ -45,6 +45,7 @@
     	<item>42</item>
     	<item>43</item>
     	<item>44</item>
+    	<item>45</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -92,5 +93,6 @@
  		<item> - Added Rotation3D Example</item>
  		<item> - Added LevelLoader Example</item>
  		<item> - Added CityRadar (App)</item>
+ 		<item> - Added PinchZoom Example</item>
     </string-array>
 </resources>

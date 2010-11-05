@@ -42,7 +42,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.view.MotionEvent;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -194,7 +193,7 @@ public class MultiplayerExample extends BaseExample {
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
 			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-				if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
 					if(MultiplayerExample.this.mServer != null) {
 						try {
 							MultiplayerExample.this.mServer.sendBroadcastServerMessage(new AddFaceServerMessage(pSceneTouchEvent.getX(), pSceneTouchEvent.getY()));

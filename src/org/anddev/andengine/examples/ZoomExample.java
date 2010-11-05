@@ -17,7 +17,6 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
-import android.view.MotionEvent;
 import android.widget.Toast;
 
 /**
@@ -88,10 +87,10 @@ public class ZoomExample extends BaseExample {
 			@Override
 			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 				switch(pSceneTouchEvent.getAction()) {
-					case MotionEvent.ACTION_DOWN:
+					case TouchEvent.ACTION_DOWN:
 						ZoomExample.this.mSmoothCamera.setZoomFactor(5.0f);
 						break;
-					case MotionEvent.ACTION_UP:
+					case TouchEvent.ACTION_UP:
 						ZoomExample.this.mSmoothCamera.setZoomFactor(1.0f);
 						break;
 				}

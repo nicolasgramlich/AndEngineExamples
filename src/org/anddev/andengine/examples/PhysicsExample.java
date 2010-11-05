@@ -27,7 +27,6 @@ import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.util.Debug;
 
 import android.hardware.SensorManager;
-import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
@@ -138,7 +137,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsWorld != null) {
-			if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+			if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
 				this.runOnUpdateThread(new Runnable() {
 					@Override
 					public void run() {

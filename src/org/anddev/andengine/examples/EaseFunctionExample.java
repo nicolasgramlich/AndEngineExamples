@@ -57,7 +57,6 @@ import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.view.MotionEvent;
 
 /**
  * @author Nicolas Gramlich
@@ -199,7 +198,7 @@ public class EaseFunctionExample extends BaseExample {
 		final Sprite nextSprite = new Sprite(CAMERA_WIDTH - 100 - this.mNextTextureRegion.getWidth(), 0, this.mNextTextureRegion){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
 					EaseFunctionExample.this.next();
 				}
 				return true;
@@ -208,7 +207,7 @@ public class EaseFunctionExample extends BaseExample {
 		final Sprite previousSprite = new Sprite(100, 0, this.mNextTextureRegion.clone()){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
 					EaseFunctionExample.this.previous();
 				}
 				return true;

@@ -27,7 +27,6 @@ import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 
 import android.hardware.SensorManager;
-import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
@@ -131,7 +130,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		final TiledSprite toggleButton = new TiledSprite(CAMERA_WIDTH / 2 - this.mToggleButtonTextureRegion.getTileWidth(), CAMERA_HEIGHT / 2 - this.mToggleButtonTextureRegion.getTileHeight(), this.mToggleButtonTextureRegion){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
 					final boolean boundsEnabled = BoundCameraExample.this.mBoundChaseCamera.isBoundsEnabled();
 					if(boundsEnabled) {
 						BoundCameraExample.this.mBoundChaseCamera.setBoundsEnabled(false);
@@ -161,7 +160,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsWorld != null) {
-			if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+			if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
 				this.runOnUpdateThread(new Runnable() {
 					@Override
 					public void run() {

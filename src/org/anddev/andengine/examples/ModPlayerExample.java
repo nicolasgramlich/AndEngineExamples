@@ -22,7 +22,6 @@ import org.anddev.andengine.util.Callback;
 import org.anddev.andengine.util.FileUtils;
 import org.helllabs.android.xmp.ModPlayer;
 
-import android.view.MotionEvent;
 import android.widget.Toast;
 
 /**
@@ -112,7 +111,7 @@ public class ModPlayerExample extends BaseExample {
 		scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
 					ModPlayerExample.this.mModPlayer.pause();
 				}
 

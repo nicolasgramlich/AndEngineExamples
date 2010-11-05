@@ -14,10 +14,8 @@ import org.anddev.andengine.examples.CoordinateConversionExample;
 import org.anddev.andengine.examples.CustomFontExample;
 import org.anddev.andengine.examples.DigitalOnScreenControlExample;
 import org.anddev.andengine.examples.EaseFunctionExample;
-import org.anddev.andengine.examples.LevelLoaderExample;
-import org.anddev.andengine.examples.PhysicsCollisionFilteringExample;
-import org.anddev.andengine.examples.PhysicsFixedStepExample;
 import org.anddev.andengine.examples.ImageFormatsExample;
+import org.anddev.andengine.examples.LevelLoaderExample;
 import org.anddev.andengine.examples.LineExample;
 import org.anddev.andengine.examples.LoadTextureExample;
 import org.anddev.andengine.examples.MenuExample;
@@ -31,10 +29,13 @@ import org.anddev.andengine.examples.ParticleSystemNexusExample;
 import org.anddev.andengine.examples.ParticleSystemSimpleExample;
 import org.anddev.andengine.examples.PathModifierExample;
 import org.anddev.andengine.examples.PauseExample;
+import org.anddev.andengine.examples.PhysicsCollisionFilteringExample;
 import org.anddev.andengine.examples.PhysicsExample;
+import org.anddev.andengine.examples.PhysicsFixedStepExample;
 import org.anddev.andengine.examples.PhysicsJumpExample;
 import org.anddev.andengine.examples.PhysicsRemoveExample;
 import org.anddev.andengine.examples.PhysicsRevoluteJointExample;
+import org.anddev.andengine.examples.PinchZoomExample;
 import org.anddev.andengine.examples.R;
 import org.anddev.andengine.examples.RectangleExample;
 import org.anddev.andengine.examples.RepeatingSpriteBackgroundExample;
@@ -112,6 +113,7 @@ enum Example {
 	PHYSICSJUMP(PhysicsJumpExample.class, R.string.example_physicsjump),
 	PHYSICSREVOLUTEJOINT(PhysicsRevoluteJointExample.class, R.string.example_physicsrevolutejoint),
 	PHYSICSREMOVE(PhysicsRemoveExample.class, R.string.example_physicsremove),
+	PINCHZOOM(PinchZoomExample.class, R.string.example_pinchzoom),
 	RECTANGLE(RectangleExample.class, R.string.example_rectangle),
 	REPEATINGSPRITEBACKGROUND(RepeatingSpriteBackgroundExample.class, R.string.example_repeatingspritebackground),
 	ROTATION3D(Rotation3DExample.class, R.string.example_rotation3d),

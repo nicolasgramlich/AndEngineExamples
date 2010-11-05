@@ -319,6 +319,9 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	// Inner and Anonymous Classes
 	// ===========================================================
 
+	/**
+	 * Note: Formulas taken from <a href="http://www.movable-type.co.uk/scripts/latlong.html">here</a>.
+	 */
 	private static class GeoMath {
 		// ===========================================================
 		// Constants

@@ -26,7 +26,6 @@ import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 
 import android.hardware.SensorManager;
-import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
@@ -130,7 +129,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 	@Override
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-		if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+		if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
 			PhysicsRemoveExample.this.removeFace((AnimatedSprite)pTouchArea);
 			return true;
 		}
@@ -145,7 +144,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsWorld != null) {
-			if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+			if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
 				this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;
 			}

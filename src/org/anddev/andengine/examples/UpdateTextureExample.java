@@ -16,7 +16,6 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
-import android.view.MotionEvent;
 import android.widget.Toast;
 
 /**
@@ -87,7 +86,7 @@ public class UpdateTextureExample extends BaseExample {
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
 			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-				if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
 					UpdateTextureExample.this.toggle();
 				}
 				return true;
