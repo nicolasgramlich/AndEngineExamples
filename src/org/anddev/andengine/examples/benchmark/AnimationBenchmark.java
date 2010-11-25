@@ -98,16 +98,16 @@ public class AnimationBenchmark extends BaseBenchmark {
 
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
 		final RectangleVertexBuffer faceSharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW);
-		faceSharedVertexBuffer.update(0, 0, this.mFaceTextureRegion.getTileWidth(), this.mFaceTextureRegion.getTileHeight());
+		faceSharedVertexBuffer.update(this.mFaceTextureRegion.getTileWidth(), this.mFaceTextureRegion.getTileHeight());
 
 		final RectangleVertexBuffer helicopterSharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW);
-		helicopterSharedVertexBuffer.update(0, 0, this.mHelicopterTextureRegion.getTileWidth(), this.mHelicopterTextureRegion.getTileHeight());
+		helicopterSharedVertexBuffer.update(this.mHelicopterTextureRegion.getTileWidth(), this.mHelicopterTextureRegion.getTileHeight());
 
 		final RectangleVertexBuffer snapdragonSharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW);
-		snapdragonSharedVertexBuffer.update(0, 0, this.mSnapdragonTextureRegion.getTileWidth(), this.mSnapdragonTextureRegion.getTileHeight());
+		snapdragonSharedVertexBuffer.update(this.mSnapdragonTextureRegion.getTileWidth(), this.mSnapdragonTextureRegion.getTileHeight());
 
 		final RectangleVertexBuffer bananaSharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW);
-		bananaSharedVertexBuffer.update(0, 0, this.mBananaTextureRegion.getTileWidth(), this.mBananaTextureRegion.getTileHeight());
+		bananaSharedVertexBuffer.update(this.mBananaTextureRegion.getTileWidth(), this.mBananaTextureRegion.getTileHeight());
 
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			/* Quickly twinkling face. */

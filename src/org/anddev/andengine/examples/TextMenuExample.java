@@ -11,8 +11,9 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.scene.menu.MenuScene;
 import org.anddev.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
-import org.anddev.andengine.entity.scene.menu.item.ColoredTextMenuItem;
 import org.anddev.andengine.entity.scene.menu.item.IMenuItem;
+import org.anddev.andengine.entity.scene.menu.item.TextMenuItem;
+import org.anddev.andengine.entity.scene.menu.item.decorator.ColorMenuItemDecorator;
 import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -156,11 +157,11 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 	protected MenuScene createMenuScene() {
 		final MenuScene menuScene = new MenuScene(this.mCamera);
 
-		final ColoredTextMenuItem resetMenuItem = new ColoredTextMenuItem(MENU_RESET, this.mFont, "RESET", 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem resetMenuItem = new ColorMenuItemDecorator(new TextMenuItem(MENU_RESET, this.mFont, "RESET"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		resetMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(resetMenuItem);
 		
-		final ColoredTextMenuItem quitMenuItem = new ColoredTextMenuItem(MENU_QUIT, this.mFont, "QUIT", 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
+		final IMenuItem quitMenuItem = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, this.mFont, "QUIT"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(quitMenuItem);
 		

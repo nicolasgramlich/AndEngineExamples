@@ -15,7 +15,6 @@ import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.shape.modifier.LoopShapeModifier;
 import org.anddev.andengine.entity.shape.modifier.RotationModifier;
-import org.anddev.andengine.entity.shape.modifier.ease.EaseLinear;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.examples.adt.cityradar.City;
@@ -35,6 +34,7 @@ import org.anddev.andengine.sensor.orientation.OrientationData;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.Debug;
 import org.anddev.andengine.util.MathUtils;
+import org.anddev.andengine.util.modifier.ease.EaseLinear;
 
 import android.graphics.Color;
 import android.graphics.Typeface;

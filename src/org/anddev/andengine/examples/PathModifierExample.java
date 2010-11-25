@@ -11,7 +11,6 @@ import org.anddev.andengine.entity.shape.IShape;
 import org.anddev.andengine.entity.shape.modifier.LoopShapeModifier;
 import org.anddev.andengine.entity.shape.modifier.PathModifier;
 import org.anddev.andengine.entity.shape.modifier.PathModifier.IPathModifierListener;
-import org.anddev.andengine.entity.shape.modifier.ease.EaseSineInOut;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
@@ -20,6 +19,7 @@ import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.opengl.texture.source.AssetTextureSource;
 import org.anddev.andengine.util.Path;
+import org.anddev.andengine.util.modifier.ease.EaseSineInOut;
 
 import android.widget.Toast;
 

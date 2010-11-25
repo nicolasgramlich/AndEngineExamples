@@ -7,6 +7,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.transition.FadeTransitionScene;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
@@ -64,18 +65,33 @@ public class SpriteExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		final Scene sceneA = new Scene(1);
+		{
+			sceneA.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+	
+			/* Calculate the coordinates for the face, so its centered on the camera. */
+			final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2 - 100;
+			final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+	
+			/* Create the face and add it to the scene. */
+			final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
+			sceneA.getTopLayer().addEntity(face);
+		}
 
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final Scene sceneB = new Scene(1);
+		{
+			sceneB.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+	
+			/* Calculate the coordinates for the face, so its centered on the camera. */
+			final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2 + 100;
+			final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+	
+			/* Create the face and add it to the scene. */
+			final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
+			sceneB.getTopLayer().addEntity(face);
+		}
 
-		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		scene.getTopLayer().addEntity(face);
-
-		return scene;
+		return new FadeTransitionScene(5, sceneA, sceneB, 1, 1, 1);
 	}
 
 	@Override
