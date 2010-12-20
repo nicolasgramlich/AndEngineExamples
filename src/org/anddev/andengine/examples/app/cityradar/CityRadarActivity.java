@@ -10,11 +10,11 @@ import org.anddev.andengine.engine.camera.hud.HUD;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
-import org.anddev.andengine.entity.layer.ILayer;
+import org.anddev.andengine.entity.IEntity;
+import org.anddev.andengine.entity.modifier.LoopEntityModifier;
+import org.anddev.andengine.entity.modifier.RotationModifier;
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.shape.modifier.LoopShapeModifier;
-import org.anddev.andengine.entity.shape.modifier.RotationModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.examples.adt.cityradar.City;
@@ -148,15 +148,15 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 		this.mCamera.setHUD(hud);
 		
 		/* BACKGROUND */
-		this.initBackground(hud.getBottomLayer());
+		this.initBackground(hud.getFirstChild());
 
 		/* CITIES */
-		this.initCitySprites(scene.getLayer(CityRadarActivity.LAYER_CITIES));
+		this.initCitySprites(scene.getChild(CityRadarActivity.LAYER_CITIES));
 
 		return scene;
 	}
 
-	private void initCitySprites(final ILayer pLayer) {
+	private void initCitySprites(final IEntity pEntity) {
 		final int cityCount = this.mCities.size();
 
 		for(int i = 0; i < cityCount; i++) {
@@ -178,39 +178,39 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 			this.mCityToCityNameTextMap.put(city, cityNameText);
 			this.mCityToCitySpriteMap.put(city, citySprite);
 
-			pLayer.addEntity(citySprite);
-			pLayer.addEntity(cityNameText);
+			pEntity.addChild(citySprite);
+			pEntity.addChild(cityNameText);
 		}
 	}
 
-	private void initBackground(final ILayer pLayer) {
+	private void initBackground(final IEntity pEntity) {
 		/* Vertical Grid lines. */
 		for(int i = CityRadarActivity.GRID_SIZE / 2; i < CityRadarActivity.CAMERA_WIDTH; i += CityRadarActivity.GRID_SIZE) {
 			final Line line = new Line(i, 0, i, CityRadarActivity.CAMERA_HEIGHT);
 			line.setColor(0, 0.5f, 0, 1f);
-			pLayer.addEntity(line);
+			pEntity.addChild(line);
 		}
 
 		/* Horizontal Grid lines. */
 		for(int i = CityRadarActivity.GRID_SIZE / 2; i < CityRadarActivity.CAMERA_HEIGHT; i += CityRadarActivity.GRID_SIZE) {
 			final Line line = new Line(0, i, CityRadarActivity.CAMERA_WIDTH, i);
 			line.setColor(0, 0.5f, 0, 1f);
-			pLayer.addEntity(line);
+			pEntity.addChild(line);
 		}
 
 		/* Vertical Grid lines. */
 		final Sprite radarSprite = new Sprite(CityRadarActivity.CAMERA_WIDTH / 2 - this.mRadarTextureRegion.getWidth(), CityRadarActivity.CAMERA_HEIGHT / 2 - this.mRadarTextureRegion.getHeight(), this.mRadarTextureRegion);
 		radarSprite.setColor(0, 1f, 0, 1f);
 		radarSprite.setRotationCenter(radarSprite.getWidth(), radarSprite.getHeight());
-		radarSprite.addShapeModifier(new LoopShapeModifier(new RotationModifier(3, 0, 360, EaseLinear.getInstance())));
-		pLayer.addEntity(radarSprite);
+		radarSprite.addEntityModifier(new LoopEntityModifier(new RotationModifier(3, 0, 360, EaseLinear.getInstance())));
+		pEntity.addChild(radarSprite);
 
 		/* Title. */
 		final Text titleText = new Text(0, 0, this.mFont, "-- CityRadar --");
 		titleText.setPosition(CAMERA_WIDTH / 2 - titleText.getWidth() / 2, titleText.getHeight() + 35);
 		titleText.setScale(2);
 		titleText.setScaleCenterY(0);
-		pLayer.addEntity(titleText);
+		pEntity.addChild(titleText);
 	}
 
 	@Override

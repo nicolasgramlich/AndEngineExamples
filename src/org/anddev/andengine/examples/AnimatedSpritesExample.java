@@ -80,22 +80,22 @@ public class AnimatedSpritesExample extends BaseExample {
 		/* Quickly twinkling face. */
 		final AnimatedSprite face = new AnimatedSprite(100, 50, this.mFaceTextureRegion);
 		face.animate(100);
-		scene.getTopLayer().addEntity(face);
+		scene.getLastChild().addChild(face);
 
 		/* Continuously flying helicopter. */
 		final AnimatedSprite helicopter = new AnimatedSprite(320, 50, this.mHelicopterTextureRegion);
 		helicopter.animate(new long[] { 100, 100 }, 1, 2, true);
-		scene.getTopLayer().addEntity(helicopter);
+		scene.getLastChild().addChild(helicopter);
 
 		/* Snapdragon. */
 		final AnimatedSprite snapdragon = new AnimatedSprite(300, 200, this.mSnapdragonTextureRegion);
 		snapdragon.animate(100);
-		scene.getTopLayer().addEntity(snapdragon);
+		scene.getLastChild().addChild(snapdragon);
 
 		/* Funny banana. */
 		final AnimatedSprite banana = new AnimatedSprite(100, 220, this.mBananaTextureRegion);
 		banana.animate(100);
-		scene.getTopLayer().addEntity(banana);
+		scene.getLastChild().addChild(banana);
 
 		return scene;
 	}

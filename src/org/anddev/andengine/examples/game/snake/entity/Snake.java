@@ -2,7 +2,7 @@ package org.anddev.andengine.examples.game.snake.entity;
 
 import java.util.LinkedList;
 
-import org.anddev.andengine.entity.layer.DynamicCapacityLayer;
+import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.examples.game.snake.adt.Direction;
 import org.anddev.andengine.examples.game.snake.adt.SnakeSuicideException;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
@@ -12,7 +12,7 @@ import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
  * @author Nicolas Gramlich
  * @since 17:11:44 - 09.07.2010
  */
-public class Snake extends DynamicCapacityLayer {
+public class Snake extends Entity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -34,9 +34,10 @@ public class Snake extends DynamicCapacityLayer {
 	// ===========================================================
 
 	public Snake(final Direction pInitialDirection, final int pCellX, final int pCellY, final TiledTextureRegion pHeadTextureRegion, final TextureRegion pTailPartTextureRegion) {
+		super(0, 0);
 		this.mTailPartTextureRegion = pTailPartTextureRegion;
 		this.mHead = new SnakeHead(pCellX, pCellY, pHeadTextureRegion);
-		this.addEntity(this.mHead);
+		this.addChild(this.mHead);
 		this.setDirection(pInitialDirection);
 	}
 
@@ -91,7 +92,7 @@ public class Snake extends DynamicCapacityLayer {
 			 * simply add a new part in the front of the tail,
 			 * where the head currently is. */
 			final SnakeTailPart newTailPart = new SnakeTailPart(this.mHead, this.mTailPartTextureRegion);
-			this.addEntity(newTailPart);
+			this.addChild(newTailPart);
 			this.mTail.addFirst(newTailPart);
 		} else {
 			if(this.mTail.isEmpty() == false) {

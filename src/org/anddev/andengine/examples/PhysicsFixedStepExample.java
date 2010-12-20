@@ -30,8 +30,8 @@ import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 /**
  * @author Nicolas Gramlich
@@ -110,10 +110,10 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getBottomLayer().addEntity(ground);
-		scene.getBottomLayer().addEntity(roof);
-		scene.getBottomLayer().addEntity(left);
-		scene.getBottomLayer().addEntity(right);
+		scene.getFirstChild().addChild(ground);
+		scene.getFirstChild().addChild(roof);
+		scene.getFirstChild().addChild(left);
+		scene.getFirstChild().addChild(right);
 
 		scene.registerUpdateHandler(this.mPhysicsWorld);
 
@@ -171,7 +171,7 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 		face.animate(200);
 		face.setUpdatePhysics(false);
 
-		scene.getTopLayer().addEntity(face);
+		scene.getLastChild().addChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 	}
 

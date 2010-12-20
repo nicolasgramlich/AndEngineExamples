@@ -5,7 +5,7 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.layer.ILayer;
+import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
@@ -97,10 +97,10 @@ public class TextureOptionsExample extends BaseExample {
 		 * Giving the sprite twice the height shows you'd also have to change the height of the TextureRegion! */
 		final Sprite faceRepeating = new Sprite(centerX - 160, centerY + 100, this.mFaceTextureRegionRepeating.getWidth(), this.mFaceTextureRegionRepeating.getHeight() * 2, this.mFaceTextureRegionRepeating);
 
-		final ILayer topLayer = scene.getTopLayer();
-		topLayer.addEntity(face);
-		topLayer.addEntity(faceBilinear);
-		topLayer.addEntity(faceRepeating);
+		final IEntity lastChild = scene.getLastChild();
+		lastChild.addChild(face);
+		lastChild.addChild(faceBilinear);
+		lastChild.addChild(faceRepeating);
 
 		return scene;
 	}

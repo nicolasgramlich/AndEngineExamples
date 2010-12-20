@@ -151,7 +151,7 @@ public class MultiTouchExample extends BaseExample {
 			}
 		};
 
-		pScene.getTopLayer().addEntity(sprite);
+		pScene.getLastChild().addChild(sprite);
 		pScene.registerTouchArea(sprite);
 	}
 

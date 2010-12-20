@@ -56,8 +56,8 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 	protected static final int ANIMATIONBENCHMARK_ID = 0;
 	protected static final int PARTICLESYSTEMBENCHMARK_ID = ANIMATIONBENCHMARK_ID + 1;
 	protected static final int PHYSICSBENCHMARK_ID = PARTICLESYSTEMBENCHMARK_ID + 1;
-	protected static final int SHAPEMODIFIERBENCHMARK_ID = PHYSICSBENCHMARK_ID + 1;
-	protected static final int SPRITEBENCHMARK_ID = SHAPEMODIFIERBENCHMARK_ID + 1;
+	protected static final int ENTITYMODIFIERBENCHMARK_ID = PHYSICSBENCHMARK_ID + 1;
+	protected static final int SPRITEBENCHMARK_ID = ENTITYMODIFIERBENCHMARK_ID + 1;
 	protected static final int TICKERTEXTBENCHMARK_ID = SPRITEBENCHMARK_ID + 1;
 
 	// ===========================================================

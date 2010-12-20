@@ -77,8 +77,8 @@ public class ChangeableTextExample extends BaseExample {
 		final ChangeableText elapsedText = new ChangeableText(100, 160, this.mFont, "Seconds elapsed:", "Seconds elapsed: XXXXX".length());
 		final ChangeableText fpsText = new ChangeableText(250, 240, this.mFont, "FPS:", "FPS: XXXXX".length());
 
-		scene.getTopLayer().addEntity(elapsedText);
-		scene.getTopLayer().addEntity(fpsText);
+		scene.getLastChild().addChild(elapsedText);
+		scene.getLastChild().addChild(fpsText);
 
 		scene.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback() {
 			@Override

@@ -117,7 +117,7 @@ public class XMLLayoutExample extends LayoutGameActivity {
 		particleSystem.addParticleModifier(new AlphaModifier(1, 0, 5, 6));
 		particleSystem.addParticleModifier(new ExpireModifier(6, 6));
 
-		scene.getTopLayer().addEntity(particleSystem);
+		scene.getLastChild().addChild(particleSystem);
 
 		return scene;
 	}

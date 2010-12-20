@@ -6,10 +6,10 @@ import org.anddev.andengine.engine.camera.hud.HUD;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.layer.ILayer;
+import org.anddev.andengine.entity.IEntity;
+import org.anddev.andengine.entity.modifier.MoveModifier;
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -215,8 +215,8 @@ public class EaseFunctionExample extends BaseExample {
 		};
 		previousSprite.getTextureRegion().setFlippedHorizontal(true);
 
-		hud.getTopLayer().addEntity(nextSprite);
-		hud.getTopLayer().addEntity(previousSprite);
+		hud.getLastChild().addChild(nextSprite);
+		hud.getLastChild().addChild(previousSprite);
 
 		hud.registerTouchArea(nextSprite);
 		hud.registerTouchArea(previousSprite);
@@ -233,16 +233,16 @@ public class EaseFunctionExample extends BaseExample {
 		this.mEaseFunctionNameTexts[1] = new ChangeableText(0, CAMERA_HEIGHT - 150, this.mFont, "Function", 20);
 		this.mEaseFunctionNameTexts[2] = new ChangeableText(0, CAMERA_HEIGHT - 50, this.mFont, "Function", 20);
 
-		final ILayer topLayer = scene.getTopLayer();
-		topLayer.addEntity(this.mFaces[0]);
-		topLayer.addEntity(this.mFaces[1]);
-		topLayer.addEntity(this.mFaces[2]);
-		topLayer.addEntity(this.mEaseFunctionNameTexts[0]);
-		topLayer.addEntity(this.mEaseFunctionNameTexts[1]);
-		topLayer.addEntity(this.mEaseFunctionNameTexts[2]);
-		topLayer.addEntity(new Line(0, CAMERA_HEIGHT - 110, CAMERA_WIDTH, CAMERA_HEIGHT - 110));
-		topLayer.addEntity(new Line(0, CAMERA_HEIGHT - 210, CAMERA_WIDTH, CAMERA_HEIGHT - 210));
-		topLayer.addEntity(new Line(0, CAMERA_HEIGHT - 310, CAMERA_WIDTH, CAMERA_HEIGHT - 310));
+		final IEntity lastChild = scene.getLastChild();
+		lastChild.addChild(this.mFaces[0]);
+		lastChild.addChild(this.mFaces[1]);
+		lastChild.addChild(this.mFaces[2]);
+		lastChild.addChild(this.mEaseFunctionNameTexts[0]);
+		lastChild.addChild(this.mEaseFunctionNameTexts[1]);
+		lastChild.addChild(this.mEaseFunctionNameTexts[2]);
+		lastChild.addChild(new Line(0, CAMERA_HEIGHT - 110, CAMERA_WIDTH, CAMERA_HEIGHT - 110));
+		lastChild.addChild(new Line(0, CAMERA_HEIGHT - 210, CAMERA_WIDTH, CAMERA_HEIGHT - 210));
+		lastChild.addChild(new Line(0, CAMERA_HEIGHT - 310, CAMERA_WIDTH, CAMERA_HEIGHT - 310));
 
 		return scene;
 	}
@@ -282,10 +282,11 @@ public class EaseFunctionExample extends BaseExample {
 				for(int i = 0; i < 3; i++) {
 					easeFunctionNameTexts[i].setText(currentEaseFunctionsSet[i].getClass().getSimpleName());
 					final Sprite face = faces[i];
-					face.clearShapeModifiers();
+					face.clearEntityModifiers();
+					
 					final float y = face.getY();
 					face.setPosition(0, y);
-					face.addShapeModifier(new MoveModifier(3, 0, CAMERA_WIDTH - face.getWidth(), y, y, currentEaseFunctionsSet[i]));
+					face.addEntityModifier(new MoveModifier(3, 0, CAMERA_WIDTH - face.getWidth(), y, y, currentEaseFunctionsSet[i]));
 				}
 			}
 		});

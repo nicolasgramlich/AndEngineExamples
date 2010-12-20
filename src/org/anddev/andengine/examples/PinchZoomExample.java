@@ -20,8 +20,8 @@ import org.anddev.andengine.extension.input.touch.detector.PinchZoomDetector;
 import org.anddev.andengine.extension.input.touch.detector.PinchZoomDetector.IPinchZoomDetectorListener;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.input.touch.detector.ScrollDetector;
-import org.anddev.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.anddev.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
+import org.anddev.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
@@ -209,7 +209,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 			}
 		};
 
-		pScene.getTopLayer().addEntity(sprite);
+		pScene.getLastChild().addChild(sprite);
 		pScene.registerTouchArea(sprite);
 	}
 

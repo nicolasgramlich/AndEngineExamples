@@ -78,7 +78,7 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		this.mFaceToRemove = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		scene.getTopLayer().addEntity(this.mFaceToRemove);
+		scene.getLastChild().addChild(this.mFaceToRemove);
 
 		scene.setOnSceneTouchListener(this);
 
@@ -92,15 +92,14 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-		/* Removing entities from a layer should be done
-		 * after the layer (scene) has been updated,
-		 * because doing it while updating/drawing can
+		/* Removing entities can only be done safely on the UpdateThread.
+		 * Doing it while updating/drawing can
 		 * cause an exception with a suddenly missing entity. */
 		this.runOnUpdateThread(new Runnable() {
 			@Override
 			public void run() {
 				/* Now it is save to remove the entity! */
-				pScene.getTopLayer().removeEntity(SpriteRemoveExample.this.mFaceToRemove);
+				pScene.getLastChild().removeChild(SpriteRemoveExample.this.mFaceToRemove);
 			}
 		});
 		return false;

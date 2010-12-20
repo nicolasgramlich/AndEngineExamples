@@ -61,8 +61,8 @@
 		<activity android:name=".RectangleExample" android:configChanges="orientation"/>
 		<activity android:name=".RepeatingSpriteBackgroundExample" android:configChanges="orientation"/>
 		<activity android:name=".Rotation3DExample" android:configChanges="orientation"/>
-		<activity android:name=".ShapeModifierExample" android:configChanges="orientation"/>
-		<activity android:name=".ShapeModifierIrregularExample" android:configChanges="orientation"/>
+		<activity android:name=".EntityModifierExample" android:configChanges="orientation"/>
+		<activity android:name=".EntityModifierIrregularExample" android:configChanges="orientation"/>
 		<activity android:name=".SoundExample" android:configChanges="orientation"/>
 		<activity android:name=".SplitScreenExample" android:configChanges="orientation"/>
 		<activity android:name=".SpriteExample" android:configChanges="orientation"/>
@@ -83,7 +83,7 @@
 		<activity android:name=".benchmark.AnimationBenchmark" android:configChanges="orientation"/>
 		<activity android:name=".benchmark.ParticleSystemBenchmark" android:configChanges="orientation"/>
 		<activity android:name=".benchmark.PhysicsBenchmark" android:configChanges="orientation"/>
-		<activity android:name=".benchmark.ShapeModifierBenchmark" android:configChanges="orientation"/>
+		<activity android:name=".benchmark.EntityModifierBenchmark" android:configChanges="orientation"/>
 		<activity android:name=".benchmark.SpriteBenchmark" android:configChanges="orientation"/>
 		<activity android:name=".benchmark.TickerTextBenchmark" android:configChanges="orientation"/>
 		

@@ -103,8 +103,8 @@ public class AutoParallaxBackgroundExample extends BaseExample {
 		enemy.setScale(2);
 		enemy.animate(new long[]{200, 200, 200}, 3, 5, true);
 
-		scene.getTopLayer().addEntity(player);
-		scene.getTopLayer().addEntity(enemy);
+		scene.getLastChild().addChild(player);
+		scene.getLastChild().addChild(enemy);
 
 		return scene;
 	}

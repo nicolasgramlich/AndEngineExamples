@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 /**
@@ -76,11 +76,11 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 			anchorFace.setUpdatePhysics(false);
 			movingFace.setUpdatePhysics(false);
 
-			pScene.getTopLayer().addEntity(anchorFace);
-			pScene.getTopLayer().addEntity(movingFace);
+			pScene.getLastChild().addChild(anchorFace);
+			pScene.getLastChild().addChild(movingFace);
 
 			final Line connectionLine = new Line(anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2, anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2);
-			pScene.getBottomLayer().addEntity(connectionLine);
+			pScene.getFirstChild().addChild(connectionLine);
 			this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(anchorFace, anchorBody, true, true, false, false){
 				@Override
 				public void onUpdate(final float pSecondsElapsed) {

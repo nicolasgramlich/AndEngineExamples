@@ -5,12 +5,12 @@ import javax.microedition.khronos.opengles.GL10;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
-import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
+import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.layer.ILayer;
+import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
@@ -32,8 +32,8 @@ import org.anddev.andengine.util.MathUtils;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 /**
  * @author Nicolas Gramlich
@@ -60,6 +60,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
 	private Camera mCamera;
 
 	private PhysicsWorld mPhysicsWorld;
@@ -191,7 +192,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(this.mCar, this.mCarBody, true, false, true, false));
 
-		pScene.getLayer(LAYER_CARS).addEntity(this.mCar);
+		pScene.getChild(LAYER_CARS).addChild(this.mCar);
 	}
 	
 	private void initObstacles(final Scene pScene) {
@@ -212,11 +213,11 @@ public class RacerGameActivity  extends BaseGameActivity {
 		
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(box, boxBody, true, true, false, false));
 
-		pScene.getLayer(LAYER_OBSTACLES).addEntity(box);
+		pScene.getChild(LAYER_OBSTACLES).addChild(box);
 	}
 
 	private void initRacetrack(final Scene pScene) {
-		final ILayer racetrackLayer = pScene.getLayer(LAYER_RACETRACK);
+		final IEntity racetrackEntity = pScene.getChild(LAYER_RACETRACK);
 
 		/* Straights. */
 		{
@@ -226,18 +227,18 @@ public class RacerGameActivity  extends BaseGameActivity {
 			final TextureRegion racetrackVerticalStraightTextureRegion = this.mRacetrackStraightTextureRegion;
 
 			/* Top Straight */
-			racetrackLayer.addEntity(new Sprite(RACETRACK_WIDTH, 0, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
+			racetrackEntity.addChild(new Sprite(RACETRACK_WIDTH, 0, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
 			/* Bottom Straight */
-			racetrackLayer.addEntity(new Sprite(RACETRACK_WIDTH, CAMERA_HEIGHT - RACETRACK_WIDTH, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
+			racetrackEntity.addChild(new Sprite(RACETRACK_WIDTH, CAMERA_HEIGHT - RACETRACK_WIDTH, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
 
 			/* Left Straight */
 			final Sprite leftVerticalStraight = new Sprite(0, RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackVerticalStraightTextureRegion);
 			leftVerticalStraight.setRotation(90);
-			racetrackLayer.addEntity(leftVerticalStraight);
+			racetrackEntity.addChild(leftVerticalStraight);
 			/* Right Straight */
 			final Sprite rightVerticalStraight = new Sprite(CAMERA_WIDTH - RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackVerticalStraightTextureRegion);
 			rightVerticalStraight.setRotation(90);
-			racetrackLayer.addEntity(rightVerticalStraight);
+			racetrackEntity.addChild(rightVerticalStraight);
 		}
 
 		/* Edges */
@@ -247,21 +248,21 @@ public class RacerGameActivity  extends BaseGameActivity {
 			/* Upper Left */
 			final Sprite upperLeftCurve = new Sprite(0, 0, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
 			upperLeftCurve.setRotation(90);
-			racetrackLayer.addEntity(upperLeftCurve);
+			racetrackEntity.addChild(upperLeftCurve);
 
 			/* Upper Right */
 			final Sprite upperRightCurve = new Sprite(CAMERA_WIDTH - RACETRACK_WIDTH, 0, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
 			upperRightCurve.setRotation(180);
-			racetrackLayer.addEntity(upperRightCurve);
+			racetrackEntity.addChild(upperRightCurve);
 
 			/* Lower Right */
 			final Sprite lowerRightCurve = new Sprite(CAMERA_WIDTH - RACETRACK_WIDTH, CAMERA_HEIGHT - RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
 			lowerRightCurve.setRotation(270);
-			racetrackLayer.addEntity(lowerRightCurve);
+			racetrackEntity.addChild(lowerRightCurve);
 
 			/* Lower Left */
 			final Sprite lowerLeftCurve = new Sprite(0, CAMERA_HEIGHT - RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
-			racetrackLayer.addEntity(lowerLeftCurve);
+			racetrackEntity.addChild(lowerLeftCurve);
 		}
 	}
 
@@ -288,16 +289,16 @@ public class RacerGameActivity  extends BaseGameActivity {
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, leftInner, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, rightInner, BodyType.StaticBody, wallFixtureDef);
 
-		final ILayer bottomLayer = pScene.getLayer(LAYER_BORDERS);
-		bottomLayer.addEntity(bottomOuter);
-		bottomLayer.addEntity(topOuter);
-		bottomLayer.addEntity(leftOuter);
-		bottomLayer.addEntity(rightOuter);
+		final IEntity firstChild = pScene.getChild(LAYER_BORDERS);
+		firstChild.addChild(bottomOuter);
+		firstChild.addChild(topOuter);
+		firstChild.addChild(leftOuter);
+		firstChild.addChild(rightOuter);
 
-		bottomLayer.addEntity(bottomInner);
-		bottomLayer.addEntity(topInner);
-		bottomLayer.addEntity(leftInner);
-		bottomLayer.addEntity(rightInner);
+		firstChild.addChild(bottomInner);
+		firstChild.addChild(topInner);
+		firstChild.addChild(leftInner);
+		firstChild.addChild(rightInner);
 	}
 
 	// ===========================================================

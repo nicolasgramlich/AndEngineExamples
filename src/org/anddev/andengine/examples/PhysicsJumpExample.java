@@ -30,8 +30,8 @@ import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 /**
  * @author Nicolas Gramlich
@@ -114,10 +114,10 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getBottomLayer().addEntity(ground);
-		scene.getBottomLayer().addEntity(roof);
-		scene.getBottomLayer().addEntity(left);
-		scene.getBottomLayer().addEntity(right);
+		scene.getFirstChild().addChild(ground);
+		scene.getFirstChild().addChild(roof);
+		scene.getFirstChild().addChild(left);
+		scene.getFirstChild().addChild(right);
 
 		scene.registerUpdateHandler(this.mPhysicsWorld);
 
@@ -200,7 +200,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 		face.animate(new long[]{200,200}, 0, 1, true);
 		face.setUpdatePhysics(false);
 		scene.registerTouchArea(face);
-		scene.getTopLayer().addEntity(face);
+		scene.getLastChild().addChild(face);
 	}
 
 	private void jumpFace(final AnimatedSprite face) {

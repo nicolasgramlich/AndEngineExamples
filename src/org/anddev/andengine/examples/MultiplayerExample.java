@@ -26,9 +26,9 @@ import org.anddev.andengine.extension.multiplayer.protocol.client.ServerMessageE
 import org.anddev.andengine.extension.multiplayer.protocol.server.BaseClientConnectionListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.BaseClientMessageSwitch;
 import org.anddev.andengine.extension.multiplayer.protocol.server.BaseServer;
+import org.anddev.andengine.extension.multiplayer.protocol.server.BaseServer.IServerStateListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.server.ClientMessageExtractor;
-import org.anddev.andengine.extension.multiplayer.protocol.server.BaseServer.IServerStateListener;
 import org.anddev.andengine.extension.multiplayer.protocol.shared.BaseConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.util.IPUtils;
 import org.anddev.andengine.input.touch.TouchEvent;
@@ -223,7 +223,7 @@ public class MultiplayerExample extends BaseExample {
 	public void addFace(final Scene pScene, final float pX, final float pY) {
 		/* Create the face and add it to the scene. */
 		final Sprite face = new Sprite(pX, pY, this.mFaceTextureRegion);
-		pScene.getTopLayer().addEntity(face);
+		pScene.getLastChild().addChild(face);
 	}
 
 	private void log(final String pMessage) {

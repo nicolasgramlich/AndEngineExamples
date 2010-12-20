@@ -5,8 +5,8 @@ import javax.microedition.khronos.opengles.GL10;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
-import org.anddev.andengine.engine.camera.hud.controls.DigitalOnScreenControl;
 import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl.IOnScreenControlListener;
+import org.anddev.andengine.engine.camera.hud.controls.DigitalOnScreenControl;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -87,7 +87,7 @@ public class DigitalOnScreenControlExample extends BaseExample {
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
 
-		scene.getTopLayer().addEntity(face);
+		scene.getLastChild().addChild(face);
 
 		final DigitalOnScreenControl digitalOnScreenControl = new DigitalOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IOnScreenControlListener() {
 			@Override

@@ -78,7 +78,7 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		this.mFace = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		scene.getTopLayer().addEntity(this.mFace);
+		scene.getLastChild().addChild(this.mFace);
 
 		return scene;
 	}

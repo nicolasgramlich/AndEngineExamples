@@ -8,7 +8,7 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.layer.ILayer;
+import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
@@ -83,20 +83,20 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 	@Override
 	public Scene onLoadScene() {
-		final Scene scene = new Scene(1, true, SPRITE_COUNT);
+		final Scene scene = new Scene(1);
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
 		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_STATIC_DRAW);
 		sharedVertexBuffer.update(this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
 
-		final ILayer topLayer = scene.getTopLayer();
+		final IEntity lastChild = scene.getLastChild();
 
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
 			face.setBlendFunction(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
 			face.setIgnoreUpdate(true);
-			topLayer.addEntity(face);
+			lastChild.addChild(face);
 		}
 
 		return scene;

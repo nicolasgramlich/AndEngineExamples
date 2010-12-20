@@ -14,6 +14,8 @@ import org.anddev.andengine.examples.CoordinateConversionExample;
 import org.anddev.andengine.examples.CustomFontExample;
 import org.anddev.andengine.examples.DigitalOnScreenControlExample;
 import org.anddev.andengine.examples.EaseFunctionExample;
+import org.anddev.andengine.examples.EntityModifierExample;
+import org.anddev.andengine.examples.EntityModifierIrregularExample;
 import org.anddev.andengine.examples.ImageFormatsExample;
 import org.anddev.andengine.examples.LevelLoaderExample;
 import org.anddev.andengine.examples.LineExample;
@@ -40,8 +42,6 @@ import org.anddev.andengine.examples.R;
 import org.anddev.andengine.examples.RectangleExample;
 import org.anddev.andengine.examples.RepeatingSpriteBackgroundExample;
 import org.anddev.andengine.examples.Rotation3DExample;
-import org.anddev.andengine.examples.ShapeModifierExample;
-import org.anddev.andengine.examples.ShapeModifierIrregularExample;
 import org.anddev.andengine.examples.SoundExample;
 import org.anddev.andengine.examples.SplitScreenExample;
 import org.anddev.andengine.examples.SpriteExample;
@@ -60,9 +60,9 @@ import org.anddev.andengine.examples.XMLLayoutExample;
 import org.anddev.andengine.examples.ZoomExample;
 import org.anddev.andengine.examples.app.cityradar.CityRadarActivity;
 import org.anddev.andengine.examples.benchmark.AnimationBenchmark;
+import org.anddev.andengine.examples.benchmark.EntityModifierBenchmark;
 import org.anddev.andengine.examples.benchmark.ParticleSystemBenchmark;
 import org.anddev.andengine.examples.benchmark.PhysicsBenchmark;
-import org.anddev.andengine.examples.benchmark.ShapeModifierBenchmark;
 import org.anddev.andengine.examples.benchmark.SpriteBenchmark;
 import org.anddev.andengine.examples.benchmark.TickerTextBenchmark;
 import org.anddev.andengine.examples.game.racer.RacerGameActivity;
@@ -117,8 +117,8 @@ enum Example {
 	RECTANGLE(RectangleExample.class, R.string.example_rectangle),
 	REPEATINGSPRITEBACKGROUND(RepeatingSpriteBackgroundExample.class, R.string.example_repeatingspritebackground),
 	ROTATION3D(Rotation3DExample.class, R.string.example_rotation3d),
-	SHAPEMODIFIER(ShapeModifierExample.class, R.string.example_shapemodifier),
-	SHAPEMODIFIERIRREGULAR(ShapeModifierIrregularExample.class, R.string.example_shapemodifierirregular),
+	ENTITYMODIFIER(EntityModifierExample.class, R.string.example_entitymodifier),
+	ENTITYMODIFIERIRREGULAR(EntityModifierIrregularExample.class, R.string.example_entitymodifierirregular),
 	SOUND(SoundExample.class, R.string.example_sound),
 	SPLITSCREEN(SplitScreenExample.class, R.string.example_splitscreen),
 	SPRITE(SpriteExample.class, R.string.example_sprite),
@@ -139,7 +139,7 @@ enum Example {
 	BENCHMARK_ANIMATION(AnimationBenchmark.class, R.string.example_benchmark_animation),
 	BENCHMARK_PARTICLESYSTEM(ParticleSystemBenchmark.class, R.string.example_benchmark_particlesystem),
 	BENCHMARK_PHYSICS(PhysicsBenchmark.class, R.string.example_benchmark_physics),
-	BENCHMARK_SHAPEMODIFIER(ShapeModifierBenchmark.class, R.string.example_benchmark_shapemodifier),
+	BENCHMARK_ENTITYMODIFIER(EntityModifierBenchmark.class, R.string.example_benchmark_entitymodifier),
 	BENCHMARK_SPRITE(SpriteBenchmark.class, R.string.example_benchmark_sprite),
 	BENCHMARK_TICKERTEXT(TickerTextBenchmark.class, R.string.example_benchmark_tickertext),
 

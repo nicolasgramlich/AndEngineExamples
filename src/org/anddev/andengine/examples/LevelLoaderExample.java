@@ -159,7 +159,7 @@ public class LevelLoaderExample extends BaseExample {
 
 		face.animate(200);
 
-		pScene.getTopLayer().addEntity(face);
+		pScene.getLastChild().addChild(face);
 	}
 
 	// ===========================================================

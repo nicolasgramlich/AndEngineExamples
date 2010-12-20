@@ -29,8 +29,8 @@ import android.widget.Toast;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 /**
  * @author Nicolas Gramlich
@@ -125,10 +125,10 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, WALL_FIXTURE_DEF);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, WALL_FIXTURE_DEF);
 
-		scene.getBottomLayer().addEntity(ground);
-		scene.getBottomLayer().addEntity(roof);
-		scene.getBottomLayer().addEntity(left);
-		scene.getBottomLayer().addEntity(right);
+		scene.getFirstChild().addChild(ground);
+		scene.getFirstChild().addChild(roof);
+		scene.getFirstChild().addChild(left);
+		scene.getFirstChild().addChild(right);
 
 		scene.registerUpdateHandler(this.mPhysicsWorld);
 
@@ -184,7 +184,7 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 		face.animate(200);
 		face.setUpdatePhysics(false);
 
-		scene.getTopLayer().addEntity(face);
+		scene.getLastChild().addChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 	}
 

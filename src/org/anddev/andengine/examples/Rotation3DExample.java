@@ -7,10 +7,10 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.modifier.LoopEntityModifier;
+import org.anddev.andengine.entity.modifier.RotationModifier;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
-import org.anddev.andengine.entity.shape.modifier.LoopShapeModifier;
-import org.anddev.andengine.entity.shape.modifier.RotationModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
@@ -105,8 +105,8 @@ public class Rotation3DExample extends BaseExample {
 				GLHelper.enableCulling(pGL);
 			}
 		};
-		face.addShapeModifier(new LoopShapeModifier(new RotationModifier(6, 0, 360)));
-		scene.getTopLayer().addEntity(face);
+		face.addEntityModifier(new LoopEntityModifier(new RotationModifier(6, 0, 360)));
+		scene.getLastChild().addChild(face);
 
 		return scene;
 	}

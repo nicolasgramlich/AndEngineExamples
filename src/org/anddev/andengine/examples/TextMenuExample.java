@@ -7,6 +7,7 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.modifier.MoveModifier;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.scene.menu.MenuScene;
@@ -14,7 +15,6 @@ import org.anddev.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener
 import org.anddev.andengine.entity.scene.menu.item.IMenuItem;
 import org.anddev.andengine.entity.scene.menu.item.TextMenuItem;
 import org.anddev.andengine.entity.scene.menu.item.decorator.ColorMenuItemDecorator;
-import org.anddev.andengine.entity.shape.modifier.MoveModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.Font;
@@ -103,8 +103,8 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 		this.mMainScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
-		face.addShapeModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
-		this.mMainScene.getTopLayer().addEntity(face);
+		face.addEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
+		this.mMainScene.getLastChild().addChild(face);
 
 		return this.mMainScene;
 	}

@@ -76,9 +76,9 @@ public class TextExample extends BaseExample {
 		final Text textLeft = new Text(100, 200, this.mFont, "Also left aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.LEFT);
 		final Text textRight = new Text(100, 340, this.mFont, "And right aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.RIGHT);
 
-		scene.getTopLayer().addEntity(textCenter);
-		scene.getTopLayer().addEntity(textLeft);
-		scene.getTopLayer().addEntity(textRight);
+		scene.getLastChild().addChild(textCenter);
+		scene.getLastChild().addChild(textLeft);
+		scene.getLastChild().addChild(textRight);
 
 		return scene;
 	}

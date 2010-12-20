@@ -6,20 +6,21 @@ import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXLayer;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXLoader;
+import org.anddev.andengine.entity.layer.tiled.tmx.TMXLoader.ITMXTilePropertiesListener;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXProperties;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXTile;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXTileProperty;
 import org.anddev.andengine.entity.layer.tiled.tmx.TMXTiledMap;
-import org.anddev.andengine.entity.layer.tiled.tmx.TMXLoader.ITMXTilePropertiesListener;
 import org.anddev.andengine.entity.layer.tiled.tmx.util.exception.TMXLoadException;
+import org.anddev.andengine.entity.modifier.LoopEntityModifier;
+import org.anddev.andengine.entity.modifier.PathModifier;
+import org.anddev.andengine.entity.modifier.PathModifier.IPathModifierListener;
+import org.anddev.andengine.entity.modifier.PathModifier.Path;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.shape.IShape;
-import org.anddev.andengine.entity.shape.modifier.LoopShapeModifier;
-import org.anddev.andengine.entity.shape.modifier.PathModifier;
-import org.anddev.andengine.entity.shape.modifier.PathModifier.IPathModifierListener;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
@@ -27,7 +28,6 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.util.Debug;
-import org.anddev.andengine.util.Path;
 import org.anddev.andengine.util.constants.Constants;
 
 import android.widget.Toast;
@@ -106,9 +106,9 @@ public class TMXTiledMapExample extends BaseExample {
 		}
 
 		final TMXLayer tmxLayer = this.mTMXTiledMap.getTMXLayers().get(0);
-		scene.getBottomLayer().addEntity(tmxLayer);
+		scene.getFirstChild().addChild(tmxLayer);
 
-		/* Make the camera not exceed the bounds of the TMXLayer. */
+		/* Make the camera not exceed the bounds of the TMXEntity. */
 		this.mBoundChaseCamera.setBounds(0, tmxLayer.getWidth(), 0, tmxLayer.getHeight());
 		this.mBoundChaseCamera.setBoundsEnabled(true);
 
@@ -118,13 +118,13 @@ public class TMXTiledMapExample extends BaseExample {
 
 		/* Create the sprite and add it to the scene. */
 		final AnimatedSprite player = new AnimatedSprite(centerX, centerY, this.mPlayerTextureRegion);
-		this.mBoundChaseCamera.setChaseShape(player);
+		this.mBoundChaseCamera.setChaseEntity(player);
 
 		final Path path = new Path(5).to(0, 160).to(0, 500).to(600, 500).to(600, 160).to(0, 160);
 
-		player.addShapeModifier(new LoopShapeModifier(new PathModifier(30, path, null, new IPathModifierListener() {
+		player.addEntityModifier(new LoopEntityModifier(new PathModifier(30, path, null, new IPathModifierListener() {
 			@Override
-			public void onWaypointPassed(final PathModifier pPathModifier, final IShape pShape, final int pWaypointIndex) {
+			public void onWaypointPassed(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
 				switch(pWaypointIndex) {
 					case 0:
 						player.animate(new long[]{200, 200, 200}, 6, 8, true);
@@ -142,10 +142,10 @@ public class TMXTiledMapExample extends BaseExample {
 			}
 		})));
 
-		/* Now we are going to create a rectangle that will  always highlight the tile below the feet of the player. */
+		/* Now we are going to create a rectangle that will  always highlight the tile below the feet of the pEntity. */
 		final Rectangle currentTileRectangle = new Rectangle(0, 0, this.mTMXTiledMap.getTileWidth(), this.mTMXTiledMap.getTileHeight());
 		currentTileRectangle.setColor(1, 0, 0, 0.25f);
-		scene.getTopLayer().addEntity(currentTileRectangle);
+		scene.getLastChild().addChild(currentTileRectangle);
 
 		scene.registerUpdateHandler(new IUpdateHandler() {
 			@Override
@@ -155,6 +155,7 @@ public class TMXTiledMapExample extends BaseExample {
 			public void onUpdate(final float pSecondsElapsed) {
 				/* Get the scene-coordinates of the players feet. */
 				final float[] playerFootCordinates = player.convertLocalToSceneCoordinates(12, 31);
+				
 				/* Get the tile the feet of the player are currently waking on. */
 				final TMXTile tmxTile = tmxLayer.getTMXTileAt(playerFootCordinates[Constants.VERTEX_INDEX_X], playerFootCordinates[Constants.VERTEX_INDEX_Y]);
 				if(tmxTile != null) {
@@ -163,7 +164,7 @@ public class TMXTiledMapExample extends BaseExample {
 				}
 			}
 		});
-		scene.getTopLayer().addEntity(player);
+		scene.getLastChild().addChild(player);
 
 		return scene;
 	}

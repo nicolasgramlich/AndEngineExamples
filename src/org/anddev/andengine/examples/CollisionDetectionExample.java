@@ -5,20 +5,20 @@ import javax.microedition.khronos.opengles.GL10;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
-import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.anddev.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
+import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.modifier.LoopEntityModifier;
+import org.anddev.andengine.entity.modifier.ParallelEntityModifier;
+import org.anddev.andengine.entity.modifier.RotationModifier;
+import org.anddev.andengine.entity.modifier.ScaleModifier;
+import org.anddev.andengine.entity.modifier.SequenceEntityModifier;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
-import org.anddev.andengine.entity.shape.modifier.LoopShapeModifier;
-import org.anddev.andengine.entity.shape.modifier.ParallelShapeModifier;
-import org.anddev.andengine.entity.shape.modifier.RotationModifier;
-import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
-import org.anddev.andengine.entity.shape.modifier.SequenceShapeModifier;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouch;
@@ -122,12 +122,12 @@ public class CollisionDetectionExample extends BaseExample {
 
 		/* A spinning rectangle in the center of the screen. */
 		final Rectangle centerRectangle = new Rectangle(centerX, centerY, 32, 32);
-		centerRectangle.addShapeModifier(new LoopShapeModifier(new ParallelShapeModifier(new RotationModifier(6, 0, 360), new SequenceShapeModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1)))));
+		centerRectangle.addEntityModifier(new LoopEntityModifier(new ParallelEntityModifier(new RotationModifier(6, 0, 360), new SequenceEntityModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1)))));
 
-		scene.getTopLayer().addEntity(centerRectangle);
+		scene.getLastChild().addChild(centerRectangle);
 
 		final Sprite face = new Sprite(centerX, centerY + 42, this.mFaceTextureRegion);
-		scene.getTopLayer().addEntity(face);
+		scene.getLastChild().addChild(face);
 
 		/* Velocity control (left). */
 		final int x1 = 0;
