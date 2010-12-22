@@ -78,7 +78,7 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		this.mFaceToRemove = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		scene.getLastChild().addChild(this.mFaceToRemove);
+		scene.getLastChild().attachChild(this.mFaceToRemove);
 
 		scene.setOnSceneTouchListener(this);
 
@@ -99,7 +99,7 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 			@Override
 			public void run() {
 				/* Now it is save to remove the entity! */
-				pScene.getLastChild().removeChild(SpriteRemoveExample.this.mFaceToRemove);
+				pScene.getLastChild().detachChild(SpriteRemoveExample.this.mFaceToRemove);
 			}
 		});
 		return false;

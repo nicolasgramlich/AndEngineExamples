@@ -106,7 +106,7 @@ public class RepeatingSpriteBackgroundExample extends BaseExample {
 				}
 			}
 		})));
-		scene.getLastChild().addChild(player);
+		scene.getLastChild().attachChild(player);
 
 		return scene;
 	}

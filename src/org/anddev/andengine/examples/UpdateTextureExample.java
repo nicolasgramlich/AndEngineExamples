@@ -81,7 +81,7 @@ public class UpdateTextureExample extends BaseExample {
 		/* Create the face and add it to the scene. */
 		final AnimatedSprite face = new AnimatedSprite(x, y, this.mFaceTextureRegion);
 		face.animate(100);
-		scene.getLastChild().addChild(face);
+		scene.getLastChild().attachChild(face);
 
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override

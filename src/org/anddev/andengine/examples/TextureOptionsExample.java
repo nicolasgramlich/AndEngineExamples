@@ -98,9 +98,9 @@ public class TextureOptionsExample extends BaseExample {
 		final Sprite faceRepeating = new Sprite(centerX - 160, centerY + 100, this.mFaceTextureRegionRepeating.getWidth(), this.mFaceTextureRegionRepeating.getHeight() * 2, this.mFaceTextureRegionRepeating);
 
 		final IEntity lastChild = scene.getLastChild();
-		lastChild.addChild(face);
-		lastChild.addChild(faceBilinear);
-		lastChild.addChild(faceRepeating);
+		lastChild.attachChild(face);
+		lastChild.attachChild(faceBilinear);
+		lastChild.attachChild(faceRepeating);
 
 		return scene;
 	}

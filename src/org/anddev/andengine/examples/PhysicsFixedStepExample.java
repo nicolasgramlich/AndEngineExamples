@@ -110,10 +110,10 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getFirstChild().addChild(ground);
-		scene.getFirstChild().addChild(roof);
-		scene.getFirstChild().addChild(left);
-		scene.getFirstChild().addChild(right);
+		scene.getFirstChild().attachChild(ground);
+		scene.getFirstChild().attachChild(roof);
+		scene.getFirstChild().attachChild(left);
+		scene.getFirstChild().attachChild(right);
 
 		scene.registerUpdateHandler(this.mPhysicsWorld);
 
@@ -171,7 +171,7 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 		face.animate(200);
 		face.setUpdatePhysics(false);
 
-		scene.getLastChild().addChild(face);
+		scene.getLastChild().attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 	}
 

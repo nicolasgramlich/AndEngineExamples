@@ -118,10 +118,10 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getFirstChild().addChild(ground);
-		scene.getFirstChild().addChild(roof);
-		scene.getFirstChild().addChild(left);
-		scene.getFirstChild().addChild(right);
+		scene.getFirstChild().attachChild(ground);
+		scene.getFirstChild().attachChild(roof);
+		scene.getFirstChild().attachChild(left);
+		scene.getFirstChild().attachChild(right);
 		
 		for(int x = 1; x < COUNT_HORIZONTAL; x++) {
 			for(int y = 1; y < COUNT_VERTICAL; y++) {
@@ -182,7 +182,7 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 		
 		face.setUpdatePhysics(false);
 		
-		pScene.getLastChild().addChild(face);
+		pScene.getLastChild().attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 	}
 

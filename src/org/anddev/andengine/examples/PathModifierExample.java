@@ -107,7 +107,7 @@ public class PathModifierExample extends BaseExample {
 				}
 			}
 		}, EaseSineInOut.getInstance())));
-		scene.getLastChild().addChild(player);
+		scene.getLastChild().attachChild(player);
 
 		return scene;
 	}

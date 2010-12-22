@@ -125,10 +125,10 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, WALL_FIXTURE_DEF);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, WALL_FIXTURE_DEF);
 
-		scene.getFirstChild().addChild(ground);
-		scene.getFirstChild().addChild(roof);
-		scene.getFirstChild().addChild(left);
-		scene.getFirstChild().addChild(right);
+		scene.getFirstChild().attachChild(ground);
+		scene.getFirstChild().attachChild(roof);
+		scene.getFirstChild().attachChild(left);
+		scene.getFirstChild().attachChild(right);
 
 		scene.registerUpdateHandler(this.mPhysicsWorld);
 
@@ -184,7 +184,7 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 		face.animate(200);
 		face.setUpdatePhysics(false);
 
-		scene.getLastChild().addChild(face);
+		scene.getLastChild().attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 	}
 

@@ -116,15 +116,15 @@ public class EntityModifierIrregularExample extends BaseExample {
 		face1.addEntityModifier(EntityModifier);
 		face2.addEntityModifier(EntityModifier.clone());
 
-		scene.getLastChild().addChild(face1);
-		scene.getLastChild().addChild(face2);
+		scene.getLastChild().attachChild(face1);
+		scene.getLastChild().attachChild(face2);
 
 		/* Create some not-modified sprites, that act as fixed references to the modified ones. */
 		final AnimatedSprite face1Reference = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion);
 		final AnimatedSprite face2Reference = new AnimatedSprite(centerX + 100, centerY, this.mFaceTextureRegion);
 
-		scene.getLastChild().addChild(face1Reference);
-		scene.getLastChild().addChild(face2Reference);
+		scene.getLastChild().attachChild(face1Reference);
+		scene.getLastChild().attachChild(face2Reference);
 
 		return scene;
 	}

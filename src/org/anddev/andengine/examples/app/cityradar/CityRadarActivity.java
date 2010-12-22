@@ -178,8 +178,8 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 			this.mCityToCityNameTextMap.put(city, cityNameText);
 			this.mCityToCitySpriteMap.put(city, citySprite);
 
-			pEntity.addChild(citySprite);
-			pEntity.addChild(cityNameText);
+			pEntity.attachChild(citySprite);
+			pEntity.attachChild(cityNameText);
 		}
 	}
 
@@ -188,14 +188,14 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 		for(int i = CityRadarActivity.GRID_SIZE / 2; i < CityRadarActivity.CAMERA_WIDTH; i += CityRadarActivity.GRID_SIZE) {
 			final Line line = new Line(i, 0, i, CityRadarActivity.CAMERA_HEIGHT);
 			line.setColor(0, 0.5f, 0, 1f);
-			pEntity.addChild(line);
+			pEntity.attachChild(line);
 		}
 
 		/* Horizontal Grid lines. */
 		for(int i = CityRadarActivity.GRID_SIZE / 2; i < CityRadarActivity.CAMERA_HEIGHT; i += CityRadarActivity.GRID_SIZE) {
 			final Line line = new Line(0, i, CityRadarActivity.CAMERA_WIDTH, i);
 			line.setColor(0, 0.5f, 0, 1f);
-			pEntity.addChild(line);
+			pEntity.attachChild(line);
 		}
 
 		/* Vertical Grid lines. */
@@ -203,14 +203,14 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 		radarSprite.setColor(0, 1f, 0, 1f);
 		radarSprite.setRotationCenter(radarSprite.getWidth(), radarSprite.getHeight());
 		radarSprite.addEntityModifier(new LoopEntityModifier(new RotationModifier(3, 0, 360, EaseLinear.getInstance())));
-		pEntity.addChild(radarSprite);
+		pEntity.attachChild(radarSprite);
 
 		/* Title. */
 		final Text titleText = new Text(0, 0, this.mFont, "-- CityRadar --");
 		titleText.setPosition(CAMERA_WIDTH / 2 - titleText.getWidth() / 2, titleText.getHeight() + 35);
 		titleText.setScale(2);
 		titleText.setScaleCenterY(0);
-		pEntity.addChild(titleText);
+		pEntity.attachChild(titleText);
 	}
 
 	@Override

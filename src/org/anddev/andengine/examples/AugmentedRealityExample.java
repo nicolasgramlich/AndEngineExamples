@@ -77,7 +77,7 @@ public class AugmentedRealityExample extends BaseAugmentedRealityGameActivity {
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
 		face.addEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
-		scene.getLastChild().addChild(face);
+		scene.getLastChild().attachChild(face);
 
 		return scene;
 	}

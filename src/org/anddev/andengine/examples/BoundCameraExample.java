@@ -118,10 +118,10 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getFirstChild().addChild(ground);
-		scene.getFirstChild().addChild(roof);
-		scene.getFirstChild().addChild(left);
-		scene.getFirstChild().addChild(right);
+		scene.getFirstChild().attachChild(ground);
+		scene.getFirstChild().attachChild(roof);
+		scene.getFirstChild().attachChild(left);
+		scene.getFirstChild().attachChild(right);
 
 		scene.registerUpdateHandler(this.mPhysicsWorld);
 
@@ -146,7 +146,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 			}
 		};
 		hud.registerTouchArea(toggleButton);
-		hud.getFirstChild().addChild(toggleButton);
+		hud.getFirstChild().attachChild(toggleButton);
 
 		this.mBoundChaseCamera.setHUD(hud);
 
@@ -192,7 +192,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		final AnimatedSprite face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion).animate(100);
 		final Body body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 
-		scene.getLastChild().addChild(face);
+		scene.getLastChild().attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 
 		if(this.mFaceCount == 0){

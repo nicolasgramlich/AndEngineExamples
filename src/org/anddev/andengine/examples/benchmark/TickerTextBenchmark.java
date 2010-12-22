@@ -93,7 +93,7 @@ public class TickerTextBenchmark extends BaseBenchmark {
 		for(int i = 0; i < TEXT_COUNT; i++) {
 			final Text text = new TickerText(this.mRandom.nextInt(30), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 20), this.mFont, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", HorizontalAlign.CENTER, 5 + 5 * this.mRandom.nextFloat());
 			text.setColor(this.mRandom.nextFloat(), this.mRandom.nextFloat(), this.mRandom.nextFloat());
-			lastChild.addChild(text);
+			lastChild.attachChild(text);
 		}
 
 		return scene;

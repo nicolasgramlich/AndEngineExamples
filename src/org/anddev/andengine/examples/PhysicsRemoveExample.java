@@ -115,10 +115,10 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getFirstChild().addChild(ground);
-		scene.getFirstChild().addChild(roof);
-		scene.getFirstChild().addChild(left);
-		scene.getFirstChild().addChild(right);
+		scene.getFirstChild().attachChild(ground);
+		scene.getFirstChild().attachChild(roof);
+		scene.getFirstChild().attachChild(left);
+		scene.getFirstChild().attachChild(right);
 
 		scene.registerUpdateHandler(this.mPhysicsWorld);
 
@@ -185,7 +185,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		face.setUpdatePhysics(false);
 
 		scene.registerTouchArea(face);
-		scene.getLastChild().addChild(face);
+		scene.getLastChild().attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 	}
 
@@ -198,7 +198,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		this.mPhysicsWorld.destroyBody(facePhysicsConnector.getBody());
 
 		scene.unregisterTouchArea(face);
-		scene.getLastChild().removeChild(face);
+		scene.getLastChild().detachChild(face);
 	}
 
 	// ===========================================================

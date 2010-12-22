@@ -96,7 +96,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 			particleSystem.addParticleModifier(new ColorModifier(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 11.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 4.5f, 11.5f));
 
-			scene.getLastChild().addChild(particleSystem);
+			scene.getLastChild().attachChild(particleSystem);
 		}
 
 		/* Right to left Particle System. */
@@ -116,7 +116,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 			particleSystem.addParticleModifier(new ColorModifier(0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 11.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 4.5f, 11.5f));
 
-			scene.getLastChild().addChild(particleSystem);
+			scene.getLastChild().attachChild(particleSystem);
 		}
 
 		return scene;

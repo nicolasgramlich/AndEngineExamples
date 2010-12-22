@@ -174,9 +174,9 @@ public class RacerGameActivity  extends BaseGameActivity {
 		});
 		analogOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		analogOnScreenControl.getControlBase().setAlpha(0.5f);
-		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
-		analogOnScreenControl.getControlBase().setScale(0.75f);
-		analogOnScreenControl.getControlKnob().setScale(0.75f);
+//		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
+//		analogOnScreenControl.getControlBase().setScale(0.75f);
+//		analogOnScreenControl.getControlKnob().setScale(0.75f);
 		analogOnScreenControl.refreshControlKnobPosition();
 		
 		pScene.setChildScene(analogOnScreenControl);
@@ -192,7 +192,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(this.mCar, this.mCarBody, true, false, true, false));
 
-		pScene.getChild(LAYER_CARS).addChild(this.mCar);
+		pScene.getChild(LAYER_CARS).attachChild(this.mCar);
 	}
 	
 	private void initObstacles(final Scene pScene) {
@@ -213,7 +213,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(box, boxBody, true, true, false, false));
 
-		pScene.getChild(LAYER_OBSTACLES).addChild(box);
+		pScene.getChild(LAYER_OBSTACLES).attachChild(box);
 	}
 
 	private void initRacetrack(final Scene pScene) {
@@ -227,18 +227,18 @@ public class RacerGameActivity  extends BaseGameActivity {
 			final TextureRegion racetrackVerticalStraightTextureRegion = this.mRacetrackStraightTextureRegion;
 
 			/* Top Straight */
-			racetrackEntity.addChild(new Sprite(RACETRACK_WIDTH, 0, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
+			racetrackEntity.attachChild(new Sprite(RACETRACK_WIDTH, 0, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
 			/* Bottom Straight */
-			racetrackEntity.addChild(new Sprite(RACETRACK_WIDTH, CAMERA_HEIGHT - RACETRACK_WIDTH, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
+			racetrackEntity.attachChild(new Sprite(RACETRACK_WIDTH, CAMERA_HEIGHT - RACETRACK_WIDTH, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
 
 			/* Left Straight */
 			final Sprite leftVerticalStraight = new Sprite(0, RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackVerticalStraightTextureRegion);
 			leftVerticalStraight.setRotation(90);
-			racetrackEntity.addChild(leftVerticalStraight);
+			racetrackEntity.attachChild(leftVerticalStraight);
 			/* Right Straight */
 			final Sprite rightVerticalStraight = new Sprite(CAMERA_WIDTH - RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackVerticalStraightTextureRegion);
 			rightVerticalStraight.setRotation(90);
-			racetrackEntity.addChild(rightVerticalStraight);
+			racetrackEntity.attachChild(rightVerticalStraight);
 		}
 
 		/* Edges */
@@ -248,21 +248,21 @@ public class RacerGameActivity  extends BaseGameActivity {
 			/* Upper Left */
 			final Sprite upperLeftCurve = new Sprite(0, 0, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
 			upperLeftCurve.setRotation(90);
-			racetrackEntity.addChild(upperLeftCurve);
+			racetrackEntity.attachChild(upperLeftCurve);
 
 			/* Upper Right */
 			final Sprite upperRightCurve = new Sprite(CAMERA_WIDTH - RACETRACK_WIDTH, 0, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
 			upperRightCurve.setRotation(180);
-			racetrackEntity.addChild(upperRightCurve);
+			racetrackEntity.attachChild(upperRightCurve);
 
 			/* Lower Right */
 			final Sprite lowerRightCurve = new Sprite(CAMERA_WIDTH - RACETRACK_WIDTH, CAMERA_HEIGHT - RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
 			lowerRightCurve.setRotation(270);
-			racetrackEntity.addChild(lowerRightCurve);
+			racetrackEntity.attachChild(lowerRightCurve);
 
 			/* Lower Left */
 			final Sprite lowerLeftCurve = new Sprite(0, CAMERA_HEIGHT - RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
-			racetrackEntity.addChild(lowerLeftCurve);
+			racetrackEntity.attachChild(lowerLeftCurve);
 		}
 	}
 
@@ -290,15 +290,15 @@ public class RacerGameActivity  extends BaseGameActivity {
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, rightInner, BodyType.StaticBody, wallFixtureDef);
 
 		final IEntity firstChild = pScene.getChild(LAYER_BORDERS);
-		firstChild.addChild(bottomOuter);
-		firstChild.addChild(topOuter);
-		firstChild.addChild(leftOuter);
-		firstChild.addChild(rightOuter);
+		firstChild.attachChild(bottomOuter);
+		firstChild.attachChild(topOuter);
+		firstChild.attachChild(leftOuter);
+		firstChild.attachChild(rightOuter);
 
-		firstChild.addChild(bottomInner);
-		firstChild.addChild(topInner);
-		firstChild.addChild(leftInner);
-		firstChild.addChild(rightInner);
+		firstChild.attachChild(bottomInner);
+		firstChild.attachChild(topInner);
+		firstChild.attachChild(leftInner);
+		firstChild.attachChild(rightInner);
 	}
 
 	// ===========================================================

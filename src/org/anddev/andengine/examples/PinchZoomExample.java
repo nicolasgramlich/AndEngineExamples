@@ -209,7 +209,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 			}
 		};
 
-		pScene.getLastChild().addChild(sprite);
+		pScene.getLastChild().attachChild(sprite);
 		pScene.registerTouchArea(sprite);
 	}
 

@@ -104,7 +104,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 
 		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
 		face.addEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
-		this.mMainScene.getLastChild().addChild(face);
+		this.mMainScene.getLastChild().attachChild(face);
 
 		return this.mMainScene;
 	}

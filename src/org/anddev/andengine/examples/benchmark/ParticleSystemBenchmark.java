@@ -109,7 +109,7 @@ public class ParticleSystemBenchmark extends BaseBenchmark {
 			particleSystem.addParticleModifier(new ColorModifier(1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 2.5f, 6.5f));
 
-			scene.getLastChild().addChild(particleSystem);
+			scene.getLastChild().attachChild(particleSystem);
 		}
 
 		/* LowerRight to LowerLeft Particle System. */
@@ -127,7 +127,7 @@ public class ParticleSystemBenchmark extends BaseBenchmark {
 			particleSystem.addParticleModifier(new ColorModifier(0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 2.5f, 6.5f));
 
-			scene.getLastChild().addChild(particleSystem);
+			scene.getLastChild().attachChild(particleSystem);
 		}
 
 		/* UpperLeft to UpperRight Particle System. */
@@ -145,7 +145,7 @@ public class ParticleSystemBenchmark extends BaseBenchmark {
 			particleSystem.addParticleModifier(new ColorModifier(0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 2.5f, 5.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 2.5f, 6.5f));
 
-			scene.getLastChild().addChild(particleSystem);
+			scene.getLastChild().attachChild(particleSystem);
 		}
 
 		/* UpperRight to UpperLeft Particle System. */
@@ -163,7 +163,7 @@ public class ParticleSystemBenchmark extends BaseBenchmark {
 			particleSystem.addParticleModifier(new ColorModifier(1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 2.5f, 6.5f));
 
-			scene.getLastChild().addChild(particleSystem);
+			scene.getLastChild().attachChild(particleSystem);
 		}
 
 		return scene;

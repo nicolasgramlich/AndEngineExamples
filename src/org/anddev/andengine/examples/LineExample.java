@@ -78,7 +78,7 @@ public class LineExample extends BaseExample {
 
 			line.setColor(random.nextFloat(), random.nextFloat(), random.nextFloat());
 
-			scene.getLastChild().addChild(line);
+			scene.getLastChild().attachChild(line);
 		}
 
 		return scene;

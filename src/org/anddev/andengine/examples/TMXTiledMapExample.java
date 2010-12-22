@@ -106,7 +106,7 @@ public class TMXTiledMapExample extends BaseExample {
 		}
 
 		final TMXLayer tmxLayer = this.mTMXTiledMap.getTMXLayers().get(0);
-		scene.getFirstChild().addChild(tmxLayer);
+		scene.getFirstChild().attachChild(tmxLayer);
 
 		/* Make the camera not exceed the bounds of the TMXEntity. */
 		this.mBoundChaseCamera.setBounds(0, tmxLayer.getWidth(), 0, tmxLayer.getHeight());
@@ -145,7 +145,7 @@ public class TMXTiledMapExample extends BaseExample {
 		/* Now we are going to create a rectangle that will  always highlight the tile below the feet of the pEntity. */
 		final Rectangle currentTileRectangle = new Rectangle(0, 0, this.mTMXTiledMap.getTileWidth(), this.mTMXTiledMap.getTileHeight());
 		currentTileRectangle.setColor(1, 0, 0, 0.25f);
-		scene.getLastChild().addChild(currentTileRectangle);
+		scene.getLastChild().attachChild(currentTileRectangle);
 
 		scene.registerUpdateHandler(new IUpdateHandler() {
 			@Override
@@ -164,7 +164,7 @@ public class TMXTiledMapExample extends BaseExample {
 				}
 			}
 		});
-		scene.getLastChild().addChild(player);
+		scene.getLastChild().attachChild(player);
 
 		return scene;
 	}

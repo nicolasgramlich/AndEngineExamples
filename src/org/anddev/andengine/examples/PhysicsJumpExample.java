@@ -114,10 +114,10 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getFirstChild().addChild(ground);
-		scene.getFirstChild().addChild(roof);
-		scene.getFirstChild().addChild(left);
-		scene.getFirstChild().addChild(right);
+		scene.getFirstChild().attachChild(ground);
+		scene.getFirstChild().attachChild(roof);
+		scene.getFirstChild().attachChild(left);
+		scene.getFirstChild().attachChild(right);
 
 		scene.registerUpdateHandler(this.mPhysicsWorld);
 
@@ -200,7 +200,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 		face.animate(new long[]{200,200}, 0, 1, true);
 		face.setUpdatePhysics(false);
 		scene.registerTouchArea(face);
-		scene.getLastChild().addChild(face);
+		scene.getLastChild().attachChild(face);
 	}
 
 	private void jumpFace(final AnimatedSprite face) {

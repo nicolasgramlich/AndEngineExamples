@@ -37,7 +37,7 @@ public class Snake extends Entity {
 		super(0, 0);
 		this.mTailPartTextureRegion = pTailPartTextureRegion;
 		this.mHead = new SnakeHead(pCellX, pCellY, pHeadTextureRegion);
-		this.addChild(this.mHead);
+		this.attachChild(this.mHead);
 		this.setDirection(pInitialDirection);
 	}
 
@@ -92,7 +92,7 @@ public class Snake extends Entity {
 			 * simply add a new part in the front of the tail,
 			 * where the head currently is. */
 			final SnakeTailPart newTailPart = new SnakeTailPart(this.mHead, this.mTailPartTextureRegion);
-			this.addChild(newTailPart);
+			this.attachChild(newTailPart);
 			this.mTail.addFirst(newTailPart);
 		} else {
 			if(this.mTail.isEmpty() == false) {

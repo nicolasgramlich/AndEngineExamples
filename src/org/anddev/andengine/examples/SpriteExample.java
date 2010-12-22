@@ -73,7 +73,7 @@ public class SpriteExample extends BaseExample {
 
 		/* Create the face and add it to the scene. */
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		scene.getLastChild().addChild(face);
+		scene.getLastChild().attachChild(face);
 
 		return scene;
 	}

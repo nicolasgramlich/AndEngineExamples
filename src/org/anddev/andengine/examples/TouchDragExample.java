@@ -81,7 +81,7 @@ public class TouchDragExample extends BaseExample {
 			}
 		};
 		face.setScale(4);
-		scene.getLastChild().addChild(face);
+		scene.getLastChild().attachChild(face);
 		scene.registerTouchArea(face);
 		scene.setTouchAreaBindingEnabled(true);
 

@@ -77,7 +77,7 @@ public class PauseExample extends BaseExample {
 		final int x = CAMERA_WIDTH / 2 - this.mPausedTextureRegion.getWidth() / 2;
 		final int y = CAMERA_HEIGHT / 2 - this.mPausedTextureRegion.getHeight() / 2;
 		final Sprite pausedSprite = new Sprite(x, y, this.mPausedTextureRegion);
-		this.mPauseScene.getLastChild().addChild(pausedSprite);
+		this.mPauseScene.getLastChild().attachChild(pausedSprite);
 		/* Makes the paused Game look through. */
 		this.mPauseScene.setBackgroundEnabled(false);
 
@@ -87,7 +87,7 @@ public class PauseExample extends BaseExample {
 
 		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
 		face.addEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
-		this.mMainScene.getLastChild().addChild(face);
+		this.mMainScene.getLastChild().attachChild(face);
 
 		return this.mMainScene;
 	}

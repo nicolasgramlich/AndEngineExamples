@@ -96,7 +96,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
 			face.setBlendFunction(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
 			face.setIgnoreUpdate(true);
-			lastChild.addChild(face);
+			lastChild.attachChild(face);
 		}
 
 		return scene;

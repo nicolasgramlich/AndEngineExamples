@@ -124,10 +124,10 @@ public class CollisionDetectionExample extends BaseExample {
 		final Rectangle centerRectangle = new Rectangle(centerX, centerY, 32, 32);
 		centerRectangle.addEntityModifier(new LoopEntityModifier(new ParallelEntityModifier(new RotationModifier(6, 0, 360), new SequenceEntityModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1)))));
 
-		scene.getLastChild().addChild(centerRectangle);
+		scene.getLastChild().attachChild(centerRectangle);
 
 		final Sprite face = new Sprite(centerX, centerY + 42, this.mFaceTextureRegion);
-		scene.getLastChild().addChild(face);
+		scene.getLastChild().attachChild(face);
 
 		/* Velocity control (left). */
 		final int x1 = 0;
