@@ -185,7 +185,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 	private void addCard(final Scene pScene, final Card pCard, final int pX, final int pY) {
 		final Sprite sprite = new Sprite(pX, pY, this.mCardTotextureRegionMap.get(pCard)) {
 			boolean mGrabbed = false;
-			
+
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				switch(pSceneTouchEvent.getAction()) {

@@ -73,8 +73,6 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 
 			anchorFace.animate(200);
 			anchorFace.animate(200);
-			anchorFace.setUpdatePhysics(false);
-			movingFace.setUpdatePhysics(false);
 
 			pScene.getLastChild().attachChild(anchorFace);
 			pScene.getLastChild().attachChild(movingFace);

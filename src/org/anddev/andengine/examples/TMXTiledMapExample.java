@@ -122,7 +122,7 @@ public class TMXTiledMapExample extends BaseExample {
 
 		final Path path = new Path(5).to(0, 160).to(0, 500).to(600, 500).to(600, 160).to(0, 160);
 
-		player.addEntityModifier(new LoopEntityModifier(new PathModifier(30, path, null, new IPathModifierListener() {
+		player.registerEntityModifier(new LoopEntityModifier(new PathModifier(30, path, null, new IPathModifierListener() {
 			@Override
 			public void onWaypointPassed(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
 				switch(pWaypointIndex) {
@@ -155,7 +155,7 @@ public class TMXTiledMapExample extends BaseExample {
 			public void onUpdate(final float pSecondsElapsed) {
 				/* Get the scene-coordinates of the players feet. */
 				final float[] playerFootCordinates = player.convertLocalToSceneCoordinates(12, 31);
-				
+
 				/* Get the tile the feet of the player are currently waking on. */
 				final TMXTile tmxTile = tmxLayer.getTMXTileAt(playerFootCordinates[Constants.VERTEX_INDEX_X], playerFootCordinates[Constants.VERTEX_INDEX_Y]);
 				if(tmxTile != null) {

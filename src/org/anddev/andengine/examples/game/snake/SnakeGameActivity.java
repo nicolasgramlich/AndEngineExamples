@@ -216,7 +216,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		final Text titleText = new Text(0, 0, this.mFont, "Snake\non a Phone!", HorizontalAlign.CENTER);
 		titleText.setPosition((CAMERA_WIDTH - titleText.getWidth()) * 0.5f, (CAMERA_HEIGHT - titleText.getHeight()) * 0.5f);
 		titleText.setScale(0.0f);
-		titleText.addEntityModifier(new ScaleModifier(2, 0.0f, 1.0f));
+		titleText.registerEntityModifier(new ScaleModifier(2, 0.0f, 1.0f));
 		scene.getChild(LAYER_SCORE).attachChild(titleText);
 
 		/* The handler that removes the title-text and starst the game. */
@@ -232,8 +232,8 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		/* The game-over text. */
 		this.mGameOverText = new Text(0, 0, this.mFont, "Game\nOver", HorizontalAlign.CENTER);
 		this.mGameOverText.setPosition((CAMERA_WIDTH - this.mGameOverText.getWidth()) * 0.5f, (CAMERA_HEIGHT - this.mGameOverText.getHeight()) * 0.5f);
-		this.mGameOverText.addEntityModifier(new ScaleModifier(3, 0.1f, 2.0f));
-		this.mGameOverText.addEntityModifier(new RotationModifier(3, 0, 720));
+		this.mGameOverText.registerEntityModifier(new ScaleModifier(3, 0.1f, 2.0f));
+		this.mGameOverText.registerEntityModifier(new RotationModifier(3, 0, 720));
 
 		return scene;
 	}

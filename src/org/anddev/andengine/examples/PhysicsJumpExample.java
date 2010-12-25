@@ -143,6 +143,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 		return false;
 	}
 
+	@Override
 	public void onLoadComplete() {
 
 	}
@@ -198,7 +199,6 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
 
 		face.animate(new long[]{200,200}, 0, 1, true);
-		face.setUpdatePhysics(false);
 		scene.registerTouchArea(face);
 		scene.getLastChild().attachChild(face);
 	}

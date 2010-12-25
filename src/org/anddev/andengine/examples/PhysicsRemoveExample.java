@@ -137,6 +137,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		return false;
 	}
 
+	@Override
 	public void onLoadComplete() {
 
 	}
@@ -182,7 +183,6 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		}
 
 		face.animate(200, true);
-		face.setUpdatePhysics(false);
 
 		scene.registerTouchArea(face);
 		scene.getLastChild().attachChild(face);

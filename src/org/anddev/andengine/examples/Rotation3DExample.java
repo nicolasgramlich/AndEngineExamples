@@ -83,7 +83,7 @@ public class Rotation3DExample extends BaseExample {
 			protected void applyRotation(final GL10 pGL) {
 				/* Disable culling so we can see the backside of this sprite. */
 				GLHelper.disableCulling(pGL);
-				
+
 				final float rotation = this.mRotation;
 
 				if(rotation != 0) {
@@ -105,7 +105,7 @@ public class Rotation3DExample extends BaseExample {
 				GLHelper.enableCulling(pGL);
 			}
 		};
-		face.addEntityModifier(new LoopEntityModifier(new RotationModifier(6, 0, 360)));
+		face.registerEntityModifier(new LoopEntityModifier(new RotationModifier(6, 0, 360)));
 		scene.getLastChild().attachChild(face);
 
 		return scene;

@@ -87,7 +87,7 @@ public class RepeatingSpriteBackgroundExample extends BaseExample {
 
 		final Path path = new Path(5).to(10, 10).to(10, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, 10).to(10, 10);
 
-		player.addEntityModifier(new LoopEntityModifier(new PathModifier(30, path, null, new IPathModifierListener() {
+		player.registerEntityModifier(new LoopEntityModifier(new PathModifier(30, path, null, new IPathModifierListener() {
 			@Override
 			public void onWaypointPassed(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
 				switch(pWaypointIndex) {

@@ -184,7 +184,6 @@ public class RacerGameActivity  extends BaseGameActivity {
 
 	private void initCar(final Scene pScene) {
 		this.mCar = new TiledSprite(20, 20, CAR_SIZE, CAR_SIZE, this.mVehiclesTextureRegion);
-		this.mCar.setUpdatePhysics(false);
 		this.mCar.setCurrentTileIndex(0);
 		
 		final FixtureDef carFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
@@ -204,7 +203,6 @@ public class RacerGameActivity  extends BaseGameActivity {
 
 	private void addObstacle(final Scene pScene, final float pX, final float pY) {
 		final Sprite box = new Sprite(pX, pY, OBSTACLE_SIZE, OBSTACLE_SIZE, this.mBoxTextureRegion);
-		box.setUpdatePhysics(false);
 		
 		final FixtureDef boxFixtureDef = PhysicsFactory.createFixtureDef(0.1f, 0.5f, 0.5f);
 		final Body boxBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, box, BodyType.DynamicBody, boxFixtureDef);

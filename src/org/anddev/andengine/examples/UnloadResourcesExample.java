@@ -79,10 +79,10 @@ public class UnloadResourcesExample extends BaseExample {
 				BufferObjectManager.getActiveInstance().unloadBufferObject(this.getVertexBuffer());
 				BufferObjectManager.getActiveInstance().unloadBufferObject(UnloadResourcesExample.this.mClickToUnloadTextureRegion.getTextureBuffer());
 				UnloadResourcesExample.this.mEngine.getTextureManager().unloadTexture(UnloadResourcesExample.this.mTexture);
-				
+
 				/* And remove the sprite from the Scene. */
 				final Sprite thisRef = this;
-				runOnUiThread(new Runnable() {
+				UnloadResourcesExample.this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						scene.getLastChild().detachChild(thisRef);

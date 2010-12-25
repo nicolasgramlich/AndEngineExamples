@@ -67,7 +67,7 @@ public class RectangleExample extends BaseExample {
 
 		final Scene scene = new Scene(2);
 		scene.setBackground(new ColorBackground(0, 0, 0));
-		
+
 		/* Create three lines that will form an arrow pointing to the eye. */
 		final Line arrowLineMain = new Line(0, 0, 0, 0, 3);
 		final Line arrowLineWingLeft = new Line(0, 0, 0, 0, 3);
@@ -82,10 +82,10 @@ public class RectangleExample extends BaseExample {
 		scene.getLastChild().attachChild(arrowLineWingRight);
 
 		/* Create thr rectangles. */
-		final Rectangle rect1 = makeColoredRectangle(-180, -180, 1, 0, 0);
-		final Rectangle rect2 = makeColoredRectangle(0, -180, 0, 1, 0);
-		final Rectangle rect3 = makeColoredRectangle(0, 0, 0, 0, 1);
-		
+		final Rectangle rect1 = this.makeColoredRectangle(-180, -180, 1, 0, 0);
+		final Rectangle rect2 = this.makeColoredRectangle(0, -180, 0, 1, 0);
+		final Rectangle rect3 = this.makeColoredRectangle(0, 0, 0, 0, 1);
+
 		final Rectangle rect4 = new Rectangle(-180, 0, 180, 180);
 		rect4.setColor(1, 1, 0);
 
@@ -103,26 +103,26 @@ public class RectangleExample extends BaseExample {
 				arrowLineWingRight.setPosition(upperLeftX, upperLeftY, upperLeftX + 10, upperLeftY - 10);
 			}
 		};
-		subRectangle.addEntityModifier(new LoopEntityModifier(new RotationModifier(5, 0, 360)));
-		
+		subRectangle.registerEntityModifier(new LoopEntityModifier(new RotationModifier(5, 0, 360)));
+
 		rect4.attachChild(subRectangle);
-		
-		
-		
+
+
+
 		final Entity rectangleGroup = new Entity(CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2);
-		rectangleGroup.addEntityModifier(new LoopEntityModifier(new ParallelEntityModifier(
+		rectangleGroup.registerEntityModifier(new LoopEntityModifier(new ParallelEntityModifier(
 				new SequenceEntityModifier(
-					new ScaleModifier(10, 1, 0.5f), 
-					new ScaleModifier(10, 0.5f, 1)
+						new ScaleModifier(10, 1, 0.5f),
+						new ScaleModifier(10, 0.5f, 1)
 				),
 				new RotationModifier(20, 0, 360))
-			));
+		));
 
 		rectangleGroup.attachChild(rect1);
 		rectangleGroup.attachChild(rect2);
 		rectangleGroup.attachChild(rect3);
 		rectangleGroup.attachChild(rect4);
-		
+
 		scene.getFirstChild().attachChild(rectangleGroup);
 
 		return scene;
@@ -131,12 +131,12 @@ public class RectangleExample extends BaseExample {
 	private Rectangle makeColoredRectangle(final float pX, final float pY, final float pRed, final float pGreen, final float pBlue) {
 		final Rectangle coloredRect = new Rectangle(pX, pY, 180, 180);
 		coloredRect.setColor(pRed, pGreen, pBlue);
-		
+
 		final Rectangle subRectangle = new Rectangle(45, 45, 90, 90);
-		subRectangle.addEntityModifier(new LoopEntityModifier(new RotationModifier(3, 0, 360)));
+		subRectangle.registerEntityModifier(new LoopEntityModifier(new RotationModifier(3, 0, 360)));
 
 		coloredRect.attachChild(subRectangle);
-		
+
 		return coloredRect;
 	}
 

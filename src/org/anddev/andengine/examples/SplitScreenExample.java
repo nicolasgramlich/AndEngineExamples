@@ -119,6 +119,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		return scene;
 	}
 
+	@Override
 	public void onLoadComplete() {
 
 	}

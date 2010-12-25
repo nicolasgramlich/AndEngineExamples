@@ -9,14 +9,14 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.particle.ParticleSystem;
 import org.anddev.andengine.entity.particle.emitter.CircleOutlineParticleEmitter;
-import org.anddev.andengine.entity.particle.modifier.AlphaInitializer;
+import org.anddev.andengine.entity.particle.initializer.AlphaInitializer;
+import org.anddev.andengine.entity.particle.initializer.ColorInitializer;
+import org.anddev.andengine.entity.particle.initializer.RotationInitializer;
+import org.anddev.andengine.entity.particle.initializer.VelocityInitializer;
 import org.anddev.andengine.entity.particle.modifier.AlphaModifier;
-import org.anddev.andengine.entity.particle.modifier.ColorInitializer;
 import org.anddev.andengine.entity.particle.modifier.ColorModifier;
 import org.anddev.andengine.entity.particle.modifier.ExpireModifier;
-import org.anddev.andengine.entity.particle.modifier.RotationInitializer;
 import org.anddev.andengine.entity.particle.modifier.ScaleModifier;
-import org.anddev.andengine.entity.particle.modifier.VelocityInitializer;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -60,7 +60,7 @@ public class XMLLayoutExample extends LayoutGameActivity {
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
+
 	@Override
 	protected int getLayoutID() {
 		return R.layout.xmllayoutexample;
@@ -95,10 +95,10 @@ public class XMLLayoutExample extends LayoutGameActivity {
 
 		final CircleOutlineParticleEmitter particleEmitter = new CircleOutlineParticleEmitter(CAMERA_WIDTH * 0.5f, CAMERA_HEIGHT * 0.5f + 20, 80);
 		final ParticleSystem particleSystem = new ParticleSystem(particleEmitter, 60, 60, 360, this.mParticleTextureRegion);
-		
+
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
-			public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 				particleEmitter.setCenter(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;
 			}

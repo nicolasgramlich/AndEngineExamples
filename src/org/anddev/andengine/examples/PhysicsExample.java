@@ -130,6 +130,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 		return scene;
 	}
 
+	@Override
 	public void onLoadComplete() {
 
 	}
@@ -183,7 +184,6 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 		}
 
 		face.animate(200);
-		face.setUpdatePhysics(false);
 
 		scene.getLastChild().attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));

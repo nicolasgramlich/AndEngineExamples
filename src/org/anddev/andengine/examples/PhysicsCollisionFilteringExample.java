@@ -43,7 +43,7 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
-	
+
 	/* The categories. */
 	public static final short CATEGORYBIT_WALL = 1;
 	public static final short CATEGORYBIT_BOX = 2;
@@ -135,6 +135,7 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 		return scene;
 	}
 
+	@Override
 	public void onLoadComplete() {
 
 	}
@@ -172,7 +173,7 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 
 		final AnimatedSprite face;
 		final Body body;
-		
+
 		if(this.mFaceCount % 2 == 0) {
 			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
 			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, BOX_FIXTURE_DEF);
@@ -182,7 +183,6 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 		}
 
 		face.animate(200);
-		face.setUpdatePhysics(false);
 
 		scene.getLastChild().attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));

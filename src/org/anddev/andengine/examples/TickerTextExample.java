@@ -81,7 +81,7 @@ public class TickerTextExample extends BaseExample {
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final Text text = new TickerText(30, 60, this.mFont, "There are also ticker texts!\n\nYou'll see the answer to life & universe in...\n\n5 4 3 2 1...\n\n42\n\nIndeed very funny!", HorizontalAlign.CENTER, 10);
-		text.addEntityModifier(
+		text.registerEntityModifier(
 				new SequenceEntityModifier(
 						new ParallelEntityModifier(
 								new AlphaModifier(10, 0.0f, 1.0f),

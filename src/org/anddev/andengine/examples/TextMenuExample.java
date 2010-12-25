@@ -103,7 +103,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 		this.mMainScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
-		face.addEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
+		face.registerEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
 		this.mMainScene.getLastChild().attachChild(face);
 
 		return this.mMainScene;
@@ -160,11 +160,11 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 		final IMenuItem resetMenuItem = new ColorMenuItemDecorator(new TextMenuItem(MENU_RESET, this.mFont, "RESET"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		resetMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(resetMenuItem);
-		
+
 		final IMenuItem quitMenuItem = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, this.mFont, "QUIT"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
 		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(quitMenuItem);
-		
+
 		menuScene.buildAnimations();
 
 		menuScene.setBackgroundEnabled(false);

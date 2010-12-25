@@ -120,6 +120,7 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 		return scene;
 	}
 
+	@Override
 	public void onLoadComplete() {
 
 	}
@@ -169,7 +170,6 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 		}
 
 		face.animate(200);
-		face.setUpdatePhysics(false);
 
 		scene.getLastChild().attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));

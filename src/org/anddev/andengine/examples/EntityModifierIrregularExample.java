@@ -113,8 +113,8 @@ public class EntityModifierIrregularExample extends BaseExample {
 				)
 		);
 
-		face1.addEntityModifier(EntityModifier);
-		face2.addEntityModifier(EntityModifier.clone());
+		face1.registerEntityModifier(EntityModifier);
+		face2.registerEntityModifier(EntityModifier.clone());
 
 		scene.getLastChild().attachChild(face1);
 		scene.getLastChild().attachChild(face2);

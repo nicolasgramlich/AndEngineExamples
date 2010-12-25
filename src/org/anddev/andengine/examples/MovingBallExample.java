@@ -2,6 +2,7 @@ package org.anddev.andengine.examples;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.engine.handler.physics.PhysicsHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -73,7 +74,9 @@ public class MovingBallExample extends BaseExample {
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		final Ball ball = new Ball(centerX, centerY, this.mFaceTextureRegion);
-		ball.setVelocity(DEMO_VELOCITY, DEMO_VELOCITY);
+		final PhysicsHandler physicsHandler = new PhysicsHandler(ball);
+		ball.registerUpdateHandler(physicsHandler);
+		physicsHandler.setVelocity(DEMO_VELOCITY, DEMO_VELOCITY);
 
 		scene.getLastChild().attachChild(ball);
 
@@ -94,22 +97,26 @@ public class MovingBallExample extends BaseExample {
 	// ===========================================================
 
 	private static class Ball extends AnimatedSprite {
+		private final PhysicsHandler mPhysicsHandler;
+
 		public Ball(final float pX, final float pY, final TiledTextureRegion pTextureRegion) {
 			super(pX, pY, pTextureRegion);
+			this.mPhysicsHandler = new PhysicsHandler(this);
+			this.registerUpdateHandler(this.mPhysicsHandler);
 		}
 
 		@Override
 		protected void onManagedUpdate(final float pSecondsElapsed) {
 			if(this.mX < 0) {
-				this.setVelocityX(DEMO_VELOCITY);
+				this.mPhysicsHandler.setVelocityX(DEMO_VELOCITY);
 			} else if(this.mX + this.getWidth() > CAMERA_WIDTH) {
-				this.setVelocityX(-DEMO_VELOCITY);
+				this.mPhysicsHandler.setVelocityX(-DEMO_VELOCITY);
 			}
 
 			if(this.mY < 0) {
-				this.setVelocityY(DEMO_VELOCITY);
+				this.mPhysicsHandler.setVelocityY(DEMO_VELOCITY);
 			} else if(this.mY + this.getHeight() > CAMERA_HEIGHT) {
-				this.setVelocityY(-DEMO_VELOCITY);
+				this.mPhysicsHandler.setVelocityY(-DEMO_VELOCITY);
 			}
 
 			super.onManagedUpdate(pSecondsElapsed);

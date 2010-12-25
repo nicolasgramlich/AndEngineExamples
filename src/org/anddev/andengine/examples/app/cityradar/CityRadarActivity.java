@@ -202,7 +202,7 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 		final Sprite radarSprite = new Sprite(CityRadarActivity.CAMERA_WIDTH / 2 - this.mRadarTextureRegion.getWidth(), CityRadarActivity.CAMERA_HEIGHT / 2 - this.mRadarTextureRegion.getHeight(), this.mRadarTextureRegion);
 		radarSprite.setColor(0, 1f, 0, 1f);
 		radarSprite.setRotationCenter(radarSprite.getWidth(), radarSprite.getHeight());
-		radarSprite.addEntityModifier(new LoopEntityModifier(new RotationModifier(3, 0, 360, EaseLinear.getInstance())));
+		radarSprite.registerEntityModifier(new LoopEntityModifier(new RotationModifier(3, 0, 360, EaseLinear.getInstance())));
 		pEntity.attachChild(radarSprite);
 
 		/* Title. */

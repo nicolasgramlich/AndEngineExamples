@@ -120,8 +120,8 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 
 			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, sharedVertexBuffer);
 
-			face.addEntityModifier(EntityModifier.clone());
-			rect.addEntityModifier(EntityModifier.clone());
+			face.registerEntityModifier(EntityModifier.clone());
+			rect.registerEntityModifier(EntityModifier.clone());
 
 			scene.getLastChild().attachChild(face);
 			scene.getLastChild().attachChild(rect);

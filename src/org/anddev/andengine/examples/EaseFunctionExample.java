@@ -283,10 +283,10 @@ public class EaseFunctionExample extends BaseExample {
 					easeFunctionNameTexts[i].setText(currentEaseFunctionsSet[i].getClass().getSimpleName());
 					final Sprite face = faces[i];
 					face.clearEntityModifiers();
-					
+
 					final float y = face.getY();
 					face.setPosition(0, y);
-					face.addEntityModifier(new MoveModifier(3, 0, CAMERA_WIDTH - face.getWidth(), y, y, currentEaseFunctionsSet[i]));
+					face.registerEntityModifier(new MoveModifier(3, 0, CAMERA_WIDTH - face.getWidth(), y, y, currentEaseFunctionsSet[i]));
 				}
 			}
 		});

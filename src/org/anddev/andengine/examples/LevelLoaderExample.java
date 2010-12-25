@@ -42,7 +42,7 @@ public class LevelLoaderExample extends BaseExample {
 	private static final String TAG_ENTITY_ATTRIBUTE_WIDTH = "width";
 	private static final String TAG_ENTITY_ATTRIBUTE_HEIGHT = "height";
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE = "type";
-	
+
 	private static final Object TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_BOX = "box";
 	private static final Object TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_CIRCLE = "circle";
 	private static final Object TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_TRIANGLE = "triangle";
@@ -134,6 +134,7 @@ public class LevelLoaderExample extends BaseExample {
 		return scene;
 	}
 
+	@Override
 	public void onLoadComplete() {
 
 	}
