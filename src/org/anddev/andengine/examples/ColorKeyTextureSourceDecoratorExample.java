@@ -14,8 +14,8 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.source.AssetTextureSource;
-import org.anddev.andengine.opengl.texture.source.decorator.BaseShapeTextureSourceDecorator.TextureSourceDecoratorShape;
 import org.anddev.andengine.opengl.texture.source.decorator.ColorKeyTextureSourceDecorator;
+import org.anddev.andengine.opengl.texture.source.decorator.shape.RectangleTextureSourceDecoratorShape;
 
 import android.graphics.Color;
 
@@ -73,7 +73,7 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 		 * by nesting two ColorKeyTextureSourceDecorators around the actual baseTextureSource. */
 		final int colorKeyRed = Color.rgb(255, 0, 51); // Red segment
 		final int colorKeyGreen = Color.rgb(0, 179, 0); // Green segment
-		final ColorKeyTextureSourceDecorator colorKeyedTextureSource = new ColorKeyTextureSourceDecorator(new ColorKeyTextureSourceDecorator(baseTextureSource, TextureSourceDecoratorShape.RECTANGLE, colorKeyRed), TextureSourceDecoratorShape.RECTANGLE, colorKeyGreen);
+		final ColorKeyTextureSourceDecorator colorKeyedTextureSource = new ColorKeyTextureSourceDecorator(new ColorKeyTextureSourceDecorator(baseTextureSource, RectangleTextureSourceDecoratorShape.getDefaultInstance(), colorKeyRed), RectangleTextureSourceDecoratorShape.getDefaultInstance(), colorKeyGreen);
 
 		this.mChromaticCircleColorKeyedTextureRegion = TextureRegionFactory.createFromSource(this.mTexture, colorKeyedTextureSource, 128, 0);
 
