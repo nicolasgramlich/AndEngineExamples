@@ -196,7 +196,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 		}
 
-		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 
 		face.animate(new long[]{200,200}, 0, 1, true);
 		scene.registerTouchArea(face);

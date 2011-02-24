@@ -160,7 +160,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		final Body body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 
 		scene.getLastChild().attachChild(face);
-		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 
 		if(this.mFaceCount == 0){
 			this.mChaseCamera.setChaseEntity(face);

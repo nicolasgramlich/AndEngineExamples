@@ -189,7 +189,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		final FixtureDef carFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 		this.mCarBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, this.mCar, BodyType.DynamicBody, carFixtureDef);
 		
-		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(this.mCar, this.mCarBody, true, false, true, false));
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(this.mCar, this.mCarBody, true, false));
 
 		pScene.getChild(LAYER_CARS).attachChild(this.mCar);
 	}
@@ -209,7 +209,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		boxBody.setLinearDamping(10);
 		boxBody.setAngularDamping(10);
 		
-		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(box, boxBody, true, true, false, false));
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(box, boxBody, true, true));
 
 		pScene.getChild(LAYER_OBSTACLES).attachChild(box);
 	}

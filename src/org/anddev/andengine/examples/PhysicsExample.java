@@ -186,7 +186,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 		face.animate(200);
 
 		scene.getLastChild().attachChild(face);
-		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}
 
 	/**

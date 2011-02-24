@@ -181,7 +181,7 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 		}
 		
 		pScene.getLastChild().attachChild(face);
-		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}
 
 	// ===========================================================

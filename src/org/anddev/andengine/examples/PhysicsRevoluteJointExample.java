@@ -79,7 +79,7 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 
 			final Line connectionLine = new Line(anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2, anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2);
 			pScene.getFirstChild().attachChild(connectionLine);
-			this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(anchorFace, anchorBody, true, true, false, false){
+			this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(anchorFace, anchorBody, true, true){
 				@Override
 				public void onUpdate(final float pSecondsElapsed) {
 					super.onUpdate(pSecondsElapsed);
@@ -87,7 +87,7 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 					connectionLine.setPosition(connectionLine.getX1(), connectionLine.getY1(), movingBodyWorldCenter.x * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT, movingBodyWorldCenter.y * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT);
 				}
 			});
-			this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(movingFace, movingBody, true, true, false, false));
+			this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(movingFace, movingBody, true, true));
 
 
 			final RevoluteJointDef revoluteJointDef = new RevoluteJointDef();

@@ -186,7 +186,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 		scene.registerTouchArea(face);
 		scene.getLastChild().attachChild(face);
-		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true, false, false));
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}
 
 	private void removeFace(final AnimatedSprite face) {
