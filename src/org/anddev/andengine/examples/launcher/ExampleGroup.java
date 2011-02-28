@@ -33,7 +33,7 @@ public enum ExampleGroup {
 	BACKGROUND(R.string.examplegroup_background, 
 			Example.REPEATINGSPRITEBACKGROUND, Example.AUTOPARALLAXBACKGROUND, Example.TMXTILEDMAP),
 	OTHER(R.string.examplegroup_other, 
-			Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTMENU, Example.ZOOM , Example.IMAGEFORMATS, Example.TEXTUREOPTIONS, Example.COLORKEYTEXTURESOURCEDECORATOR, Example.LOADTEXTURE, Example.UPDATETEXTURE, Example.XMLLAYOUT, Example.LEVELLOADER),
+			Example.SCREENCAPTURE, Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTMENU, Example.ZOOM , Example.IMAGEFORMATS, Example.TEXTUREOPTIONS, Example.COLORKEYTEXTURESOURCEDECORATOR, Example.LOADTEXTURE, Example.UPDATETEXTURE, Example.XMLLAYOUT, Example.LEVELLOADER),
 	APP(R.string.examplegroup_app, 
 			Example.APP_CITYRADAR),
 	GAME(R.string.examplegroup_game, 
