@@ -57,6 +57,8 @@ public class MultiplayerExample extends BaseExample {
 	// Constants
 	// ===========================================================
 
+	private static final String LOCALHOST_IP = "127.0.0.1";
+
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 
@@ -83,7 +85,7 @@ public class MultiplayerExample extends BaseExample {
 
 	private ServerConnection mServerConnection;
 
-	private String mServerIP = "127.0.0.1";
+	private String mServerIP = LOCALHOST_IP;
 
 	private final SparseArray<Sprite> mFaces = new SparseArray<Sprite>();
 
@@ -289,8 +291,8 @@ public class MultiplayerExample extends BaseExample {
 					},
 					new BaseClientMessageSwitch() {
 						@Override
-						public void doSwitch(final ClientConnection pClientConnection, final BaseClientMessage pClientMessage) throws IOException {
-							super.doSwitch(pClientConnection, pClientMessage);
+						public void switchMessage(final ClientConnection pClientConnection, final BaseClientMessage pClientMessage) throws IOException {
+							super.switchMessage(pClientConnection, pClientMessage);
 							MultiplayerExample.this.log("SERVER: ClientMessage received: " + pClientMessage.toString());
 						}
 					}
@@ -319,7 +321,7 @@ public class MultiplayerExample extends BaseExample {
 				},
 				new BaseServerMessageSwitch() {
 					@Override
-					public void doSwitch(final ServerConnection pServerConnection, final BaseServerMessage pServerMessage) throws IOException {
+					public void switchMessage(final ServerConnection pServerConnection, final BaseServerMessage pServerMessage) throws IOException {
 						switch(pServerMessage.getFlag()) {
 							case FLAG_MESSAGE_SERVER_ADD_FACE:
 								final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
@@ -330,7 +332,7 @@ public class MultiplayerExample extends BaseExample {
 								MultiplayerExample.this.moveFace(moveFaceServerMessage.mID, moveFaceServerMessage.mX, moveFaceServerMessage.mY);
 								break;
 							default:
-								super.doSwitch(pServerConnection, pServerMessage);
+								super.switchMessage(pServerConnection, pServerMessage);
 								MultiplayerExample.this.log("CLIENT: ServerMessage received: " + pServerMessage.toString());
 						}
 					}

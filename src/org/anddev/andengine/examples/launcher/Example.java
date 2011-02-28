@@ -67,6 +67,7 @@ import org.anddev.andengine.examples.benchmark.ParticleSystemBenchmark;
 import org.anddev.andengine.examples.benchmark.PhysicsBenchmark;
 import org.anddev.andengine.examples.benchmark.SpriteBenchmark;
 import org.anddev.andengine.examples.benchmark.TickerTextBenchmark;
+import org.anddev.andengine.examples.game.pong.PongGameActivity;
 import org.anddev.andengine.examples.game.racer.RacerGameActivity;
 import org.anddev.andengine.examples.game.snake.SnakeGameActivity;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
@@ -149,6 +150,7 @@ enum Example {
 
 	APP_CITYRADAR(CityRadarActivity.class, R.string.example_app_cityradar),
 
+	GAME_PONG(PongGameActivity.class, R.string.example_game_pong),
 	GAME_SNAKE(SnakeGameActivity.class, R.string.example_game_snake),
 	GAME_RACER(RacerGameActivity.class, R.string.example_game_racer);
 	
