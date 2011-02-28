@@ -18,6 +18,7 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
+import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -63,8 +64,6 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 
 	private int mFaceCount;
 
-	private final Vector2 mTempVector = new Vector2();
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -82,7 +81,9 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		Toast.makeText(this, "Touch the screen to add boxes.", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mBoundChaseCamera = new BoundCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, 0, CAMERA_WIDTH, 0, CAMERA_HEIGHT);
-		return new SingleSceneSplitScreenEngine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera), this.mBoundChaseCamera);
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera);
+		engineOptions.getTouchOptions().setRunOnUpdateThread(true);
+		return new SingleSceneSplitScreenEngine(engineOptions, this.mBoundChaseCamera);
 	}
 
 	@Override
@@ -130,7 +131,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		final TiledSprite toggleButton = new TiledSprite(CAMERA_WIDTH / 2 - this.mToggleButtonTextureRegion.getTileWidth(), CAMERA_HEIGHT / 2 - this.mToggleButtonTextureRegion.getTileHeight(), this.mToggleButtonTextureRegion){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.isActionDown()) {
 					final boolean boundsEnabled = BoundCameraExample.this.mBoundChaseCamera.isBoundsEnabled();
 					if(boundsEnabled) {
 						BoundCameraExample.this.mBoundChaseCamera.setBoundsEnabled(false);
@@ -161,13 +162,8 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsWorld != null) {
-			if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-				this.runOnUpdateThread(new Runnable() {
-					@Override
-					public void run() {
-						BoundCameraExample.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-					}
-				});
+			if(pSceneTouchEvent.isActionDown()) {
+				this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;
 			}
 		}
@@ -176,9 +172,9 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 
 	@Override
 	public void onAccelerometerChanged(final AccelerometerData pAccelerometerData) {
-		this.mTempVector.set(pAccelerometerData.getY(), pAccelerometerData.getX());
-
-		this.mPhysicsWorld.setGravity(this.mTempVector);
+		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getY(), pAccelerometerData.getX());
+		this.mPhysicsWorld.setGravity(gravity);
+		Vector2Pool.recycle(gravity);
 	}
 
 	// ===========================================================

@@ -94,7 +94,10 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		/* Removing entities can only be done safely on the UpdateThread.
 		 * Doing it while updating/drawing can
-		 * cause an exception with a suddenly missing entity. */
+		 * cause an exception with a suddenly missing entity.
+		 * Alternatively, there is a possibility to run the TouchEvents on the UpdateThread by default, by doing:
+		 * engineOptions.getTouchOptions().setRunOnUpdateThread(true);
+		 * when creating the Engine in onLoadEngine(); */
 		this.runOnUpdateThread(new Runnable() {
 			@Override
 			public void run() {

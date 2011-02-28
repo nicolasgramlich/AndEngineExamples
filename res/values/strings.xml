@@ -70,6 +70,7 @@
 	<string name="example_physicscollisionfiltering">Filtering Collisions</string>
 	<string name="example_physics">Using Physics</string>
 	<string name="example_physicsfixedstep">Using FixedStepPhysics</string>
+	<string name="example_physicsmousejoint">Using a MouseJoint</string>
 	<string name="example_physicsrevolutejoint">Using a RevoluteJoint</string>
 	<string name="example_physicsjump">Combining Physics and Touch</string>
 	<string name="example_physicsremove">Removing a Physics Object</string>

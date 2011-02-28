@@ -193,7 +193,7 @@ public class MultiplayerExample extends BaseExample {
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
 			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.isActionDown()) {
 					if(MultiplayerExample.this.mServer != null) {
 						try {
 							MultiplayerExample.this.mServer.sendBroadcastServerMessage(new AddFaceServerMessage(pSceneTouchEvent.getX(), pSceneTouchEvent.getY()));

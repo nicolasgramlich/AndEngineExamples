@@ -17,6 +17,7 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
+import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -61,8 +62,6 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 	private float mGravityX;
 	private float mGravityY;
 
-	private final Vector2 mTempVector = new Vector2();
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -79,7 +78,9 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 	public Engine onLoadEngine() {
 		Toast.makeText(this, "Touch the screen to add objects. Touch an object to shoot it up into the air.", Toast.LENGTH_LONG).show();
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera));
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		engineOptions.getTouchOptions().setRunOnUpdateThread(true);
+		return new Engine(engineOptions);
 	}
 
 	@Override
@@ -128,15 +129,9 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 
 	@Override
 	public boolean onAreaTouched( final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea,final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-		if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-			this.mPhysicsWorld.postRunnable(new Runnable() {
-				@Override
-				public void run() {
-					final AnimatedSprite face = (AnimatedSprite)pTouchArea;
-
-					PhysicsJumpExample.this.jumpFace(face);
-				}
-			});
+		if(pSceneTouchEvent.isActionDown()) {
+			final AnimatedSprite face = (AnimatedSprite) pTouchArea;
+			this.jumpFace(face);
 			return true;
 		}
 
@@ -151,13 +146,8 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsWorld != null) {
-			if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-				this.runOnUpdateThread(new Runnable() {
-					@Override
-					public void run() {
-						PhysicsJumpExample.this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-					}
-				});
+			if(pSceneTouchEvent.isActionDown()) {
+				this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;
 			}
 		}
@@ -169,9 +159,9 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 		this.mGravityX = pAccelerometerData.getY();
 		this.mGravityY = pAccelerometerData.getX();
 
-		this.mTempVector.set(this.mGravityX, this.mGravityY);
-
-		this.mPhysicsWorld.setGravity(this.mTempVector);
+		final Vector2 gravity = Vector2Pool.obtain(this.mGravityX, this.mGravityY);
+		this.mPhysicsWorld.setGravity(gravity);
+		Vector2Pool.recycle(gravity);
 	}
 
 	// ===========================================================
@@ -206,7 +196,9 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 	private void jumpFace(final AnimatedSprite face) {
 		final Body faceBody = this.mPhysicsWorld.getPhysicsConnectorManager().findBodyByShape(face);
 
-		faceBody.setLinearVelocity(this.mTempVector.set(this.mGravityX * -50, this.mGravityY * -50));
+		final Vector2 velocity = Vector2Pool.obtain(this.mGravityX * -50, this.mGravityY * -50);
+		faceBody.setLinearVelocity(velocity);
+		Vector2Pool.recycle(velocity);
 	}
 
 	// ===========================================================

@@ -72,7 +72,7 @@ public class LoadTextureExample extends BaseExample {
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
 			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.isActionDown()) {
 					LoadTextureExample.this.loadNewTexture();
 				}
 

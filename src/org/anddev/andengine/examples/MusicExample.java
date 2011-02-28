@@ -98,7 +98,7 @@ public class MusicExample extends BaseExample {
 		scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.isActionDown()) {
 					if(MusicExample.this.mMusic.isPlaying()) {
 						MusicExample.this.mMusic.pause();
 					} else {

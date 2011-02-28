@@ -16,6 +16,7 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
+import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
@@ -139,7 +140,9 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 				scene.registerUpdateHandler(new TimerHandler(10, new ITimerCallback() {
 					@Override
 					public void onTimePassed(TimerHandler pTimerHandler) {
-						PhysicsBenchmark.this.mPhysicsWorld.setGravity(new Vector2(0, -SensorManager.GRAVITY_EARTH / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT));
+						final Vector2 gravity = Vector2Pool.obtain(0, -SensorManager.GRAVITY_EARTH / 32);
+						PhysicsBenchmark.this.mPhysicsWorld.setGravity(gravity);
+						Vector2Pool.recycle(gravity);
 					}
 				}));
 			}
@@ -151,7 +154,7 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsWorld != null) {
-			if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+			if(pSceneTouchEvent.isActionDown()) {
 				this.addFace(pScene, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;
 			}

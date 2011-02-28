@@ -166,7 +166,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 			if(this.mPinchZoomDetector.isZooming()) {
 				this.mScrollDetector.setEnabled(false);
 			} else {
-				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.isActionDown()) {
 					this.mScrollDetector.setEnabled(true);
 				}
 				this.mScrollDetector.onTouchEvent(pSceneTouchEvent);

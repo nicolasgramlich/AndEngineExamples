@@ -198,7 +198,7 @@ public class EaseFunctionExample extends BaseExample {
 		final Sprite nextSprite = new Sprite(CAMERA_WIDTH - 100 - this.mNextTextureRegion.getWidth(), 0, this.mNextTextureRegion){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.isActionDown()) {
 					EaseFunctionExample.this.next();
 				}
 				return true;
@@ -207,7 +207,7 @@ public class EaseFunctionExample extends BaseExample {
 		final Sprite previousSprite = new Sprite(100, 0, this.mNextTextureRegion.clone()){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.isActionDown()) {
 					EaseFunctionExample.this.previous();
 				}
 				return true;

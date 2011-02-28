@@ -35,6 +35,7 @@ import org.anddev.andengine.examples.PhysicsCollisionFilteringExample;
 import org.anddev.andengine.examples.PhysicsExample;
 import org.anddev.andengine.examples.PhysicsFixedStepExample;
 import org.anddev.andengine.examples.PhysicsJumpExample;
+import org.anddev.andengine.examples.PhysicsMouseJointExample;
 import org.anddev.andengine.examples.PhysicsRemoveExample;
 import org.anddev.andengine.examples.PhysicsRevoluteJointExample;
 import org.anddev.andengine.examples.PinchZoomExample;
@@ -107,9 +108,10 @@ enum Example {
 	PARTICLESYSTEMNEXUS(ParticleSystemNexusExample.class, R.string.example_particlesystemnexus),
 	PARTICLESYSTEMCOOL(ParticleSystemCoolExample.class, R.string.example_particlesystemcool),
 	PARTICLESYSTEMSIMPLE(ParticleSystemSimpleExample.class, R.string.example_particlesystemsimple),
-	PHYSICSCONLLISIONFILTERING(PhysicsCollisionFilteringExample.class, R.string.example_physicscollisionfiltering),
+	PHYSICSCOLLISIONFILTERING(PhysicsCollisionFilteringExample.class, R.string.example_physicscollisionfiltering),
 	PHYSICS(PhysicsExample.class, R.string.example_physics),
 	PHYSICSFIXEDSTEP(PhysicsFixedStepExample.class, R.string.example_physicsfixedstep),
+	PHYSICSMOUSEJOINT(PhysicsMouseJointExample.class, R.string.example_physicsmousejoint),
 	PHYSICSJUMP(PhysicsJumpExample.class, R.string.example_physicsjump),
 	PHYSICSREVOLUTEJOINT(PhysicsRevoluteJointExample.class, R.string.example_physicsrevolutejoint),
 	PHYSICSREMOVE(PhysicsRemoveExample.class, R.string.example_physicsremove),

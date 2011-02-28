@@ -22,6 +22,7 @@ import org.anddev.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
+import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
@@ -152,14 +153,13 @@ public class RacerGameActivity  extends BaseGameActivity {
 
 	private void initOnScreenControls(final Scene pScene) {
 		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
-			private Vector2 mVelocityTemp = new Vector2();
-
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
-				this.mVelocityTemp.set(pValueX * 5, pValueY * 5);
-				
 				final Body carBody = RacerGameActivity.this.mCarBody;
-				carBody.setLinearVelocity(this.mVelocityTemp);
+
+				final Vector2 velocity = Vector2Pool.obtain(pValueX * 5, pValueY * 5);
+				carBody.setLinearVelocity(velocity);
+				Vector2Pool.recycle(velocity);
 				
 				final float rotationInRad = (float)Math.atan2(-pValueX, pValueY);
 				carBody.setTransform(carBody.getWorldCenter(), rotationInRad);

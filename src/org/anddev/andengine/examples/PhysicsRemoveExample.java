@@ -17,6 +17,7 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
+import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -58,8 +59,6 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 	private int mFaceCount = 0;
 
-	private final Vector2 mTempVector = new Vector2();
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -79,7 +78,6 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		engineOptions.getTouchOptions().setRunOnUpdateThread(true);
-
 		return new Engine(engineOptions);
 	}
 
@@ -129,8 +127,8 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 	@Override
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-		if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-			PhysicsRemoveExample.this.removeFace((AnimatedSprite)pTouchArea);
+		if(pSceneTouchEvent.isActionDown()) {
+			this.removeFace((AnimatedSprite)pTouchArea);
 			return true;
 		}
 
@@ -145,7 +143,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsWorld != null) {
-			if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+			if(pSceneTouchEvent.isActionDown()) {
 				this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;
 			}
@@ -155,9 +153,9 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 	@Override
 	public void onAccelerometerChanged(final AccelerometerData pAccelerometerData) {
-		this.mTempVector.set(pAccelerometerData.getY(), pAccelerometerData.getX());
-
-		this.mPhysicsWorld.setGravity(this.mTempVector);
+		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getY(), pAccelerometerData.getX());
+		this.mPhysicsWorld.setGravity(gravity);
+		Vector2Pool.recycle(gravity);
 	}
 
 	// ===========================================================

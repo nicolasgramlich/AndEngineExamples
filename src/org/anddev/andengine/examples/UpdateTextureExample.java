@@ -86,7 +86,7 @@ public class UpdateTextureExample extends BaseExample {
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
 			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-				if(pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+				if(pSceneTouchEvent.isActionDown()) {
 					UpdateTextureExample.this.toggle();
 				}
 				return true;
