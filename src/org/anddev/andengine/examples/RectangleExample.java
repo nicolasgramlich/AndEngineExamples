@@ -6,7 +6,6 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.Entity;
-import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
@@ -98,19 +97,6 @@ public class RectangleExample extends BaseExample {
 		});
 
 		scene.setBackground(new ColorBackground(0, 0, 0));
-
-		/* Create three lines that will form an arrow pointing to the eye. */
-		final Line arrowLineMain = new Line(0, 0, 0, 0, 3);
-		final Line arrowLineWingLeft = new Line(0, 0, 0, 0, 3);
-		final Line arrowLineWingRight = new Line(0, 0, 0, 0, 3);
-
-		arrowLineMain.setColor(1, 0, 1);
-		arrowLineWingLeft.setColor(1, 0, 1);
-		arrowLineWingRight.setColor(1, 0, 1);
-
-		scene.getLastChild().attachChild(arrowLineMain);
-		scene.getLastChild().attachChild(arrowLineWingLeft);
-		scene.getLastChild().attachChild(arrowLineWingRight);
 
 		/* Create the rectangles. */
 		final Rectangle rect1 = this.makeColoredRectangle(-180, -180, 1, 0, 0);
