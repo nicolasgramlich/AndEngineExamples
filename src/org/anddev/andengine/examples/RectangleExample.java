@@ -112,42 +112,13 @@ public class RectangleExample extends BaseExample {
 		scene.getLastChild().attachChild(arrowLineWingLeft);
 		scene.getLastChild().attachChild(arrowLineWingRight);
 
-		/* Create thr rectangles. */
+		/* Create the rectangles. */
 		final Rectangle rect1 = this.makeColoredRectangle(-180, -180, 1, 0, 0);
 		final Rectangle rect2 = this.makeColoredRectangle(0, -180, 0, 1, 0);
 		final Rectangle rect3 = this.makeColoredRectangle(0, 0, 0, 0, 1);
 		final Rectangle rect4 = this.makeColoredRectangle(-180, 0, 1, 1, 0);
 
-		//		final Rectangle rect4 = new Rectangle(-180, 0, 180, 180);
-		//		rect4.setColor(1, 1, 0);
-		//
-		//		final Rectangle subRectangle = new Rectangle(45, 45, 90, 90){
-		//			@Override
-		//			protected void onManagedUpdate(final float pSecondsElapsed) {
-		//				super.onManagedUpdate(pSecondsElapsed);
-		//
-		//				final float[] upperLeftCoordinates = this.convertLocalToSceneCoordinates(0, 0);
-		//				final float upperLeftX = upperLeftCoordinates[VERTEX_INDEX_X];
-		//				final float upperLeftY = upperLeftCoordinates[VERTEX_INDEX_Y];
-		//
-		//				arrowLineMain.setPosition(upperLeftX, upperLeftY, upperLeftX, upperLeftY - 50);
-		//				arrowLineWingLeft.setPosition(upperLeftX, upperLeftY, upperLeftX - 10, upperLeftY - 10);
-		//				arrowLineWingRight.setPosition(upperLeftX, upperLeftY, upperLeftX + 10, upperLeftY - 10);
-		//			}
-		//		};
-		//		subRectangle.registerEntityModifier(new LoopEntityModifier(new RotationModifier(5, 0, 360)));
-		//
-		//		rect4.attachChild(subRectangle);
-
-
 		final Entity rectangleGroup = new Entity(CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2);
-		//		rectangleGroup.registerEntityModifier(new LoopEntityModifier(new ParallelEntityModifier(
-		//				new SequenceEntityModifier(
-		//						new ScaleModifier(10, 1, 0.5f),
-		//						new ScaleModifier(10, 0.5f, 1)
-		//				),
-		//				new RotationModifier(20, 0, 360))
-		//		));
 
 		rectangleGroup.attachChild(rect1);
 		rectangleGroup.attachChild(rect2);
@@ -162,12 +133,6 @@ public class RectangleExample extends BaseExample {
 	private Rectangle makeColoredRectangle(final float pX, final float pY, final float pRed, final float pGreen, final float pBlue) {
 		final Rectangle coloredRect = new Rectangle(pX, pY, 180, 180);
 		coloredRect.setColor(pRed, pGreen, pBlue);
-
-		//		final Rectangle subRectangle = new Rectangle(45, 45, 90, 90);
-		//		subRectangle.registerEntityModifier(new LoopEntityModifier(new RotationModifier(3, 0, 360)));
-		//
-		//		coloredRect.attachChild(subRectangle);
-
 		return coloredRect;
 	}
 
