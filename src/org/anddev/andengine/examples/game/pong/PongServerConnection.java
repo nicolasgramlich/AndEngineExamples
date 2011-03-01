@@ -7,9 +7,11 @@ import java.net.Socket;
 import org.anddev.andengine.examples.game.pong.adt.SetPaddleIDServerMessage;
 import org.anddev.andengine.examples.game.pong.adt.UpdateBallServerMessage;
 import org.anddev.andengine.examples.game.pong.adt.UpdatePaddleServerMessage;
+import org.anddev.andengine.examples.game.pong.adt.UpdateScoreServerMessage;
 import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.BaseServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionAcceptedServerMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionPongServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionRefusedServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.client.BaseServerConnectionListener;
 import org.anddev.andengine.extension.multiplayer.protocol.client.BaseServerMessageSwitch;
@@ -42,6 +44,8 @@ public class PongServerConnection extends ServerConnection implements PongConsta
 					switch(pFlag) {
 						case FLAG_MESSAGE_SERVER_SET_PADDLEID:
 							return new SetPaddleIDServerMessage(pDataInputStream);
+						case FLAG_MESSAGE_SERVER_UPDATE_SCORE:
+							return new UpdateScoreServerMessage(pDataInputStream);
 						case FLAG_MESSAGE_SERVER_UPDATE_BALL:
 							return new UpdateBallServerMessage(pDataInputStream);
 						case FLAG_MESSAGE_SERVER_UPDATE_PADDLE:
@@ -52,12 +56,21 @@ public class PongServerConnection extends ServerConnection implements PongConsta
 				}
 			},
 			new BaseServerMessageSwitch() {
+				protected void onHandleConnectionPongServerMessage(final ServerConnection pServerConnection, final ConnectionPongServerMessage pConnectionPongServerMessage) {
+					Debug.v("Ping: " + (System.currentTimeMillis() - pConnectionPongServerMessage.getOriginalPingTimestamp()) / 2 + "ms");
+				};
+				
 				@Override
 				public void switchMessage(final ServerConnection pServerConnection, final BaseServerMessage pServerMessage) throws IOException {
 					switch(pServerMessage.getFlag()) {
 						case FLAG_MESSAGE_SERVER_SET_PADDLEID:
 							final SetPaddleIDServerMessage setPaddleIDServerMessage = (SetPaddleIDServerMessage)pServerMessage;
 							pPongServerConnectionListener.setPaddleID(setPaddleIDServerMessage.mPaddleID);
+							break;
+						case FLAG_MESSAGE_SERVER_UPDATE_SCORE:
+							final UpdateScoreServerMessage updateScoreServerMessage = (UpdateScoreServerMessage)pServerMessage;
+							pPongServerConnectionListener.updateScore(updateScoreServerMessage.mPaddleID, updateScoreServerMessage.mScore);
+							break;
 						case FLAG_MESSAGE_SERVER_UPDATE_BALL:
 							final UpdateBallServerMessage updateBallServerMessage = (UpdateBallServerMessage)pServerMessage;
 							pPongServerConnectionListener.updateBall(updateBallServerMessage.mX, updateBallServerMessage.mY);
@@ -102,7 +115,8 @@ public class PongServerConnection extends ServerConnection implements PongConsta
 	// ===========================================================
 	
 	public static interface IPongServerConnectionListener {
-		public void setPaddleID(int pPaddleID);
+		public void setPaddleID(final int pPaddleID);
+		public void updateScore(final int pPaddleID, final int pScore);
 		public void updateBall(final float pX, final float pY);
 		public void updatePaddle(final int pPaddleID, final float pX, final float pY);
 	}

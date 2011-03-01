@@ -107,7 +107,7 @@
 	<string name="example_benchmark_tickertext">TickerText Benchmark</string>
 	
 	<!-- Games -->
-	<string name="example_game_pong">Pong</string>
+	<string name="example_game_pong">Pong (Multiplayer)</string>
 	<string name="example_game_snake">Snake</string>
 	<string name="example_game_racer">Racer</string>
 	

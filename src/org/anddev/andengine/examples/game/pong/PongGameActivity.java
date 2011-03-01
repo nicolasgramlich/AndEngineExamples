@@ -3,24 +3,32 @@ package org.anddev.andengine.examples.game.pong;
 import java.io.IOException;
 
 import org.anddev.andengine.engine.Engine;
+import org.anddev.andengine.engine.LimitedFPSEngine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
+import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.game.pong.PongServerConnection.IPongServerConnectionListener;
 import org.anddev.andengine.examples.game.pong.adt.MovePaddleClientMessage;
 import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.BaseClientMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.connection.ConnectionPingClientMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.BaseServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.client.BaseServerConnectionListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.BaseClientConnectionListener;
 import org.anddev.andengine.extension.multiplayer.protocol.shared.BaseConnection;
 import org.anddev.andengine.extension.multiplayer.protocol.util.IPUtils;
 import org.anddev.andengine.input.touch.TouchEvent;
+import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.font.FontFactory;
+import org.anddev.andengine.opengl.texture.Texture;
+import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.Debug;
 
@@ -28,7 +36,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.Color;
 import android.util.SparseArray;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -52,6 +63,8 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 	private static final int PADDLEID_NOT_SET = -1;
 
+	private static final int MENU_PING = Menu.FIRST;
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -59,7 +72,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	private Camera mCamera;
 
 	private String mServerIP = LOCALHOST_IP;
-	
+
 	private int mPaddleID = PADDLEID_NOT_SET;
 
 	private PongServer mServer;
@@ -67,6 +80,10 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 	private Rectangle mBall;
 	private final SparseArray<Rectangle> mPaddleMap = new SparseArray<Rectangle>();
+	private final SparseArray<ChangeableText> mScoreChangeableTextMap = new SparseArray<ChangeableText>();
+
+	private Texture mScoreFontTexture;
+	private Font mScoreFont;
 
 	// ===========================================================
 	// Constructors
@@ -78,15 +95,21 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mCamera.setCenter(0,0);
-		
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.PORTRAIT, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
+
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 		engineOptions.getTouchOptions().setRunOnUpdateThread(true);
-		return new Engine(engineOptions);
+		return new LimitedFPSEngine(engineOptions, FPS);
 	}
 
 	@Override
 	public void onLoadResources() {
+		this.mScoreFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
+		FontFactory.setAssetBasePath("font/");
+		this.mScoreFont = FontFactory.createFromAsset(this.mScoreFontTexture, this, "LCD.ttf", 32, true, Color.WHITE);
+
+		this.mEngine.getTextureManager().loadTexture(this.mScoreFontTexture);
+		this.mEngine.getFontManager().loadFont(this.mScoreFont);
 	}
 
 	@Override
@@ -95,19 +118,37 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 		final Scene scene = new Scene(1);
 
+		/* Ball */
 		this.mBall = new Rectangle(0, 0, BALL_WIDTH, BALL_HEIGHT);
 		scene.attachChild(this.mBall);
 
-		// TODO Improve
-		/* Paddles*/
-		final Rectangle paddle1 = new Rectangle(0, 0, PADDLE_WIDTH, PADDLE_HEIGHT);
-		final Rectangle paddle2 = new Rectangle(0, 0, PADDLE_WIDTH, PADDLE_HEIGHT);
-		this.mPaddleMap.put(0, paddle1);
-		this.mPaddleMap.put(1, paddle2);
+		/* Walls */
+		scene.attachChild(new Line(-GAME_WIDTH_HALF + 1, -GAME_HEIGHT_HALF, -GAME_WIDTH_HALF + 1, GAME_HEIGHT_HALF)); // Left
+		scene.attachChild(new Line(GAME_WIDTH_HALF, -GAME_HEIGHT_HALF, GAME_WIDTH_HALF, GAME_HEIGHT_HALF)); // Right
+		scene.attachChild(new Line(-GAME_WIDTH_HALF, -GAME_HEIGHT_HALF + 1, GAME_WIDTH_HALF , -GAME_HEIGHT_HALF + 1)); // Top
+		scene.attachChild(new Line(-GAME_WIDTH_HALF, GAME_HEIGHT_HALF, GAME_WIDTH_HALF, GAME_HEIGHT_HALF)); // Bottom
 
-		scene.attachChild(paddle1);
-		scene.attachChild(paddle2);
-		
+		scene.attachChild(new Line(0, -GAME_HEIGHT_HALF, 0, GAME_HEIGHT_HALF)); // Middle
+
+		/* Paddles */
+		final Rectangle paddleLeft = new Rectangle(0, 0, PADDLE_WIDTH, PADDLE_HEIGHT);
+		final Rectangle paddleRight = new Rectangle(0, 0, PADDLE_WIDTH, PADDLE_HEIGHT);
+		this.mPaddleMap.put(PADDLE_LEFT.getOwnerID(), paddleLeft);
+		this.mPaddleMap.put(PADDLE_RIGHT.getOwnerID(), paddleRight);
+
+		scene.attachChild(paddleLeft);
+		scene.attachChild(paddleRight);
+
+		/* Scores */
+		final ChangeableText scoreLeft = new ChangeableText(0, -GAME_HEIGHT_HALF + SCORE_PADDING, this.mScoreFont, "0", 2);
+		scoreLeft.setPosition(-scoreLeft.getWidth() - SCORE_PADDING, scoreLeft.getY());
+		final ChangeableText scoreRight = new ChangeableText(SCORE_PADDING, -GAME_HEIGHT_HALF + SCORE_PADDING, this.mScoreFont, "0", 2);
+		this.mScoreChangeableTextMap.put(PADDLE_LEFT.getOwnerID(), scoreLeft);
+		this.mScoreChangeableTextMap.put(PADDLE_RIGHT.getOwnerID(), scoreRight);
+
+		scene.attachChild(scoreLeft);
+		scene.attachChild(scoreRight);
+
 		scene.setOnSceneTouchListener(this);
 
 		return scene;
@@ -125,6 +166,27 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+
+	@Override
+	public boolean onCreateOptionsMenu(final Menu pMenu) {
+		pMenu.add(Menu.NONE, MENU_PING, Menu.NONE, "Ping Server");
+		return super.onCreateOptionsMenu(pMenu);
+	}
+
+	@Override
+	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem) {
+		switch(pItem.getItemId()) {
+			case MENU_PING:
+				try {
+					this.mServerConnection.sendClientMessage(new ConnectionPingClientMessage());
+				} catch (final IOException e) {
+					Debug.e(e);
+				}
+				return true;
+			default:
+				return super.onMenuItemSelected(pFeatureId, pItem);
+		}
+	}
 
 	@Override
 	protected Dialog onCreateDialog(final int pID) {
@@ -196,11 +258,12 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	}
 
 	@Override
-	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPaddleID != PADDLEID_NOT_SET) {
 			try {
-				this.mServerConnection.sendClientMessage(new MovePaddleClientMessage(this.mPaddleID, pSceneTouchEvent.getX()));
-			} catch (IOException e) {
+				// TODO Pooling
+				this.mServerConnection.sendClientMessage(new MovePaddleClientMessage(this.mPaddleID, pSceneTouchEvent.getY()));
+			} catch (final IOException e) {
 				Debug.e(e);
 			}
 			return true;
@@ -210,7 +273,18 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	}
 
 	@Override
-	public void setPaddleID(int pPaddleID) {
+	public void updateScore(final int pPaddleID, final int pPoints) {
+		final ChangeableText scoreChangeableText = this.mScoreChangeableTextMap.get(pPaddleID);
+		scoreChangeableText.setText(String.valueOf(pPoints));
+		
+		/* Adjust position of left Score, so that it doesn't overlap the middle line. */
+		if(pPaddleID == PADDLE_LEFT.getOwnerID()) {
+			scoreChangeableText.setPosition(-scoreChangeableText.getWidth() - SCORE_PADDING, scoreChangeableText.getY());
+		}
+	}
+
+	@Override
+	public void setPaddleID(final int pPaddleID) {
 		this.mPaddleID = pPaddleID;
 	}
 

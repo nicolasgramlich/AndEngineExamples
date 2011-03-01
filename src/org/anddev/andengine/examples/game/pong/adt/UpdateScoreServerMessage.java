@@ -5,13 +5,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
-import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.BaseClientMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.BaseServerMessage;
 
 /**
  * @author Nicolas Gramlich
- * @since 19:52:27 - 28.02.2011
+ * @since 02:02:12 - 01.03.2011
  */
-public class MovePaddleClientMessage extends BaseClientMessage implements PongConstants {
+public class UpdateScoreServerMessage extends BaseServerMessage implements PongConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -19,22 +19,22 @@ public class MovePaddleClientMessage extends BaseClientMessage implements PongCo
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	public final int mPaddleID;
-	public final float mY;
+	public final int mScore;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public MovePaddleClientMessage(final int pID, final float pY) {
-		this.mPaddleID = pID;
-		this.mY = pY;
+	public UpdateScoreServerMessage(final int pPaddleID, final int pScore) {
+		this.mPaddleID = pPaddleID;
+		this.mScore = pScore;
 	}
 
-	public MovePaddleClientMessage(final DataInputStream pDataInputStream) throws IOException {
+	public UpdateScoreServerMessage(final DataInputStream pDataInputStream) throws IOException {
 		this.mPaddleID = pDataInputStream.readInt();
-		this.mY = pDataInputStream.readFloat();
+		this.mScore = pDataInputStream.readInt();
 	}
 
 	// ===========================================================
@@ -47,13 +47,13 @@ public class MovePaddleClientMessage extends BaseClientMessage implements PongCo
 
 	@Override
 	public short getFlag() {
-		return FLAG_MESSAGE_CLIENT_MOVE_PADDLE;
+		return FLAG_MESSAGE_SERVER_UPDATE_SCORE;
 	}
 
 	@Override
 	protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
 		pDataOutputStream.writeInt(this.mPaddleID);
-		pDataOutputStream.writeFloat(this.mY);
+		pDataOutputStream.writeInt(this.mScore);
 	}
 
 	@Override
