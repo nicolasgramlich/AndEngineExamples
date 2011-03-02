@@ -46,6 +46,7 @@
     	<item>43</item>
     	<item>44</item>
     	<item>45</item>
+    	<item>46</item>
     </array>
     
     <string-array name="new_in_version_changes">
@@ -94,5 +95,6 @@
  		<item> - Added LevelLoader Example</item>
  		<item> - Added CityRadar (App)</item>
  		<item> - Added PinchZoom Example</item>
+ 		<item> - Moved to new \'EntityContainer\' branch (which is now default)\n - Added Pong (Multiplayer) Game</item>
     </string-array>
 </resources>
