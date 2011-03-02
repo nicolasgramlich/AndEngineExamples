@@ -19,24 +19,28 @@ public class SetPaddleIDServerMessage extends BaseServerMessage implements PongC
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	public final int mPaddleID;
+
+	public int mPaddleID;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public SetPaddleIDServerMessage(final int pPaddleID) {
-		this.mPaddleID = pPaddleID;
+	public SetPaddleIDServerMessage() {
+
 	}
 
-	public SetPaddleIDServerMessage(final DataInputStream pDataInputStream) throws IOException {
-		this.mPaddleID = pDataInputStream.readInt();
+	public SetPaddleIDServerMessage(final int pPaddleID) {
+		this.mPaddleID = pPaddleID;
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+
+	public void set(final int pPaddleID) {
+		this.mPaddleID = pPaddleID;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -48,6 +52,11 @@ public class SetPaddleIDServerMessage extends BaseServerMessage implements PongC
 	}
 
 	@Override
+	protected void onReadTransmissionData(DataInputStream pDataInputStream) throws IOException {
+		this.mPaddleID = pDataInputStream.readInt();
+	}
+
+	@Override
 	protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
 		pDataOutputStream.writeInt(this.mPaddleID);
 	}
@@ -56,7 +65,7 @@ public class SetPaddleIDServerMessage extends BaseServerMessage implements PongC
 	protected void onAppendTransmissionDataForToString(final StringBuilder pStringBuilder) {
 
 	}
-
+	
 	// ===========================================================
 	// Methods
 	// ===========================================================

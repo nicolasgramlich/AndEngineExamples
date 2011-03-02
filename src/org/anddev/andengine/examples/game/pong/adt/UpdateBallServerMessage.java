@@ -19,27 +19,31 @@ public class UpdateBallServerMessage extends BaseServerMessage implements PongCo
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	public final float mX;
-	public final float mY;
+
+	public float mX;
+	public float mY;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
+	public UpdateBallServerMessage() {
+
+	}
 
 	public UpdateBallServerMessage(final float pX, final float pY) {
 		this.mX = pX;
 		this.mY = pY;
 	}
 
-	public UpdateBallServerMessage(final DataInputStream pDataInputStream) throws IOException {
-		this.mX = pDataInputStream.readFloat();
-		this.mY = pDataInputStream.readFloat();
-	}
-
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+
+	public void set(final float pX,final float pY) {
+		this.mX = pX;
+		this.mY = pY;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -48,6 +52,12 @@ public class UpdateBallServerMessage extends BaseServerMessage implements PongCo
 	@Override
 	public short getFlag() {
 		return FLAG_MESSAGE_SERVER_UPDATE_BALL;
+	}
+
+	@Override
+	protected void onReadTransmissionData(DataInputStream pDataInputStream) throws IOException {
+		this.mX = pDataInputStream.readFloat();
+		this.mY = pDataInputStream.readFloat();
 	}
 
 	@Override

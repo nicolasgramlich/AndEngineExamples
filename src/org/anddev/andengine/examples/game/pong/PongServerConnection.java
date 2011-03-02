@@ -1,6 +1,5 @@
 package org.anddev.andengine.examples.game.pong;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -13,10 +12,9 @@ import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.Ba
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionAcceptedServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionPongServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionRefusedServerMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.client.BaseServerConnectionListener;
-import org.anddev.andengine.extension.multiplayer.protocol.client.BaseServerMessageSwitch;
+import org.anddev.andengine.extension.multiplayer.protocol.client.IServerConnectionListener;
+import org.anddev.andengine.extension.multiplayer.protocol.client.IServerMessageHandler.DefaultServerMessageHandler;
 import org.anddev.andengine.extension.multiplayer.protocol.client.ServerConnection;
-import org.anddev.andengine.extension.multiplayer.protocol.client.ServerMessageExtractor;
 import org.anddev.andengine.util.Debug;
 
 /**
@@ -35,33 +33,27 @@ public class PongServerConnection extends ServerConnection implements PongConsta
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public PongServerConnection(final String pServerIP, final BaseServerConnectionListener pBaseServerConnectionListener, final IPongServerConnectionListener pPongServerConnectionListener) throws IOException {
-		super(new Socket(pServerIP, SERVER_PORT), pBaseServerConnectionListener,
-			new ServerMessageExtractor() {
+
+	public PongServerConnection(final String pServerIP, final IServerConnectionListener pServerConnectionListener, final IPongServerConnectionListener pPongServerConnectionListener) throws IOException {
+		super(new Socket(pServerIP, SERVER_PORT), pServerConnectionListener,
+			new DefaultServerMessageHandler() {
 				@Override
-				public BaseServerMessage readMessage(final short pFlag, final DataInputStream pDataInputStream) throws IOException {
-					switch(pFlag) {
-						case FLAG_MESSAGE_SERVER_SET_PADDLEID:
-							return new SetPaddleIDServerMessage(pDataInputStream);
-						case FLAG_MESSAGE_SERVER_UPDATE_SCORE:
-							return new UpdateScoreServerMessage(pDataInputStream);
-						case FLAG_MESSAGE_SERVER_UPDATE_BALL:
-							return new UpdateBallServerMessage(pDataInputStream);
-						case FLAG_MESSAGE_SERVER_UPDATE_PADDLE:
-							return new UpdatePaddleServerMessage(pDataInputStream);
-						default:
-							return super.readMessage(pFlag, pDataInputStream);
-					}
+				protected void onHandleConnectionAcceptedServerMessage(final ServerConnection pServerConnection, final ConnectionAcceptedServerMessage pServerMessage) {
+					Debug.d("CLIENT: Connection accepted.");
 				}
-			},
-			new BaseServerMessageSwitch() {
-				protected void onHandleConnectionPongServerMessage(final ServerConnection pServerConnection, final ConnectionPongServerMessage pConnectionPongServerMessage) {
-					Debug.v("Ping: " + (System.currentTimeMillis() - pConnectionPongServerMessage.getOriginalPingTimestamp()) / 2 + "ms");
-				};
+	
+				@Override
+				protected void onHandleConnectionRefusedServerMessage(final ServerConnection pServerConnection, final ConnectionRefusedServerMessage pServerMessage) {
+					Debug.d("CLIENT: Connection refused.");
+				}
 				
 				@Override
-				public void switchMessage(final ServerConnection pServerConnection, final BaseServerMessage pServerMessage) throws IOException {
+				protected void onHandleConnectionPongServerMessage(final ServerConnection pServerConnection, final ConnectionPongServerMessage pConnectionPongServerMessage) {
+					Debug.v("Ping: " + (System.currentTimeMillis() - pConnectionPongServerMessage.getOriginalPingTimestamp()) / 2 + "ms");
+				}
+	
+				@Override
+				public void onHandleMessage(final ServerConnection pServerConnection, final BaseServerMessage pServerMessage) throws IOException {
 					switch(pServerMessage.getFlag()) {
 						case FLAG_MESSAGE_SERVER_SET_PADDLEID:
 							final SetPaddleIDServerMessage setPaddleIDServerMessage = (SetPaddleIDServerMessage)pServerMessage;
@@ -80,22 +72,17 @@ public class PongServerConnection extends ServerConnection implements PongConsta
 							pPongServerConnectionListener.updatePaddle(updatePaddleServerMessage.mPaddleID, updatePaddleServerMessage.mX, updatePaddleServerMessage.mY);
 							break;
 						default:
-							super.switchMessage(pServerConnection, pServerMessage);
+							super.onHandleMessage(pServerConnection, pServerMessage);
 							Debug.d("CLIENT: ServerMessage received: " + pServerMessage.toString());
 					}
 				}
-
-				@Override
-				protected void onHandleConnectionAcceptedServerMessage(final ServerConnection pServerConnection, final ConnectionAcceptedServerMessage pServerMessage) {
-					Debug.d("CLIENT: Connection accepted.");
-				}
-
-				@Override
-				protected void onHandleConnectionRefusedServerMessage(final ServerConnection pServerConnection, final ConnectionRefusedServerMessage pServerMessage) {
-					Debug.d("CLIENT: Connection refused.");
-				}
 			}
 		);
+		
+		this.registerServerMessage(FLAG_MESSAGE_SERVER_SET_PADDLEID, SetPaddleIDServerMessage.class);
+		this.registerServerMessage(FLAG_MESSAGE_SERVER_UPDATE_SCORE, UpdateScoreServerMessage.class);
+		this.registerServerMessage(FLAG_MESSAGE_SERVER_UPDATE_BALL, UpdateBallServerMessage.class);
+		this.registerServerMessage(FLAG_MESSAGE_SERVER_UPDATE_PADDLE, UpdatePaddleServerMessage.class);
 	}
 
 	// ===========================================================
@@ -113,7 +100,7 @@ public class PongServerConnection extends ServerConnection implements PongConsta
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
+
 	public static interface IPongServerConnectionListener {
 		public void setPaddleID(final int pPaddleID);
 		public void updateScore(final int pPaddleID, final int pScore);

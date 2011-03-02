@@ -1,6 +1,5 @@
 package org.anddev.andengine.examples.game.pong;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -16,13 +15,14 @@ import org.anddev.andengine.examples.game.pong.adt.UpdateBallServerMessage;
 import org.anddev.andengine.examples.game.pong.adt.UpdatePaddleServerMessage;
 import org.anddev.andengine.examples.game.pong.adt.UpdateScoreServerMessage;
 import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.BaseClientMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.server.BaseClientConnectionListener;
-import org.anddev.andengine.extension.multiplayer.protocol.server.BaseClientMessageSwitch;
 import org.anddev.andengine.extension.multiplayer.protocol.server.BaseServer;
 import org.anddev.andengine.extension.multiplayer.protocol.server.BaseServer.IServerStateListener.DefaultServerStateListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnection;
-import org.anddev.andengine.extension.multiplayer.protocol.server.ClientMessageExtractor;
+import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnection.IClientConnectionListener;
+import org.anddev.andengine.extension.multiplayer.protocol.server.IClientMessageHandler.DefaultClientMessageHandler;
+import org.anddev.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.anddev.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
@@ -64,12 +64,17 @@ public class PongServer extends BaseServer<ClientConnection> implements IUpdateH
 	private boolean mResetBall = true;
 	private final SparseArray<Score> mPaddleScores = new SparseArray<Score>();
 
+	private final MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
+	private final ArrayList<UpdatePaddleServerMessage> mUpdatePaddleServerMessages = new ArrayList<UpdatePaddleServerMessage>();
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public PongServer(final BaseClientConnectionListener pClientConnectionListener) {
+	public PongServer(final IClientConnectionListener pClientConnectionListener) {
 		super(SERVER_PORT, pClientConnectionListener, new DefaultServerStateListener());
+
+		this.initMessagePool();
 
 		this.mPaddleScores.put(PADDLE_LEFT.getOwnerID(), new Score());
 		this.mPaddleScores.put(PADDLE_RIGHT.getOwnerID(), new Score());
@@ -92,6 +97,13 @@ public class PongServer extends BaseServer<ClientConnection> implements IUpdateH
 		this.mPaddleBodies.put(PADDLE_RIGHT.getOwnerID(), paddleBodyRight);
 
 		this.initWalls();
+	}
+
+	private void initMessagePool() {
+		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_UPDATE_SCORE, UpdateScoreServerMessage.class);
+		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_UPDATE_BALL, UpdateBallServerMessage.class);
+		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_UPDATE_PADDLE, UpdatePaddleServerMessage.class);
+		this.mMessagePool.registerMessage(FLAG_MESSAGE_CLIENT_MOVE_PADDLE, MovePaddleClientMessage.class);
 	}
 
 	private void initWalls() {
@@ -146,8 +158,8 @@ public class PongServer extends BaseServer<ClientConnection> implements IUpdateH
 			final Score opponentPaddleScore = this.mPaddleScores.get(opponentID);
 			opponentPaddleScore.increase();
 
-			// TODO Pooling
-			final UpdateScoreServerMessage updateScoreServerMessage = new UpdateScoreServerMessage(opponentID, opponentPaddleScore.getScore());
+			final UpdateScoreServerMessage updateScoreServerMessage = (UpdateScoreServerMessage)this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_UPDATE_SCORE);
+			updateScoreServerMessage.set(opponentID, opponentPaddleScore.getScore());
 
 			final ArrayList<ClientConnection> clientConnections = this.mClientConnections;
 			for(int i = 0; i < clientConnections.size(); i++) {
@@ -158,6 +170,7 @@ public class PongServer extends BaseServer<ClientConnection> implements IUpdateH
 					Debug.e(e);
 				}
 			}
+			this.mMessagePool.recycleMessage(updateScoreServerMessage);
 		}
 	}
 
@@ -179,34 +192,57 @@ public class PongServer extends BaseServer<ClientConnection> implements IUpdateH
 		}
 		this.mPhysicsWorld.onUpdate(pSecondsElapsed);
 
-		// TODO Pooling
+		/* Prepare UpdateBallServerMessage. */
+		final Vector2 ballPosition = this.mBallBody.getPosition();
+		final float ballX = ballPosition.x * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - BALL_WIDTH_HALF;
+		final float ballY = ballPosition.y * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - BALL_HEIGHT_HALF;
+
+		final UpdateBallServerMessage updateBallServerMessage = (UpdateBallServerMessage)this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_UPDATE_BALL);
+		updateBallServerMessage.set(ballX, ballY);
+
+		final ArrayList<UpdatePaddleServerMessage> updatePaddleServerMessages = this.mUpdatePaddleServerMessages;
+
+		/* Prepare UpdatePaddleServerMessages. */
+		final SparseArray<Body> paddleBodies = this.mPaddleBodies;
+		for(int j = 0; j < paddleBodies.size(); j++) {
+			final int paddleID = paddleBodies.keyAt(j);
+			final Body paddleBody = paddleBodies.get(paddleID);
+			final Vector2 paddlePosition = paddleBody.getPosition();
+
+			final float paddleX = paddlePosition.x * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - PADDLE_WIDTH_HALF;
+			final float paddleY = paddlePosition.y * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - PADDLE_HEIGHT_HALF;
+
+			final UpdatePaddleServerMessage updatePaddleServerMessage = (UpdatePaddleServerMessage)this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_UPDATE_PADDLE);
+			updatePaddleServerMessage.set(paddleID, paddleX, paddleY);
+
+			updatePaddleServerMessages.add(updatePaddleServerMessage);
+		}
+
 
 		final ArrayList<ClientConnection> clientConnections = this.mClientConnections;
 		for(int i = 0; i < clientConnections.size(); i++) {
 			try {
-				/* Update Ball. */
 				final ClientConnection clientConnection = clientConnections.get(i);
-				final Vector2 ballPosition = this.mBallBody.getPosition();
-				final float ballX = ballPosition.x * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - BALL_WIDTH_HALF;
-				final float ballY = ballPosition.y * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - BALL_HEIGHT_HALF;
 
-				clientConnection.sendServerMessage(new UpdateBallServerMessage(ballX, ballY));
+				/* Update Ball. */
+				clientConnection.sendServerMessage(updateBallServerMessage);
 
 				/* Update Paddles. */
-				final SparseArray<Body> paddleBodies = this.mPaddleBodies;
-				for(int j = 0; j < paddleBodies.size(); j++) {
-					final int paddleID = paddleBodies.keyAt(j);
-					final Body paddleBody = paddleBodies.get(paddleID);
-					final Vector2 paddlePosition = paddleBody.getPosition();
-
-					final float paddleX = paddlePosition.x * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - PADDLE_WIDTH_HALF;
-					final float paddleY = paddlePosition.y * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - PADDLE_HEIGHT_HALF;
-					clientConnection.sendServerMessage(new UpdatePaddleServerMessage(paddleID, paddleX, paddleY));
+				for(int j = 0; j < updatePaddleServerMessages.size(); j++) {
+					clientConnection.sendServerMessage(updatePaddleServerMessages.get(j));
 				}
 			} catch (final IOException e) {
 				Debug.e(e);
 			}
 		}
+		
+		/* Recycle messages. */
+		this.mMessagePool.recycleMessage(updateBallServerMessage);
+		
+		for(int i = updatePaddleServerMessages.size() - 1; i >= 0; i--) {
+			this.mMessagePool.recycleMessage(updatePaddleServerMessages.remove(i));
+		}
+		updatePaddleServerMessages.clear();
 	}
 
 	@Override
@@ -215,38 +251,29 @@ public class PongServer extends BaseServer<ClientConnection> implements IUpdateH
 	}
 
 	@Override
-	protected ClientConnection newClientConnection(final Socket pClientSocket, final BaseClientConnectionListener pClientConnectionListener) throws Exception {
+	protected ClientConnection newClientConnection(final Socket pClientSocket, final IClientConnectionListener pClientConnectionListener) throws Exception {
 		final ClientConnection clientConnection = new ClientConnection(pClientSocket, pClientConnectionListener,
-				new ClientMessageExtractor(){
-			@Override
-			public BaseClientMessage readMessage(final short pFlag, final DataInputStream pDataInputStream) throws IOException {
-				switch(pFlag) {
-					case FLAG_MESSAGE_CLIENT_MOVE_PADDLE:
-						return new MovePaddleClientMessage(pDataInputStream);
-					default:
-						return super.readMessage(pFlag, pDataInputStream);
+			new DefaultClientMessageHandler() {
+				@Override
+				public void onHandleMessage(final ClientConnection pClientConnection, final BaseClientMessage pClientMessage) throws IOException {
+					switch(pClientMessage.getFlag()) {
+						case FLAG_MESSAGE_CLIENT_MOVE_PADDLE:
+							final MovePaddleClientMessage movePaddleClientMessage = (MovePaddleClientMessage)pClientMessage;
+							final Body paddleBody = PongServer.this.mPaddleBodies.get(movePaddleClientMessage.mPaddleID);
+							final Vector2 paddlePosition = paddleBody.getTransform().getPosition();
+							final float paddleY = MathUtils.bringToBounds(-GAME_HEIGHT_HALF + PADDLE_HEIGHT_HALF, GAME_HEIGHT_HALF - PADDLE_HEIGHT_HALF, movePaddleClientMessage.mY);
+							paddlePosition.set(paddlePosition.x, paddleY / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT);
+							paddleBody.setTransform(paddlePosition, 0);
+							break;
+						default:
+							super.onHandleMessage(pClientConnection, pClientMessage);
+					}
 				}
 			}
-		},
-		new BaseClientMessageSwitch() {
-			@Override
-			public void switchMessage(final ClientConnection pClientConnection, final BaseClientMessage pClientMessage) throws IOException {
-				switch(pClientMessage.getFlag()) {
-					case FLAG_MESSAGE_CLIENT_MOVE_PADDLE:
-						final MovePaddleClientMessage movePaddleClientMessage = (MovePaddleClientMessage)pClientMessage;
-						final Body paddleBody = PongServer.this.mPaddleBodies.get(movePaddleClientMessage.mPaddleID);
-						final Vector2 paddlePosition = paddleBody.getTransform().getPosition();
-						final float paddleY = MathUtils.bringToBounds(-GAME_HEIGHT_HALF + PADDLE_HEIGHT_HALF, GAME_HEIGHT_HALF - PADDLE_HEIGHT_HALF, movePaddleClientMessage.mY);
-						paddlePosition.set(paddlePosition.x, paddleY / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT);
-						paddleBody.setTransform(paddlePosition, 0);
-						break;
-					default:
-						super.switchMessage(pClientConnection, pClientMessage);
-				}
-			}
-		}
 		);
-		clientConnection.sendServerMessage(new SetPaddleIDServerMessage(this.mClientConnections.size())); // TODO should not be size();
+		clientConnection.registerClientMessage(FLAG_MESSAGE_CLIENT_MOVE_PADDLE, MovePaddleClientMessage.class);
+		
+		clientConnection.sendServerMessage(new SetPaddleIDServerMessage(this.mClientConnections.size())); // TODO should not be size(), as it only works for first two connections!
 		return clientConnection;
 	}
 

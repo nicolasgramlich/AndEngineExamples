@@ -20,26 +20,30 @@ public class UpdateScoreServerMessage extends BaseServerMessage implements PongC
 	// Fields
 	// ===========================================================
 
-	public final int mPaddleID;
-	public final int mScore;
+	public int mPaddleID;
+	public int mScore;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
+	public UpdateScoreServerMessage() {
+
+	}
 
 	public UpdateScoreServerMessage(final int pPaddleID, final int pScore) {
 		this.mPaddleID = pPaddleID;
 		this.mScore = pScore;
 	}
 
-	public UpdateScoreServerMessage(final DataInputStream pDataInputStream) throws IOException {
-		this.mPaddleID = pDataInputStream.readInt();
-		this.mScore = pDataInputStream.readInt();
-	}
-
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+
+	public void set(final int pPaddleID, final int pScore) {
+		this.mPaddleID = pPaddleID;
+		this.mScore = pScore;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -48,6 +52,12 @@ public class UpdateScoreServerMessage extends BaseServerMessage implements PongC
 	@Override
 	public short getFlag() {
 		return FLAG_MESSAGE_SERVER_UPDATE_SCORE;
+	}
+
+	@Override
+	protected void onReadTransmissionData(DataInputStream pDataInputStream) throws IOException {
+		this.mPaddleID = pDataInputStream.readInt();
+		this.mScore = pDataInputStream.readInt();
 	}
 
 	@Override

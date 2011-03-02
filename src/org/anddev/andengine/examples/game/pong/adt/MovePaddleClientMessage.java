@@ -19,27 +19,31 @@ public class MovePaddleClientMessage extends BaseClientMessage implements PongCo
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	public final int mPaddleID;
-	public final float mY;
+
+	public int mPaddleID;
+	public float mY;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
+	public MovePaddleClientMessage() {
+
+	}
 
 	public MovePaddleClientMessage(final int pID, final float pY) {
 		this.mPaddleID = pID;
 		this.mY = pY;
 	}
 
-	public MovePaddleClientMessage(final DataInputStream pDataInputStream) throws IOException {
-		this.mPaddleID = pDataInputStream.readInt();
-		this.mY = pDataInputStream.readFloat();
-	}
-
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+
+	public void setPaddleID(final int pPaddleID, final float pY) {
+		this.mPaddleID = pPaddleID;
+		this.mY = pY;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -48,6 +52,12 @@ public class MovePaddleClientMessage extends BaseClientMessage implements PongCo
 	@Override
 	public short getFlag() {
 		return FLAG_MESSAGE_CLIENT_MOVE_PADDLE;
+	}
+
+	@Override
+	protected void onReadTransmissionData(DataInputStream pDataInputStream) throws IOException {
+		this.mPaddleID = pDataInputStream.readInt();
+		this.mY = pDataInputStream.readFloat();
 	}
 
 	@Override

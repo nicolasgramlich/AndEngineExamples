@@ -17,22 +17,22 @@ import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.BaseClientMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.BaseServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionAcceptedServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionRefusedServerMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.client.BaseServerConnectionListener;
-import org.anddev.andengine.extension.multiplayer.protocol.client.BaseServerMessageSwitch;
+import org.anddev.andengine.extension.multiplayer.protocol.client.IServerConnectionListener;
+import org.anddev.andengine.extension.multiplayer.protocol.client.IServerMessageHandler.DefaultServerMessageHandler;
 import org.anddev.andengine.extension.multiplayer.protocol.client.ServerConnection;
-import org.anddev.andengine.extension.multiplayer.protocol.client.ServerMessageExtractor;
-import org.anddev.andengine.extension.multiplayer.protocol.server.BaseClientConnectionListener;
-import org.anddev.andengine.extension.multiplayer.protocol.server.BaseClientMessageSwitch;
 import org.anddev.andengine.extension.multiplayer.protocol.server.BaseServer;
 import org.anddev.andengine.extension.multiplayer.protocol.server.BaseServer.IServerStateListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnection;
-import org.anddev.andengine.extension.multiplayer.protocol.server.ClientMessageExtractor;
-import org.anddev.andengine.extension.multiplayer.protocol.shared.BaseConnection;
+import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnection.IClientConnectionListener;
+import org.anddev.andengine.extension.multiplayer.protocol.server.IClientMessageHandler.DefaultClientMessageHandler;
+import org.anddev.andengine.extension.multiplayer.protocol.shared.Connection;
 import org.anddev.andengine.extension.multiplayer.protocol.util.IPUtils;
+import org.anddev.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -76,22 +76,31 @@ public class MultiplayerExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
+
 	private Texture mTexture;
 	private TextureRegion mFaceTextureRegion;
 
 	private int mFaceIDCounter;
-
-	private BaseServer<ClientConnection> mServer;
-
-	private ServerConnection mServerConnection;
+	private final SparseArray<Sprite> mFaces = new SparseArray<Sprite>();
 
 	private String mServerIP = LOCALHOST_IP;
+	private BaseServer<ClientConnection> mServer;
+	private ServerConnection mServerConnection;
 
-	private final SparseArray<Sprite> mFaces = new SparseArray<Sprite>();
+	private final MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
+	public MultiplayerExample() {
+		this.initMessagePool();
+	}
+
+	private void initMessagePool() {
+		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_ADD_FACE, AddFaceServerMessage.class);
+		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class);
+	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -207,7 +216,12 @@ public class MultiplayerExample extends BaseExample {
 				public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 					if(pSceneTouchEvent.isActionDown()) {
 						try {
-							MultiplayerExample.this.mServer.sendBroadcastServerMessage(new AddFaceServerMessage(MultiplayerExample.this.mFaceIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY()));
+							final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_FACE);
+							addFaceServerMessage.set(MultiplayerExample.this.mFaceIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+
+							MultiplayerExample.this.mServer.sendBroadcastServerMessage(addFaceServerMessage);
+
+							MultiplayerExample.this.mMessagePool.recycleMessage(addFaceServerMessage);
 						} catch (final IOException e) {
 							Debug.e(e);
 						}
@@ -217,14 +231,20 @@ public class MultiplayerExample extends BaseExample {
 					}
 				}
 			});
-			
+
 			scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
 				@Override
-				public boolean onAreaTouched(TouchEvent pSceneTouchEvent, ITouchArea pTouchArea, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 					try {
 						final Sprite face = (Sprite)pTouchArea;
 						final Integer faceID = (Integer)face.getUserData();
-						MultiplayerExample.this.mServer.sendBroadcastServerMessage(new MoveFaceServerMessage(faceID, pSceneTouchEvent.getX(), pSceneTouchEvent.getY()));
+
+						final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_FACE);
+						moveFaceServerMessage.set(faceID, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+
+						MultiplayerExample.this.mServer.sendBroadcastServerMessage(moveFaceServerMessage);
+
+						MultiplayerExample.this.mMessagePool.recycleMessage(moveFaceServerMessage);
 					} catch (final IOException e) {
 						Debug.e(e);
 						return false;
@@ -232,7 +252,7 @@ public class MultiplayerExample extends BaseExample {
 					return true;
 				}
 			});
-			
+
 			scene.setTouchAreaBindingEnabled(true);
 		}
 
@@ -281,22 +301,14 @@ public class MultiplayerExample extends BaseExample {
 	private void initServer() {
 		this.mServer = new BaseServer<ClientConnection>(SERVER_PORT, new ExampleClientConnectionListener(), new ExampleServerStateListener()){
 			@Override
-			protected ClientConnection newClientConnection(final Socket pClientSocket, final BaseClientConnectionListener pClientConnectionListener) throws Exception {
-				return new ClientConnection(pClientSocket, pClientConnectionListener,
-					new ClientMessageExtractor(){
-						@Override
-						public BaseClientMessage readMessage(final short pFlag, final DataInputStream pDataInputStream) throws IOException {
-							return super.readMessage(pFlag, pDataInputStream);
-						}
-					},
-					new BaseClientMessageSwitch() {
-						@Override
-						public void switchMessage(final ClientConnection pClientConnection, final BaseClientMessage pClientMessage) throws IOException {
-							super.switchMessage(pClientConnection, pClientMessage);
-							MultiplayerExample.this.log("SERVER: ClientMessage received: " + pClientMessage.toString());
-						}
+			protected ClientConnection newClientConnection(final Socket pClientSocket, final IClientConnectionListener pClientConnectionListener) throws Exception {
+				return new ClientConnection(pClientSocket, pClientConnectionListener, new DefaultClientMessageHandler() {
+					@Override
+					public void onHandleMessage(final ClientConnection pClientConnection, final BaseClientMessage pClientMessage) throws IOException {
+						super.onHandleMessage(pClientConnection, pClientMessage);
+						MultiplayerExample.this.log("SERVER: ClientMessage received: " + pClientMessage.toString());
 					}
-				);
+				});
 			}
 		};
 
@@ -305,49 +317,37 @@ public class MultiplayerExample extends BaseExample {
 
 	private void initClient() {
 		try {
-			this.mServerConnection = new ServerConnection(new Socket(this.mServerIP, SERVER_PORT), new ExampleServerConnectionListener(),
-				new ServerMessageExtractor() {
+			this.mServerConnection = new ServerConnection(new Socket(this.mServerIP, SERVER_PORT), new ExampleServerConnectionListener(), new DefaultServerMessageHandler() {
+
 				@Override
-					public BaseServerMessage readMessage(final short pFlag, final DataInputStream pDataInputStream) throws IOException {
-						switch(pFlag) {
-							case FLAG_MESSAGE_SERVER_ADD_FACE:
-								return new AddFaceServerMessage(pDataInputStream);
-							case FLAG_MESSAGE_SERVER_MOVE_FACE:
-								return new MoveFaceServerMessage(pDataInputStream);
-							default:
-								return super.readMessage(pFlag, pDataInputStream);
-						}
-					}
-				},
-				new BaseServerMessageSwitch() {
-					@Override
-					public void switchMessage(final ServerConnection pServerConnection, final BaseServerMessage pServerMessage) throws IOException {
-						switch(pServerMessage.getFlag()) {
-							case FLAG_MESSAGE_SERVER_ADD_FACE:
-								final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
-								MultiplayerExample.this.addFace(addFaceServerMessage.mID, addFaceServerMessage.mX, addFaceServerMessage.mY);
-								break;
-							case FLAG_MESSAGE_SERVER_MOVE_FACE:
-								final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage)pServerMessage;
-								MultiplayerExample.this.moveFace(moveFaceServerMessage.mID, moveFaceServerMessage.mX, moveFaceServerMessage.mY);
-								break;
-							default:
-								super.switchMessage(pServerConnection, pServerMessage);
-								MultiplayerExample.this.log("CLIENT: ServerMessage received: " + pServerMessage.toString());
-						}
-					}
-	
-					@Override
-					protected void onHandleConnectionAcceptedServerMessage(final ServerConnection pServerConnection, final ConnectionAcceptedServerMessage pServerMessage) {
-						MultiplayerExample.this.log("CLIENT: Connection accepted.");
-					}
-	
-					@Override
-					protected void onHandleConnectionRefusedServerMessage(final ServerConnection pServerConnection, final ConnectionRefusedServerMessage pServerMessage) {
-						MultiplayerExample.this.log("CLIENT: Connection refused.");
+				protected void onHandleConnectionAcceptedServerMessage(final ServerConnection pServerConnection, final ConnectionAcceptedServerMessage pConnectionAcceptedServerMessage) {
+					MultiplayerExample.this.log("CLIENT: Connection accepted.");
+				}
+				@Override
+				protected void onHandleConnectionRefusedServerMessage(final ServerConnection pServerConnection, final ConnectionRefusedServerMessage pConnectionRefusedServerMessage) {
+					MultiplayerExample.this.log("CLIENT: Connection refused.");
+				}
+
+				@Override
+				public void onHandleMessage(final ServerConnection pServerConnection, final BaseServerMessage pServerMessage) throws IOException {
+					switch(pServerMessage.getFlag()) {
+						case FLAG_MESSAGE_SERVER_ADD_FACE:
+							final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
+							MultiplayerExample.this.addFace(addFaceServerMessage.mID, addFaceServerMessage.mX, addFaceServerMessage.mY);
+							break;
+						case FLAG_MESSAGE_SERVER_MOVE_FACE:
+							final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage)pServerMessage;
+							MultiplayerExample.this.moveFace(moveFaceServerMessage.mID, moveFaceServerMessage.mX, moveFaceServerMessage.mY);
+							break;
+						default:
+							super.onHandleMessage(pServerConnection, pServerMessage);
+							MultiplayerExample.this.log("CLIENT: ServerMessage received: " + pServerMessage.toString());
 					}
 				}
-			);
+			});
+
+			this.mServerConnection.registerServerMessage(FLAG_MESSAGE_SERVER_ADD_FACE, AddFaceServerMessage.class);
+			this.mServerConnection.registerServerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class);
 
 			this.mServerConnection.start();
 		} catch (final Throwable t) {
@@ -372,10 +372,14 @@ public class MultiplayerExample extends BaseExample {
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	private static class AddFaceServerMessage extends BaseServerMessage {
-		public final int mID;
-		public final float mX;
-		public final float mY;
+	public static class AddFaceServerMessage extends BaseServerMessage {
+		private int mID;
+		private float mX;
+		private float mY;
+
+		public AddFaceServerMessage() {
+
+		}
 
 		public AddFaceServerMessage(final int pID, final float pX, final float pY) {
 			this.mID = pID;
@@ -383,10 +387,10 @@ public class MultiplayerExample extends BaseExample {
 			this.mY = pY;
 		}
 
-		public AddFaceServerMessage(final DataInputStream pDataInputStream) throws IOException {
-			this.mID = pDataInputStream.readInt();
-			this.mX = pDataInputStream.readFloat();
-			this.mY = pDataInputStream.readFloat();
+		public void set(final int pID, final float pX, final float pY) {
+			this.mID = pID;
+			this.mX = pX;
+			this.mY = pY;
 		}
 
 		@Override
@@ -395,6 +399,13 @@ public class MultiplayerExample extends BaseExample {
 		}
 
 		@Override
+		protected void onReadTransmissionData(final DataInputStream pDataInputStream) throws IOException {
+			this.mID = pDataInputStream.readInt();
+			this.mX = pDataInputStream.readFloat();
+			this.mY = pDataInputStream.readFloat();
+		}
+
+		@Override
 		protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
 			pDataOutputStream.writeInt(this.mID);
 			pDataOutputStream.writeFloat(this.mX);
@@ -407,10 +418,14 @@ public class MultiplayerExample extends BaseExample {
 		}
 	}
 
-	private static class MoveFaceServerMessage extends BaseServerMessage {
-		public final int mID;
-		public final float mX;
-		public final float mY;
+	public static class MoveFaceServerMessage extends BaseServerMessage {
+		private int mID;
+		private float mX;
+		private float mY;
+
+		public MoveFaceServerMessage() {
+
+		}
 
 		public MoveFaceServerMessage(final int pID, final float pX, final float pY) {
 			this.mID = pID;
@@ -418,10 +433,10 @@ public class MultiplayerExample extends BaseExample {
 			this.mY = pY;
 		}
 
-		public MoveFaceServerMessage(final DataInputStream pDataInputStream) throws IOException {
-			this.mID = pDataInputStream.readInt();
-			this.mX = pDataInputStream.readFloat();
-			this.mY = pDataInputStream.readFloat();
+		public void set(final int pID, final float pX, final float pY) {
+			this.mID = pID;
+			this.mX = pX;
+			this.mY = pY;
 		}
 
 		@Override
@@ -430,6 +445,13 @@ public class MultiplayerExample extends BaseExample {
 		}
 
 		@Override
+		protected void onReadTransmissionData(final DataInputStream pDataInputStream) throws IOException {
+			this.mID = pDataInputStream.readInt();
+			this.mX = pDataInputStream.readFloat();
+			this.mY = pDataInputStream.readFloat();
+		}
+
+		@Override
 		protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
 			pDataOutputStream.writeInt(this.mID);
 			pDataOutputStream.writeFloat(this.mX);
@@ -442,14 +464,14 @@ public class MultiplayerExample extends BaseExample {
 		}
 	}
 
-	private class ExampleServerConnectionListener extends BaseServerConnectionListener {
+	private class ExampleServerConnectionListener implements IServerConnectionListener {
 		@Override
-		protected void onConnected(final BaseConnection<BaseServerMessage> pConnection) {
+		public void onConnected(final Connection pConnection) {
 			MultiplayerExample.this.toast("CLIENT: Connected to server.");
 		}
 
 		@Override
-		protected void onDisconnected(final BaseConnection<BaseServerMessage> pConnection) {
+		public void onDisconnected(final Connection pConnection) {
 			MultiplayerExample.this.toast("CLIENT: Disconnected from Server...");
 			MultiplayerExample.this.finish();
 		}
@@ -472,14 +494,14 @@ public class MultiplayerExample extends BaseExample {
 		}
 	}
 
-	private class ExampleClientConnectionListener extends BaseClientConnectionListener {
+	private class ExampleClientConnectionListener implements IClientConnectionListener {
 		@Override
-		protected void onConnected(final BaseConnection<BaseClientMessage> pConnection) {
+		public void onConnected(final Connection pConnection) {
 			MultiplayerExample.this.toast("SERVER: Client connected: " + pConnection.getSocket().getInetAddress().getHostAddress());
 		}
 
 		@Override
-		protected void onDisconnected(final BaseConnection<BaseClientMessage> pConnection) {
+		public void onDisconnected(final Connection pConnection) {
 			MultiplayerExample.this.toast("SERVER: Client disconnected: " + pConnection.getSocket().getInetAddress().getHostAddress());
 		}
 	}

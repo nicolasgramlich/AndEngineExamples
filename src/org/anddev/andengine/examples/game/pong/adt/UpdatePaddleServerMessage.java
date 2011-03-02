@@ -19,14 +19,18 @@ public class UpdatePaddleServerMessage extends BaseServerMessage implements Pong
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	public final int mPaddleID;
-	public final float mX;
-	public final float mY;
+
+	public int mPaddleID;
+	public float mX;
+	public float mY;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
+	public UpdatePaddleServerMessage() {
+
+	}
 
 	public UpdatePaddleServerMessage(final int pPaddleID, final float pX, final float pY) {
 		this.mPaddleID = pPaddleID;
@@ -34,15 +38,15 @@ public class UpdatePaddleServerMessage extends BaseServerMessage implements Pong
 		this.mY = pY;
 	}
 
-	public UpdatePaddleServerMessage(final DataInputStream pDataInputStream) throws IOException {
-		this.mPaddleID = pDataInputStream.readInt();
-		this.mX = pDataInputStream.readFloat();
-		this.mY = pDataInputStream.readFloat();
-	}
-
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+
+	public void set(final int pPaddleID, final float pX,final float pY) {
+		this.mPaddleID = pPaddleID;
+		this.mX = pX;
+		this.mY = pY;
+	}
 
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
@@ -51,6 +55,13 @@ public class UpdatePaddleServerMessage extends BaseServerMessage implements Pong
 	@Override
 	public short getFlag() {
 		return FLAG_MESSAGE_SERVER_UPDATE_PADDLE;
+	}
+
+	@Override
+	protected void onReadTransmissionData(DataInputStream pDataInputStream) throws IOException {
+		this.mPaddleID = pDataInputStream.readInt();
+		this.mX = pDataInputStream.readFloat();
+		this.mY = pDataInputStream.readFloat();
 	}
 
 	@Override
