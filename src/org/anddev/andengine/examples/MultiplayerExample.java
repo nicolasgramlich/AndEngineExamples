@@ -18,18 +18,19 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.BaseClientMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.BaseServerMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.IClientMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionAcceptedServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionRefusedServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.client.IServerConnectionListener;
 import org.anddev.andengine.extension.multiplayer.protocol.client.IServerMessageHandler.DefaultServerMessageHandler;
 import org.anddev.andengine.extension.multiplayer.protocol.client.ServerConnection;
-import org.anddev.andengine.extension.multiplayer.protocol.server.BaseServer;
-import org.anddev.andengine.extension.multiplayer.protocol.server.BaseServer.IServerStateListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnection;
 import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnection.IClientConnectionListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.IClientMessageHandler.DefaultClientMessageHandler;
+import org.anddev.andengine.extension.multiplayer.protocol.server.Server;
+import org.anddev.andengine.extension.multiplayer.protocol.server.Server.IServerStateListener;
 import org.anddev.andengine.extension.multiplayer.protocol.shared.Connection;
 import org.anddev.andengine.extension.multiplayer.protocol.util.IPUtils;
 import org.anddev.andengine.extension.multiplayer.protocol.util.MessagePool;
@@ -84,7 +85,7 @@ public class MultiplayerExample extends BaseExample {
 	private final SparseArray<Sprite> mFaces = new SparseArray<Sprite>();
 
 	private String mServerIP = LOCALHOST_IP;
-	private BaseServer<ClientConnection> mServer;
+	private Server<ClientConnection> mServer;
 	private ServerConnection mServerConnection;
 
 	private final MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
@@ -299,12 +300,12 @@ public class MultiplayerExample extends BaseExample {
 	}
 
 	private void initServer() {
-		this.mServer = new BaseServer<ClientConnection>(SERVER_PORT, new ExampleClientConnectionListener(), new ExampleServerStateListener()){
+		this.mServer = new Server<ClientConnection>(SERVER_PORT, new ExampleClientConnectionListener(), new ExampleServerStateListener()){
 			@Override
 			protected ClientConnection newClientConnection(final Socket pClientSocket, final IClientConnectionListener pClientConnectionListener) throws Exception {
 				return new ClientConnection(pClientSocket, pClientConnectionListener, new DefaultClientMessageHandler() {
 					@Override
-					public void onHandleMessage(final ClientConnection pClientConnection, final BaseClientMessage pClientMessage) throws IOException {
+					public void onHandleMessage(final ClientConnection pClientConnection, final IClientMessage pClientMessage) throws IOException {
 						super.onHandleMessage(pClientConnection, pClientMessage);
 						MultiplayerExample.this.log("SERVER: ClientMessage received: " + pClientMessage.toString());
 					}
@@ -329,7 +330,7 @@ public class MultiplayerExample extends BaseExample {
 				}
 
 				@Override
-				public void onHandleMessage(final ServerConnection pServerConnection, final BaseServerMessage pServerMessage) throws IOException {
+				public void onHandleMessage(final ServerConnection pServerConnection, final IServerMessage pServerMessage) throws IOException {
 					switch(pServerMessage.getFlag()) {
 						case FLAG_MESSAGE_SERVER_ADD_FACE:
 							final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
@@ -372,7 +373,7 @@ public class MultiplayerExample extends BaseExample {
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	public static class AddFaceServerMessage extends BaseServerMessage {
+	public static class AddFaceServerMessage extends ServerMessage {
 		private int mID;
 		private float mX;
 		private float mY;
@@ -411,14 +412,9 @@ public class MultiplayerExample extends BaseExample {
 			pDataOutputStream.writeFloat(this.mX);
 			pDataOutputStream.writeFloat(this.mY);
 		}
-
-		@Override
-		protected void onAppendTransmissionDataForToString(final StringBuilder pStringBuilder) {
-
-		}
 	}
 
-	public static class MoveFaceServerMessage extends BaseServerMessage {
+	public static class MoveFaceServerMessage extends ServerMessage {
 		private int mID;
 		private float mX;
 		private float mY;
@@ -456,11 +452,6 @@ public class MultiplayerExample extends BaseExample {
 			pDataOutputStream.writeInt(this.mID);
 			pDataOutputStream.writeFloat(this.mX);
 			pDataOutputStream.writeFloat(this.mY);
-		}
-
-		@Override
-		protected void onAppendTransmissionDataForToString(final StringBuilder pStringBuilder) {
-
 		}
 	}
 

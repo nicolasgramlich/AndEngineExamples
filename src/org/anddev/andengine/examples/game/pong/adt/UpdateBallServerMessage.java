@@ -5,13 +5,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
-import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.BaseServerMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
 
 /**
  * @author Nicolas Gramlich
  * @since 19:48:32 - 28.02.2011
  */
-public class UpdateBallServerMessage extends BaseServerMessage implements PongConstants {
+public class UpdateBallServerMessage extends ServerMessage implements PongConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -64,11 +64,6 @@ public class UpdateBallServerMessage extends BaseServerMessage implements PongCo
 	protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
 		pDataOutputStream.writeFloat(this.mX);
 		pDataOutputStream.writeFloat(this.mY);
-	}
-
-	@Override
-	protected void onAppendTransmissionDataForToString(final StringBuilder pStringBuilder) {
-
 	}
 
 	// ===========================================================

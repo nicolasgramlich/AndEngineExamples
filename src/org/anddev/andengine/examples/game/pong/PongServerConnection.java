@@ -8,7 +8,7 @@ import org.anddev.andengine.examples.game.pong.adt.UpdateBallServerMessage;
 import org.anddev.andengine.examples.game.pong.adt.UpdatePaddleServerMessage;
 import org.anddev.andengine.examples.game.pong.adt.UpdateScoreServerMessage;
 import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
-import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.BaseServerMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionAcceptedServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionPongServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionRefusedServerMessage;
@@ -53,7 +53,7 @@ public class PongServerConnection extends ServerConnection implements PongConsta
 				}
 	
 				@Override
-				public void onHandleMessage(final ServerConnection pServerConnection, final BaseServerMessage pServerMessage) throws IOException {
+				public void onHandleMessage(final ServerConnection pServerConnection, final IServerMessage pServerMessage) throws IOException {
 					switch(pServerMessage.getFlag()) {
 						case FLAG_MESSAGE_SERVER_SET_PADDLEID:
 							final SetPaddleIDServerMessage setPaddleIDServerMessage = (SetPaddleIDServerMessage)pServerMessage;

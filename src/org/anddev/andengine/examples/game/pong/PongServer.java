@@ -16,12 +16,12 @@ import org.anddev.andengine.examples.game.pong.adt.UpdatePaddleServerMessage;
 import org.anddev.andengine.examples.game.pong.adt.UpdateScoreServerMessage;
 import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.BaseClientMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.server.BaseServer;
-import org.anddev.andengine.extension.multiplayer.protocol.server.BaseServer.IServerStateListener.DefaultServerStateListener;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.IClientMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnection;
 import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnection.IClientConnectionListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.IClientMessageHandler.DefaultClientMessageHandler;
+import org.anddev.andengine.extension.multiplayer.protocol.server.Server;
+import org.anddev.andengine.extension.multiplayer.protocol.server.Server.IServerStateListener.DefaultServerStateListener;
 import org.anddev.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.anddev.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
@@ -45,7 +45,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  * @author Nicolas Gramlich
  * @since 20:00:09 - 28.02.2011
  */
-public class PongServer extends BaseServer<ClientConnection> implements IUpdateHandler, PongConstants, ContactListener {
+public class PongServer extends Server<ClientConnection> implements IUpdateHandler, PongConstants, ContactListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -255,7 +255,7 @@ public class PongServer extends BaseServer<ClientConnection> implements IUpdateH
 		final ClientConnection clientConnection = new ClientConnection(pClientSocket, pClientConnectionListener,
 			new DefaultClientMessageHandler() {
 				@Override
-				public void onHandleMessage(final ClientConnection pClientConnection, final BaseClientMessage pClientMessage) throws IOException {
+				public void onHandleMessage(final ClientConnection pClientConnection, final IClientMessage pClientMessage) throws IOException {
 					switch(pClientMessage.getFlag()) {
 						case FLAG_MESSAGE_CLIENT_MOVE_PADDLE:
 							final MovePaddleClientMessage movePaddleClientMessage = (MovePaddleClientMessage)pClientMessage;
