@@ -75,7 +75,7 @@ public class MusicExample extends BaseExample {
 			this.mMusic = MusicFactory.createMusicFromAsset(this.mEngine.getMusicManager(), this, "wagner_the_ride_of_the_valkyries.ogg");
 			this.mMusic.setLooping(true);
 		} catch (final IOException e) {
-			Debug.e("Error", e);
+			Debug.e(e);
 		}
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);

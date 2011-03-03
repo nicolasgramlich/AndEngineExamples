@@ -74,7 +74,7 @@ public class SoundExample extends BaseExample {
 		try {
 			this.mExplosionSound = SoundFactory.createSoundFromAsset(this.mEngine.getSoundManager(), this, "explosion.ogg");
 		} catch (final IOException e) {
-			Debug.e("Error", e);
+			Debug.e(e);
 		}
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
