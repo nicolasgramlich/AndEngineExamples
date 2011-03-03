@@ -1,7 +1,6 @@
 package org.anddev.andengine.examples.game.pong;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 
 import org.anddev.andengine.engine.handler.IUpdateHandler;
@@ -17,11 +16,12 @@ import org.anddev.andengine.examples.game.pong.adt.UpdateScoreServerMessage;
 import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.IClientMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnection;
-import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnection.IClientConnectionListener;
+import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnector;
+import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnector.IClientConnectorListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.IClientMessageHandler.DefaultClientMessageHandler;
-import org.anddev.andengine.extension.multiplayer.protocol.server.Server;
 import org.anddev.andengine.extension.multiplayer.protocol.server.Server.IServerStateListener.DefaultServerStateListener;
+import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServer;
+import org.anddev.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 import org.anddev.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.anddev.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
@@ -45,7 +45,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  * @author Nicolas Gramlich
  * @since 20:00:09 - 28.02.2011
  */
-public class PongServer extends Server<ClientConnection> implements IUpdateHandler, PongConstants, ContactListener {
+public class PongServer extends SocketServer implements IUpdateHandler, PongConstants, ContactListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -71,8 +71,8 @@ public class PongServer extends Server<ClientConnection> implements IUpdateHandl
 	// Constructors
 	// ===========================================================
 
-	public PongServer(final IClientConnectionListener pClientConnectionListener) {
-		super(SERVER_PORT, pClientConnectionListener, new DefaultServerStateListener());
+	public PongServer(final IClientConnectorListener<SocketConnection> pClientConnectorListener) {
+		super(SERVER_PORT, pClientConnectorListener, new DefaultServerStateListener());
 
 		this.initMessagePool();
 
@@ -161,11 +161,11 @@ public class PongServer extends Server<ClientConnection> implements IUpdateHandl
 			final UpdateScoreServerMessage updateScoreServerMessage = (UpdateScoreServerMessage)this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_UPDATE_SCORE);
 			updateScoreServerMessage.set(opponentID, opponentPaddleScore.getScore());
 
-			final ArrayList<ClientConnection> clientConnections = this.mClientConnections;
-			for(int i = 0; i < clientConnections.size(); i++) {
+			final ArrayList<ClientConnector<SocketConnection>> clientConnectors = this.mClientConnectors;
+			for(int i = 0; i < clientConnectors.size(); i++) {
 				try {
-					final ClientConnection clientConnection = clientConnections.get(i);
-					clientConnection.sendServerMessage(updateScoreServerMessage);
+					final ClientConnector<SocketConnection> clientConnector = clientConnectors.get(i);
+					clientConnector.sendServerMessage(updateScoreServerMessage);
 				} catch (final IOException e) {
 					Debug.e(e);
 				}
@@ -219,17 +219,17 @@ public class PongServer extends Server<ClientConnection> implements IUpdateHandl
 		}
 
 
-		final ArrayList<ClientConnection> clientConnections = this.mClientConnections;
-		for(int i = 0; i < clientConnections.size(); i++) {
+		final ArrayList<ClientConnector<SocketConnection>> clientConnectors = this.mClientConnectors;
+		for(int i = 0; i < clientConnectors.size(); i++) {
 			try {
-				final ClientConnection clientConnection = clientConnections.get(i);
+				final ClientConnector<SocketConnection> clientConnector = clientConnectors.get(i);
 
 				/* Update Ball. */
-				clientConnection.sendServerMessage(updateBallServerMessage);
+				clientConnector.sendServerMessage(updateBallServerMessage);
 
 				/* Update Paddles. */
 				for(int j = 0; j < updatePaddleServerMessages.size(); j++) {
-					clientConnection.sendServerMessage(updatePaddleServerMessages.get(j));
+					clientConnector.sendServerMessage(updatePaddleServerMessages.get(j));
 				}
 			} catch (final IOException e) {
 				Debug.e(e);
@@ -251,30 +251,29 @@ public class PongServer extends Server<ClientConnection> implements IUpdateHandl
 	}
 
 	@Override
-	protected ClientConnection newClientConnection(final Socket pClientSocket, final IClientConnectionListener pClientConnectionListener) throws Exception {
-		final ClientConnection clientConnection = new ClientConnection(pClientSocket, pClientConnectionListener,
-			new DefaultClientMessageHandler() {
-				@Override
-				public void onHandleMessage(final ClientConnection pClientConnection, final IClientMessage pClientMessage) throws IOException {
-					switch(pClientMessage.getFlag()) {
-						case FLAG_MESSAGE_CLIENT_MOVE_PADDLE:
-							final MovePaddleClientMessage movePaddleClientMessage = (MovePaddleClientMessage)pClientMessage;
-							final Body paddleBody = PongServer.this.mPaddleBodies.get(movePaddleClientMessage.mPaddleID);
-							final Vector2 paddlePosition = paddleBody.getTransform().getPosition();
-							final float paddleY = MathUtils.bringToBounds(-GAME_HEIGHT_HALF + PADDLE_HEIGHT_HALF, GAME_HEIGHT_HALF - PADDLE_HEIGHT_HALF, movePaddleClientMessage.mY);
-							paddlePosition.set(paddlePosition.x, paddleY / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT);
-							paddleBody.setTransform(paddlePosition, 0);
-							break;
-						default:
-							super.onHandleMessage(pClientConnection, pClientMessage);
+	protected ClientConnector<SocketConnection> newClientConnector(SocketConnection pSocketConnection) throws IOException {
+		final ClientConnector<SocketConnection> clientConnection = new ClientConnector<SocketConnection>(pSocketConnection, new DefaultClientMessageHandler<SocketConnection>() {
+					@Override
+					public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
+						switch(pClientMessage.getFlag()) {
+							case FLAG_MESSAGE_CLIENT_MOVE_PADDLE:
+								final MovePaddleClientMessage movePaddleClientMessage = (MovePaddleClientMessage)pClientMessage;
+								final Body paddleBody = PongServer.this.mPaddleBodies.get(movePaddleClientMessage.mPaddleID);
+								final Vector2 paddlePosition = paddleBody.getTransform().getPosition();
+								final float paddleY = MathUtils.bringToBounds(-GAME_HEIGHT_HALF + PADDLE_HEIGHT_HALF, GAME_HEIGHT_HALF - PADDLE_HEIGHT_HALF, movePaddleClientMessage.mY);
+								paddlePosition.set(paddlePosition.x, paddleY / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT);
+								paddleBody.setTransform(paddlePosition, 0);
+								break;
+							default:
+								super.onHandleMessage(pClientConnector, pClientMessage);
+						}
 					}
 				}
-			}
-		);
-		clientConnection.registerClientMessage(FLAG_MESSAGE_CLIENT_MOVE_PADDLE, MovePaddleClientMessage.class);
-		
-		clientConnection.sendServerMessage(new SetPaddleIDServerMessage(this.mClientConnections.size())); // TODO should not be size(), as it only works for first two connections!
-		return clientConnection;
+			);
+			clientConnection.registerClientMessage(FLAG_MESSAGE_CLIENT_MOVE_PADDLE, MovePaddleClientMessage.class);
+			
+			clientConnection.sendServerMessage(new SetPaddleIDServerMessage(this.mClientConnectors.size())); // TODO should not be size(), as it only works for first two connections!
+			return clientConnection;
 	}
 
 	// ===========================================================
