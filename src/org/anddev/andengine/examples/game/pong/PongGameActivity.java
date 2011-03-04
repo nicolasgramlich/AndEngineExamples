@@ -18,10 +18,10 @@ import org.anddev.andengine.examples.game.pong.PongServerConnector.IPongServerCo
 import org.anddev.andengine.examples.game.pong.adt.MovePaddleClientMessage;
 import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.connection.ConnectionPingClientMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.client.ServerConnector;
-import org.anddev.andengine.extension.multiplayer.protocol.client.ServerConnector.IServerConnectorListener;
-import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnector;
-import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnector.IClientConnectorListener;
+import org.anddev.andengine.extension.multiplayer.protocol.client.connector.ServerConnector;
+import org.anddev.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector.ISocketConnectionServerConnectorListener;
+import org.anddev.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
+import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
 import org.anddev.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 import org.anddev.andengine.extension.multiplayer.protocol.util.IPUtils;
 import org.anddev.andengine.input.touch.TouchEvent;
@@ -346,7 +346,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	private class ExampleServerConnectorListener implements IServerConnectorListener<SocketConnection> {
+	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {
 		@Override
 		public void onConnected(final ServerConnector<SocketConnection> pConnector) {
 			PongGameActivity.this.toast("CLIENT: Connected to server.");
@@ -354,20 +354,20 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 		@Override
 		public void onDisconnected(final ServerConnector<SocketConnection> pConnector) {
-			PongGameActivity.this.toast("CLIENT: Disconnected from Server...");
+			PongGameActivity.this.toast("CLIENT: Disconnected from Server.");
 			PongGameActivity.this.finish();
 		}
 	}
 
-	private class ExampleClientConnectorListener implements IClientConnectorListener<SocketConnection> {
+	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
-		public void onConnected(final ClientConnector<SocketConnection> pConnector) {
-			PongGameActivity.this.toast("SERVER: Client connected.");
+		public void onConnected(ClientConnector<SocketConnection> pClientConnector) {
+			PongGameActivity.this.toast("SERVER: Client connected: " + pClientConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 
 		@Override
-		public void onDisconnected(final ClientConnector<SocketConnection> pConnector) {
-			PongGameActivity.this.toast("SERVER: Client disconnected.");
+		public void onDisconnected(ClientConnector<SocketConnection> pClientConnector) {
+			PongGameActivity.this.toast("SERVER: Client disconnected: " + pClientConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 	}
 }

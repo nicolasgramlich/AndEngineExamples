@@ -18,22 +18,22 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.IClientMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionAcceptedServerMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.connection.ConnectionRefusedServerMessage;
-import org.anddev.andengine.extension.multiplayer.protocol.client.IServerMessageHandler.DefaultServerMessageHandler;
-import org.anddev.andengine.extension.multiplayer.protocol.client.ServerConnector;
-import org.anddev.andengine.extension.multiplayer.protocol.client.ServerConnector.IServerConnectorListener;
-import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnector;
-import org.anddev.andengine.extension.multiplayer.protocol.server.ClientConnector.IClientConnectorListener;
-import org.anddev.andengine.extension.multiplayer.protocol.server.IClientMessageHandler.DefaultClientMessageHandler;
-import org.anddev.andengine.extension.multiplayer.protocol.server.Server.IServerStateListener;
+import org.anddev.andengine.extension.multiplayer.protocol.client.IServerMessageHandler;
+import org.anddev.andengine.extension.multiplayer.protocol.client.connector.ServerConnector;
+import org.anddev.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector;
+import org.anddev.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector.ISocketConnectionServerConnectorListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServer;
+import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServer.ISocketServerListener;
+import org.anddev.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
+import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector;
+import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
 import org.anddev.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 import org.anddev.andengine.extension.multiplayer.protocol.util.IPUtils;
 import org.anddev.andengine.extension.multiplayer.protocol.util.MessagePool;
+import org.anddev.andengine.extension.multiplayer.protocol.util.constants.ClientMessageFlags;
+import org.anddev.andengine.extension.multiplayer.protocol.util.constants.ServerMessageFlags;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -53,7 +53,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 17:10:24 - 19.06.2010
  */
-public class MultiplayerExample extends BaseExample {
+public class MultiplayerExample extends BaseExample implements ClientMessageFlags, ServerMessageFlags {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -85,7 +85,7 @@ public class MultiplayerExample extends BaseExample {
 	private final SparseArray<Sprite> mFaces = new SparseArray<Sprite>();
 
 	private String mServerIP = LOCALHOST_IP;
-	private SocketServer mSocketServer;
+	private SocketServer<SocketConnectionClientConnector> mSocketServer;
 	private ServerConnector<SocketConnection> mServerConnector;
 
 	private final MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
@@ -211,6 +211,7 @@ public class MultiplayerExample extends BaseExample {
 		final Scene scene = new Scene(1);
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
+		/* We allow only the server to actively send around messages. */
 		if(MultiplayerExample.this.mSocketServer != null) {
 			scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 				@Override
@@ -300,16 +301,10 @@ public class MultiplayerExample extends BaseExample {
 	}
 
 	private void initServer() {
-		this.mSocketServer = new SocketServer(SERVER_PORT, new ExampleClientConnectorListener(), new ExampleServerStateListener()) {
+		this.mSocketServer = new SocketServer<SocketConnectionClientConnector>(SERVER_PORT, new ExampleClientConnectorListener(), new ExampleServerStateListener()) {
 			@Override
-			protected ClientConnector<SocketConnection> newClientConnector(SocketConnection pSocketConnection) throws IOException {
-				return new ClientConnector<SocketConnection>(pSocketConnection, new DefaultClientMessageHandler<SocketConnection>() {
-					@Override
-					public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
-						super.onHandleMessage(pClientConnector, pClientMessage);
-						MultiplayerExample.this.log("SERVER: ClientMessage received: " + pClientMessage.toString());
-					}
-				});
+			protected SocketConnectionClientConnector newClientConnector(final SocketConnection pSocketConnection) throws IOException {
+				return new SocketConnectionClientConnector(pSocketConnection);
 			}
 		};
 
@@ -318,36 +313,35 @@ public class MultiplayerExample extends BaseExample {
 
 	private void initClient() {
 		try {
-			this.mServerConnector = new ServerConnector<SocketConnection>(new SocketConnection(new Socket(this.mServerIP, SERVER_PORT)), new DefaultServerMessageHandler<SocketConnection>() {
-				@Override
-				protected void onHandleConnectionAcceptedServerMessage(final ServerConnector<SocketConnection> pServerConnector, final ConnectionAcceptedServerMessage pConnectorAcceptedServerMessage) {
-					MultiplayerExample.this.log("CLIENT: Connection accepted.");
-				}
-				@Override
-				protected void onHandleConnectionRefusedServerMessage(final ServerConnector<SocketConnection> pServerConnector, final ConnectionRefusedServerMessage pConnectorRefusedServerMessage) {
-					MultiplayerExample.this.log("CLIENT: Connection refused.");
-				}
+			this.mServerConnector = new SocketConnectionServerConnector(new SocketConnection(new Socket(this.mServerIP, SERVER_PORT)), new ExampleServerConnectorListener());
 
+			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_ACCEPTED, new IServerMessageHandler<SocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					switch(pServerMessage.getFlag()) {
-						case FLAG_MESSAGE_SERVER_ADD_FACE:
-							final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
-							MultiplayerExample.this.addFace(addFaceServerMessage.mID, addFaceServerMessage.mX, addFaceServerMessage.mY);
-							break;
-						case FLAG_MESSAGE_SERVER_MOVE_FACE:
-							final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage)pServerMessage;
-							MultiplayerExample.this.moveFace(moveFaceServerMessage.mID, moveFaceServerMessage.mX, moveFaceServerMessage.mY);
-							break;
-						default:
-							super.onHandleMessage(pServerConnector, pServerMessage);
-							MultiplayerExample.this.log("CLIENT: ServerMessage received: " + pServerMessage.toString());
-					}
+					MultiplayerExample.this.log("CLIENT: Connection accepted.");
 				}
-			}, new ExampleServerConnectorListener());
+			});
+			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_REFUSED, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					MultiplayerExample.this.log("CLIENT: Connection refused.");
+				}
+			});
 
-			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_ADD_FACE, AddFaceServerMessage.class);
-			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class);
+			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_ADD_FACE, AddFaceServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
+					MultiplayerExample.this.addFace(addFaceServerMessage.mID, addFaceServerMessage.mX, addFaceServerMessage.mY);
+				}
+			});
+			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage)pServerMessage;
+					MultiplayerExample.this.moveFace(moveFaceServerMessage.mID, moveFaceServerMessage.mX, moveFaceServerMessage.mY);
+				}
+			});
 
 			this.mServerConnector.getConnection().start();
 		} catch (final Throwable t) {
@@ -360,7 +354,7 @@ public class MultiplayerExample extends BaseExample {
 	}
 
 	private void toast(final String pMessage) {
-		log(pMessage);
+		this.log(pMessage);
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -455,7 +449,7 @@ public class MultiplayerExample extends BaseExample {
 		}
 	}
 
-	private class ExampleServerConnectorListener implements IServerConnectorListener<SocketConnection> {
+	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {
 		@Override
 		public void onConnected(final ServerConnector<SocketConnection> pConnector) {
 			MultiplayerExample.this.toast("CLIENT: Connected to server.");
@@ -468,33 +462,33 @@ public class MultiplayerExample extends BaseExample {
 		}
 	}
 
-	private class ExampleServerStateListener implements IServerStateListener {
+	private class ExampleServerStateListener implements ISocketServerListener<SocketConnectionClientConnector> {
 		@Override
-		public void onStarted() {
+		public void onStarted(SocketServer<SocketConnectionClientConnector> pSocketServer) {
 			MultiplayerExample.this.toast("SERVER: Started.");
 		}
 
 		@Override
-		public void onTerminated() {
+		public void onTerminated(SocketServer<SocketConnectionClientConnector> pSocketServer) {
 			MultiplayerExample.this.toast("SERVER: Terminated.");
 		}
 
 		@Override
-		public void onException(final Throwable pThrowable) {
+		public void onException(SocketServer<SocketConnectionClientConnector> pSocketServer, Throwable pThrowable) {
 			Debug.e(pThrowable);
 			MultiplayerExample.this.toast("SERVER: Exception: " + pThrowable);
 		}
 	}
 
-	private class ExampleClientConnectorListener implements IClientConnectorListener<SocketConnection> {
+	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
 		public void onConnected(final ClientConnector<SocketConnection> pConnector) {
-			MultiplayerExample.this.toast("SERVER: Client connected: " + pConnector.toString());
+			MultiplayerExample.this.toast("SERVER: Client connected: " + pConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 
 		@Override
 		public void onDisconnected(final ClientConnector<SocketConnection> pConnector) {
-			MultiplayerExample.this.toast("SERVER: Client disconnected: " + pConnector.toString());
+			MultiplayerExample.this.toast("SERVER: Client disconnected: " + pConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 	}
 }
