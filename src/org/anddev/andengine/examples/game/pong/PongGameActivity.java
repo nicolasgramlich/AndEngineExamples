@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.LimitedFPSEngine;
 import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -85,6 +86,8 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	private Texture mScoreFontTexture;
 	private Font mScoreFont;
 
+	private float mPaddleCenterY;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -151,6 +154,22 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 		scene.setOnSceneTouchListener(this);
 
+		scene.registerUpdateHandler(new IUpdateHandler() {
+			@Override
+			public void onUpdate(final float pSecondsElapsed) {
+				if(PongGameActivity.this.mPaddleID != PADDLEID_NOT_SET) {
+					try {
+						PongGameActivity.this.mServerConnector.sendClientMessage(new MovePaddleClientMessage(PongGameActivity.this.mPaddleID, PongGameActivity.this.mPaddleCenterY));
+					} catch (final IOException e) {
+						Debug.e(e);
+					}
+				}
+			}
+
+			@Override
+			public void reset() {}
+		});
+
 		return scene;
 	}
 
@@ -178,7 +197,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 		switch(pItem.getItemId()) {
 			case MENU_PING:
 				try {
-					this.mServerConnector.sendClientMessage(new ConnectionPingClientMessage());
+					this.mServerConnector.sendClientMessage(new ConnectionPingClientMessage(System.currentTimeMillis()));
 				} catch (final IOException e) {
 					Debug.e(e);
 				}
@@ -259,24 +278,15 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-		if(this.mPaddleID != PADDLEID_NOT_SET) {
-			try {
-				// TODO Pooling
-				this.mServerConnector.sendClientMessage(new MovePaddleClientMessage(this.mPaddleID, pSceneTouchEvent.getY()));
-			} catch (final IOException e) {
-				Debug.e(e);
-			}
-			return true;
-		} else {
-			return false;
-		}
+		this.mPaddleCenterY = pSceneTouchEvent.getY();
+		return true;
 	}
 
 	@Override
 	public void updateScore(final int pPaddleID, final int pPoints) {
 		final ChangeableText scoreChangeableText = this.mScoreChangeableTextMap.get(pPaddleID);
 		scoreChangeableText.setText(String.valueOf(pPoints));
-		
+
 		/* Adjust position of left Score, so that it doesn't overlap the middle line. */
 		if(pPaddleID == PADDLE_LEFT.getOwnerID()) {
 			scoreChangeableText.setPosition(-scoreChangeableText.getWidth() - SCORE_PADDING, scoreChangeableText.getY());
@@ -348,12 +358,12 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {
 		@Override
-		public void onConnected(final ServerConnector<SocketConnection> pConnector) {
+		public void onConnected(final ServerConnector<SocketConnection> pServerConnector) {
 			PongGameActivity.this.toast("CLIENT: Connected to server.");
 		}
 
 		@Override
-		public void onDisconnected(final ServerConnector<SocketConnection> pConnector) {
+		public void onDisconnected(final ServerConnector<SocketConnection> pServerConnector) {
 			PongGameActivity.this.toast("CLIENT: Disconnected from Server.");
 			PongGameActivity.this.finish();
 		}
@@ -361,12 +371,12 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
-		public void onConnected(ClientConnector<SocketConnection> pClientConnector) {
+		public void onConnected(final ClientConnector<SocketConnection> pClientConnector) {
 			PongGameActivity.this.toast("SERVER: Client connected: " + pClientConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 
 		@Override
-		public void onDisconnected(ClientConnector<SocketConnection> pClientConnector) {
+		public void onDisconnected(final ClientConnector<SocketConnection> pClientConnector) {
 			PongGameActivity.this.toast("SERVER: Client disconnected: " + pClientConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 	}

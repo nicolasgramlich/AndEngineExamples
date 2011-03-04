@@ -219,30 +219,22 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 			updatePaddleServerMessages.add(updatePaddleServerMessage);
 		}
 
+		try {
+			/* Update Ball. */
+			this.sendBroadcastServerMessage(updateBallServerMessage);
 
-		final ArrayList<SocketConnectionClientConnector> clientConnectors = this.mClientConnectors;
-		for(int i = 0; i < clientConnectors.size(); i++) {
-			try {
-				final ClientConnector<SocketConnection> clientConnector = clientConnectors.get(i);
-
-				/* Update Ball. */
-				clientConnector.sendServerMessage(updateBallServerMessage);
-
-				/* Update Paddles. */
-				for(int j = 0; j < updatePaddleServerMessages.size(); j++) {
-					clientConnector.sendServerMessage(updatePaddleServerMessages.get(j));
-				}
-			} catch (final IOException e) {
-				Debug.e(e);
+			/* Update Paddles. */
+			for(int j = 0; j < updatePaddleServerMessages.size(); j++) {
+				this.sendBroadcastServerMessage(updatePaddleServerMessages.get(j));
 			}
+			this.sendBroadcastServerMessage(updateBallServerMessage);
+		} catch (IOException e) {
+			Debug.e(e);
 		}
 
 		/* Recycle messages. */
 		this.mMessagePool.recycleMessage(updateBallServerMessage);
-
-		for(int i = updatePaddleServerMessages.size() - 1; i >= 0; i--) {
-			this.mMessagePool.recycleMessage(updatePaddleServerMessages.remove(i));
-		}
+		this.mMessagePool.recycleMessages(updatePaddleServerMessages);
 		updatePaddleServerMessages.clear();
 	}
 
