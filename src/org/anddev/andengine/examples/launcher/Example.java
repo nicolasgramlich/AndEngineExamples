@@ -24,6 +24,7 @@ import org.anddev.andengine.examples.MenuExample;
 import org.anddev.andengine.examples.ModPlayerExample;
 import org.anddev.andengine.examples.MovingBallExample;
 import org.anddev.andengine.examples.MultiTouchExample;
+import org.anddev.andengine.examples.MultiplayerBluetoothExample;
 import org.anddev.andengine.examples.MultiplayerExample;
 import org.anddev.andengine.examples.MusicExample;
 import org.anddev.andengine.examples.ParticleSystemCoolExample;
@@ -103,6 +104,7 @@ enum Example {
 	MODPLAYER(ModPlayerExample.class, R.string.example_modplayer),
 	MOVINGBALL(MovingBallExample.class, R.string.example_movingball),
 	MULTIPLAYER(MultiplayerExample.class, R.string.example_multiplayer),
+	MULTIPLAYERBLUETOOTH(MultiplayerBluetoothExample.class, R.string.example_multiplayerbluetooth),
 	MULTITOUCH(MultiTouchExample.class, R.string.example_multitouch),
 	MUSIC(MusicExample.class, R.string.example_music),
 	PAUSE(PauseExample.class, R.string.example_pause),

@@ -3,7 +3,6 @@ package org.anddev.andengine.examples;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
@@ -17,20 +16,21 @@ import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.examples.util.BluetoothListDevicesActivity;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.client.IServerMessageHandler;
+import org.anddev.andengine.extension.multiplayer.protocol.client.connector.BluetoothSocketConnectionServerConnector;
+import org.anddev.andengine.extension.multiplayer.protocol.client.connector.BluetoothSocketConnectionServerConnector.IBluetoothSocketConnectionServerConnectorListener;
 import org.anddev.andengine.extension.multiplayer.protocol.client.connector.ServerConnector;
-import org.anddev.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector;
-import org.anddev.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector.ISocketConnectionServerConnectorListener;
-import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServer;
-import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServer.ISocketServerListener;
+import org.anddev.andengine.extension.multiplayer.protocol.exception.BluetoothException;
+import org.anddev.andengine.extension.multiplayer.protocol.server.BluetoothSocketServer;
+import org.anddev.andengine.extension.multiplayer.protocol.server.BluetoothSocketServer.IBluetoothSocketServerListener;
+import org.anddev.andengine.extension.multiplayer.protocol.server.connector.BluetoothSocketConnectionClientConnector;
+import org.anddev.andengine.extension.multiplayer.protocol.server.connector.BluetoothSocketConnectionClientConnector.IBluetoothSocketConnectionClientConnectorListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
-import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector;
-import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
-import org.anddev.andengine.extension.multiplayer.protocol.shared.SocketConnection;
-import org.anddev.andengine.extension.multiplayer.protocol.util.IPUtils;
+import org.anddev.andengine.extension.multiplayer.protocol.shared.BluetoothSocketConnection;
 import org.anddev.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.anddev.andengine.extension.multiplayer.protocol.util.constants.ClientMessageFlags;
 import org.anddev.andengine.extension.multiplayer.protocol.util.constants.ServerMessageFlags;
@@ -43,34 +43,37 @@ import org.anddev.andengine.util.Debug;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.SparseArray;
-import android.widget.EditText;
 import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
- * @since 17:10:24 - 19.06.2010
+ * @since 11:45:03 - 06.03.2011
  */
-public class MultiplayerExample extends BaseExample implements ClientMessageFlags, ServerMessageFlags {
+public class MultiplayerBluetoothExample extends BaseExample implements ClientMessageFlags, ServerMessageFlags {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	private static final String LOCALHOST_IP = "127.0.0.1";
+	/** Create your own unique UUID at: http://www.uuidgenerator.com/ */
+	private static final String EXAMPLE_UUID = "6D2DF50E-06EF-C21C-7DB0-345099A5F64E";
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
-
-	private static final int SERVER_PORT = 4444;
 
 	private static final short FLAG_MESSAGE_SERVER_ADD_FACE = 1;
 	private static final short FLAG_MESSAGE_SERVER_MOVE_FACE = FLAG_MESSAGE_SERVER_ADD_FACE + 1;
 
 	private static final int DIALOG_CHOOSE_SERVER_OR_CLIENT_ID = 0;
-	private static final int DIALOG_ENTER_SERVER_IP_ID = DIALOG_CHOOSE_SERVER_OR_CLIENT_ID + 1;
-	private static final int DIALOG_SHOW_SERVER_IP_ID = DIALOG_ENTER_SERVER_IP_ID + 1;
+	private static final int DIALOG_SHOW_SERVER_IP_ID = DIALOG_CHOOSE_SERVER_OR_CLIENT_ID + 1;
+
+	private static final int REQUESTCODE_BLUETOOTH_ENABLE = 0;
+	private static final int REQUESTCODE_BLUETOOTH_CONNECT = REQUESTCODE_BLUETOOTH_ENABLE + 1;
 
 	// ===========================================================
 	// Fields
@@ -84,17 +87,19 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	private int mFaceIDCounter;
 	private final SparseArray<Sprite> mFaces = new SparseArray<Sprite>();
 
-	private String mServerIP = LOCALHOST_IP;
-	private SocketServer<SocketConnectionClientConnector> mSocketServer;
-	private ServerConnector<SocketConnection> mServerConnector;
+	private String mServerMACAddress;
+	private BluetoothSocketServer<BluetoothSocketConnectionClientConnector> mBluetoothSocketServer;
+	private ServerConnector<BluetoothSocketConnection> mServerConnector;
 
 	private final MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
+
+	private BluetoothAdapter mBluetoothAdapter;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public MultiplayerExample() {
+	public MultiplayerBluetoothExample() {
 		this.initMessagePool();
 	}
 
@@ -112,6 +117,26 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	// ===========================================================
 
 	@Override
+	protected void onCreate(final Bundle pSavedInstanceState) {
+		super.onCreate(pSavedInstanceState);
+
+		this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+		this.mServerMACAddress = BluetoothAdapter.getDefaultAdapter().getAddress();
+		if (this.mBluetoothAdapter == null) {
+			Toast.makeText(this, "Bluetooth is not available!", Toast.LENGTH_LONG).show();
+			this.finish();
+			return;
+		} else {
+			if (this.mBluetoothAdapter.isEnabled()) {
+				this.showDialog(DIALOG_CHOOSE_SERVER_OR_CLIENT_ID);
+			} else {
+				final Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+				this.startActivityForResult(enableIntent, REQUESTCODE_BLUETOOTH_ENABLE);
+			}
+		}
+	}
+
+	@Override
 	protected Dialog onCreateDialog(final int pID) {
 		switch(pID) {
 			case DIALOG_SHOW_SERVER_IP_ID:
@@ -119,29 +144,8 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 				.setIcon(android.R.drawable.ic_dialog_info)
 				.setTitle("Server-Details")
 				.setCancelable(false)
-				.setMessage("The IP of your Server is:\n" + IPUtils.getIPAddress(this))
+				.setMessage("The Name of your Server is:\n" + BluetoothAdapter.getDefaultAdapter().getName() + "\n" + "The MACAddress of your Server is:\n" + this.mServerMACAddress)
 				.setPositiveButton(android.R.string.ok, null)
-				.create();
-			case DIALOG_ENTER_SERVER_IP_ID:
-				final EditText ipEditText = new EditText(this);
-				return new AlertDialog.Builder(this)
-				.setIcon(android.R.drawable.ic_dialog_info)
-				.setTitle("Enter Server-IP ...")
-				.setCancelable(false)
-				.setView(ipEditText)
-				.setPositiveButton("Connect", new OnClickListener() {
-					@Override
-					public void onClick(final DialogInterface pDialog, final int pWhich) {
-						MultiplayerExample.this.mServerIP = ipEditText.getText().toString();
-						MultiplayerExample.this.initClient();
-					}
-				})
-				.setNegativeButton(android.R.string.cancel, new OnClickListener() {
-					@Override
-					public void onClick(final DialogInterface pDialog, final int pWhich) {
-						MultiplayerExample.this.finish();
-					}
-				})
 				.create();
 			case DIALOG_CHOOSE_SERVER_OR_CLIENT_ID:
 				return new AlertDialog.Builder(this)
@@ -151,23 +155,24 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 				.setPositiveButton("Client", new OnClickListener() {
 					@Override
 					public void onClick(final DialogInterface pDialog, final int pWhich) {
-						MultiplayerExample.this.showDialog(DIALOG_ENTER_SERVER_IP_ID);
+						final Intent intent = new Intent(MultiplayerBluetoothExample.this, BluetoothListDevicesActivity.class);
+						MultiplayerBluetoothExample.this.startActivityForResult(intent, REQUESTCODE_BLUETOOTH_CONNECT);
 					}
 				})
 				.setNeutralButton("Server", new OnClickListener() {
 					@Override
 					public void onClick(final DialogInterface pDialog, final int pWhich) {
-						MultiplayerExample.this.toast("You can add and move sprites, which are only shown on the clients.");
-						MultiplayerExample.this.initServer();
-						MultiplayerExample.this.showDialog(DIALOG_SHOW_SERVER_IP_ID);
+						MultiplayerBluetoothExample.this.toast("You can add and move sprites, which are only shown on the clients.");
+						MultiplayerBluetoothExample.this.initServer();
+						MultiplayerBluetoothExample.this.showDialog(DIALOG_SHOW_SERVER_IP_ID);
 					}
 				})
 				.setNegativeButton("Both", new OnClickListener() {
 					@Override
 					public void onClick(final DialogInterface pDialog, final int pWhich) {
-						MultiplayerExample.this.toast("You can add sprites and move them, by dragging them.");
-						MultiplayerExample.this.initServerAndClient();
-						MultiplayerExample.this.showDialog(DIALOG_SHOW_SERVER_IP_ID);
+						MultiplayerBluetoothExample.this.toast("You can add sprites and move them, by dragging them.");
+						MultiplayerBluetoothExample.this.initServerAndClient();
+						MultiplayerBluetoothExample.this.showDialog(DIALOG_SHOW_SERVER_IP_ID);
 					}
 				})
 				.create();
@@ -178,16 +183,14 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 
 	@Override
 	public Engine onLoadEngine() {
-		this.showDialog(DIALOG_CHOOSE_SERVER_OR_CLIENT_ID);
-
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
 
 	@Override
 	protected void onDestroy() {
-		if(this.mSocketServer != null) {
-			this.mSocketServer.interrupt();
+		if(this.mBluetoothSocketServer != null) {
+			this.mBluetoothSocketServer.interrupt();
 		}
 
 		if(this.mServerConnector != null) {
@@ -213,18 +216,18 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* We allow only the server to actively send around messages. */
-		if(MultiplayerExample.this.mSocketServer != null) {
+		if(MultiplayerBluetoothExample.this.mBluetoothSocketServer != null) {
 			scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 				@Override
 				public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 					if(pSceneTouchEvent.isActionDown()) {
 						try {
-							final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_FACE);
-							addFaceServerMessage.set(MultiplayerExample.this.mFaceIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+							final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage) MultiplayerBluetoothExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_FACE);
+							addFaceServerMessage.set(MultiplayerBluetoothExample.this.mFaceIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 
-							MultiplayerExample.this.mSocketServer.sendBroadcastServerMessage(addFaceServerMessage);
+							MultiplayerBluetoothExample.this.mBluetoothSocketServer.sendBroadcastServerMessage(addFaceServerMessage);
 
-							MultiplayerExample.this.mMessagePool.recycleMessage(addFaceServerMessage);
+							MultiplayerBluetoothExample.this.mMessagePool.recycleMessage(addFaceServerMessage);
 						} catch (final IOException e) {
 							Debug.e(e);
 						}
@@ -242,12 +245,12 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 						final Sprite face = (Sprite)pTouchArea;
 						final Integer faceID = (Integer)face.getUserData();
 
-						final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_MOVE_FACE);
+						final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage) MultiplayerBluetoothExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_MOVE_FACE);
 						moveFaceServerMessage.set(faceID, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 
-						MultiplayerExample.this.mSocketServer.sendBroadcastServerMessage(moveFaceServerMessage);
+						MultiplayerBluetoothExample.this.mBluetoothSocketServer.sendBroadcastServerMessage(moveFaceServerMessage);
 
-						MultiplayerExample.this.mMessagePool.recycleMessage(moveFaceServerMessage);
+						MultiplayerBluetoothExample.this.mMessagePool.recycleMessage(moveFaceServerMessage);
 					} catch (final IOException e) {
 						Debug.e(e);
 						return false;
@@ -265,6 +268,21 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	@Override
 	public void onLoadComplete() {
 
+	}
+
+	@Override
+	protected void onActivityResult(final int pRequestCode, final int pResultCode, final Intent pData) {
+		switch(pRequestCode) {
+			case REQUESTCODE_BLUETOOTH_ENABLE:
+				this.showDialog(DIALOG_CHOOSE_SERVER_OR_CLIENT_ID);
+				break;
+			case REQUESTCODE_BLUETOOTH_CONNECT:
+				this.mServerMACAddress = pData.getExtras().getString(BluetoothListDevicesActivity.EXTRA_DEVICE_ADDRESS);
+				this.initClient();
+				break;
+			default:
+				super.onActivityResult(pRequestCode, pResultCode, pData);
+		}
 	}
 
 	// ===========================================================
@@ -302,45 +320,55 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	}
 
 	private void initServer() {
-		this.mSocketServer = new SocketServer<SocketConnectionClientConnector>(SERVER_PORT, new ExampleClientConnectorListener(), new ExampleServerStateListener()) {
-			@Override
-			protected SocketConnectionClientConnector newClientConnector(final SocketConnection pSocketConnection) throws IOException {
-				return new SocketConnectionClientConnector(pSocketConnection);
-			}
-		};
+		this.mServerMACAddress = BluetoothAdapter.getDefaultAdapter().getAddress();
+		try {
+			this.mBluetoothSocketServer = new BluetoothSocketServer<BluetoothSocketConnectionClientConnector>(EXAMPLE_UUID, new ExampleClientConnectorListener(), new ExampleServerStateListener()) {
+				@Override
+				protected BluetoothSocketConnectionClientConnector newClientConnector(final BluetoothSocketConnection pBluetoothSocketConnection) throws IOException {
+					try {
+						return new BluetoothSocketConnectionClientConnector(pBluetoothSocketConnection);
+					} catch (final BluetoothException e) {
+						Debug.e(e);
+						/* Actually cannot happen. */
+						return null;
+					}
+				}
+			};
+		} catch (final BluetoothException e) {
+			Debug.e(e);
+		}
 
-		this.mSocketServer.start();
+		this.mBluetoothSocketServer.start();
 	}
 
 	private void initClient() {
 		try {
-			this.mServerConnector = new SocketConnectionServerConnector(new SocketConnection(new Socket(this.mServerIP, SERVER_PORT)), new ExampleServerConnectorListener());
+			this.mServerConnector = new BluetoothSocketConnectionServerConnector(new BluetoothSocketConnection(this.mBluetoothAdapter, this.mServerMACAddress, EXAMPLE_UUID), new ExampleServerConnectorListener());
 
-			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_ACCEPTED, new IServerMessageHandler<SocketConnection>() {
+			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_ACCEPTED, new IServerMessageHandler<BluetoothSocketConnection>() {
 				@Override
-				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					MultiplayerExample.this.log("CLIENT: Connection accepted.");
+				public void onHandleMessage(final ServerConnector<BluetoothSocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					MultiplayerBluetoothExample.this.log("CLIENT: Connection accepted.");
 				}
 			});
-			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_REFUSED, new IServerMessageHandler<SocketConnection>() {
+			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_REFUSED, new IServerMessageHandler<BluetoothSocketConnection>() {
 				@Override
-				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					MultiplayerExample.this.log("CLIENT: Connection refused.");
+				public void onHandleMessage(final ServerConnector<BluetoothSocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					MultiplayerBluetoothExample.this.log("CLIENT: Connection refused.");
 				}
 			});
-
-			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_ADD_FACE, AddFaceServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_ADD_FACE, AddFaceServerMessage.class, new IServerMessageHandler<BluetoothSocketConnection>() {
 				@Override
-				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+				public void onHandleMessage(final ServerConnector<BluetoothSocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
-					MultiplayerExample.this.addFace(addFaceServerMessage.mID, addFaceServerMessage.mX, addFaceServerMessage.mY);
+					MultiplayerBluetoothExample.this.addFace(addFaceServerMessage.mID, addFaceServerMessage.mX, addFaceServerMessage.mY);
 				}
 			});
-			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class, new IServerMessageHandler<BluetoothSocketConnection>() {
 				@Override
-				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+				public void onHandleMessage(final ServerConnector<BluetoothSocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage)pServerMessage;
-					MultiplayerExample.this.moveFace(moveFaceServerMessage.mID, moveFaceServerMessage.mX, moveFaceServerMessage.mY);
+					MultiplayerBluetoothExample.this.moveFace(moveFaceServerMessage.mID, moveFaceServerMessage.mX, moveFaceServerMessage.mY);
 				}
 			});
 
@@ -359,7 +387,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(MultiplayerExample.this, pMessage, Toast.LENGTH_SHORT).show();
+				Toast.makeText(MultiplayerBluetoothExample.this, pMessage, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -450,46 +478,46 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 		}
 	}
 
-	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {
+	private class ExampleServerConnectorListener implements IBluetoothSocketConnectionServerConnectorListener {
 		@Override
-		public void onConnected(final ServerConnector<SocketConnection> pConnector) {
-			MultiplayerExample.this.toast("CLIENT: Connected to server.");
+		public void onConnected(final ServerConnector<BluetoothSocketConnection> pConnector) {
+			MultiplayerBluetoothExample.this.toast("CLIENT: Connected to server.");
 		}
 
 		@Override
-		public void onDisconnected(final ServerConnector<SocketConnection> pConnector) {
-			MultiplayerExample.this.toast("CLIENT: Disconnected from Server...");
-			MultiplayerExample.this.finish();
+		public void onDisconnected(final ServerConnector<BluetoothSocketConnection> pConnector) {
+			MultiplayerBluetoothExample.this.toast("CLIENT: Disconnected from Server...");
+			MultiplayerBluetoothExample.this.finish();
 		}
 	}
 
-	private class ExampleServerStateListener implements ISocketServerListener<SocketConnectionClientConnector> {
+	private class ExampleServerStateListener implements IBluetoothSocketServerListener<BluetoothSocketConnectionClientConnector> {
 		@Override
-		public void onStarted(SocketServer<SocketConnectionClientConnector> pSocketServer) {
-			MultiplayerExample.this.toast("SERVER: Started.");
+		public void onStarted(final BluetoothSocketServer<BluetoothSocketConnectionClientConnector> pBluetoothSocketServer) {
+			MultiplayerBluetoothExample.this.toast("SERVER: Started.");
 		}
 
 		@Override
-		public void onTerminated(SocketServer<SocketConnectionClientConnector> pSocketServer) {
-			MultiplayerExample.this.toast("SERVER: Terminated.");
+		public void onTerminated(final BluetoothSocketServer<BluetoothSocketConnectionClientConnector> pBluetoothSocketServer) {
+			MultiplayerBluetoothExample.this.toast("SERVER: Terminated.");
 		}
 
 		@Override
-		public void onException(SocketServer<SocketConnectionClientConnector> pSocketServer, Throwable pThrowable) {
+		public void onException(final BluetoothSocketServer<BluetoothSocketConnectionClientConnector> pBluetoothSocketServer, final Throwable pThrowable) {
 			Debug.e(pThrowable);
-			MultiplayerExample.this.toast("SERVER: Exception: " + pThrowable);
+			MultiplayerBluetoothExample.this.toast("SERVER: Exception: " + pThrowable);
 		}
 	}
 
-	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
+	private class ExampleClientConnectorListener implements IBluetoothSocketConnectionClientConnectorListener {
 		@Override
-		public void onConnected(final ClientConnector<SocketConnection> pConnector) {
-			MultiplayerExample.this.toast("SERVER: Client connected: " + pConnector.getConnection().getSocket().getInetAddress().getHostAddress());
+		public void onConnected(final ClientConnector<BluetoothSocketConnection> pConnector) {
+			MultiplayerBluetoothExample.this.toast("SERVER: Client connected: " + pConnector.getConnection().getBluetoothSocket().getRemoteDevice().getAddress());
 		}
 
 		@Override
-		public void onDisconnected(final ClientConnector<SocketConnection> pConnector) {
-			MultiplayerExample.this.toast("SERVER: Client disconnected: " + pConnector.getConnection().getSocket().getInetAddress().getHostAddress());
+		public void onDisconnected(final ClientConnector<BluetoothSocketConnection> pConnector) {
+			MultiplayerBluetoothExample.this.toast("SERVER: Client disconnected: " + pConnector.getConnection().getBluetoothSocket().getRemoteDevice().getAddress());
 		}
 	}
 }
