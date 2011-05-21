@@ -1,4 +1,4 @@
-package org.anddev.andengine.examples.game.pong.adt;
+package org.anddev.andengine.examples.game.pong.adt.messages.server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -11,7 +11,7 @@ import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.Se
  * @author Nicolas Gramlich
  * @since 19:48:32 - 28.02.2011
  */
-public class UpdateBallServerMessage extends ServerMessage implements PongConstants {
+public class UpdatePaddleServerMessage extends ServerMessage implements PongConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -20,6 +20,7 @@ public class UpdateBallServerMessage extends ServerMessage implements PongConsta
 	// Fields
 	// ===========================================================
 
+	public int mPaddleID;
 	public float mX;
 	public float mY;
 
@@ -27,11 +28,12 @@ public class UpdateBallServerMessage extends ServerMessage implements PongConsta
 	// Constructors
 	// ===========================================================
 
-	public UpdateBallServerMessage() {
+	public UpdatePaddleServerMessage() {
 
 	}
 
-	public UpdateBallServerMessage(final float pX, final float pY) {
+	public UpdatePaddleServerMessage(final int pPaddleID, final float pX, final float pY) {
+		this.mPaddleID = pPaddleID;
 		this.mX = pX;
 		this.mY = pY;
 	}
@@ -40,7 +42,8 @@ public class UpdateBallServerMessage extends ServerMessage implements PongConsta
 	// Getter & Setter
 	// ===========================================================
 
-	public void set(final float pX,final float pY) {
+	public void set(final int pPaddleID, final float pX,final float pY) {
+		this.mPaddleID = pPaddleID;
 		this.mX = pX;
 		this.mY = pY;
 	}
@@ -51,17 +54,19 @@ public class UpdateBallServerMessage extends ServerMessage implements PongConsta
 
 	@Override
 	public short getFlag() {
-		return FLAG_MESSAGE_SERVER_UPDATE_BALL;
+		return FLAG_MESSAGE_SERVER_UPDATE_PADDLE;
 	}
 
 	@Override
 	protected void onReadTransmissionData(DataInputStream pDataInputStream) throws IOException {
+		this.mPaddleID = pDataInputStream.readInt();
 		this.mX = pDataInputStream.readFloat();
 		this.mY = pDataInputStream.readFloat();
 	}
 
 	@Override
 	protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
+		pDataOutputStream.writeInt(this.mPaddleID);
 		pDataOutputStream.writeFloat(this.mX);
 		pDataOutputStream.writeFloat(this.mY);
 	}

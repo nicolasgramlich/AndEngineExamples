@@ -1,4 +1,4 @@
-package org.anddev.andengine.examples.game.pong.adt;
+package org.anddev.andengine.examples.game.pong.adt.messages.server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -9,9 +9,9 @@ import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.Se
 
 /**
  * @author Nicolas Gramlich
- * @since 19:48:32 - 28.02.2011
+ * @since 02:02:12 - 01.03.2011
  */
-public class SetPaddleIDServerMessage extends ServerMessage implements PongConstants {
+public class UpdateScoreServerMessage extends ServerMessage implements PongConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -21,25 +21,28 @@ public class SetPaddleIDServerMessage extends ServerMessage implements PongConst
 	// ===========================================================
 
 	public int mPaddleID;
+	public int mScore;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public SetPaddleIDServerMessage() {
+	public UpdateScoreServerMessage() {
 
 	}
 
-	public SetPaddleIDServerMessage(final int pPaddleID) {
+	public UpdateScoreServerMessage(final int pPaddleID, final int pScore) {
 		this.mPaddleID = pPaddleID;
+		this.mScore = pScore;
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
-	public void set(final int pPaddleID) {
+	public void set(final int pPaddleID, final int pScore) {
 		this.mPaddleID = pPaddleID;
+		this.mScore = pScore;
 	}
 
 	// ===========================================================
@@ -48,19 +51,21 @@ public class SetPaddleIDServerMessage extends ServerMessage implements PongConst
 
 	@Override
 	public short getFlag() {
-		return FLAG_MESSAGE_SERVER_SET_PADDLEID;
+		return FLAG_MESSAGE_SERVER_UPDATE_SCORE;
 	}
 
 	@Override
 	protected void onReadTransmissionData(DataInputStream pDataInputStream) throws IOException {
 		this.mPaddleID = pDataInputStream.readInt();
+		this.mScore = pDataInputStream.readInt();
 	}
 
 	@Override
 	protected void onWriteTransmissionData(final DataOutputStream pDataOutputStream) throws IOException {
 		pDataOutputStream.writeInt(this.mPaddleID);
+		pDataOutputStream.writeInt(this.mScore);
 	}
-	
+
 	// ===========================================================
 	// Methods
 	// ===========================================================

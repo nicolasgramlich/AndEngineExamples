@@ -1,6 +1,8 @@
 package org.anddev.andengine.examples.game.pong;
 
 import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.LimitedFPSEngine;
@@ -15,16 +17,25 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.examples.game.pong.PongServerConnector.IPongServerConnectorListener;
-import org.anddev.andengine.examples.game.pong.adt.MovePaddleClientMessage;
+import org.anddev.andengine.examples.adt.messages.MessageConstants;
+import org.anddev.andengine.examples.adt.messages.client.ConnectionPingClientMessage;
+import org.anddev.andengine.examples.adt.messages.server.ConnectionPongServerMessage;
+import org.anddev.andengine.examples.adt.messages.server.ConnectionRejectedProtocolMissmatchServerMessage;
+import org.anddev.andengine.examples.adt.messages.server.ServerMessageFlags;
+import org.anddev.andengine.examples.game.pong.adt.messages.client.MovePaddleClientMessage;
+import org.anddev.andengine.examples.game.pong.adt.messages.server.SetPaddleIDServerMessage;
+import org.anddev.andengine.examples.game.pong.adt.messages.server.UpdateBallServerMessage;
+import org.anddev.andengine.examples.game.pong.adt.messages.server.UpdatePaddleServerMessage;
+import org.anddev.andengine.examples.game.pong.adt.messages.server.UpdateScoreServerMessage;
 import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
-import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.connection.ConnectionPingClientMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
+import org.anddev.andengine.extension.multiplayer.protocol.client.IServerMessageHandler;
 import org.anddev.andengine.extension.multiplayer.protocol.client.connector.ServerConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector.ISocketConnectionServerConnectorListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
 import org.anddev.andengine.extension.multiplayer.protocol.shared.SocketConnection;
-import org.anddev.andengine.extension.multiplayer.protocol.util.IPUtils;
+import org.anddev.andengine.extension.multiplayer.protocol.util.WifiUtils;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
@@ -48,7 +59,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 19:36:45 - 28.02.2011
  */
-public class PongGameActivity extends BaseGameActivity implements PongConstants, IPongServerConnectorListener, IOnSceneTouchListener {
+public class PongGameActivity extends BaseGameActivity implements PongConstants, IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -197,7 +208,9 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 		switch(pItem.getItemId()) {
 			case MENU_PING:
 				try {
-					this.mServerConnector.sendClientMessage(new ConnectionPingClientMessage(System.currentTimeMillis()));
+					final ConnectionPingClientMessage connectionPingClientMessage = new ConnectionPingClientMessage(); // TODO Pooling
+					connectionPingClientMessage.setTimestamp(System.currentTimeMillis());
+					this.mServerConnector.sendClientMessage(connectionPingClientMessage);
 				} catch (final IOException e) {
 					Debug.e(e);
 				}
@@ -211,13 +224,28 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	protected Dialog onCreateDialog(final int pID) {
 		switch(pID) {
 			case DIALOG_SHOW_SERVER_IP_ID:
-				return new AlertDialog.Builder(this)
-				.setIcon(android.R.drawable.ic_dialog_info)
-				.setTitle("Your Server-IP ...")
-				.setCancelable(false)
-				.setMessage("The IP of your Server is:\n" + IPUtils.getIPAddress(this))
-				.setPositiveButton(android.R.string.ok, null)
-				.create();
+				try {
+					return new AlertDialog.Builder(this)
+					.setIcon(android.R.drawable.ic_dialog_info)
+					.setTitle("Your Server-IP ...")
+					.setCancelable(false)
+					.setMessage("The IP of your Server is:\n" + WifiUtils.getWifiIPv4Address(this))
+					.setPositiveButton(android.R.string.ok, null)
+					.create();
+				} catch (UnknownHostException e) {
+					return new AlertDialog.Builder(this)
+					.setIcon(android.R.drawable.ic_dialog_alert)
+					.setTitle("Your Server-IP ...")
+					.setCancelable(false)
+					.setMessage("Error retrieving IP of your Server: " + e)
+					.setPositiveButton(android.R.string.ok, new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface pDialog, int pWhich) {
+							PongGameActivity.this.finish();
+						}
+					})
+					.create();
+				}
 			case DIALOG_ENTER_SERVER_IP_ID:
 				final EditText ipEditText = new EditText(this);
 				return new AlertDialog.Builder(this)
@@ -282,7 +310,10 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 		return true;
 	}
 
-	@Override
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
 	public void updateScore(final int pPaddleID, final int pPoints) {
 		final ChangeableText scoreChangeableText = this.mScoreChangeableTextMap.get(pPaddleID);
 		scoreChangeableText.setText(String.valueOf(pPoints));
@@ -293,24 +324,17 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 		}
 	}
 
-	@Override
 	public void setPaddleID(final int pPaddleID) {
 		this.mPaddleID = pPaddleID;
 	}
 
-	@Override
 	public void updatePaddle(final int pPaddleID, final float pX, final float pY) {
 		this.mPaddleMap.get(pPaddleID).setPosition(pX, pY);
 	}
 
-	@Override
 	public void updateBall(final float pX, final float pY) {
 		this.mBall.setPosition(pX, pY);
 	}
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
 
 	private void initServerAndClient() {
 		PongGameActivity.this.initServer();
@@ -335,7 +359,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 	private void initClient() {
 		try {
-			this.mServerConnector = new PongServerConnector(this.mServerIP, new ExampleServerConnectorListener(), this);
+			this.mServerConnector = new PongServerConnector(this.mServerIP, new ExampleServerConnectorListener());
 
 			this.mServerConnector.getConnection().start();
 		} catch (final Throwable t) {
@@ -355,6 +379,109 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+	
+	private class PongServerConnector extends ServerConnector<SocketConnection> implements PongConstants, ServerMessageFlags {
+		// ===========================================================
+		// Constants
+		// ===========================================================
+
+		// ===========================================================
+		// Fields
+		// ===========================================================
+
+		// ===========================================================
+		// Constructors
+		// ===========================================================
+
+		public PongServerConnector(final String pServerIP, final ISocketConnectionServerConnectorListener pSocketConnectionServerConnectorListener) throws IOException {
+			super(new SocketConnection(new Socket(pServerIP, SERVER_PORT)), pSocketConnectionServerConnectorListener);
+
+			this.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_ESTABLISHED, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					Debug.d("CLIENT: Connection established.");
+				}
+			});
+
+			this.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_REJECTED_PROTOCOL_MISSMATCH, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					Debug.d("CLIENT: Connection rejected.");
+				}
+			});
+
+			this.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_PONG, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final ConnectionPongServerMessage connectionPongServerMessage = (ConnectionPongServerMessage) pServerMessage;
+					final long roundtripMilliseconds = System.currentTimeMillis() - connectionPongServerMessage.getTimestamp();
+					Debug.v("Ping: " + roundtripMilliseconds / 2 + "ms");
+				}
+			});
+
+			this.registerServerMessage(FLAG_MESSAGE_SERVER_CONNECTION_REJECTED_PROTOCOL_MISSMATCH, ConnectionRejectedProtocolMissmatchServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final ConnectionRejectedProtocolMissmatchServerMessage connectionRejectedProtocolMissmatchServerMessage = (ConnectionRejectedProtocolMissmatchServerMessage)pServerMessage;
+					if(connectionRejectedProtocolMissmatchServerMessage.getProtocolVersion() > MessageConstants.PROTOCOL_VERSION) {
+//						Toast.makeText(context, text, duration).show();
+					} else if(connectionRejectedProtocolMissmatchServerMessage.getProtocolVersion() < MessageConstants.PROTOCOL_VERSION) {
+//						Toast.makeText(context, text, duration).show();
+					}
+					PongGameActivity.this.finish();
+				}
+			});
+
+			this.registerServerMessage(FLAG_MESSAGE_SERVER_SET_PADDLEID, SetPaddleIDServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final SetPaddleIDServerMessage setPaddleIDServerMessage = (SetPaddleIDServerMessage) pServerMessage;
+					setPaddleID(setPaddleIDServerMessage.mPaddleID);
+				}
+			});
+
+			this.registerServerMessage(FLAG_MESSAGE_SERVER_UPDATE_SCORE, UpdateScoreServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final UpdateScoreServerMessage updateScoreServerMessage = (UpdateScoreServerMessage) pServerMessage;
+					updateScore(updateScoreServerMessage.mPaddleID, updateScoreServerMessage.mScore);
+				}
+			});
+
+			this.registerServerMessage(FLAG_MESSAGE_SERVER_UPDATE_BALL, UpdateBallServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final UpdateBallServerMessage updateBallServerMessage = (UpdateBallServerMessage) pServerMessage;
+					updateBall(updateBallServerMessage.mX, updateBallServerMessage.mY);
+				}
+			});
+
+			this.registerServerMessage(FLAG_MESSAGE_SERVER_UPDATE_PADDLE, UpdatePaddleServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final UpdatePaddleServerMessage updatePaddleServerMessage = (UpdatePaddleServerMessage) pServerMessage;
+					updatePaddle(updatePaddleServerMessage.mPaddleID, updatePaddleServerMessage.mX, updatePaddleServerMessage.mY);
+				}
+			});
+
+		}
+
+		// ===========================================================
+		// Getter & Setter
+		// ===========================================================
+
+		// ===========================================================
+		// Methods for/from SuperClass/Interfaces
+		// ===========================================================
+
+		// ===========================================================
+		// Methods
+		// ===========================================================
+
+		// ===========================================================
+		// Inner and Anonymous Classes
+		// ===========================================================
+	}
 
 	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {
 		@Override

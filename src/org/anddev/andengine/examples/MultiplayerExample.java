@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
@@ -17,6 +18,8 @@ import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.examples.adt.messages.client.ClientMessageFlags;
+import org.anddev.andengine.examples.adt.messages.server.ServerMessageFlags;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
@@ -30,10 +33,8 @@ import org.anddev.andengine.extension.multiplayer.protocol.server.connector.Clie
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
 import org.anddev.andengine.extension.multiplayer.protocol.shared.SocketConnection;
-import org.anddev.andengine.extension.multiplayer.protocol.util.IPUtils;
 import org.anddev.andengine.extension.multiplayer.protocol.util.MessagePool;
-import org.anddev.andengine.extension.multiplayer.protocol.util.constants.ClientMessageFlags;
-import org.anddev.andengine.extension.multiplayer.protocol.util.constants.ServerMessageFlags;
+import org.anddev.andengine.extension.multiplayer.protocol.util.WifiUtils;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -115,13 +116,28 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	protected Dialog onCreateDialog(final int pID) {
 		switch(pID) {
 			case DIALOG_SHOW_SERVER_IP_ID:
-				return new AlertDialog.Builder(this)
-				.setIcon(android.R.drawable.ic_dialog_info)
-				.setTitle("Server-Details")
-				.setCancelable(false)
-				.setMessage("The IP of your Server is:\n" + IPUtils.getIPAddress(this))
-				.setPositiveButton(android.R.string.ok, null)
-				.create();
+				try {
+					return new AlertDialog.Builder(this)
+					.setIcon(android.R.drawable.ic_dialog_info)
+					.setTitle("Your Server-IP ...")
+					.setCancelable(false)
+					.setMessage("The IP of your Server is:\n" + WifiUtils.getWifiIPv4Address(this))
+					.setPositiveButton(android.R.string.ok, null)
+					.create();
+				} catch (UnknownHostException e) {
+					return new AlertDialog.Builder(this)
+					.setIcon(android.R.drawable.ic_dialog_alert)
+					.setTitle("Your Server-IP ...")
+					.setCancelable(false)
+					.setMessage("Error retrieving IP of your Server: " + e)
+					.setPositiveButton(android.R.string.ok, new OnClickListener() {
+						@Override
+						public void onClick(DialogInterface pDialog, int pWhich) {
+							MultiplayerExample.this.finish();
+						}
+					})
+					.create();
+				}
 			case DIALOG_ENTER_SERVER_IP_ID:
 				final EditText ipEditText = new EditText(this);
 				return new AlertDialog.Builder(this)
@@ -316,16 +332,16 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 		try {
 			this.mServerConnector = new SocketConnectionServerConnector(new SocketConnection(new Socket(this.mServerIP, SERVER_PORT)), new ExampleServerConnectorListener());
 
-			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_ACCEPTED, new IServerMessageHandler<SocketConnection>() {
+			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_ESTABLISHED, new IServerMessageHandler<SocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					MultiplayerExample.this.log("CLIENT: Connection accepted.");
+					MultiplayerExample.this.log("CLIENT: Connection established.");
 				}
 			});
-			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_REFUSED, new IServerMessageHandler<SocketConnection>() {
+			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_REJECTED_PROTOCOL_MISSMATCH, new IServerMessageHandler<SocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					MultiplayerExample.this.log("CLIENT: Connection refused.");
+					MultiplayerExample.this.log("CLIENT: Connection rejected.");
 				}
 			});
 

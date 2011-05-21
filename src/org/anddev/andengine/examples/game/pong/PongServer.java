@@ -6,13 +6,21 @@ import java.util.ArrayList;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.primitive.Rectangle;
-import org.anddev.andengine.examples.game.pong.adt.MovePaddleClientMessage;
+import org.anddev.andengine.examples.adt.messages.MessageConstants;
+import org.anddev.andengine.examples.adt.messages.client.ClientMessageFlags;
+import org.anddev.andengine.examples.adt.messages.client.ConnectionCloseClientMessage;
+import org.anddev.andengine.examples.adt.messages.client.ConnectionEstablishClientMessage;
+import org.anddev.andengine.examples.adt.messages.client.ConnectionPingClientMessage;
+import org.anddev.andengine.examples.adt.messages.server.ConnectionEstablishedServerMessage;
+import org.anddev.andengine.examples.adt.messages.server.ConnectionRejectedProtocolMissmatchServerMessage;
+import org.anddev.andengine.examples.adt.messages.server.ServerMessageFlags;
 import org.anddev.andengine.examples.game.pong.adt.PaddleUserData;
 import org.anddev.andengine.examples.game.pong.adt.Score;
-import org.anddev.andengine.examples.game.pong.adt.SetPaddleIDServerMessage;
-import org.anddev.andengine.examples.game.pong.adt.UpdateBallServerMessage;
-import org.anddev.andengine.examples.game.pong.adt.UpdatePaddleServerMessage;
-import org.anddev.andengine.examples.game.pong.adt.UpdateScoreServerMessage;
+import org.anddev.andengine.examples.game.pong.adt.messages.client.MovePaddleClientMessage;
+import org.anddev.andengine.examples.game.pong.adt.messages.server.SetPaddleIDServerMessage;
+import org.anddev.andengine.examples.game.pong.adt.messages.server.UpdateBallServerMessage;
+import org.anddev.andengine.examples.game.pong.adt.messages.server.UpdatePaddleServerMessage;
+import org.anddev.andengine.examples.game.pong.adt.messages.server.UpdateScoreServerMessage;
 import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.client.IClientMessage;
@@ -36,17 +44,17 @@ import android.util.SparseArray;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 /**
  * @author Nicolas Gramlich
  * @since 20:00:09 - 28.02.2011
  */
-public class PongServer extends SocketServer<SocketConnectionClientConnector> implements IUpdateHandler, PongConstants, ContactListener {
+public class PongServer extends SocketServer<SocketConnectionClientConnector> implements IUpdateHandler, PongConstants, ContactListener, ClientMessageFlags, ServerMessageFlags {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -256,6 +264,35 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 				final float paddleY = MathUtils.bringToBounds(-GAME_HEIGHT_HALF + PADDLE_HEIGHT_HALF, GAME_HEIGHT_HALF - PADDLE_HEIGHT_HALF, movePaddleClientMessage.mY);
 				paddlePosition.set(paddlePosition.x, paddleY / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT);
 				paddleBody.setTransform(paddlePosition, 0);
+			}
+		});
+
+		clientConnector.registerClientMessage(FLAG_MESSAGE_CLIENT_CONNECTION_CLOSE, ConnectionCloseClientMessage.class, new IClientMessageHandler<SocketConnection>() {
+			@Override
+			public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
+				pClientConnector.interrupt();
+			}
+		});
+
+		clientConnector.registerClientMessage(FLAG_MESSAGE_CLIENT_CONNECTION_ESTABLISH, ConnectionEstablishClientMessage.class, new IClientMessageHandler<SocketConnection>() {
+			@Override
+			public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
+				final ConnectionEstablishClientMessage connectionEstablishClientMessage = (ConnectionEstablishClientMessage) pClientMessage;
+				if(connectionEstablishClientMessage.getProtocolVersion() == MessageConstants.PROTOCOL_VERSION) { // TODO Add a proper message for Protocol Missmatch!
+					pClientConnector.sendServerMessage(new ConnectionEstablishedServerMessage());
+				} else {
+					pClientConnector.sendServerMessage(new ConnectionRejectedProtocolMissmatchServerMessage(MessageConstants.PROTOCOL_VERSION));
+				}
+			}
+		});
+
+		clientConnector.registerClientMessage(FLAG_MESSAGE_CLIENT_CONNECTION_PING, ConnectionPingClientMessage.class, new IClientMessageHandler<SocketConnection>() {
+			@Override
+			public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
+				final long now = System.currentTimeMillis();
+				final ConnectionPingClientMessage connectionPingClientMessage = (ConnectionPingClientMessage) pClientMessage;
+				final long roundTripMilliseconds = now - connectionPingClientMessage.getTimestamp();
+				Debug.d("Ping: " + roundTripMilliseconds / 2 + " ms");
 			}
 		});
 

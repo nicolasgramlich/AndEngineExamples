@@ -98,6 +98,6 @@
 		<activity android:name=".game.snake.SnakeGameActivity" android:configChanges="orientation"/>
 		<activity android:name=".game.racer.RacerGameActivity" android:configChanges="orientation"/>
 		
-		<activity android:name=".app.cityradar.CityRadarActivity" android:configChanges="orientation"/>
+		<activity android:name="app.cityradar.CityRadarActivity" android:configChanges="orientation"/>
 	</application>
 </manifest>

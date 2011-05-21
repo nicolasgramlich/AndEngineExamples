@@ -1,4 +1,4 @@
-package org.anddev.andengine.examples.game.pong.adt;
+package org.anddev.andengine.examples.game.pong.adt.messages.client;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
