@@ -88,6 +88,7 @@
 	<string name="example_spriteremove">Removing a Sprite</string>
 	<string name="example_strokefont">Using a StrokeFont</string>
 	<string name="example_submenu">Using SubMenus</string>
+	<string name="example_svgtextureregion">Using a SVGTextureRegion</string>
 	<string name="example_text">Drawing Text</string>
 	<string name="example_textmenu">Using TextMenus</string>
 	<string name="example_textureoptions">Using TextureOptions</string>

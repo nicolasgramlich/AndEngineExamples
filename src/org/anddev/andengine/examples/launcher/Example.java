@@ -44,6 +44,7 @@ import org.anddev.andengine.examples.R;
 import org.anddev.andengine.examples.RectangleExample;
 import org.anddev.andengine.examples.RepeatingSpriteBackgroundExample;
 import org.anddev.andengine.examples.Rotation3DExample;
+import org.anddev.andengine.examples.SVGTextureRegionExample;
 import org.anddev.andengine.examples.ScreenCaptureExample;
 import org.anddev.andengine.examples.SoundExample;
 import org.anddev.andengine.examples.SplitScreenExample;
@@ -132,6 +133,7 @@ enum Example {
 	SPRITEREMOVE(SpriteRemoveExample.class, R.string.example_spriteremove),
 	STROKEFONT(StrokeFontExample.class, R.string.example_strokefont),
 	SUBMENU(SubMenuExample.class, R.string.example_submenu),
+	SVGTEXTUREREGION(SVGTextureRegionExample.class, R.string.example_svgtextureregion),
 	TEXT(TextExample.class, R.string.example_text),
 	TEXTMENU(TextMenuExample.class, R.string.example_textmenu),
 	TEXTUREOPTIONS(TextureOptionsExample.class, R.string.example_textureoptions),

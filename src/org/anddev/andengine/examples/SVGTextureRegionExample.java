@@ -10,20 +10,16 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.extension.svg.opengl.texture.region.SVGTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.Texture;
-import org.anddev.andengine.opengl.texture.Texture.ITextureStateListener;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.opengl.texture.source.ITextureSource;
-
-import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
- * @since 11:54:51 - 03.04.2010
+ * @since 13:58:12 - 21.05.2011
  */
-public class ImageFormatsExample extends BaseExample {
+public class SVGTextureRegionExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -37,10 +33,7 @@ public class ImageFormatsExample extends BaseExample {
 
 	private Camera mCamera;
 	private Texture mTexture;
-	private TextureRegion mPNGTextureRegion;
-	private TextureRegion mJPGTextureRegion;
-	private TextureRegion mGIFTextureRegion;
-	private TextureRegion mBMPTextureRegion;
+	private TextureRegion mSVGTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -56,29 +49,15 @@ public class ImageFormatsExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
-		Toast.makeText(this, "GIF is not supported yet. Use PNG instead, it's the better format anyway!", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA, new ITextureStateListener.TextureStateAdapter() {
-			@Override
-			public void onTextureSourceLoadExeption(final Texture pTexture, final ITextureSource pTextureSource, final Throwable pThrowable) {
-				ImageFormatsExample.this.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						Toast.makeText(ImageFormatsExample.this, "Failed loading TextureSource: " + pTextureSource.toString(), Toast.LENGTH_LONG).show();
-					}
-				});
-			}
-		});
+		this.mTexture = new Texture(512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-		this.mPNGTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_png.png", 0, 0);
-		this.mJPGTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_jpg.jpg", 49, 0);
-		this.mGIFTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_gif.gif", 0, 49);
-		this.mBMPTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_bmp.bmp", 49, 49);
+		this.mSVGTextureRegion = SVGTextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/gradients.svg", 0, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
@@ -93,10 +72,10 @@ public class ImageFormatsExample extends BaseExample {
 		/* Create the icons and add them to the scene. */
 		final IEntity lastChild = scene.getLastChild();
 
-		lastChild.attachChild(new Sprite(160 - 24, 106 - 24, this.mPNGTextureRegion));
-		lastChild.attachChild(new Sprite(160 - 24, 213 - 24, this.mJPGTextureRegion));
-		lastChild.attachChild(new Sprite(320 - 24, 106 - 24, this.mGIFTextureRegion));
-		lastChild.attachChild(new Sprite(320 - 24, 213 - 24, this.mBMPTextureRegion));
+		lastChild.attachChild(new Sprite(160 - 24, 106 - 24, 64, 64, this.mSVGTextureRegion));
+		lastChild.attachChild(new Sprite(160 - 24, 213 - 24, 64, 64, this.mSVGTextureRegion));
+		lastChild.attachChild(new Sprite(320 - 24, 106 - 24, 64, 64, this.mSVGTextureRegion));
+		lastChild.attachChild(new Sprite(320 - 24, 213 - 24, 64, 64, this.mSVGTextureRegion));
 
 		return scene;
 	}

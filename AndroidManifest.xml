@@ -76,6 +76,7 @@
 		<activity android:name=".SpriteRemoveExample" android:configChanges="orientation"/>
 		<activity android:name=".StrokeFontExample" android:configChanges="orientation"/>
 		<activity android:name=".SubMenuExample" android:configChanges="orientation"/>
+		<activity android:name=".SVGTextureRegionExample" android:configChanges="orientation"/>
 		<activity android:name=".TextExample" android:configChanges="orientation"/>
 		<activity android:name=".TextMenuExample" android:configChanges="orientation"/>
 		<activity android:name=".TextureOptionsExample" android:configChanges="orientation"/>
