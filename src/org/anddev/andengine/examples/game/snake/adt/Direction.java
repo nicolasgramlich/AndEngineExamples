@@ -9,7 +9,7 @@ public enum Direction {
 	// Elements
 	// ===========================================================
 
-	UP(), DOWN, LEFT, RIGHT;
+	UP, DOWN, LEFT, RIGHT;
 
 	// ===========================================================
 	// Constants
