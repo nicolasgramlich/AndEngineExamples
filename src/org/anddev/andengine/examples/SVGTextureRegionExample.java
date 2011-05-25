@@ -17,6 +17,10 @@ import org.anddev.andengine.opengl.texture.builder.ITextureBuilder.TextureSource
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.util.Debug;
 
+import android.graphics.Color;
+
+import com.larvalabs.svgandroid.adt.ISVGColorMapper;
+
 /**
  * @author Nicolas Gramlich
  * @since 13:58:12 - 21.05.2011
@@ -26,9 +30,14 @@ public class SVGTextureRegionExample extends BaseExample {
 	// Constants
 	// ===========================================================
 
-	private static final int CAMERA_WIDTH = 480;
-	private static final int CAMERA_HEIGHT = 320;
-	private static final int SVG_TEST_COUNT = 4;
+	private static final int CAMERA_WIDTH = 720;
+	private static final int CAMERA_HEIGHT = 480;
+
+	private static final int SIZE = 128;
+	
+	private static final int COUNT = 6;
+	private static final int COLUMNS = 3;
+	private static final int ROWS = (int)Math.ceil((float)COUNT / COLUMNS);
 
 	// ===========================================================
 	// Fields
@@ -59,12 +68,26 @@ public class SVGTextureRegionExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		this.mBuildableTexture = new BuildableTexture(1024, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		SVGTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mSVGTestTextureRegions = new TextureRegion[SVG_TEST_COUNT];
-		this.mSVGTestTextureRegions[0] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "gfx/svg_test_simple_0.svg");
-//		this.mSVGTestTextureRegions[1] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "gfx/svg_test_simple_1.svg");
-//		this.mSVGTestTextureRegions[2] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "gfx/svg_test_bunny_ai.svg");
-//		this.mSVGTestTextureRegions[3] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "gfx/svg_test_bunny_inkscape.svg");
+		this.mSVGTestTextureRegions = new TextureRegion[COUNT];
+		int i = 0;
+		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "chick.svg", 16, 16);
+		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "chick.svg", 64, 64);
+		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "chick.svg", 256, 256);
+		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "badge.svg", 16, 16);
+		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "badge.svg", 64, 64);
+		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "badge.svg", 256, 256, new ISVGColorMapper() {
+			@Override
+			public Integer mapColor(Integer pColor) {
+				if(pColor == null) {
+					return null;
+				} else {
+					/* Swap red and green channel. */
+					return Color.argb(0, Color.green(pColor), Color.red(pColor), Color.blue(pColor));
+				}
+			}
+		});
 
 		try {
 			this.mBuildableTexture.build(new BlackPawnTextureBuilder(1));
@@ -81,15 +104,17 @@ public class SVGTextureRegionExample extends BaseExample {
 
 		final Scene scene = new Scene(0);
 		scene.setBackground(new ColorBackground(1, 1, 1));
-
-		final int size = 100;
-		final float centerY = this.mCamera.getHeight() * 0.5f;
-		for(int i = 0; i < SVG_TEST_COUNT; i++) {
-			final float centerX = this.mCamera.getWidth() / (SVG_TEST_COUNT + 1) * (i + 1);
-			final TextureRegion textureRegion = this.mSVGTestTextureRegions[i];
-			if(textureRegion != null) {
-				scene.attachChild(new Sprite(centerX - size * 0.5f, centerY - size * 0.5f, size, size, textureRegion));
-			}
+		
+		for(int i = 0; i < COUNT; i++) {
+			final int row = i / COLUMNS;
+			final int column = i % COLUMNS;
+			
+			final float centerX = this.mCamera.getWidth() / (COLUMNS + 1) * (column + 1);
+			final float centerY = this.mCamera.getHeight() / (ROWS + 1) * (row + 1);
+			
+			final float x = centerX - SIZE * 0.5f;
+			final float y = centerY - SIZE * 0.5f;
+			scene.attachChild(new Sprite(x, y, SIZE, SIZE, this.mSVGTestTextureRegions[i]));
 		}
 
 		return scene;
