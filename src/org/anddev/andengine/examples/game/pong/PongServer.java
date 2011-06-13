@@ -144,6 +144,15 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
+	
+	@Override
+	public void preSolve(final Contact pContact) {
+
+	}
+	
+	public void postSolve(final Contact pContact) {
+
+	}
 
 	@Override
 	public void beginContact(final Contact pContact) {

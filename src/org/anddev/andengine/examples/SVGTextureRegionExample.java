@@ -10,6 +10,8 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.extension.svg.adt.ISVGColorMapper;
+import org.anddev.andengine.extension.svg.adt.SVGDirectColorMapper;
 import org.anddev.andengine.extension.svg.opengl.texture.region.SVGTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.BuildableTexture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -21,9 +23,6 @@ import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.util.Debug;
 
 import android.graphics.Color;
-
-import com.larvalabs.svgandroid.adt.ISVGColorMapper;
-import com.larvalabs.svgandroid.adt.SVGDirectColorMapper;
 
 /**
  * @author Nicolas Gramlich
@@ -38,7 +37,7 @@ public class SVGTextureRegionExample extends BaseExample {
 	private static final int CAMERA_HEIGHT = 480;
 
 	private static final int SIZE = 128;
-	
+
 	private static final int COUNT = 12;
 	private static final int COLUMNS = 4;
 	private static final int ROWS = (int)Math.ceil((float)COUNT / COLUMNS);
@@ -84,7 +83,7 @@ public class SVGTextureRegionExample extends BaseExample {
 		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "badge.svg", 64, 64);
 		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "badge.svg", 128, 128, new ISVGColorMapper() {
 			@Override
-			public Integer mapColor(Integer pColor) {
+			public Integer mapColor(final Integer pColor) {
 				if(pColor == null) {
 					return null;
 				} else {
@@ -95,7 +94,7 @@ public class SVGTextureRegionExample extends BaseExample {
 		});
 		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "badge.svg", 256, 256, new ISVGColorMapper() {
 			@Override
-			public Integer mapColor(Integer pColor) {
+			public Integer mapColor(final Integer pColor) {
 				if(pColor == null) {
 					return null;
 				} else {
@@ -127,14 +126,14 @@ public class SVGTextureRegionExample extends BaseExample {
 
 		final Scene scene = new Scene(0);
 		scene.setBackground(new ColorBackground(0.5f, 0.5f, 0.5f));
-		
+
 		for(int i = 0; i < COUNT; i++) {
 			final int row = i / COLUMNS;
 			final int column = i % COLUMNS;
-			
+
 			final float centerX = this.mCamera.getWidth() / (COLUMNS + 1) * (column + 1);
 			final float centerY = this.mCamera.getHeight() / (ROWS + 1) * (row + 1);
-			
+
 			final float x = centerX - SIZE * 0.5f;
 			final float y = centerY - SIZE * 0.5f;
 			final BaseTextureRegion baseTextureRegion = this.mSVGTestTextureRegions[i];
