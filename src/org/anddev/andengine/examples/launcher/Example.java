@@ -48,6 +48,7 @@ import org.anddev.andengine.examples.SVGTextureRegionExample;
 import org.anddev.andengine.examples.ScreenCaptureExample;
 import org.anddev.andengine.examples.SoundExample;
 import org.anddev.andengine.examples.SplitScreenExample;
+import org.anddev.andengine.examples.SpriteBatchExample;
 import org.anddev.andengine.examples.SpriteExample;
 import org.anddev.andengine.examples.SpriteRemoveExample;
 import org.anddev.andengine.examples.StrokeFontExample;
@@ -129,6 +130,7 @@ enum Example {
 	SCREENCAPTURE(ScreenCaptureExample.class, R.string.example_screencapture),
 	SOUND(SoundExample.class, R.string.example_sound),
 	SPLITSCREEN(SplitScreenExample.class, R.string.example_splitscreen),
+	SPRITEBATCH(SpriteBatchExample.class, R.string.example_spritebatch),
 	SPRITE(SpriteExample.class, R.string.example_sprite),
 	SPRITEREMOVE(SpriteRemoveExample.class, R.string.example_spriteremove),
 	STROKEFONT(StrokeFontExample.class, R.string.example_strokefont),

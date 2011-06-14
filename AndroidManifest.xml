@@ -72,6 +72,7 @@
 		<activity android:name=".ScreenCaptureExample" android:configChanges="orientation"/>
 		<activity android:name=".SoundExample" android:configChanges="orientation"/>
 		<activity android:name=".SplitScreenExample" android:configChanges="orientation"/>
+		<activity android:name=".SpriteBatchExample" android:configChanges="orientation"/>
 		<activity android:name=".SpriteExample" android:configChanges="orientation"/>
 		<activity android:name=".SpriteRemoveExample" android:configChanges="orientation"/>
 		<activity android:name=".StrokeFontExample" android:configChanges="orientation"/>
