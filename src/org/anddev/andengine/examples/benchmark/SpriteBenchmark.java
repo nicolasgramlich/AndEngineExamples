@@ -11,6 +11,7 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.sprite.batch.SpriteBatch;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
@@ -85,6 +86,17 @@ public class SpriteBenchmark extends BaseBenchmark {
 		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
+		this.drawUsingSpriteBatch(scene);
+		//		drawUsingSprites(scene);
+
+		return scene;
+	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	private void drawUsingSprites(final Scene scene) {
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
 		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_STATIC_DRAW);
 		sharedVertexBuffer.update(this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
@@ -95,20 +107,23 @@ public class SpriteBenchmark extends BaseBenchmark {
 			face.setIgnoreUpdate(true);
 			scene.attachChild(face);
 		}
-
-//		for(int i = 0; i < SPRITE_COUNT; i++) {
-//			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
-//			face.setBlendFunction(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
-//			face.setIgnoreUpdate(true);
-//			scene.attachChild(face);
-//		}
-
-		return scene;
 	}
 
-	// ===========================================================
-	// Methods
-	// ===========================================================
+	private void drawUsingSpriteBatch(final Scene scene) {
+		final int width = this.mFaceTextureRegion.getWidth();
+		final int height = this.mFaceTextureRegion.getHeight();
+
+		final SpriteBatch spriteBatch = new SpriteBatch(this.mTexture, SPRITE_COUNT);
+		spriteBatch.setBlendFunction(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		for(int i = 0; i < SPRITE_COUNT; i++) {
+			final float x = this.mRandom.nextFloat() * (CAMERA_WIDTH - 32);
+			final float y = this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32);
+			spriteBatch.draw(this.mFaceTextureRegion, x, y, width, height);
+		}
+		spriteBatch.submit();
+
+		scene.attachChild(spriteBatch);
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
