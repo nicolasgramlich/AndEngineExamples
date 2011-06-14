@@ -91,7 +91,7 @@ public class XMLLayoutExample extends LayoutGameActivity {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 
 		final CircleOutlineParticleEmitter particleEmitter = new CircleOutlineParticleEmitter(CAMERA_WIDTH * 0.5f, CAMERA_HEIGHT * 0.5f + 20, 80);
 		final ParticleSystem particleSystem = new ParticleSystem(particleEmitter, 60, 60, 360, this.mParticleTextureRegion);
@@ -117,7 +117,7 @@ public class XMLLayoutExample extends LayoutGameActivity {
 		particleSystem.addParticleModifier(new AlphaModifier(1, 0, 5, 6));
 		particleSystem.addParticleModifier(new ExpireModifier(6, 6));
 
-		scene.getLastChild().attachChild(particleSystem);
+		scene.attachChild(particleSystem);
 
 		return scene;
 	}

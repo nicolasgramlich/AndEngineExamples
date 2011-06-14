@@ -116,9 +116,9 @@ public class ScreenCaptureExample extends BaseExample {
 		arrowLineWingLeft.setColor(1, 0, 1);
 		arrowLineWingRight.setColor(1, 0, 1);
 
-		scene.getLastChild().attachChild(arrowLineMain);
-		scene.getLastChild().attachChild(arrowLineWingLeft);
-		scene.getLastChild().attachChild(arrowLineWingRight);
+		scene.attachChild(arrowLineMain);
+		scene.attachChild(arrowLineWingLeft);
+		scene.attachChild(arrowLineWingRight);
 
 		/* Create the rectangles. */
 		final Rectangle rect1 = this.makeColoredRectangle(-180, -180, 1, 0, 0);

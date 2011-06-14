@@ -98,14 +98,14 @@ public class ModPlayerExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final int x = (CAMERA_WIDTH - this.mILove8BitTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mILove8BitTextureRegion.getHeight()) / 2;
 
 		final Sprite iLove8Bit = new Sprite(x, y, this.mILove8BitTextureRegion);
-		scene.getLastChild().attachChild(iLove8Bit);
+		scene.attachChild(iLove8Bit);
 
 		scene.registerTouchArea(iLove8Bit);
 		scene.setOnAreaTouchListener(new IOnAreaTouchListener() {

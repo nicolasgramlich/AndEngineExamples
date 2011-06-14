@@ -6,7 +6,6 @@ import org.anddev.andengine.engine.camera.hud.HUD;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.modifier.MoveModifier;
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
@@ -80,7 +79,7 @@ public class EaseFunctionExample extends BaseExample {
 	private Font mFont;
 
 	private Texture mTexture;
-	private TextureRegion mFaceTextureRegion;
+	private TextureRegion mBadgeTextureRegion;
 	private TextureRegion mNextTextureRegion;
 
 	private static final IEaseFunction[][] EASEFUNCTIONS = new IEaseFunction[][]{
@@ -148,7 +147,7 @@ public class EaseFunctionExample extends BaseExample {
 
 	private int mCurrentEaseFunctionSet = 0;
 
-	private final Sprite[] mFaces = new Sprite[3];
+	private final Sprite[] mBadges = new Sprite[3];
 	private final ChangeableText[] mEaseFunctionNameTexts = new ChangeableText[3];
 
 	// ===========================================================
@@ -182,7 +181,7 @@ public class EaseFunctionExample extends BaseExample {
 		/* The textures. */
 		this.mTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mNextTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/next.png", 0, 0);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/badge.png", 97, 0);
+		this.mBadgeTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/badge.png", 97, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 	}
@@ -191,7 +190,7 @@ public class EaseFunctionExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 
 		final HUD hud = new HUD();
 
@@ -225,24 +224,23 @@ public class EaseFunctionExample extends BaseExample {
 
 		/* Create the sprites that will be moving. */
 
-		this.mFaces[0] = new Sprite(0, CAMERA_HEIGHT - 300, this.mFaceTextureRegion);
-		this.mFaces[1] = new Sprite(0, CAMERA_HEIGHT - 200, this.mFaceTextureRegion);
-		this.mFaces[2] = new Sprite(0, CAMERA_HEIGHT - 100, this.mFaceTextureRegion);
+		this.mBadges[0] = new Sprite(0, CAMERA_HEIGHT - 300, this.mBadgeTextureRegion);
+		this.mBadges[1] = new Sprite(0, CAMERA_HEIGHT - 200, this.mBadgeTextureRegion);
+		this.mBadges[2] = new Sprite(0, CAMERA_HEIGHT - 100, this.mBadgeTextureRegion);
 
 		this.mEaseFunctionNameTexts[0] = new ChangeableText(0, CAMERA_HEIGHT - 250, this.mFont, "Function", 20);
 		this.mEaseFunctionNameTexts[1] = new ChangeableText(0, CAMERA_HEIGHT - 150, this.mFont, "Function", 20);
 		this.mEaseFunctionNameTexts[2] = new ChangeableText(0, CAMERA_HEIGHT - 50, this.mFont, "Function", 20);
 
-		final IEntity lastChild = scene.getLastChild();
-		lastChild.attachChild(this.mFaces[0]);
-		lastChild.attachChild(this.mFaces[1]);
-		lastChild.attachChild(this.mFaces[2]);
-		lastChild.attachChild(this.mEaseFunctionNameTexts[0]);
-		lastChild.attachChild(this.mEaseFunctionNameTexts[1]);
-		lastChild.attachChild(this.mEaseFunctionNameTexts[2]);
-		lastChild.attachChild(new Line(0, CAMERA_HEIGHT - 110, CAMERA_WIDTH, CAMERA_HEIGHT - 110));
-		lastChild.attachChild(new Line(0, CAMERA_HEIGHT - 210, CAMERA_WIDTH, CAMERA_HEIGHT - 210));
-		lastChild.attachChild(new Line(0, CAMERA_HEIGHT - 310, CAMERA_WIDTH, CAMERA_HEIGHT - 310));
+		scene.attachChild(this.mBadges[0]);
+		scene.attachChild(this.mBadges[1]);
+		scene.attachChild(this.mBadges[2]);
+		scene.attachChild(this.mEaseFunctionNameTexts[0]);
+		scene.attachChild(this.mEaseFunctionNameTexts[1]);
+		scene.attachChild(this.mEaseFunctionNameTexts[2]);
+		scene.attachChild(new Line(0, CAMERA_HEIGHT - 110, CAMERA_WIDTH, CAMERA_HEIGHT - 110));
+		scene.attachChild(new Line(0, CAMERA_HEIGHT - 210, CAMERA_WIDTH, CAMERA_HEIGHT - 210));
+		scene.attachChild(new Line(0, CAMERA_HEIGHT - 310, CAMERA_WIDTH, CAMERA_HEIGHT - 310));
 
 		return scene;
 	}
@@ -277,7 +275,7 @@ public class EaseFunctionExample extends BaseExample {
 			public void run() {
 				final IEaseFunction[] currentEaseFunctionsSet = EASEFUNCTIONS[EaseFunctionExample.this.mCurrentEaseFunctionSet];
 				final ChangeableText[] easeFunctionNameTexts = EaseFunctionExample.this.mEaseFunctionNameTexts;
-				final Sprite[] faces = EaseFunctionExample.this.mFaces;
+				final Sprite[] faces = EaseFunctionExample.this.mBadges;
 
 				for(int i = 0; i < 3; i++) {
 					easeFunctionNameTexts[i].setText(currentEaseFunctionsSet[i].getClass().getSimpleName());

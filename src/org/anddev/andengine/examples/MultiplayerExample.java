@@ -225,7 +225,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* We allow only the server to actively send around messages. */
@@ -295,7 +295,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 		face.setUserData(pID);
 		this.mFaces.put(pID, face);
 		scene.registerTouchArea(face);
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 	}
 
 	public void moveFace(final int pID, final float pX, final float pY) {

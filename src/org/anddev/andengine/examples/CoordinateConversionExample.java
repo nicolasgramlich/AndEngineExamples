@@ -127,9 +127,9 @@ public class CoordinateConversionExample extends BaseExample {
 		arrowLineWingLeft.setColor(1, 0, 0);
 		arrowLineWingRight.setColor(1, 0, 0);
 
-		scene.getLastChild().attachChild(arrowLineMain);
-		scene.getLastChild().attachChild(arrowLineWingLeft);
-		scene.getLastChild().attachChild(arrowLineWingRight);
+		scene.attachChild(arrowLineMain);
+		scene.attachChild(arrowLineWingLeft);
+		scene.attachChild(arrowLineWingRight);
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;

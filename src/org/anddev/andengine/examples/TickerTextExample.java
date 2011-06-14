@@ -77,7 +77,7 @@ public class TickerTextExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final Text text = new TickerText(30, 60, this.mFont, "There are also ticker texts!\n\nYou'll see the answer to life & universe in...\n\n5 4 3 2 1...\n\n42\n\nIndeed very funny!", HorizontalAlign.CENTER, 10);
@@ -91,7 +91,7 @@ public class TickerTextExample extends BaseExample {
 				)
 		);
 		text.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		scene.getLastChild().attachChild(text);
+		scene.attachChild(text);
 
 		return scene;
 	}

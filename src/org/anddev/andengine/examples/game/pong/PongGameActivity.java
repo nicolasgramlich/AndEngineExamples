@@ -130,7 +130,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 
 		/* Ball */
 		this.mBall = new Rectangle(0, 0, BALL_WIDTH, BALL_HEIGHT);

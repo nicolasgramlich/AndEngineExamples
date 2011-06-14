@@ -107,7 +107,7 @@ public class AnalogOnScreenControlsExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
@@ -116,7 +116,7 @@ public class AnalogOnScreenControlsExample extends BaseExample {
 		final PhysicsHandler physicsHandler = new PhysicsHandler(face);
 		face.registerUpdateHandler(physicsHandler);
 
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 
 		/* Velocity control (left). */
 		final int x1 = 0;

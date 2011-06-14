@@ -84,13 +84,13 @@ public class SoundExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final int x = (CAMERA_WIDTH - this.mTankTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mTankTextureRegion.getHeight()) / 2;
 		final Sprite tank = new Sprite(x, y, this.mTankTextureRegion);
-		scene.getLastChild().attachChild(tank);
+		scene.attachChild(tank);
 
 		scene.registerTouchArea(tank);
 		scene.setOnAreaTouchListener(new IOnAreaTouchListener() {

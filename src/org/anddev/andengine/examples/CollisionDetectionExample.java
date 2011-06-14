@@ -114,7 +114,7 @@ public class CollisionDetectionExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 
@@ -125,13 +125,13 @@ public class CollisionDetectionExample extends BaseExample {
 		final Rectangle centerRectangle = new Rectangle(centerX, centerY, 32, 32);
 		centerRectangle.registerEntityModifier(new LoopEntityModifier(new ParallelEntityModifier(new RotationModifier(6, 0, 360), new SequenceEntityModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1)))));
 
-		scene.getLastChild().attachChild(centerRectangle);
+		scene.attachChild(centerRectangle);
 
 		final Sprite face = new Sprite(centerX, centerY + 42, this.mFaceTextureRegion);
 		final PhysicsHandler physicsHandler = new PhysicsHandler(face);
 		face.registerUpdateHandler(physicsHandler);
 
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 
 		/* Velocity control (left). */
 		final int x1 = 0;

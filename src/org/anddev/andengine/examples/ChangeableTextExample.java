@@ -71,14 +71,14 @@ public class ChangeableTextExample extends BaseExample {
 		final FPSCounter fpsCounter = new FPSCounter();
 		this.mEngine.registerUpdateHandler(fpsCounter);
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final ChangeableText elapsedText = new ChangeableText(100, 160, this.mFont, "Seconds elapsed:", "Seconds elapsed: XXXXX".length());
 		final ChangeableText fpsText = new ChangeableText(250, 240, this.mFont, "FPS:", "FPS: XXXXX".length());
 
-		scene.getLastChild().attachChild(elapsedText);
-		scene.getLastChild().attachChild(fpsText);
+		scene.attachChild(elapsedText);
+		scene.attachChild(fpsText);
 
 		scene.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback() {
 			@Override

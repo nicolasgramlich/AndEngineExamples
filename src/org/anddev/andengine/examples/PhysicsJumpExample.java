@@ -190,7 +190,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 
 		face.animate(new long[]{200,200}, 0, 1, true);
 		scene.registerTouchArea(face);
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 	}
 
 	private void jumpFace(final AnimatedSprite face) {

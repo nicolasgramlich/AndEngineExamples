@@ -68,7 +68,7 @@ public class MovingBallExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
@@ -78,7 +78,7 @@ public class MovingBallExample extends BaseExample {
 		ball.registerUpdateHandler(physicsHandler);
 		physicsHandler.setVelocity(DEMO_VELOCITY, DEMO_VELOCITY);
 
-		scene.getLastChild().attachChild(ball);
+		scene.attachChild(ball);
 
 		return scene;
 	}

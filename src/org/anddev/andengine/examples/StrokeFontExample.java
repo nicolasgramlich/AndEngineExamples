@@ -81,16 +81,16 @@ public class StrokeFontExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final Text textNormal = new Text(100, 100, this.mFont, "Just some normal Text.");
 		final Text textStroke = new Text(100, 200, this.mStrokeFont, "Text with fill and stroke.");
 		final Text textStrokeOnly = new Text(100, 300, this.mStrokeOnlyFont, "Text with stroke only.");
 
-		scene.getLastChild().attachChild(textNormal);
-		scene.getLastChild().attachChild(textStroke);
-		scene.getLastChild().attachChild(textStrokeOnly);
+		scene.attachChild(textNormal);
+		scene.attachChild(textStroke);
+		scene.attachChild(textStrokeOnly);
 
 		return scene;
 	}

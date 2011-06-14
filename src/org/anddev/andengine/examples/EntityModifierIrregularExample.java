@@ -75,7 +75,7 @@ public class EntityModifierIrregularExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
@@ -116,15 +116,15 @@ public class EntityModifierIrregularExample extends BaseExample {
 		face1.registerEntityModifier(EntityModifier);
 		face2.registerEntityModifier(EntityModifier.clone());
 
-		scene.getLastChild().attachChild(face1);
-		scene.getLastChild().attachChild(face2);
+		scene.attachChild(face1);
+		scene.attachChild(face2);
 
 		/* Create some not-modified sprites, that act as fixed references to the modified ones. */
 		final AnimatedSprite face1Reference = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion);
 		final AnimatedSprite face2Reference = new AnimatedSprite(centerX + 100, centerY, this.mFaceTextureRegion);
 
-		scene.getLastChild().attachChild(face1Reference);
-		scene.getLastChild().attachChild(face2Reference);
+		scene.attachChild(face1Reference);
+		scene.attachChild(face2Reference);
 
 		return scene;
 	}

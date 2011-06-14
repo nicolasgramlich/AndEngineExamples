@@ -3,8 +3,6 @@ package org.anddev.andengine.examples.util;
 import java.util.Set;
 
 import org.anddev.andengine.examples.R;
-import org.anddev.andengine.examples.R.id;
-import org.anddev.andengine.examples.R.layout;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;

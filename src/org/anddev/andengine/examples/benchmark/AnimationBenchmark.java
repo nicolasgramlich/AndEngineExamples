@@ -93,7 +93,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 
 	@Override
 	public Scene onLoadScene() {
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
@@ -113,22 +113,22 @@ public class AnimationBenchmark extends BaseBenchmark {
 			/* Quickly twinkling face. */
 			final AnimatedSprite face = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion.clone(), faceSharedVertexBuffer);
 			face.animate(50 + this.mRandom.nextInt(100));
-			scene.getLastChild().attachChild(face);
+			scene.attachChild(face);
 
 			/* Continuously flying helicopter. */
 			final AnimatedSprite helicopter = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 48), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 48), this.mHelicopterTextureRegion.clone(), helicopterSharedVertexBuffer);
 			helicopter.animate(new long[] { 50 + this.mRandom.nextInt(100), 50 + this.mRandom.nextInt(100) }, 1, 2, true);
-			scene.getLastChild().attachChild(helicopter);
+			scene.attachChild(helicopter);
 
 			/* Snapdragon. */
 			final AnimatedSprite snapdragon = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 100), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 60), this.mSnapdragonTextureRegion.clone(), snapdragonSharedVertexBuffer);
 			snapdragon.animate(50 + this.mRandom.nextInt(100));
-			scene.getLastChild().attachChild(snapdragon);
+			scene.attachChild(snapdragon);
 
 			/* Funny banana. */
 			final AnimatedSprite banana = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mBananaTextureRegion.clone(), bananaSharedVertexBuffer);
 			banana.animate(50 + this.mRandom.nextInt(100));
-			scene.getLastChild().attachChild(banana);
+			scene.attachChild(banana);
 		}
 
 		return scene;

@@ -69,7 +69,7 @@ public class AugmentedRealityExample extends BaseAugmentedRealityGameActivity {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		//		scene.setBackgroundEnabled(false);
 		scene.setBackground(new ColorBackground(0.0f, 0.0f, 0.0f, 0.0f));
 
@@ -77,7 +77,7 @@ public class AugmentedRealityExample extends BaseAugmentedRealityGameActivity {
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
 		face.registerEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 
 		return scene;
 	}

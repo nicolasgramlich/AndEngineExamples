@@ -24,14 +24,14 @@ import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.IS
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.client.IServerMessageHandler;
 import org.anddev.andengine.extension.multiplayer.protocol.client.connector.BluetoothSocketConnectionServerConnector;
-import org.anddev.andengine.extension.multiplayer.protocol.client.connector.ServerConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.client.connector.BluetoothSocketConnectionServerConnector.IBluetoothSocketConnectionServerConnectorListener;
+import org.anddev.andengine.extension.multiplayer.protocol.client.connector.ServerConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.exception.BluetoothException;
 import org.anddev.andengine.extension.multiplayer.protocol.server.BluetoothSocketServer;
 import org.anddev.andengine.extension.multiplayer.protocol.server.BluetoothSocketServer.IBluetoothSocketServerListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.BluetoothSocketConnectionClientConnector;
-import org.anddev.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.BluetoothSocketConnectionClientConnector.IBluetoothSocketConnectionClientConnectorListener;
+import org.anddev.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.shared.BluetoothSocketConnection;
 import org.anddev.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.anddev.andengine.input.touch.TouchEvent;
@@ -45,8 +45,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.widget.Toast;
@@ -212,7 +212,7 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* We allow only the server to actively send around messages. */
@@ -297,7 +297,7 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 		face.setUserData(pID);
 		this.mFaces.put(pID, face);
 		scene.registerTouchArea(face);
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 	}
 
 	public void moveFace(final int pID, final float pX, final float pY) {

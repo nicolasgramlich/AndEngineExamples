@@ -75,7 +75,7 @@ public class RepeatingSpriteBackgroundExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(this.mGrassBackground);
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
@@ -106,7 +106,7 @@ public class RepeatingSpriteBackgroundExample extends BaseExample {
 				}
 			}
 		})));
-		scene.getLastChild().attachChild(player);
+		scene.attachChild(player);
 
 		return scene;
 	}

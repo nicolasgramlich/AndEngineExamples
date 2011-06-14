@@ -183,7 +183,7 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 		}
 		
-		pScene.getLastChild().attachChild(face);
+		pScene.attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}
 

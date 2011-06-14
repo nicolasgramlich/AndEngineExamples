@@ -70,7 +70,7 @@ public class Rotation3DExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
@@ -106,7 +106,7 @@ public class Rotation3DExample extends BaseExample {
 			}
 		};
 		face.registerEntityModifier(new LoopEntityModifier(new RotationModifier(6, 0, 360)));
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 
 		return scene;
 	}

@@ -155,7 +155,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		final AnimatedSprite face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion).animate(100);
 		final Body body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 
 		if(this.mFaceCount == 0){

@@ -76,7 +76,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.0f, 0.0f, 0.0f));
 
 		/* Left to right Particle System. */
@@ -96,7 +96,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 			particleSystem.addParticleModifier(new ColorModifier(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 11.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 4.5f, 11.5f));
 
-			scene.getLastChild().attachChild(particleSystem);
+			scene.attachChild(particleSystem);
 		}
 
 		/* Right to left Particle System. */
@@ -116,7 +116,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 			particleSystem.addParticleModifier(new ColorModifier(0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 11.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 4.5f, 11.5f));
 
-			scene.getLastChild().attachChild(particleSystem);
+			scene.attachChild(particleSystem);
 		}
 
 		return scene;

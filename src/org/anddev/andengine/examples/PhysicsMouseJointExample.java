@@ -239,7 +239,7 @@ public class PhysicsMouseJointExample extends BaseExample implements IAccelerome
 
 		scene.registerTouchArea(face);
 
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}

@@ -5,7 +5,6 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -84,7 +83,7 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 
 		final int centerX = (CAMERA_WIDTH - this.mChromaticCircleTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mChromaticCircleTextureRegion.getHeight()) / 2;
@@ -93,9 +92,8 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 		final Sprite chromaticCircleColorKeyed = new Sprite(centerX + 80, centerY, this.mChromaticCircleColorKeyedTextureRegion);
 
-		final IEntity lastChild = scene.getLastChild();
-		lastChild.attachChild(chromaticCircle);
-		lastChild.attachChild(chromaticCircleColorKeyed);
+		scene.attachChild(chromaticCircle);
+		scene.attachChild(chromaticCircleColorKeyed);
 
 		return scene;
 	}

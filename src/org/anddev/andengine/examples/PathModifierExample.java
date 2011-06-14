@@ -79,7 +79,7 @@ public class PathModifierExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(this.mGrassBackground);
 
 		/* Create the face and add it to the scene. */
@@ -107,7 +107,7 @@ public class PathModifierExample extends BaseExample {
 				}
 			}
 		}, EaseSineInOut.getInstance())));
-		scene.getLastChild().attachChild(player);
+		scene.attachChild(player);
 
 		return scene;
 	}

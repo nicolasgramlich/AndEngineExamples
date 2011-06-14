@@ -81,7 +81,7 @@ public class AutoParallaxBackgroundExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		final AutoParallaxBackground autoParallaxBackground = new AutoParallaxBackground(0, 0, 0, 5);
 		autoParallaxBackground.attachParallaxEntity(new ParallaxEntity(0.0f, new Sprite(0, CAMERA_HEIGHT - this.mParallaxLayerBack.getHeight(), this.mParallaxLayerBack)));
 		autoParallaxBackground.attachParallaxEntity(new ParallaxEntity(-5.0f, new Sprite(0, 80, this.mParallaxLayerMid)));
@@ -103,8 +103,8 @@ public class AutoParallaxBackgroundExample extends BaseExample {
 		enemy.setScale(2);
 		enemy.animate(new long[]{200, 200, 200}, 3, 5, true);
 
-		scene.getLastChild().attachChild(player);
-		scene.getLastChild().attachChild(enemy);
+		scene.attachChild(player);
+		scene.attachChild(enemy);
 
 		return scene;
 	}

@@ -64,7 +64,7 @@ public class SpriteExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
@@ -73,7 +73,7 @@ public class SpriteExample extends BaseExample {
 
 		/* Create the face and add it to the scene. */
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 
 		return scene;
 	}

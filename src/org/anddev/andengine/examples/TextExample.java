@@ -69,16 +69,16 @@ public class TextExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final Text textCenter = new Text(100, 60, this.mFont, "Hello AndEngine!\nYou can even have multilined text!", HorizontalAlign.CENTER);
 		final Text textLeft = new Text(100, 200, this.mFont, "Also left aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.LEFT);
 		final Text textRight = new Text(100, 340, this.mFont, "And right aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.RIGHT);
 
-		scene.getLastChild().attachChild(textCenter);
-		scene.getLastChild().attachChild(textLeft);
-		scene.getLastChild().attachChild(textRight);
+		scene.attachChild(textCenter);
+		scene.attachChild(textLeft);
+		scene.attachChild(textRight);
 
 		return scene;
 	}

@@ -5,7 +5,6 @@ import org.anddev.andengine.engine.camera.SmoothCamera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
@@ -70,7 +69,7 @@ public class ZoomExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the screen-center. */
@@ -78,10 +77,9 @@ public class ZoomExample extends BaseExample {
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create some faces and add them to the scene. */
-		final IEntity lastChild = scene.getLastChild();
-		lastChild.attachChild(new Sprite(centerX - 25, centerY - 25, this.mFaceTextureRegion));
-		lastChild.attachChild(new Sprite(centerX  + 25, centerY - 25, this.mFaceTextureRegion));
-		lastChild.attachChild(new Sprite(centerX, centerY + 25, this.mFaceTextureRegion));
+		scene.attachChild(new Sprite(centerX - 25, centerY - 25, this.mFaceTextureRegion));
+		scene.attachChild(new Sprite(centerX  + 25, centerY - 25, this.mFaceTextureRegion));
+		scene.attachChild(new Sprite(centerX, centerY + 25, this.mFaceTextureRegion));
 
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override

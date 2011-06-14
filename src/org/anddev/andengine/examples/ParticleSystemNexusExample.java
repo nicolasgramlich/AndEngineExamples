@@ -79,7 +79,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.0f, 0.0f, 0.0f));
 
 		/* LowerLeft to LowerRight Particle System. */
@@ -97,7 +97,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 			particleSystem.addParticleModifier(new ColorModifier(1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 2.5f, 6.5f));
 
-			scene.getLastChild().attachChild(particleSystem);
+			scene.attachChild(particleSystem);
 		}
 
 		/* LowerRight to LowerLeft Particle System. */
@@ -115,7 +115,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 			particleSystem.addParticleModifier(new ColorModifier(0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 2.5f, 6.5f));
 
-			scene.getLastChild().attachChild(particleSystem);
+			scene.attachChild(particleSystem);
 		}
 
 		/* UpperLeft to UpperRight Particle System. */
@@ -133,7 +133,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 			particleSystem.addParticleModifier(new ColorModifier(0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 2.5f, 5.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 2.5f, 6.5f));
 
-			scene.getLastChild().attachChild(particleSystem);
+			scene.attachChild(particleSystem);
 		}
 
 		/* UpperRight to UpperLeft Particle System. */
@@ -151,7 +151,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 			particleSystem.addParticleModifier(new ColorModifier(1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
 			particleSystem.addParticleModifier(new AlphaModifier(1.0f, 0.0f, 2.5f, 6.5f));
 
-			scene.getLastChild().attachChild(particleSystem);
+			scene.attachChild(particleSystem);
 		}
 
 		return scene;

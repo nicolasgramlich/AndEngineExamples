@@ -71,7 +71,7 @@ public class UpdateTextureExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
@@ -81,7 +81,7 @@ public class UpdateTextureExample extends BaseExample {
 		/* Create the face and add it to the scene. */
 		final AnimatedSprite face = new AnimatedSprite(x, y, this.mFaceTextureRegion);
 		face.animate(100);
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override

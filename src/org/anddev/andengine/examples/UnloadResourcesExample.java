@@ -67,7 +67,7 @@ public class UnloadResourcesExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final int x = (CAMERA_WIDTH - this.mClickToUnloadTextureRegion.getWidth()) / 2;
@@ -85,13 +85,13 @@ public class UnloadResourcesExample extends BaseExample {
 				UnloadResourcesExample.this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						scene.getLastChild().detachChild(thisRef);
+						scene.detachChild(thisRef);
 					}
 				});
 				return true;
 			}
 		};
-		scene.getLastChild().attachChild(clickToUnload);
+		scene.attachChild(clickToUnload);
 
 		scene.registerTouchArea(clickToUnload);
 

@@ -184,7 +184,7 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 
 		face.animate(200);
 
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}
 

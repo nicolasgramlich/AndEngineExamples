@@ -90,7 +90,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 
 	@Override
 	public Scene onLoadScene() {
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final SequenceEntityModifier EntityModifier = new SequenceEntityModifier(
@@ -123,8 +123,8 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 			face.registerEntityModifier(EntityModifier.clone());
 			rect.registerEntityModifier(EntityModifier.clone());
 
-			scene.getLastChild().attachChild(face);
-			scene.getLastChild().attachChild(rect);
+			scene.attachChild(face);
+			scene.attachChild(rect);
 		}
 
 		return scene;

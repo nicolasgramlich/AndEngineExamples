@@ -5,7 +5,6 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.text.Text;
@@ -92,15 +91,14 @@ public class CustomFontExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
-		final IEntity lastChild = scene.getLastChild();
-		lastChild.attachChild(new Text(230, 30, this.mDroidFont, "Droid Font"));
-		lastChild.attachChild(new Text(160, 120, this.mKingdomOfHeartsFont, "Kingdom Of Hearts Font"));
-		lastChild.attachChild(new Text(110, 210, this.mNeverwinterNightsFont, "Neverwinter Nights Font"));
-		lastChild.attachChild(new Text(140, 300, this.mPlokFont, "Plok Font"));
-		lastChild.attachChild(new Text(25, 390, this.mUnrealTournamenFont, "Unreal Tournament Font"));
+		scene.attachChild(new Text(230, 30, this.mDroidFont, "Droid Font"));
+		scene.attachChild(new Text(160, 120, this.mKingdomOfHeartsFont, "Kingdom Of Hearts Font"));
+		scene.attachChild(new Text(110, 210, this.mNeverwinterNightsFont, "Neverwinter Nights Font"));
+		scene.attachChild(new Text(140, 300, this.mPlokFont, "Plok Font"));
+		scene.attachChild(new Text(25, 390, this.mUnrealTournamenFont, "Unreal Tournament Font"));
 
 		return scene;
 	}

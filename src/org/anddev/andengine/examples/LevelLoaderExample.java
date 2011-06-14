@@ -97,7 +97,7 @@ public class LevelLoaderExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0, 0, 0));
 
 		final LevelLoader levelLoader = new LevelLoader();

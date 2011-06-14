@@ -145,7 +145,7 @@ public class TMXTiledMapExample extends BaseExample {
 		/* Now we are going to create a rectangle that will  always highlight the tile below the feet of the pEntity. */
 		final Rectangle currentTileRectangle = new Rectangle(0, 0, this.mTMXTiledMap.getTileWidth(), this.mTMXTiledMap.getTileHeight());
 		currentTileRectangle.setColor(1, 0, 0, 0.25f);
-		scene.getLastChild().attachChild(currentTileRectangle);
+		scene.attachChild(currentTileRectangle);
 
 		scene.registerUpdateHandler(new IUpdateHandler() {
 			@Override
@@ -164,7 +164,7 @@ public class TMXTiledMapExample extends BaseExample {
 				}
 			}
 		});
-		scene.getLastChild().attachChild(player);
+		scene.attachChild(player);
 
 		return scene;
 	}

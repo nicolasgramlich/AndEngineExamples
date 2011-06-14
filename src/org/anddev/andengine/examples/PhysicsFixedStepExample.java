@@ -171,7 +171,7 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 
 		face.animate(200);
 
-		scene.getLastChild().attachChild(face);
+		scene.attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}
 

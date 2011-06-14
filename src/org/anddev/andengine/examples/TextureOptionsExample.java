@@ -5,7 +5,6 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
@@ -81,7 +80,7 @@ public class TextureOptionsExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
@@ -97,10 +96,9 @@ public class TextureOptionsExample extends BaseExample {
 		 * Giving the sprite twice the height shows you'd also have to change the height of the TextureRegion! */
 		final Sprite faceRepeating = new Sprite(centerX - 160, centerY + 100, this.mFaceTextureRegionRepeating.getWidth(), this.mFaceTextureRegionRepeating.getHeight() * 2, this.mFaceTextureRegionRepeating);
 
-		final IEntity lastChild = scene.getLastChild();
-		lastChild.attachChild(face);
-		lastChild.attachChild(faceBilinear);
-		lastChild.attachChild(faceRepeating);
+		scene.attachChild(face);
+		scene.attachChild(faceBilinear);
+		scene.attachChild(faceRepeating);
 
 		return scene;
 	}

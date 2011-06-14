@@ -5,7 +5,6 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.text.Text;
@@ -85,15 +84,13 @@ public class TickerTextBenchmark extends BaseBenchmark {
 
 	@Override
 	public Scene onLoadScene() {
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 		
-		final IEntity lastChild = scene.getLastChild();
-
 		for(int i = 0; i < TEXT_COUNT; i++) {
 			final Text text = new TickerText(this.mRandom.nextInt(30), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 20), this.mFont, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", HorizontalAlign.CENTER, 5 + 5 * this.mRandom.nextFloat());
 			text.setColor(this.mRandom.nextFloat(), this.mRandom.nextFloat(), this.mRandom.nextFloat());
-			lastChild.attachChild(text);
+			scene.attachChild(text);
 		}
 
 		return scene;

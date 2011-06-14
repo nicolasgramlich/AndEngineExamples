@@ -70,7 +70,7 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
@@ -78,7 +78,7 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		this.mFaceToRemove = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		scene.getLastChild().attachChild(this.mFaceToRemove);
+		scene.attachChild(this.mFaceToRemove);
 
 		scene.setOnSceneTouchListener(this);
 

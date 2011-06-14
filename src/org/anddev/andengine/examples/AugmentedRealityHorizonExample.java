@@ -71,14 +71,14 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 	@Override
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		//		scene.setBackgroundEnabled(false);
 		scene.setBackground(new ColorBackground(0.0f, 0.0f, 0.0f, 0.0f));
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		this.mFace = new Sprite(centerX, centerY, this.mFaceTextureRegion);
-		scene.getLastChild().attachChild(this.mFace);
+		scene.attachChild(this.mFace);
 
 		return scene;
 	}

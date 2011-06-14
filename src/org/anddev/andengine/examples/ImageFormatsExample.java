@@ -5,7 +5,6 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
@@ -87,16 +86,14 @@ public class ImageFormatsExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* Create the icons and add them to the scene. */
-		final IEntity lastChild = scene.getLastChild();
-
-		lastChild.attachChild(new Sprite(160 - 24, 106 - 24, this.mPNGTextureRegion));
-		lastChild.attachChild(new Sprite(160 - 24, 213 - 24, this.mJPGTextureRegion));
-		lastChild.attachChild(new Sprite(320 - 24, 106 - 24, this.mGIFTextureRegion));
-		lastChild.attachChild(new Sprite(320 - 24, 213 - 24, this.mBMPTextureRegion));
+		scene.attachChild(new Sprite(160 - 24, 106 - 24, this.mPNGTextureRegion));
+		scene.attachChild(new Sprite(160 - 24, 213 - 24, this.mJPGTextureRegion));
+		scene.attachChild(new Sprite(320 - 24, 106 - 24, this.mGIFTextureRegion));
+		scene.attachChild(new Sprite(320 - 24, 213 - 24, this.mBMPTextureRegion));
 
 		return scene;
 	}

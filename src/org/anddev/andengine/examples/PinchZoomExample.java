@@ -104,7 +104,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(1);
+		final Scene scene = new Scene();
 		scene.setOnAreaTouchTraversalFrontToBack();
 
 		this.addCard(scene, Card.CLUB_ACE, 200, 100);
