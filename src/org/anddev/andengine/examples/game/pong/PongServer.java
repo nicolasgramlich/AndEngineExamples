@@ -46,9 +46,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 
 /**
  * @author Nicolas Gramlich
@@ -144,13 +146,14 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 	// ===========================================================
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
-	
+
 	@Override
-	public void preSolve(final Contact pContact) {
+	public void preSolve(final Contact pContact, final Manifold pManifold) {
 
 	}
-	
-	public void postSolve(final Contact pContact) {
+
+	@Override
+	public void postSolve(final Contact pContact, final ContactImpulse pContactImpulse) {
 
 	}
 
