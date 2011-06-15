@@ -18,6 +18,8 @@ import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.util.pool.RunnablePoolItem;
 import org.anddev.andengine.util.pool.RunnablePoolUpdateHandler;
 
+import android.widget.Toast;
+
 /**
  * @author Nicolas Gramlich
  * @since 14:56:22 - 15.06.2011
@@ -64,6 +66,7 @@ public class RunnablePoolUpdateHandlerExample extends BaseExample implements IOn
 
 	@Override
 	public Engine onLoadEngine() {
+		Toast.makeText(this, "Touch the screen to rotate the sprites using RunnablePoolItems.", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
