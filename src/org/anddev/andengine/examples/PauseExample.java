@@ -72,22 +72,22 @@ public class PauseExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		this.mPauseScene = new CameraScene(1, this.mCamera);
+		this.mPauseScene = new CameraScene(this.mCamera);
 		/* Make the 'PAUSED'-label centered on the camera. */
 		final int x = CAMERA_WIDTH / 2 - this.mPausedTextureRegion.getWidth() / 2;
 		final int y = CAMERA_HEIGHT / 2 - this.mPausedTextureRegion.getHeight() / 2;
 		final Sprite pausedSprite = new Sprite(x, y, this.mPausedTextureRegion);
-		this.mPauseScene.getLastChild().attachChild(pausedSprite);
+		this.mPauseScene.attachChild(pausedSprite);
 		/* Makes the paused Game look through. */
 		this.mPauseScene.setBackgroundEnabled(false);
 
 		/* Just a simple */
-		this.mMainScene = new Scene(1);
+		this.mMainScene = new Scene();
 		this.mMainScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
 		face.registerEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
-		this.mMainScene.getLastChild().attachChild(face);
+		this.mMainScene.attachChild(face);
 
 		return this.mMainScene;
 	}

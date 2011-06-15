@@ -61,6 +61,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 
 	private float mGravityX;
 	private float mGravityY;
+	private Scene mScene;
 
 	// ===========================================================
 	// Constructors
@@ -100,9 +101,9 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
 
-		final Scene scene = new Scene(2);
-		scene.setBackground(new ColorBackground(0, 0, 0));
-		scene.setOnSceneTouchListener(this);
+		this.mScene = new Scene();
+		this.mScene.setBackground(new ColorBackground(0, 0, 0));
+		this.mScene.setOnSceneTouchListener(this);
 
 		final Shape ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
 		final Shape roof = new Rectangle(0, 0, CAMERA_WIDTH, 2);
@@ -115,16 +116,16 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getFirstChild().attachChild(ground);
-		scene.getFirstChild().attachChild(roof);
-		scene.getFirstChild().attachChild(left);
-		scene.getFirstChild().attachChild(right);
+		this.mScene.attachChild(ground);
+		this.mScene.attachChild(roof);
+		this.mScene.attachChild(left);
+		this.mScene.attachChild(right);
 
-		scene.registerUpdateHandler(this.mPhysicsWorld);
+		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 
-		scene.setOnAreaTouchListener(this);
+		this.mScene.setOnAreaTouchListener(this);
 
-		return scene;
+		return this.mScene;
 	}
 
 	@Override
@@ -169,8 +170,6 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 	// ===========================================================
 
 	private void addFace(final float pX, final float pY) {
-		final Scene scene = this.mEngine.getScene();
-
 		this.mFaceCount++;
 
 		final AnimatedSprite face;
@@ -189,12 +188,13 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 
 		face.animate(new long[]{200,200}, 0, 1, true);
-		scene.registerTouchArea(face);
-		scene.attachChild(face);
+		face.setUserData(body);
+		this.mScene.registerTouchArea(face);
+		this.mScene.attachChild(face);
 	}
 
 	private void jumpFace(final AnimatedSprite face) {
-		final Body faceBody = this.mPhysicsWorld.getPhysicsConnectorManager().findBodyByShape(face);
+		final Body faceBody = (Body)face.getUserData();
 
 		final Vector2 velocity = Vector2Pool.obtain(this.mGravityX * -50, this.mGravityY * -50);
 		faceBody.setLinearVelocity(velocity);

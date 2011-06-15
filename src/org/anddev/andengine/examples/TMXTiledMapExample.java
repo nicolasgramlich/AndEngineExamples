@@ -86,7 +86,7 @@ public class TMXTiledMapExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(2);
+		final Scene scene = new Scene();
 
 		try {
 			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, new ITMXTilePropertiesListener() {
@@ -106,7 +106,7 @@ public class TMXTiledMapExample extends BaseExample {
 		}
 
 		final TMXLayer tmxLayer = this.mTMXTiledMap.getTMXLayers().get(0);
-		scene.getFirstChild().attachChild(tmxLayer);
+		scene.attachChild(tmxLayer);
 
 		/* Make the camera not exceed the bounds of the TMXEntity. */
 		this.mBoundChaseCamera.setBounds(0, tmxLayer.getWidth(), 0, tmxLayer.getHeight());

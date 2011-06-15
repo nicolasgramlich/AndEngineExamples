@@ -214,8 +214,8 @@ public class EaseFunctionExample extends BaseExample {
 		};
 		previousSprite.getTextureRegion().setFlippedHorizontal(true);
 
-		hud.getLastChild().attachChild(nextSprite);
-		hud.getLastChild().attachChild(previousSprite);
+		hud.attachChild(nextSprite);
+		hud.attachChild(previousSprite);
 
 		hud.registerTouchArea(nextSprite);
 		hud.registerTouchArea(previousSprite);

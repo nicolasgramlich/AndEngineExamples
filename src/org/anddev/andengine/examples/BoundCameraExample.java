@@ -54,6 +54,8 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 	private Camera mCamera;
 	private BoundCamera mBoundChaseCamera;
 
+	private Scene mScene;
+
 	private PhysicsWorld mPhysicsWorld;
 
 	private Texture mTexture;
@@ -103,8 +105,8 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(2);
-		scene.setOnSceneTouchListener(this);
+		this.mScene = new Scene();
+		this.mScene.setOnSceneTouchListener(this);
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
 
@@ -119,12 +121,12 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getFirstChild().attachChild(ground);
-		scene.getFirstChild().attachChild(roof);
-		scene.getFirstChild().attachChild(left);
-		scene.getFirstChild().attachChild(right);
+		this.mScene.attachChild(ground);
+		this.mScene.attachChild(roof);
+		this.mScene.attachChild(left);
+		this.mScene.attachChild(right);
 
-		scene.registerUpdateHandler(this.mPhysicsWorld);
+		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 
 		final HUD hud = new HUD();
 
@@ -147,11 +149,11 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 			}
 		};
 		hud.registerTouchArea(toggleButton);
-		hud.getFirstChild().attachChild(toggleButton);
+		hud.attachChild(toggleButton);
 
 		this.mBoundChaseCamera.setHUD(hud);
 
-		return scene;
+		return this.mScene;
 	}
 
 	@Override
@@ -182,14 +184,12 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 	// ===========================================================
 
 	private void addFace(final float pX, final float pY) {
-		final Scene scene = this.mEngine.getScene();
-
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 
 		final AnimatedSprite face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion).animate(100);
 		final Body body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 
-		scene.attachChild(face);
+		this.mScene.attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 
 		if(this.mFaceCount == 0){

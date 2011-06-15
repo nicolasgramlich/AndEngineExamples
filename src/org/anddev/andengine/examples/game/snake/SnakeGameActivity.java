@@ -55,11 +55,6 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	private static final int CAMERA_WIDTH = CELLS_HORIZONTAL * CELL_WIDTH; // 640
 	private static final int CAMERA_HEIGHT = CELLS_VERTICAL * CELL_HEIGHT; // 480
 
-	private static final int LAYER_BACKGROUND = 0;
-	private static final int LAYER_FOOD = LAYER_BACKGROUND + 1;
-	private static final int LAYER_SNAKE = LAYER_FOOD + 1;
-	private static final int LAYER_SCORE = LAYER_SNAKE + 1;
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -82,6 +77,9 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	private Texture mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
+
+	private Scene mScene;
+	
 	private Snake mSnake;
 	private Frog mFrog;
 
@@ -151,29 +149,29 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(4);
+		mScene = new Scene();
 		/* No background color needed as we have a fullscreen background sprite. */
-		scene.setBackgroundEnabled(false);
-		scene.getChild(LAYER_BACKGROUND).attachChild(new Sprite(0, 0, this.mBackgroundTextureRegion));
+		mScene.setBackgroundEnabled(false);
+		mScene.attachChild(new Sprite(0, 0, this.mBackgroundTextureRegion));
 
 		/* The ScoreText showing how many points the pEntity scored. */
 		this.mScoreText = new ChangeableText(5, 5, this.mFont, "Score: 0", "Score: XXXX".length());
 		this.mScoreText.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		this.mScoreText.setAlpha(0.5f);
-		scene.getChild(LAYER_SCORE).attachChild(this.mScoreText);
+		mScene.attachChild(this.mScoreText);
 
 		/* The Snake. */
 		this.mSnake = new Snake(Direction.RIGHT, 0, CELLS_VERTICAL / 2, this.mHeadTextureRegion, this.mTailPartTextureRegion);
 		this.mSnake.getHead().animate(200);
 		/* Snake starts with one tail. */
 		this.mSnake.grow();
-		scene.getChild(LAYER_SNAKE).attachChild(this.mSnake);
+		mScene.attachChild(this.mSnake);
 
 		/* A frog to approach and eat. */
 		this.mFrog = new Frog(0, 0, this.mFrogTextureRegion);
 		this.mFrog.animate(1000);
 		this.setFrogToRandomCell();
-		scene.getChild(LAYER_FOOD).attachChild(this.mFrog);
+		mScene.attachChild(this.mFrog);
 
 		/* The On-Screen Controls to control the direction of the snake. */
 		this.mDigitalOnScreenControl = new DigitalOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IOnScreenControlListener() {
@@ -194,10 +192,10 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
 
-		scene.setChildScene(this.mDigitalOnScreenControl);
+		mScene.setChildScene(this.mDigitalOnScreenControl);
 
 		/* Make the Snake move every 0.5 seconds. */
-		scene.registerUpdateHandler(new TimerHandler(0.5f, true, new ITimerCallback() {
+		mScene.registerUpdateHandler(new TimerHandler(0.5f, true, new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
 				if(SnakeGameActivity.this.mGameRunning) {
@@ -217,14 +215,14 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		titleText.setPosition((CAMERA_WIDTH - titleText.getWidth()) * 0.5f, (CAMERA_HEIGHT - titleText.getHeight()) * 0.5f);
 		titleText.setScale(0.0f);
 		titleText.registerEntityModifier(new ScaleModifier(2, 0.0f, 1.0f));
-		scene.getChild(LAYER_SCORE).attachChild(titleText);
+		mScene.attachChild(titleText);
 
-		/* The handler that removes the title-text and starst the game. */
-		scene.registerUpdateHandler(new TimerHandler(3.0f, new ITimerCallback() {
+		/* The handler that removes the title-text and starts the game. */
+		mScene.registerUpdateHandler(new TimerHandler(3.0f, new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
-				scene.unregisterUpdateHandler(pTimerHandler);
-				scene.getChild(LAYER_SCORE).detachChild(titleText);
+				mScene.unregisterUpdateHandler(pTimerHandler);
+				mScene.detachChild(titleText);
 				SnakeGameActivity.this.mGameRunning = true;
 			}
 		}));
@@ -235,7 +233,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		this.mGameOverText.registerEntityModifier(new ScaleModifier(3, 0.1f, 2.0f));
 		this.mGameOverText.registerEntityModifier(new RotationModifier(3, 0, 720));
 
-		return scene;
+		return mScene;
 	}
 
 	@Override
@@ -267,7 +265,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 
 	private void onGameOver() {
 		this.mGameOverSound.play();
-		this.mEngine.getScene().getChild(LAYER_SCORE).attachChild(this.mGameOverText);
+		this.mScene.attachChild(this.mGameOverText);
 		this.mGameRunning = false;
 	}
 

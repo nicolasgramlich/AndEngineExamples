@@ -48,6 +48,8 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 	private ZoomCamera mZoomCamera;
 	private Texture mCardDeckTexture;
 
+	private Scene mScene;
+
 	private HashMap<Card, TextureRegion> mCardTotextureRegionMap;
 	private SurfaceScrollDetector mScrollDetector;
 	private PinchZoomDetector mPinchZoomDetector;
@@ -104,15 +106,15 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene();
-		scene.setOnAreaTouchTraversalFrontToBack();
+		this.mScene = new Scene();
+		this.mScene.setOnAreaTouchTraversalFrontToBack();
 
-		this.addCard(scene, Card.CLUB_ACE, 200, 100);
-		this.addCard(scene, Card.HEART_ACE, 200, 260);
-		this.addCard(scene, Card.DIAMOND_ACE, 440, 100);
-		this.addCard(scene, Card.SPADE_ACE, 440, 260);
+		this.addCard(Card.CLUB_ACE, 200, 100);
+		this.addCard(Card.HEART_ACE, 200, 260);
+		this.addCard(Card.DIAMOND_ACE, 440, 100);
+		this.addCard(Card.SPADE_ACE, 440, 260);
 
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		this.mScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		this.mScrollDetector = new SurfaceScrollDetector(this);
 		if(MultiTouch.isSupportedByAndroidVersion()) {
@@ -125,10 +127,10 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 			this.mPinchZoomDetector = null;
 		}
 
-		scene.setOnSceneTouchListener(this);
-		scene.setTouchAreaBindingEnabled(true);
+		this.mScene.setOnSceneTouchListener(this);
+		this.mScene.setTouchAreaBindingEnabled(true);
 
-		return scene;
+		return this.mScene;
 	}
 
 	@Override
@@ -182,7 +184,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 	// Methods
 	// ===========================================================
 
-	private void addCard(final Scene pScene, final Card pCard, final int pX, final int pY) {
+	private void addCard(final Card pCard, final int pX, final int pY) {
 		final Sprite sprite = new Sprite(pX, pY, this.mCardTotextureRegionMap.get(pCard)) {
 			boolean mGrabbed = false;
 
@@ -209,8 +211,8 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 			}
 		};
 
-		pScene.getLastChild().attachChild(sprite);
-		pScene.registerTouchArea(sprite);
+		this.mScene.attachChild(sprite);
+		this.mScene.registerTouchArea(sprite);
 	}
 
 	// ===========================================================

@@ -64,8 +64,9 @@ public class PhysicsMouseJointExample extends BaseExample implements IAccelerome
 	private TiledTextureRegion mBoxFaceTextureRegion;
 	private TiledTextureRegion mCircleFaceTextureRegion;
 
-	private PhysicsWorld mPhysicsWorld;
+	private Scene mScene;
 
+	private PhysicsWorld mPhysicsWorld;
 	private int mFaceCount = 0;
 
 	private MouseJoint mMouseJointActive;
@@ -110,10 +111,10 @@ public class PhysicsMouseJointExample extends BaseExample implements IAccelerome
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(2);
-		scene.setBackground(new ColorBackground(0, 0, 0));
-		scene.setOnSceneTouchListener(this);
-		scene.setOnAreaTouchListener(this);
+		this.mScene = new Scene();
+		this.mScene.setBackground(new ColorBackground(0, 0, 0));
+		this.mScene.setOnSceneTouchListener(this);
+		this.mScene.setOnAreaTouchListener(this);
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
 		this.mGroundBody = this.mPhysicsWorld.createBody(new BodyDef());
@@ -129,14 +130,14 @@ public class PhysicsMouseJointExample extends BaseExample implements IAccelerome
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getFirstChild().attachChild(ground);
-		scene.getFirstChild().attachChild(roof);
-		scene.getFirstChild().attachChild(left);
-		scene.getFirstChild().attachChild(right);
+		this.mScene.attachChild(ground);
+		this.mScene.attachChild(roof);
+		this.mScene.attachChild(left);
+		this.mScene.attachChild(right);
 
-		scene.registerUpdateHandler(this.mPhysicsWorld);
+		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 
-		return scene;
+		return this.mScene;
 	}
 
 	@Override
@@ -204,7 +205,7 @@ public class PhysicsMouseJointExample extends BaseExample implements IAccelerome
 
 		final Vector2 localPoint = Vector2Pool.obtain((pTouchAreaLocalX - pFace.getWidth() * 0.5f) / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT, (pTouchAreaLocalY - pFace.getHeight() * 0.5f) / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT);
 		this.mGroundBody.setTransform(localPoint, 0);
-		
+
 		mouseJointDef.bodyA = this.mGroundBody;
 		mouseJointDef.bodyB = body;
 		mouseJointDef.dampingRatio = 0.95f;
@@ -219,8 +220,6 @@ public class PhysicsMouseJointExample extends BaseExample implements IAccelerome
 	}
 
 	private void addFace(final float pX, final float pY) {
-		final Scene scene = this.mEngine.getScene();
-
 		this.mFaceCount++;
 		Debug.d("Faces: " + this.mFaceCount);
 
@@ -237,9 +236,8 @@ public class PhysicsMouseJointExample extends BaseExample implements IAccelerome
 		face.setUserData(body);
 		face.animate(200);
 
-		scene.registerTouchArea(face);
-
-		scene.attachChild(face);
+		this.mScene.registerTouchArea(face);
+		this.mScene.attachChild(face);
 
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}

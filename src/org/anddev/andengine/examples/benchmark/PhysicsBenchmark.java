@@ -42,7 +42,7 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
-	
+
 	private static final int COUNT_HORIZONTAL = 17;
 	private static final int COUNT_VERTICAL = 15;
 
@@ -54,6 +54,8 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 
 	private TiledTextureRegion mBoxFaceTextureRegion;
 	private TiledTextureRegion mCircleFaceTextureRegion;
+
+	private Scene mScene;
 
 	private PhysicsWorld mPhysicsWorld;
 	private int mFaceCount = 0;
@@ -102,9 +104,9 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 
 	@Override
 	public Scene onLoadScene() {
-		final Scene scene = new Scene(2);
-		scene.setBackground(new ColorBackground(0, 0, 0));
-		scene.setOnSceneTouchListener(this);
+		this.mScene = new Scene();
+		this.mScene.setBackground(new ColorBackground(0, 0, 0));
+		this.mScene.setOnSceneTouchListener(this);
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, 2 * SensorManager.GRAVITY_EARTH / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT), false);
 
@@ -119,27 +121,27 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getFirstChild().attachChild(ground);
-		scene.getFirstChild().attachChild(roof);
-		scene.getFirstChild().attachChild(left);
-		scene.getFirstChild().attachChild(right);
-		
+		this.mScene.attachChild(ground);
+		this.mScene.attachChild(roof);
+		this.mScene.attachChild(left);
+		this.mScene.attachChild(right);
+
 		for(int x = 1; x < COUNT_HORIZONTAL; x++) {
 			for(int y = 1; y < COUNT_VERTICAL; y++) {
 				final float pX = (((float)CAMERA_WIDTH) / COUNT_HORIZONTAL) * x + y;
 				final float pY = (((float)CAMERA_HEIGHT) / COUNT_VERTICAL) * y;
-				this.addFace(scene, pX - 16, pY - 16);
+				this.addFace(this.mScene, pX - 16, pY - 16);
 			}
 		}
 
-		scene.registerUpdateHandler(new TimerHandler(2, new ITimerCallback() {
+		this.mScene.registerUpdateHandler(new TimerHandler(2, new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
-				scene.unregisterUpdateHandler(pTimerHandler);
-				scene.registerUpdateHandler(PhysicsBenchmark.this.mPhysicsWorld);
-				scene.registerUpdateHandler(new TimerHandler(10, new ITimerCallback() {
+				PhysicsBenchmark.this.mScene.unregisterUpdateHandler(pTimerHandler);
+				PhysicsBenchmark.this.mScene.registerUpdateHandler(PhysicsBenchmark.this.mPhysicsWorld);
+				PhysicsBenchmark.this.mScene.registerUpdateHandler(new TimerHandler(10, new ITimerCallback() {
 					@Override
-					public void onTimePassed(TimerHandler pTimerHandler) {
+					public void onTimePassed(final TimerHandler pTimerHandler) {
 						final Vector2 gravity = Vector2Pool.obtain(0, -SensorManager.GRAVITY_EARTH / 32);
 						PhysicsBenchmark.this.mPhysicsWorld.setGravity(gravity);
 						Vector2Pool.recycle(gravity);
@@ -148,7 +150,7 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 			}
 		}));
 
-		return scene;
+		return this.mScene;
 	}
 
 	@Override
@@ -171,10 +173,10 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 
 		final AnimatedSprite face;
 		final Body body;
-		
+
 
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
-		
+
 		if(this.mFaceCount % 2 == 0) {
 			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion);
 			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
@@ -182,7 +184,7 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 			face = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion);
 			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 		}
-		
+
 		pScene.attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}

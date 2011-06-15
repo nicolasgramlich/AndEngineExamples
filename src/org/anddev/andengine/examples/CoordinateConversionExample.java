@@ -54,6 +54,8 @@ public class CoordinateConversionExample extends BaseExample {
 	private Texture mTexture;
 	private TextureRegion mFaceTextureRegion;
 
+	private Scene mScene;
+
 	private Texture mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
@@ -115,8 +117,8 @@ public class CoordinateConversionExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(2);
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		this.mScene = new Scene();
+		this.mScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* Create three lines that will form an arrow pointing to the eye. */
 		final Line arrowLineMain = new Line(0, 0, 0, 0, 3);
@@ -126,10 +128,8 @@ public class CoordinateConversionExample extends BaseExample {
 		arrowLineMain.setColor(1, 0, 0);
 		arrowLineWingLeft.setColor(1, 0, 0);
 		arrowLineWingRight.setColor(1, 0, 0);
-
-		scene.attachChild(arrowLineMain);
-		scene.attachChild(arrowLineWingLeft);
-		scene.attachChild(arrowLineWingRight);
+		
+		/* Create a face-sprite. */
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
@@ -153,7 +153,10 @@ public class CoordinateConversionExample extends BaseExample {
 
 		face.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(3, 1, 1.75f), new ScaleModifier(3, 1.75f, 1))));
 
-		scene.getFirstChild().attachChild(face);
+		this.mScene.attachChild(face);
+		this.mScene.attachChild(arrowLineMain);
+		this.mScene.attachChild(arrowLineWingLeft);
+		this.mScene.attachChild(arrowLineWingRight);
 
 		/* Velocity control (left). */
 		final int x1 = 0;
@@ -172,7 +175,7 @@ public class CoordinateConversionExample extends BaseExample {
 		velocityOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		velocityOnScreenControl.getControlBase().setAlpha(0.5f);
 
-		scene.setChildScene(velocityOnScreenControl);
+		this.mScene.setChildScene(velocityOnScreenControl);
 
 
 		/* Rotation control (right). */
@@ -198,7 +201,7 @@ public class CoordinateConversionExample extends BaseExample {
 
 		velocityOnScreenControl.setChildScene(rotationOnScreenControl);
 
-		return scene;
+		return this.mScene;
 	}
 
 	@Override

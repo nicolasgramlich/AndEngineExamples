@@ -124,7 +124,7 @@ public class SVGTextureRegionExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(0);
+		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.5f, 0.5f, 0.5f));
 
 		for(int i = 0; i < COUNT; i++) {

@@ -63,7 +63,7 @@ public class RectangleExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(2);
+		final Scene scene = new Scene();
 		final ScreenCapture screenCapture = new ScreenCapture();
 		scene.attachChild(screenCapture);
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
@@ -111,7 +111,7 @@ public class RectangleExample extends BaseExample {
 		rectangleGroup.attachChild(rect3);
 		rectangleGroup.attachChild(rect4);
 
-		scene.getFirstChild().attachChild(rectangleGroup);
+		scene.attachChild(rectangleGroup);
 
 		return scene;
 	}

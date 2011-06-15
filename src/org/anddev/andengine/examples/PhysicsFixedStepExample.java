@@ -55,8 +55,9 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 	private TiledTextureRegion mBoxFaceTextureRegion;
 	private TiledTextureRegion mCircleFaceTextureRegion;
 
-	private PhysicsWorld mPhysicsWorld;
+	private Scene mScene;
 
+	private PhysicsWorld mPhysicsWorld;
 	private int mFaceCount = 0;
 
 	// ===========================================================
@@ -96,9 +97,9 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(2);
-		scene.setBackground(new ColorBackground(0, 0, 0));
-		scene.setOnSceneTouchListener(this);
+		this.mScene = new Scene();
+		this.mScene.setBackground(new ColorBackground(0, 0, 0));
+		this.mScene.setOnSceneTouchListener(this);
 
 		this.mPhysicsWorld = new FixedStepPhysicsWorld(30, new Vector2(0, SensorManager.GRAVITY_EARTH), false, 3, 2);
 
@@ -113,14 +114,14 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getFirstChild().attachChild(ground);
-		scene.getFirstChild().attachChild(roof);
-		scene.getFirstChild().attachChild(left);
-		scene.getFirstChild().attachChild(right);
+		this.mScene.attachChild(ground);
+		this.mScene.attachChild(roof);
+		this.mScene.attachChild(left);
+		this.mScene.attachChild(right);
 
-		scene.registerUpdateHandler(this.mPhysicsWorld);
+		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 
-		return scene;
+		return this.mScene;
 	}
 
 	@Override
@@ -151,8 +152,6 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 	// ===========================================================
 
 	private void addFace(final float pX, final float pY) {
-		final Scene scene = this.mEngine.getScene();
-
 		this.mFaceCount++;
 		Debug.d("Faces: " + this.mFaceCount);
 
@@ -171,7 +170,7 @@ public class PhysicsFixedStepExample extends BaseExample implements IAcceleromet
 
 		face.animate(200);
 
-		scene.attachChild(face);
+		this.mScene.attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}
 

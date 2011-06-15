@@ -92,12 +92,12 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 		this.createMenuScene();
 
 		/* Just a simple scene with an animated face flying around. */
-		this.mMainScene = new Scene(1);
+		this.mMainScene = new Scene();
 		this.mMainScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
 		face.registerEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
-		this.mMainScene.getLastChild().attachChild(face);
+		this.mMainScene.attachChild(face);
 
 		return this.mMainScene;
 	}

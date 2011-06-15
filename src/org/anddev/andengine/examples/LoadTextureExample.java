@@ -37,6 +37,7 @@ public class LoadTextureExample extends BaseExample {
 
 	private Camera mCamera;
 	private Texture mTexture;
+	private Scene mScene;
 
 	// ===========================================================
 	// Constructors
@@ -66,10 +67,10 @@ public class LoadTextureExample extends BaseExample {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		this.mScene = new Scene();
+		this.mScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
-		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
+		this.mScene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
 			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 				if(pSceneTouchEvent.isActionDown()) {
@@ -80,7 +81,7 @@ public class LoadTextureExample extends BaseExample {
 			}
 		});
 
-		return scene;
+		return this.mScene;
 	}
 
 	@Override
@@ -101,7 +102,7 @@ public class LoadTextureExample extends BaseExample {
 		final float x = (CAMERA_WIDTH - faceTextureRegion.getWidth()) * MathUtils.RANDOM.nextFloat();
 		final float y = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) * MathUtils.RANDOM.nextFloat();
 		final Sprite clickToUnload = new Sprite(x, y, faceTextureRegion);
-		this.mEngine.getScene().getLastChild().attachChild(clickToUnload);
+		this.mScene.attachChild(clickToUnload);
 	}
 
 	// ===========================================================

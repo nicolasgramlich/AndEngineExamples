@@ -10,7 +10,6 @@ import org.anddev.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
@@ -53,22 +52,15 @@ public class RacerGameActivity  extends BaseGameActivity {
 	private static final int CAMERA_WIDTH = RACETRACK_WIDTH * 5;
 	private static final int CAMERA_HEIGHT = RACETRACK_WIDTH * 3;
 
-	private static final int LAYER_RACETRACK = 0;
-	private static final int LAYER_BORDERS = LAYER_RACETRACK + 1;
-	private static final int LAYER_CARS = LAYER_BORDERS + 1;
-	private static final int LAYER_OBSTACLES = LAYER_CARS + 1;
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
-	private Camera mCamera;
 
-	private PhysicsWorld mPhysicsWorld;
+	private Camera mCamera;
 
 	private Texture mVehiclesTexture;
 	private TiledTextureRegion mVehiclesTextureRegion;
-	
+
 	private Texture mBoxTexture;
 	private TextureRegion mBoxTextureRegion;
 
@@ -79,6 +71,10 @@ public class RacerGameActivity  extends BaseGameActivity {
 	private Texture mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
+
+	private Scene mScene;
+
+	private PhysicsWorld mPhysicsWorld;
 
 	private Body mCarBody;
 	private TiledSprite mCar;
@@ -126,20 +122,20 @@ public class RacerGameActivity  extends BaseGameActivity {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(4);
-		scene.setBackground(new ColorBackground(0, 0, 0));
+		this.mScene = new Scene();
+		this.mScene.setBackground(new ColorBackground(0, 0, 0));
 
 		this.mPhysicsWorld = new FixedStepPhysicsWorld(30, new Vector2(0, 0), false, 8, 1);
 
-		this.initRacetrack(scene);
-		this.initRacetrackBorders(scene);
-		this.initCar(scene);
-		this.initObstacles(scene);
-		this.initOnScreenControls(scene);
+		this.initRacetrack();
+		this.initRacetrackBorders();
+		this.initCar();
+		this.initObstacles();
+		this.initOnScreenControls();
 
-		scene.registerUpdateHandler(this.mPhysicsWorld);
+		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 
-		return scene;
+		return this.mScene;
 	}
 
 	@Override
@@ -151,7 +147,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 	// Methods
 	// ===========================================================
 
-	private void initOnScreenControls(final Scene pScene) {
+	private void initOnScreenControls() {
 		final AnalogOnScreenControl analogOnScreenControl = new AnalogOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
@@ -160,63 +156,61 @@ public class RacerGameActivity  extends BaseGameActivity {
 				final Vector2 velocity = Vector2Pool.obtain(pValueX * 5, pValueY * 5);
 				carBody.setLinearVelocity(velocity);
 				Vector2Pool.recycle(velocity);
-				
+
 				final float rotationInRad = (float)Math.atan2(-pValueX, pValueY);
 				carBody.setTransform(carBody.getWorldCenter(), rotationInRad);
-				
+
 				RacerGameActivity.this.mCar.setRotation(MathUtils.radToDeg(rotationInRad));
 			}
 
 			@Override
-			public void onControlClick(AnalogOnScreenControl pAnalogOnScreenControl) {
+			public void onControlClick(final AnalogOnScreenControl pAnalogOnScreenControl) {
 				/* Nothing. */
 			}
 		});
 		analogOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 		analogOnScreenControl.getControlBase().setAlpha(0.5f);
-//		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
-//		analogOnScreenControl.getControlBase().setScale(0.75f);
-//		analogOnScreenControl.getControlKnob().setScale(0.75f);
+		//		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
+		//		analogOnScreenControl.getControlBase().setScale(0.75f);
+		//		analogOnScreenControl.getControlKnob().setScale(0.75f);
 		analogOnScreenControl.refreshControlKnobPosition();
-		
-		pScene.setChildScene(analogOnScreenControl);
+
+		this.mScene.setChildScene(analogOnScreenControl);
 	}
 
-	private void initCar(final Scene pScene) {
+	private void initCar() {
 		this.mCar = new TiledSprite(20, 20, CAR_SIZE, CAR_SIZE, this.mVehiclesTextureRegion);
 		this.mCar.setCurrentTileIndex(0);
-		
+
 		final FixtureDef carFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 		this.mCarBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, this.mCar, BodyType.DynamicBody, carFixtureDef);
-		
+
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(this.mCar, this.mCarBody, true, false));
 
-		pScene.getChild(LAYER_CARS).attachChild(this.mCar);
-	}
-	
-	private void initObstacles(final Scene pScene) {
-		addObstacle(pScene, CAMERA_WIDTH / 2, RACETRACK_WIDTH / 2);
-		addObstacle(pScene, CAMERA_WIDTH / 2, RACETRACK_WIDTH / 2);
-		addObstacle(pScene, CAMERA_WIDTH / 2, CAMERA_HEIGHT - RACETRACK_WIDTH / 2);
-		addObstacle(pScene, CAMERA_WIDTH / 2, CAMERA_HEIGHT - RACETRACK_WIDTH / 2);
+		this.mScene.attachChild(this.mCar);
 	}
 
-	private void addObstacle(final Scene pScene, final float pX, final float pY) {
+	private void initObstacles() {
+		this.addObstacle(CAMERA_WIDTH / 2, RACETRACK_WIDTH / 2);
+		this.addObstacle(CAMERA_WIDTH / 2, RACETRACK_WIDTH / 2);
+		this.addObstacle(CAMERA_WIDTH / 2, CAMERA_HEIGHT - RACETRACK_WIDTH / 2);
+		this.addObstacle(CAMERA_WIDTH / 2, CAMERA_HEIGHT - RACETRACK_WIDTH / 2);
+	}
+
+	private void addObstacle(final float pX, final float pY) {
 		final Sprite box = new Sprite(pX, pY, OBSTACLE_SIZE, OBSTACLE_SIZE, this.mBoxTextureRegion);
-		
+
 		final FixtureDef boxFixtureDef = PhysicsFactory.createFixtureDef(0.1f, 0.5f, 0.5f);
 		final Body boxBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, box, BodyType.DynamicBody, boxFixtureDef);
 		boxBody.setLinearDamping(10);
 		boxBody.setAngularDamping(10);
-		
+
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(box, boxBody, true, true));
 
-		pScene.getChild(LAYER_OBSTACLES).attachChild(box);
+		this.mScene.attachChild(box);
 	}
 
-	private void initRacetrack(final Scene pScene) {
-		final IEntity racetrackEntity = pScene.getChild(LAYER_RACETRACK);
-
+	private void initRacetrack() {
 		/* Straights. */
 		{
 			final TextureRegion racetrackHorizontalStraightTextureRegion = this.mRacetrackStraightTextureRegion.clone();
@@ -225,18 +219,18 @@ public class RacerGameActivity  extends BaseGameActivity {
 			final TextureRegion racetrackVerticalStraightTextureRegion = this.mRacetrackStraightTextureRegion;
 
 			/* Top Straight */
-			racetrackEntity.attachChild(new Sprite(RACETRACK_WIDTH, 0, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
+			this.mScene.attachChild(new Sprite(RACETRACK_WIDTH, 0, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
 			/* Bottom Straight */
-			racetrackEntity.attachChild(new Sprite(RACETRACK_WIDTH, CAMERA_HEIGHT - RACETRACK_WIDTH, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
+			this.mScene.attachChild(new Sprite(RACETRACK_WIDTH, CAMERA_HEIGHT - RACETRACK_WIDTH, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
 
 			/* Left Straight */
 			final Sprite leftVerticalStraight = new Sprite(0, RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackVerticalStraightTextureRegion);
 			leftVerticalStraight.setRotation(90);
-			racetrackEntity.attachChild(leftVerticalStraight);
+			this.mScene.attachChild(leftVerticalStraight);
 			/* Right Straight */
 			final Sprite rightVerticalStraight = new Sprite(CAMERA_WIDTH - RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackVerticalStraightTextureRegion);
 			rightVerticalStraight.setRotation(90);
-			racetrackEntity.attachChild(rightVerticalStraight);
+			this.mScene.attachChild(rightVerticalStraight);
 		}
 
 		/* Edges */
@@ -246,26 +240,26 @@ public class RacerGameActivity  extends BaseGameActivity {
 			/* Upper Left */
 			final Sprite upperLeftCurve = new Sprite(0, 0, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
 			upperLeftCurve.setRotation(90);
-			racetrackEntity.attachChild(upperLeftCurve);
+			this.mScene.attachChild(upperLeftCurve);
 
 			/* Upper Right */
 			final Sprite upperRightCurve = new Sprite(CAMERA_WIDTH - RACETRACK_WIDTH, 0, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
 			upperRightCurve.setRotation(180);
-			racetrackEntity.attachChild(upperRightCurve);
+			this.mScene.attachChild(upperRightCurve);
 
 			/* Lower Right */
 			final Sprite lowerRightCurve = new Sprite(CAMERA_WIDTH - RACETRACK_WIDTH, CAMERA_HEIGHT - RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
 			lowerRightCurve.setRotation(270);
-			racetrackEntity.attachChild(lowerRightCurve);
+			this.mScene.attachChild(lowerRightCurve);
 
 			/* Lower Left */
 			final Sprite lowerLeftCurve = new Sprite(0, CAMERA_HEIGHT - RACETRACK_WIDTH, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);
-			racetrackEntity.attachChild(lowerLeftCurve);
+			this.mScene.attachChild(lowerLeftCurve);
 		}
 	}
 
 
-	private void initRacetrackBorders(final Scene pScene) {
+	private void initRacetrackBorders() {
 		final Shape bottomOuter = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2);
 		final Shape topOuter = new Rectangle(0, 0, CAMERA_WIDTH, 2);
 		final Shape leftOuter = new Rectangle(0, 0, 2, CAMERA_HEIGHT);
@@ -287,16 +281,15 @@ public class RacerGameActivity  extends BaseGameActivity {
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, leftInner, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, rightInner, BodyType.StaticBody, wallFixtureDef);
 
-		final IEntity firstChild = pScene.getChild(LAYER_BORDERS);
-		firstChild.attachChild(bottomOuter);
-		firstChild.attachChild(topOuter);
-		firstChild.attachChild(leftOuter);
-		firstChild.attachChild(rightOuter);
+		this.mScene.attachChild(bottomOuter);
+		this.mScene.attachChild(topOuter);
+		this.mScene.attachChild(leftOuter);
+		this.mScene.attachChild(rightOuter);
 
-		firstChild.attachChild(bottomInner);
-		firstChild.attachChild(topInner);
-		firstChild.attachChild(leftInner);
-		firstChild.attachChild(rightInner);
+		this.mScene.attachChild(bottomInner);
+		this.mScene.attachChild(topInner);
+		this.mScene.attachChild(leftInner);
+		this.mScene.attachChild(rightInner);
 	}
 
 	// ===========================================================

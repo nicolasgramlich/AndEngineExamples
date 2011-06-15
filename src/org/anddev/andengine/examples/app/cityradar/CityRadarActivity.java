@@ -56,9 +56,6 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 
 	private static final int GRID_SIZE = 80;
 
-	private static final int LAYER_COUNT = 1;
-	private static final int LAYER_CITIES = 0;
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -78,6 +75,7 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	private final ArrayList<City> mCities = new ArrayList<City>();
 	private final HashMap<City, Sprite> mCityToCitySpriteMap = new HashMap<City, Sprite>();
 	private final HashMap<City, Text> mCityToCityNameTextMap = new HashMap<City, Text>();
+	private Scene mScene;
 
 	// ===========================================================
 	// Constructors
@@ -86,7 +84,7 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	public CityRadarActivity() {
 		this.mCities.add(new City("London", 51.509, -0.118));
 		this.mCities.add(new City("New York", 40.713, -74.006));
-//		this.mCities.add(new City("Paris", 48.857, 2.352));
+		//		this.mCities.add(new City("Paris", 48.857, 2.352));
 		this.mCities.add(new City("Beijing", 39.929, 116.388));
 		this.mCities.add(new City("Sydney", -33.850, 151.200));
 		this.mCities.add(new City("Berlin", 52.518, 13.408));
@@ -142,21 +140,21 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 
 	@Override
 	public Scene onLoadScene() {
-		final Scene scene = new Scene(LAYER_COUNT);
+		this.mScene = new Scene();
 
 		final HUD hud = new HUD();
 		this.mCamera.setHUD(hud);
-		
+
 		/* BACKGROUND */
-		this.initBackground(hud.getFirstChild());
+		this.initBackground(hud);
 
 		/* CITIES */
-		this.initCitySprites(scene.getChild(CityRadarActivity.LAYER_CITIES));
+		this.initCitySprites();
 
-		return scene;
+		return this.mScene;
 	}
 
-	private void initCitySprites(final IEntity pEntity) {
+	private void initCitySprites() {
 		final int cityCount = this.mCities.size();
 
 		for(int i = 0; i < cityCount; i++) {
@@ -178,8 +176,8 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 			this.mCityToCityNameTextMap.put(city, cityNameText);
 			this.mCityToCitySpriteMap.put(city, citySprite);
 
-			pEntity.attachChild(citySprite);
-			pEntity.attachChild(cityNameText);
+			this.mScene.attachChild(citySprite);
+			this.mScene.attachChild(cityNameText);
 		}
 	}
 

@@ -61,8 +61,9 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	private TiledTextureRegion mTriangleFaceTextureRegion;
 	private TiledTextureRegion mHexagonFaceTextureRegion;
 
-	private PhysicsWorld mPhysicsWorld;
+	private Scene mScene;
 
+	private PhysicsWorld mPhysicsWorld;
 	private int mFaceCount = 0;
 
 	// ===========================================================
@@ -106,9 +107,9 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene(2);
-		scene.setBackground(new ColorBackground(0, 0, 0));
-		scene.setOnSceneTouchListener(this);
+		this.mScene = new Scene();
+		this.mScene.setBackground(new ColorBackground(0, 0, 0));
+		this.mScene.setOnSceneTouchListener(this);
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
 
@@ -123,14 +124,14 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, left, BodyType.StaticBody, wallFixtureDef);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, right, BodyType.StaticBody, wallFixtureDef);
 
-		scene.getFirstChild().attachChild(ground);
-		scene.getFirstChild().attachChild(roof);
-		scene.getFirstChild().attachChild(left);
-		scene.getFirstChild().attachChild(right);
+		this.mScene.attachChild(ground);
+		this.mScene.attachChild(roof);
+		this.mScene.attachChild(left);
+		this.mScene.attachChild(right);
 
-		scene.registerUpdateHandler(this.mPhysicsWorld);
+		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 
-		return scene;
+		return this.mScene;
 	}
 
 	@Override
@@ -161,8 +162,6 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	// ===========================================================
 
 	private void addFace(final float pX, final float pY) {
-		final Scene scene = this.mEngine.getScene();
-
 		this.mFaceCount++;
 		Debug.d("Faces: " + this.mFaceCount);
 
@@ -185,7 +184,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 
 		face.animate(200);
 
-		scene.attachChild(face);
+		this.mScene.attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}
 

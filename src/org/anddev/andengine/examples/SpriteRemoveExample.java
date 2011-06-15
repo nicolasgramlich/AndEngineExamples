@@ -102,7 +102,7 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 			@Override
 			public void run() {
 				/* Now it is save to remove the entity! */
-				pScene.getLastChild().detachChild(SpriteRemoveExample.this.mFaceToRemove);
+				pScene.detachChild(SpriteRemoveExample.this.mFaceToRemove);
 			}
 		});
 		return false;

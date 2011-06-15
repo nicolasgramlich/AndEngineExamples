@@ -160,7 +160,7 @@ public class LevelLoaderExample extends BaseExample {
 
 		face.animate(200);
 
-		pScene.getLastChild().attachChild(face);
+		pScene.attachChild(face);
 	}
 
 	// ===========================================================
