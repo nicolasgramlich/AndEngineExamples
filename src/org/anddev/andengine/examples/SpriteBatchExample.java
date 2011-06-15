@@ -73,12 +73,13 @@ public class SpriteBatchExample extends BaseExample {
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		
 		final Sprite faceSprite1 = new Sprite(-50, 0, this.mFaceTextureRegion); 
+		final Sprite faceSprite2 = new Sprite(50, 0, this.mFaceTextureRegion);
+		
 		faceSprite1.setScale(2);
-		final Sprite faceSprite2 = new Sprite(50, 0, this.mFaceTextureRegion); 
 		faceSprite2.setRotation(45);
 
 		/* Create the face and add it to the scene. */
-		final SpriteBatch spriteBatch1 = new SpriteBatch(this.mTexture, 2) {
+		final SpriteBatch dynamicSpriteBatch = new SpriteBatch(this.mTexture, 2) {
 			@Override
 			public void onDrawSpriteBatch() {
 				this.draw(faceSprite1);
@@ -86,16 +87,16 @@ public class SpriteBatchExample extends BaseExample {
 			}
 		};
 		
-		final SpriteBatch spriteBatch2 = new SpriteBatch(this.mTexture, 2);
-		spriteBatch2.draw(this.mFaceTextureRegion, -50, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight(), 2, 2);
-		spriteBatch2.draw(this.mFaceTextureRegion, 50, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight(), 45);
-		spriteBatch2.submit();
+		final SpriteBatch staticSpriteBatch = new SpriteBatch(this.mTexture, 2);
+		staticSpriteBatch.draw(this.mFaceTextureRegion, -50, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight(), 2, 2);
+		staticSpriteBatch.draw(this.mFaceTextureRegion, 50, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight(), 45);
+		staticSpriteBatch.submit();
 
-		spriteBatch1.setPosition(centerX, centerY - 50);
-		spriteBatch2.setPosition(centerX, centerY + 50);
+		dynamicSpriteBatch.setPosition(centerX, centerY - 50);
+		staticSpriteBatch.setPosition(centerX, centerY + 50);
 		
-		scene.attachChild(spriteBatch1);
-		scene.attachChild(spriteBatch2);
+		scene.attachChild(dynamicSpriteBatch);
+		scene.attachChild(staticSpriteBatch);
 
 		return scene;
 	}
