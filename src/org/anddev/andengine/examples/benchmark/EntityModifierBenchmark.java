@@ -93,9 +93,9 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
-		this.drawUsingSprites(scene);
+//		this.drawUsingSprites(scene);
 //		this.drawUsingSpritesWithSharedVertexBuffer(scene);
-//		this.drawUsingSpriteBatch(scene);
+		this.drawUsingSpriteBatch(scene);
 
 		return scene;
 	}
