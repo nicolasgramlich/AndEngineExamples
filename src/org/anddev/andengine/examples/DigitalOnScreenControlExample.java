@@ -20,6 +20,10 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+
 /**
  * @author Nicolas Gramlich
  * @since 00:06:23 - 11.07.2010
@@ -31,6 +35,7 @@ public class DigitalOnScreenControlExample extends BaseExample {
 
 	private static final int CAMERA_WIDTH = 480;
 	private static final int CAMERA_HEIGHT = 320;
+	private static final int DIALOG_ALLOWDIAGONAL_ID = 0;
 
 	// ===========================================================
 	// Fields
@@ -44,6 +49,8 @@ public class DigitalOnScreenControlExample extends BaseExample {
 	private Texture mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
+
+	private DigitalOnScreenControl mDigitalOnScreenControl;
 
 	// ===========================================================
 	// Constructors
@@ -92,27 +99,51 @@ public class DigitalOnScreenControlExample extends BaseExample {
 
 		scene.attachChild(face);
 
-		final DigitalOnScreenControl digitalOnScreenControl = new DigitalOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IOnScreenControlListener() {
+		this.mDigitalOnScreenControl = new DigitalOnScreenControl(0, CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight(), this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				physicsHandler.setVelocity(pValueX * 100, pValueY * 100);
 			}
 		});
-		digitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-		digitalOnScreenControl.getControlBase().setAlpha(0.5f);
-		digitalOnScreenControl.getControlBase().setScaleCenter(0, 128);
-		digitalOnScreenControl.getControlBase().setScale(1.25f);
-		digitalOnScreenControl.getControlKnob().setScale(1.25f);
-		digitalOnScreenControl.refreshControlKnobPosition();
+		this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
+		this.mDigitalOnScreenControl.getControlBase().setScaleCenter(0, 128);
+		this.mDigitalOnScreenControl.getControlBase().setScale(1.25f);
+		this.mDigitalOnScreenControl.getControlKnob().setScale(1.25f);
+		this.mDigitalOnScreenControl.refreshControlKnobPosition();
 
-		scene.setChildScene(digitalOnScreenControl);
+		scene.setChildScene(this.mDigitalOnScreenControl);
 
 		return scene;
 	}
 
 	@Override
 	public void onLoadComplete() {
+		this.showDialog(DIALOG_ALLOWDIAGONAL_ID);
+	}
 
+	@Override
+	protected Dialog onCreateDialog(final int pID) {
+		switch(pID) {
+			case DIALOG_ALLOWDIAGONAL_ID:
+				return new AlertDialog.Builder(this)
+				.setTitle("Setup...")
+				.setMessage("Do you wish to allow diagonal directions on the OnScreenControl?")
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(final DialogInterface pDialog, final int pWhich) {
+						DigitalOnScreenControlExample.this.mDigitalOnScreenControl.setAllowDiagonal(true);
+					}
+				})
+				.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(final DialogInterface pDialog, final int pWhich) {
+						DigitalOnScreenControlExample.this.mDigitalOnScreenControl.setAllowDiagonal(false);
+					}
+				})
+				.create();
+		}
+		return super.onCreateDialog(pID);
 	}
 
 	// ===========================================================

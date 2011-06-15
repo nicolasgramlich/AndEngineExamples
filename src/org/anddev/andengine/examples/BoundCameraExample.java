@@ -138,11 +138,21 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 					if(boundsEnabled) {
 						BoundCameraExample.this.mBoundChaseCamera.setBoundsEnabled(false);
 						this.setCurrentTileIndex(1);
-						Toast.makeText(BoundCameraExample.this, "Bounds Disabled.", Toast.LENGTH_SHORT).show();
+						BoundCameraExample.this.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								Toast.makeText(BoundCameraExample.this, "Bounds Disabled.", Toast.LENGTH_SHORT).show();
+							}
+						});
 					} else {
 						BoundCameraExample.this.mBoundChaseCamera.setBoundsEnabled(true);
 						this.setCurrentTileIndex(0);
-						Toast.makeText(BoundCameraExample.this, "Bounds Enabled.", Toast.LENGTH_SHORT).show();
+						BoundCameraExample.this.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								Toast.makeText(BoundCameraExample.this, "Bounds Enabled.", Toast.LENGTH_SHORT).show();
+							}
+						});
 					}
 				}
 				return true;
