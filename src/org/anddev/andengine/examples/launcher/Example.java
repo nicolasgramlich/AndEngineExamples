@@ -44,6 +44,7 @@ import org.anddev.andengine.examples.R;
 import org.anddev.andengine.examples.RectangleExample;
 import org.anddev.andengine.examples.RepeatingSpriteBackgroundExample;
 import org.anddev.andengine.examples.Rotation3DExample;
+import org.anddev.andengine.examples.RunnablePoolUpdateHandlerExample;
 import org.anddev.andengine.examples.SVGTextureRegionExample;
 import org.anddev.andengine.examples.ScreenCaptureExample;
 import org.anddev.andengine.examples.SoundExample;
@@ -98,6 +99,8 @@ enum Example {
 	CUSTOMFONT(CustomFontExample.class, R.string.example_customfont),
 	DIGITALONSCREENCONTROL(DigitalOnScreenControlExample.class, R.string.example_digitalonscreencontrol),
 	EASEFUNCTION(EaseFunctionExample.class, R.string.example_easefunction),
+	ENTITYMODIFIER(EntityModifierExample.class, R.string.example_entitymodifier),
+	ENTITYMODIFIERIRREGULAR(EntityModifierIrregularExample.class, R.string.example_entitymodifierirregular),
 	IMAGEFORMATS(ImageFormatsExample.class, R.string.example_imageformats),
 	LEVELLOADER(LevelLoaderExample.class, R.string.example_levelloader),
 	LINE(LineExample.class, R.string.example_line),
@@ -125,8 +128,7 @@ enum Example {
 	RECTANGLE(RectangleExample.class, R.string.example_rectangle),
 	REPEATINGSPRITEBACKGROUND(RepeatingSpriteBackgroundExample.class, R.string.example_repeatingspritebackground),
 	ROTATION3D(Rotation3DExample.class, R.string.example_rotation3d),
-	ENTITYMODIFIER(EntityModifierExample.class, R.string.example_entitymodifier),
-	ENTITYMODIFIERIRREGULAR(EntityModifierIrregularExample.class, R.string.example_entitymodifierirregular),
+	RUNNABLEPOOLUPDATEHANDLER(RunnablePoolUpdateHandlerExample.class, R.string.example_runnablepoolupdatehandler),
 	SCREENCAPTURE(ScreenCaptureExample.class, R.string.example_screencapture),
 	SOUND(SoundExample.class, R.string.example_sound),
 	SPLITSCREEN(SplitScreenExample.class, R.string.example_splitscreen),
