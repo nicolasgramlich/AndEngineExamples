@@ -89,14 +89,24 @@ public class EntityModifierIrregularExample extends BaseExample {
 		final AnimatedSprite face2 = new AnimatedSprite(centerX + 100, centerY, this.mFaceTextureRegion);
 		face2.animate(100);
 
-		final SequenceEntityModifier EntityModifier = new SequenceEntityModifier(
+		final SequenceEntityModifier entityModifier = new SequenceEntityModifier(
 				new IEntityModifierListener() {
+					@Override
+					public void onModifierStarted(final IModifier<IEntity> pModifier, final IEntity pItem) {
+						EntityModifierIrregularExample.this.runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								Toast.makeText(EntityModifierIrregularExample.this, "Sequence started.", Toast.LENGTH_LONG).show();
+							}
+						});
+					}
+
 					@Override
 					public void onModifierFinished(final IModifier<IEntity> pEntityModifier, final IEntity pEntity) {
 						EntityModifierIrregularExample.this.runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
-								Toast.makeText(EntityModifierIrregularExample.this, "Sequence ended.", Toast.LENGTH_LONG).show();
+								Toast.makeText(EntityModifierIrregularExample.this, "Sequence finished.", Toast.LENGTH_LONG).show();
 							}
 						});
 					}
@@ -113,8 +123,8 @@ public class EntityModifierIrregularExample extends BaseExample {
 				)
 		);
 
-		face1.registerEntityModifier(EntityModifier);
-		face2.registerEntityModifier(EntityModifier.clone());
+		face1.registerEntityModifier(entityModifier);
+		face2.registerEntityModifier(entityModifier.clone());
 
 		scene.attachChild(face1);
 		scene.attachChild(face2);

@@ -13,12 +13,12 @@ import org.anddev.andengine.entity.modifier.PathModifier.Path;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.RepeatingSpriteBackground;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
-import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.opengl.texture.source.AssetTextureSource;
+import org.anddev.andengine.util.Debug;
 import org.anddev.andengine.util.modifier.ease.EaseSineInOut;
 
 import android.widget.Toast;
@@ -77,7 +77,7 @@ public class PathModifierExample extends BaseExample {
 
 	@Override
 	public Scene onLoadScene() {
-		this.mEngine.registerUpdateHandler(new FPSLogger());
+//		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
 		scene.setBackground(this.mGrassBackground);
@@ -90,7 +90,13 @@ public class PathModifierExample extends BaseExample {
 		/* Add the proper animation when a waypoint of the path is passed. */
 		player.registerEntityModifier(new LoopEntityModifier(new PathModifier(30, path, null, new IPathModifierListener() {
 			@Override
-			public void onWaypointPassed(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
+			public void onPathStarted(final PathModifier pPathModifier, final IEntity pEntity) {
+				Debug.d("onPathStarted");
+			}
+
+			@Override
+			public void onPathWaypointStarted(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
+				Debug.d("onPathWaypointStarted:  " + pWaypointIndex);
 				switch(pWaypointIndex) {
 					case 0:
 						player.animate(new long[]{200, 200, 200}, 6, 8, true);
@@ -105,6 +111,16 @@ public class PathModifierExample extends BaseExample {
 						player.animate(new long[]{200, 200, 200}, 9, 11, true);
 						break;
 				}
+			}
+
+			@Override
+			public void onPathWaypointFinished(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
+				Debug.d("onPathWaypointFinished: " + pWaypointIndex);
+			}
+
+			@Override
+			public void onPathFinished(final PathModifier pPathModifier, final IEntity pEntity) {
+				Debug.d("onPathFinished");
 			}
 		}, EaseSineInOut.getInstance())));
 		scene.attachChild(player);

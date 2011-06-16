@@ -95,15 +95,25 @@ public class EntityModifierExample extends BaseExample {
 		face.animate(100);
 		face.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
-		final LoopEntityModifier EntityModifier =
+		final LoopEntityModifier entityModifier =
 			new LoopEntityModifier(
 					new IEntityModifierListener() {
+						@Override
+						public void onModifierStarted(final IModifier<IEntity> pModifier, final IEntity pItem) {
+							EntityModifierExample.this.runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									Toast.makeText(EntityModifierExample.this, "Sequence started.", Toast.LENGTH_LONG).show();
+								}
+							});
+						}
+
 						@Override
 						public void onModifierFinished(final IModifier<IEntity> pEntityModifier, final IEntity pEntity) {
 							EntityModifierExample.this.runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									Toast.makeText(EntityModifierExample.this, "Sequence ended.", Toast.LENGTH_LONG).show();
+									Toast.makeText(EntityModifierExample.this, "Sequence finished.", Toast.LENGTH_LONG).show();
 								}
 							});
 						}
@@ -111,11 +121,21 @@ public class EntityModifierExample extends BaseExample {
 					1,
 					new ILoopEntityModifierListener() {
 						@Override
-						public void onLoopFinished(final LoopModifier<IEntity> pLoopEntityModifier, final int pLoopsRemaining) {
+						public void onLoopStarted(final LoopModifier<IEntity> pLoopModifier, final int pLoop, final int pLoopCount) {
 							EntityModifierExample.this.runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									Toast.makeText(EntityModifierExample.this, "Loops remaining: " + pLoopsRemaining, Toast.LENGTH_SHORT).show();
+									Toast.makeText(EntityModifierExample.this, "Loop: '" + (pLoop + 1) + "' of '" + pLoopCount + "' started.", Toast.LENGTH_SHORT).show();
+								}
+							});
+						}
+
+						@Override
+						public void onLoopFinished(final LoopModifier<IEntity> pLoopModifier, final int pLoop, final int pLoopCount) {
+							EntityModifierExample.this.runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									Toast.makeText(EntityModifierExample.this, "Loop: '" + pLoop + "' of '" + pLoopCount + "' finished.", Toast.LENGTH_SHORT).show();
 								}
 							});
 						}
@@ -137,8 +157,8 @@ public class EntityModifierExample extends BaseExample {
 					)
 			);
 
-		face.registerEntityModifier(EntityModifier);
-		rect.registerEntityModifier(EntityModifier.clone());
+		face.registerEntityModifier(entityModifier);
+		rect.registerEntityModifier(entityModifier.clone());
 
 		scene.attachChild(face);
 		scene.attachChild(rect);

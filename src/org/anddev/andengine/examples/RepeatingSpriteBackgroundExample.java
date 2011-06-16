@@ -89,7 +89,12 @@ public class RepeatingSpriteBackgroundExample extends BaseExample {
 
 		player.registerEntityModifier(new LoopEntityModifier(new PathModifier(30, path, null, new IPathModifierListener() {
 			@Override
-			public void onWaypointPassed(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
+			public void onPathStarted(final PathModifier pPathModifier, final IEntity pEntity) {
+
+			}
+
+			@Override
+			public void onPathWaypointStarted(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
 				switch(pWaypointIndex) {
 					case 0:
 						player.animate(new long[]{200, 200, 200}, 6, 8, true);
@@ -104,6 +109,16 @@ public class RepeatingSpriteBackgroundExample extends BaseExample {
 						player.animate(new long[]{200, 200, 200}, 9, 11, true);
 						break;
 				}
+			}
+
+			@Override
+			public void onPathWaypointFinished(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
+
+			}
+
+			@Override
+			public void onPathFinished(final PathModifier pPathModifier, final IEntity pEntity) {
+
 			}
 		})));
 		scene.attachChild(player);

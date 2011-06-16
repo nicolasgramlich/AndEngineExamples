@@ -16,6 +16,7 @@ import org.anddev.andengine.engine.handler.timer.TimerHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.modifier.RotationModifier;
 import org.anddev.andengine.entity.modifier.ScaleModifier;
 import org.anddev.andengine.entity.scene.Scene;
@@ -156,7 +157,10 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		this.mScene = new Scene(LAYER_COUNT);
+		this.mScene = new Scene();
+		for(int i = 0; i < LAYER_COUNT; i++) {
+			this.mScene.attachChild(new Entity());
+		}
 
 		/* No background color needed as we have a fullscreen background sprite. */
 		this.mScene.setBackgroundEnabled(false);
