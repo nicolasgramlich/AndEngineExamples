@@ -87,7 +87,9 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		TextureRegionFactory.setAssetBasePath("gfx/");
 		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
+		this.mBoxFaceTextureRegion.setTextureRegionBufferManaged(false);
 		this.mCircleFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
+		this.mCircleFaceTextureRegion.setTextureRegionBufferManaged(false);
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
 
 		this.enableAccelerometerSensor(this);
@@ -154,7 +156,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 	@Override
 	public void onAccelerometerChanged(final AccelerometerData pAccelerometerData) {
-		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getY(), pAccelerometerData.getX());
+		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getX(), pAccelerometerData.getY());
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
 	}
@@ -194,6 +196,8 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 		this.mScene.unregisterTouchArea(face);
 		this.mScene.detachChild(face);
+		
+		System.gc();
 	}
 
 	// ===========================================================

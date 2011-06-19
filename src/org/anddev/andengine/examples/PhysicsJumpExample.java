@@ -157,8 +157,8 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 
 	@Override
 	public void onAccelerometerChanged(final AccelerometerData pAccelerometerData) {
-		this.mGravityX = pAccelerometerData.getY();
-		this.mGravityY = pAccelerometerData.getX();
+		this.mGravityX = pAccelerometerData.getX();
+		this.mGravityY = pAccelerometerData.getY();
 
 		final Vector2 gravity = Vector2Pool.obtain(this.mGravityX, this.mGravityY);
 		this.mPhysicsWorld.setGravity(gravity);

@@ -157,7 +157,7 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 
 	@Override
 	public void onAccelerometerChanged(final AccelerometerData pAccelerometerData) {
-		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getY(), pAccelerometerData.getX());
+		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getX(), pAccelerometerData.getY());
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
 	}
