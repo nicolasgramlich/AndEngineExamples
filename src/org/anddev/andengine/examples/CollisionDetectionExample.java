@@ -17,6 +17,7 @@ import org.anddev.andengine.entity.modifier.ParallelEntityModifier;
 import org.anddev.andengine.entity.modifier.RotationModifier;
 import org.anddev.andengine.entity.modifier.ScaleModifier;
 import org.anddev.andengine.entity.modifier.SequenceEntityModifier;
+import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
@@ -121,11 +122,17 @@ public class CollisionDetectionExample extends BaseExample {
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
-		/* A spinning rectangle in the center of the screen. */
-		final Rectangle centerRectangle = new Rectangle(centerX, centerY, 32, 32);
-		centerRectangle.registerEntityModifier(new LoopEntityModifier(new ParallelEntityModifier(new RotationModifier(6, 0, 360), new SequenceEntityModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1)))));
+		final LoopEntityModifier entityModifier = new LoopEntityModifier(new ParallelEntityModifier(new RotationModifier(6, 0, 360), new SequenceEntityModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1))));
+
+		/* Create A spinning rectangle and a line. */
+		final Rectangle centerRectangle = new Rectangle(centerX - 50, centerY - 16, 32, 32);
+		centerRectangle.registerEntityModifier(entityModifier);
 
 		scene.attachChild(centerRectangle);
+		
+		final Line line = new Line(centerX + 50 - 16, centerY, centerX + 50 + 16, centerY);
+		line.registerEntityModifier(entityModifier.clone());
+		scene.attachChild(line);
 
 		final Sprite face = new Sprite(centerX, centerY + 42, this.mFaceTextureRegion);
 		final PhysicsHandler physicsHandler = new PhysicsHandler(face);
@@ -188,6 +195,12 @@ public class CollisionDetectionExample extends BaseExample {
 					centerRectangle.setColor(1, 0, 0);
 				} else {
 					centerRectangle.setColor(0, 1, 0);
+				}
+				
+				if(line.collidesWith(face)){
+					line.setColor(1, 0, 0);
+				} else {
+					line.setColor(0, 1, 0);
 				}
 			}
 		});
