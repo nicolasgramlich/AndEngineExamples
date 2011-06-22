@@ -135,7 +135,7 @@ public class EntityModifierExample extends BaseExample {
 							EntityModifierExample.this.runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									Toast.makeText(EntityModifierExample.this, "Loop: '" + pLoop + "' of '" + pLoopCount + "' finished.", Toast.LENGTH_SHORT).show();
+									Toast.makeText(EntityModifierExample.this, "Loop: '" + (pLoop + 1) + "' of '" + pLoopCount + "' finished.", Toast.LENGTH_SHORT).show();
 								}
 							});
 						}
