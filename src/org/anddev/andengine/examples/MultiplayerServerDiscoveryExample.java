@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
@@ -30,8 +31,8 @@ import org.anddev.andengine.extension.multiplayer.protocol.client.connector.Serv
 import org.anddev.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector.ISocketConnectionServerConnectorListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServer;
-import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServer.ISocketServerListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServerDiscoveryServer;
+import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServer.ISocketServerListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServerDiscoveryServer.ISocketServerDiscoveryServerListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector;
@@ -92,6 +93,7 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 	private final MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
 
 	private SocketServerDiscoveryServer mSocketServerDiscoveryServer;
+	private SocketServerDiscoveryClient mSocketServerDiscoveryClient;
 
 	// ===========================================================
 	// Constructors
@@ -159,18 +161,20 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 	@Override
 	protected void onDestroy() {
 		if(this.mSocketServer != null) {
-			this.mSocketServer.interrupt();
+			this.mSocketServer.terminate();
 		}
 
 		if(this.mSocketServerDiscoveryServer != null) {
-			this.mSocketServerDiscoveryServer.interrupt();
+			this.mSocketServerDiscoveryServer.terminate();
 		}
 
 		if(this.mServerConnector != null) {
-			this.mServerConnector.getConnection().interrupt();
+			this.mServerConnector.terminate();
 		}
 
-		// TODO Stop discovery by the client
+		if(this.mSocketServerDiscoveryClient != null) {
+			this.mSocketServerDiscoveryClient.terminate();
+		}
 
 		super.onDestroy();
 	}
@@ -300,20 +304,27 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 
 	private void initServerDiscovery() {
 		try {
-			final SocketServerDiscoveryClient socketServerDiscoveryClient = new SocketServerDiscoveryClient(this, DISCOVERY_PORT, LOCAL_PORT, new ISocketServerDiscoveryClientListener() {
+			this.mSocketServerDiscoveryClient = new SocketServerDiscoveryClient(this, DISCOVERY_PORT, LOCAL_PORT, new ISocketServerDiscoveryClientListener() {
+				@Override
+				public void onDiscovery(final SocketServerDiscoveryClient pSocketServerDiscoveryClient, final String pIPAddress, final int pPort) {
+					MultiplayerServerDiscoveryExample.this.toast("DiscoveryClient: Server discovered at: " + pIPAddress + ":" + pPort);
+					MultiplayerServerDiscoveryExample.this.initClient(pIPAddress, pPort);
+				}
+
+				@Override
+				public void onTimeout(final SocketServerDiscoveryClient pSocketServerDiscoveryClient, final SocketTimeoutException pSocketTimeoutException) {
+					Debug.e(pSocketTimeoutException);
+					MultiplayerServerDiscoveryExample.this.toast("DiscoveryClient: Timeout: " + pSocketTimeoutException);
+				}
+
 				@Override
 				public void onException(final SocketServerDiscoveryClient pSocketServerDiscoveryClient, final Throwable pThrowable) {
 					Debug.e(pThrowable);
 					MultiplayerServerDiscoveryExample.this.toast("DiscoveryClient: Exception: " + pThrowable);
 				}
-
-				@Override
-				public void onDiscovery(final SocketServerDiscoveryClient pSocketServerDiscoveryClient, final String pIPAddress, final int pPort) {
-					MultiplayerServerDiscoveryExample.this.initClient(pIPAddress, pPort);
-				}
 			});
 
-			socketServerDiscoveryClient.discoverAsync();
+			this.mSocketServerDiscoveryClient.discoverAsync();
 		} catch (final Throwable t) {
 			Debug.e(t);
 		}

@@ -294,11 +294,11 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	@Override
 	protected void onDestroy() {
 		if(this.mServer != null) {
-			this.mServer.interrupt();
+			this.mServer.terminate();
 		}
 
 		if(this.mServerConnector != null) {
-			this.mServerConnector.getConnection().interrupt();
+			this.mServerConnector.terminate();
 		}
 
 		super.onDestroy();

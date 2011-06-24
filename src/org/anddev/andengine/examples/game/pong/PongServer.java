@@ -282,7 +282,7 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 		clientConnector.registerClientMessage(FLAG_MESSAGE_CLIENT_CONNECTION_CLOSE, ConnectionCloseClientMessage.class, new IClientMessageHandler<SocketConnection>() {
 			@Override
 			public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
-				pClientConnector.interrupt();
+				pClientConnector.terminate();
 			}
 		});
 

@@ -203,11 +203,11 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	@Override
 	protected void onDestroy() {
 		if(this.mSocketServer != null) {
-			this.mSocketServer.interrupt();
+			this.mSocketServer.terminate();
 		}
 
 		if(this.mServerConnector != null) {
-			this.mServerConnector.getConnection().interrupt();
+			this.mServerConnector.terminate();
 		}
 
 		super.onDestroy();
