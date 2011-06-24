@@ -50,6 +50,7 @@
 		<activity android:name=".ModPlayerExample" android:configChanges="orientation"/>
 		<activity android:name=".MovingBallExample" android:configChanges="orientation"/>
 		<activity android:name=".MultiplayerExample" android:configChanges="orientation"/>
+		<activity android:name=".MultiplayerServerDiscoveryExample" android:configChanges="orientation"/>
 		<activity android:name=".MultiplayerBluetoothExample" android:configChanges="orientation"/>
 		<activity android:name=".MultiTouchExample" android:configChanges="orientation"/>
 		<activity android:name=".MusicExample" android:configChanges="orientation"/>

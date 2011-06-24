@@ -21,7 +21,7 @@ public enum ExampleGroup {
 	PARTICLESYSTEM(R.string.examplegroup_particlesystems,
 			Example.PARTICLESYSTEMSIMPLE, Example.PARTICLESYSTEMCOOL, Example.PARTICLESYSTEMNEXUS),
 	MULTIPLAYER(R.string.examplegroup_multiplayer,
-			Example.MULTIPLAYER, Example.MULTIPLAYERBLUETOOTH),
+			Example.MULTIPLAYER, Example.MULTIPLAYERSERVERDISCOVERY, Example.MULTIPLAYERBLUETOOTH),
 	PHYSICS(R.string.examplegroup_physics,
 			Example.COLLISIONDETECTION, Example.PHYSICS, Example.PHYSICSFIXEDSTEP, Example.PHYSICSCOLLISIONFILTERING, Example.PHYSICSJUMP, Example.PHYSICSREVOLUTEJOINT, Example.PHYSICSMOUSEJOINT, Example.PHYSICSREMOVE),
 	TEXT(R.string.examplegroup_text,

@@ -62,6 +62,7 @@
 	<string name="example_modplayer">Playing .MOD Music</string>
 	<string name="example_movingball">A Moving Ball</string>
 	<string name="example_multiplayer">Multiplayer Example</string>
+	<string name="example_multiplayerserverdiscovery">Multiplayer Server Discovery Example</string>
 	<string name="example_multiplayerbluetooth">Multiplayer (Bluetooth) Example</string>
 	<string name="example_multitouch">MultiTouch Example</string>
 	<string name="example_music">Playing Music</string>
