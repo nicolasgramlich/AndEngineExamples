@@ -12,6 +12,7 @@ import org.anddev.andengine.examples.adt.messages.client.ConnectionCloseClientMe
 import org.anddev.andengine.examples.adt.messages.client.ConnectionEstablishClientMessage;
 import org.anddev.andengine.examples.adt.messages.client.ConnectionPingClientMessage;
 import org.anddev.andengine.examples.adt.messages.server.ConnectionEstablishedServerMessage;
+import org.anddev.andengine.examples.adt.messages.server.ConnectionPongServerMessage;
 import org.anddev.andengine.examples.adt.messages.server.ConnectionRejectedProtocolMissmatchServerMessage;
 import org.anddev.andengine.examples.adt.messages.server.ServerMessageFlags;
 import org.anddev.andengine.examples.game.pong.adt.PaddleUserData;
@@ -111,10 +112,12 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 	}
 
 	private void initMessagePool() {
+		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_CONNECTION_ESTABLISHED, UpdateScoreServerMessage.class);
+		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_CONNECTION_PONG, UpdateScoreServerMessage.class);
+		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_CONNECTION_CLOSE, UpdateScoreServerMessage.class);
 		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_UPDATE_SCORE, UpdateScoreServerMessage.class);
 		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_UPDATE_BALL, UpdateBallServerMessage.class);
 		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_UPDATE_PADDLE, UpdatePaddleServerMessage.class);
-		this.mMessagePool.registerMessage(FLAG_MESSAGE_CLIENT_MOVE_PADDLE, MovePaddleClientMessage.class);
 	}
 
 	private void initWalls() {
@@ -248,7 +251,7 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 				this.sendBroadcastServerMessage(updatePaddleServerMessages.get(j));
 			}
 			this.sendBroadcastServerMessage(updateBallServerMessage);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			Debug.e(e);
 		}
 
@@ -266,7 +269,7 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 	@Override
 	protected SocketConnectionClientConnector newClientConnector(final SocketConnection pSocketConnection) throws IOException {
 		final SocketConnectionClientConnector clientConnector = new SocketConnectionClientConnector(pSocketConnection);
-		
+
 		clientConnector.registerClientMessage(FLAG_MESSAGE_CLIENT_MOVE_PADDLE, MovePaddleClientMessage.class, new IClientMessageHandler<SocketConnection>() {
 			@Override
 			public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
@@ -290,10 +293,23 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 			@Override
 			public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
 				final ConnectionEstablishClientMessage connectionEstablishClientMessage = (ConnectionEstablishClientMessage) pClientMessage;
-				if(connectionEstablishClientMessage.getProtocolVersion() == MessageConstants.PROTOCOL_VERSION) { // TODO Add a proper message for Protocol Missmatch!
-					pClientConnector.sendServerMessage(new ConnectionEstablishedServerMessage());
+				if(connectionEstablishClientMessage.getProtocolVersion() == MessageConstants.PROTOCOL_VERSION) {
+					final ConnectionEstablishedServerMessage connectionEstablishedServerMessage = (ConnectionEstablishedServerMessage) PongServer.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_CONNECTION_ESTABLISHED);
+					try {
+						pClientConnector.sendServerMessage(connectionEstablishedServerMessage);
+					} catch (IOException e) {
+						Debug.e(e);
+					}
+					PongServer.this.mMessagePool.recycleMessage(connectionEstablishedServerMessage);
 				} else {
-					pClientConnector.sendServerMessage(new ConnectionRejectedProtocolMissmatchServerMessage(MessageConstants.PROTOCOL_VERSION));
+					final ConnectionRejectedProtocolMissmatchServerMessage connectionRejectedProtocolMissmatchServerMessage = (ConnectionRejectedProtocolMissmatchServerMessage) PongServer.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_CONNECTION_REJECTED_PROTOCOL_MISSMATCH);
+					connectionRejectedProtocolMissmatchServerMessage.setProtocolVersion(MessageConstants.PROTOCOL_VERSION);
+					try {
+						pClientConnector.sendServerMessage(connectionRejectedProtocolMissmatchServerMessage);
+					} catch (IOException e) {
+						Debug.e(e);
+					}
+					PongServer.this.mMessagePool.recycleMessage(connectionRejectedProtocolMissmatchServerMessage);
 				}
 			}
 		});
@@ -301,10 +317,13 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 		clientConnector.registerClientMessage(FLAG_MESSAGE_CLIENT_CONNECTION_PING, ConnectionPingClientMessage.class, new IClientMessageHandler<SocketConnection>() {
 			@Override
 			public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
-				final long now = System.currentTimeMillis();
-				final ConnectionPingClientMessage connectionPingClientMessage = (ConnectionPingClientMessage) pClientMessage;
-				final long roundTripMilliseconds = now - connectionPingClientMessage.getTimestamp();
-				Debug.d("Ping: " + roundTripMilliseconds / 2 + " ms");
+				final ConnectionPongServerMessage connectionPongServerMessage = (ConnectionPongServerMessage) PongServer.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_CONNECTION_PONG);
+				try {
+					pClientConnector.sendServerMessage(connectionPongServerMessage);
+				} catch (IOException e) {
+					Debug.e(e);
+				}
+				PongServer.this.mMessagePool.recycleMessage(connectionPongServerMessage);
 			}
 		});
 

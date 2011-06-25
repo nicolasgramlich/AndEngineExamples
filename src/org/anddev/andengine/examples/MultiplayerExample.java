@@ -19,6 +19,7 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.messages.client.ClientMessageFlags;
+import org.anddev.andengine.examples.adt.messages.server.ConnectionCloseServerMessage;
 import org.anddev.andengine.examples.adt.messages.server.ServerMessageFlags;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
@@ -47,6 +48,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -153,7 +155,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 						}
 						return true;
 					} else {
-						return false;
+						return true;
 					}
 				}
 			});
@@ -202,7 +204,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 					.setMessage("The IP of your Server is:\n" + WifiUtils.getWifiIPv4Address(this))
 					.setPositiveButton(android.R.string.ok, null)
 					.create();
-				} catch (UnknownHostException e) {
+				} catch (final UnknownHostException e) {
 					return new AlertDialog.Builder(this)
 					.setIcon(android.R.drawable.ic_dialog_alert)
 					.setTitle("Your Server-IP ...")
@@ -210,7 +212,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 					.setMessage("Error retrieving IP of your Server: " + e)
 					.setPositiveButton(android.R.string.ok, new OnClickListener() {
 						@Override
-						public void onClick(DialogInterface pDialog, int pWhich) {
+						public void onClick(final DialogInterface pDialog, final int pWhich) {
 							MultiplayerExample.this.finish();
 						}
 					})
@@ -273,6 +275,11 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	@Override
 	protected void onDestroy() {
 		if(this.mSocketServer != null) {
+			try {
+				this.mSocketServer.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
+			} catch (final IOException e) {
+				Debug.e(e);
+			}
 			this.mSocketServer.terminate();
 		}
 
@@ -281,6 +288,16 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 		}
 
 		super.onDestroy();
+	}
+
+	@Override
+	public boolean onKeyUp(final int pKeyCode, final KeyEvent pEvent) {
+		switch(pKeyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				this.finish();
+				return true;
+		}
+		return super.onKeyUp(pKeyCode, pEvent);
 	}
 
 	// ===========================================================
@@ -332,16 +349,10 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 		try {
 			this.mServerConnector = new SocketConnectionServerConnector(new SocketConnection(new Socket(this.mServerIP, SERVER_PORT)), new ExampleServerConnectorListener());
 
-			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_ESTABLISHED, new IServerMessageHandler<SocketConnection>() {
+			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_CONNECTION_CLOSE, ConnectionCloseServerMessage.class, new IServerMessageHandler<SocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					MultiplayerExample.this.log("CLIENT: Connection established.");
-				}
-			});
-			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_REJECTED_PROTOCOL_MISSMATCH, new IServerMessageHandler<SocketConnection>() {
-				@Override
-				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					MultiplayerExample.this.log("CLIENT: Connection rejected.");
+					MultiplayerExample.this.finish();
 				}
 			});
 
@@ -352,6 +363,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 					MultiplayerExample.this.addFace(addFaceServerMessage.mID, addFaceServerMessage.mX, addFaceServerMessage.mY);
 				}
 			});
+
 			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class, new IServerMessageHandler<SocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
@@ -468,12 +480,12 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 
 	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {
 		@Override
-		public void onConnected(final ServerConnector<SocketConnection> pConnector) {
+		public void onStarted(final ServerConnector<SocketConnection> pConnector) {
 			MultiplayerExample.this.toast("CLIENT: Connected to server.");
 		}
 
 		@Override
-		public void onDisconnected(final ServerConnector<SocketConnection> pConnector) {
+		public void onTerminated(final ServerConnector<SocketConnection> pConnector) {
 			MultiplayerExample.this.toast("CLIENT: Disconnected from Server...");
 			MultiplayerExample.this.finish();
 		}
@@ -481,17 +493,17 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 
 	private class ExampleServerStateListener implements ISocketServerListener<SocketConnectionClientConnector> {
 		@Override
-		public void onStarted(SocketServer<SocketConnectionClientConnector> pSocketServer) {
+		public void onStarted(final SocketServer<SocketConnectionClientConnector> pSocketServer) {
 			MultiplayerExample.this.toast("SERVER: Started.");
 		}
 
 		@Override
-		public void onTerminated(SocketServer<SocketConnectionClientConnector> pSocketServer) {
+		public void onTerminated(final SocketServer<SocketConnectionClientConnector> pSocketServer) {
 			MultiplayerExample.this.toast("SERVER: Terminated.");
 		}
 
 		@Override
-		public void onException(SocketServer<SocketConnectionClientConnector> pSocketServer, Throwable pThrowable) {
+		public void onException(final SocketServer<SocketConnectionClientConnector> pSocketServer, final Throwable pThrowable) {
 			Debug.e(pThrowable);
 			MultiplayerExample.this.toast("SERVER: Exception: " + pThrowable);
 		}
@@ -499,12 +511,12 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
-		public void onConnected(final ClientConnector<SocketConnection> pConnector) {
+		public void onStarted(final ClientConnector<SocketConnection> pConnector) {
 			MultiplayerExample.this.toast("SERVER: Client connected: " + pConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 
 		@Override
-		public void onDisconnected(final ClientConnector<SocketConnection> pConnector) {
+		public void onTerminated(final ClientConnector<SocketConnection> pConnector) {
 			MultiplayerExample.this.toast("SERVER: Client disconnected: " + pConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 	}

@@ -19,6 +19,8 @@ import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.messages.MessageConstants;
 import org.anddev.andengine.examples.adt.messages.client.ConnectionPingClientMessage;
+import org.anddev.andengine.examples.adt.messages.server.ConnectionCloseServerMessage;
+import org.anddev.andengine.examples.adt.messages.server.ConnectionEstablishedServerMessage;
 import org.anddev.andengine.examples.adt.messages.server.ConnectionPongServerMessage;
 import org.anddev.andengine.examples.adt.messages.server.ConnectionRejectedProtocolMissmatchServerMessage;
 import org.anddev.andengine.examples.adt.messages.server.ServerMessageFlags;
@@ -50,6 +52,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -232,7 +235,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 					.setMessage("The IP of your Server is:\n" + WifiUtils.getWifiIPv4Address(this))
 					.setPositiveButton(android.R.string.ok, null)
 					.create();
-				} catch (UnknownHostException e) {
+				} catch (final UnknownHostException e) {
 					return new AlertDialog.Builder(this)
 					.setIcon(android.R.drawable.ic_dialog_alert)
 					.setTitle("Your Server-IP ...")
@@ -240,7 +243,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 					.setMessage("Error retrieving IP of your Server: " + e)
 					.setPositiveButton(android.R.string.ok, new OnClickListener() {
 						@Override
-						public void onClick(DialogInterface pDialog, int pWhich) {
+						public void onClick(final DialogInterface pDialog, final int pWhich) {
 							PongGameActivity.this.finish();
 						}
 					})
@@ -292,8 +295,19 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	}
 
 	@Override
+	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
+		this.mPaddleCenterY = pSceneTouchEvent.getY();
+		return true;
+	}
+
+	@Override
 	protected void onDestroy() {
 		if(this.mServer != null) {
+			try {
+				this.mServer.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
+			} catch (final IOException e) {
+				Debug.e(e);
+			}
 			this.mServer.terminate();
 		}
 
@@ -305,9 +319,13 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	}
 
 	@Override
-	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-		this.mPaddleCenterY = pSceneTouchEvent.getY();
-		return true;
+	public boolean onKeyUp(final int pKeyCode, final KeyEvent pEvent) {
+		switch(pKeyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				this.finish();
+				return true;
+		}
+		return super.onKeyUp(pKeyCode, pEvent);
 	}
 
 	// ===========================================================
@@ -379,7 +397,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
+
 	private class PongServerConnector extends ServerConnector<SocketConnection> implements PongConstants, ServerMessageFlags {
 		// ===========================================================
 		// Constants
@@ -396,26 +414,17 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 		public PongServerConnector(final String pServerIP, final ISocketConnectionServerConnectorListener pSocketConnectionServerConnectorListener) throws IOException {
 			super(new SocketConnection(new Socket(pServerIP, SERVER_PORT)), pSocketConnectionServerConnectorListener);
 
-			this.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_ESTABLISHED, new IServerMessageHandler<SocketConnection>() {
+			this.registerServerMessage(FLAG_MESSAGE_SERVER_CONNECTION_CLOSE, ConnectionCloseServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					PongGameActivity.this.finish();
+				}
+			});
+
+			this.registerServerMessage(FLAG_MESSAGE_SERVER_CONNECTION_ESTABLISHED, ConnectionEstablishedServerMessage.class, new IServerMessageHandler<SocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					Debug.d("CLIENT: Connection established.");
-				}
-			});
-
-			this.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_REJECTED_PROTOCOL_MISSMATCH, new IServerMessageHandler<SocketConnection>() {
-				@Override
-				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					Debug.d("CLIENT: Connection rejected.");
-				}
-			});
-
-			this.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_PONG, new IServerMessageHandler<SocketConnection>() {
-				@Override
-				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					final ConnectionPongServerMessage connectionPongServerMessage = (ConnectionPongServerMessage) pServerMessage;
-					final long roundtripMilliseconds = System.currentTimeMillis() - connectionPongServerMessage.getTimestamp();
-					Debug.v("Ping: " + roundtripMilliseconds / 2 + "ms");
 				}
 			});
 
@@ -424,11 +433,20 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					final ConnectionRejectedProtocolMissmatchServerMessage connectionRejectedProtocolMissmatchServerMessage = (ConnectionRejectedProtocolMissmatchServerMessage)pServerMessage;
 					if(connectionRejectedProtocolMissmatchServerMessage.getProtocolVersion() > MessageConstants.PROTOCOL_VERSION) {
-//						Toast.makeText(context, text, duration).show();
+						//						Toast.makeText(context, text, duration).show();
 					} else if(connectionRejectedProtocolMissmatchServerMessage.getProtocolVersion() < MessageConstants.PROTOCOL_VERSION) {
-//						Toast.makeText(context, text, duration).show();
+						//						Toast.makeText(context, text, duration).show();
 					}
 					PongGameActivity.this.finish();
+				}
+			});
+
+			this.registerServerMessage(FLAG_MESSAGE_SERVER_CONNECTION_PONG, ConnectionPongServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+				@Override
+				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
+					final ConnectionPongServerMessage connectionPongServerMessage = (ConnectionPongServerMessage) pServerMessage;
+					final long roundtripMilliseconds = System.currentTimeMillis() - connectionPongServerMessage.getTimestamp();
+					Debug.v("Ping: " + roundtripMilliseconds / 2 + "ms");
 				}
 			});
 
@@ -436,7 +454,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					final SetPaddleIDServerMessage setPaddleIDServerMessage = (SetPaddleIDServerMessage) pServerMessage;
-					setPaddleID(setPaddleIDServerMessage.mPaddleID);
+					PongGameActivity.this.setPaddleID(setPaddleIDServerMessage.mPaddleID);
 				}
 			});
 
@@ -444,7 +462,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					final UpdateScoreServerMessage updateScoreServerMessage = (UpdateScoreServerMessage) pServerMessage;
-					updateScore(updateScoreServerMessage.mPaddleID, updateScoreServerMessage.mScore);
+					PongGameActivity.this.updateScore(updateScoreServerMessage.mPaddleID, updateScoreServerMessage.mScore);
 				}
 			});
 
@@ -452,7 +470,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					final UpdateBallServerMessage updateBallServerMessage = (UpdateBallServerMessage) pServerMessage;
-					updateBall(updateBallServerMessage.mX, updateBallServerMessage.mY);
+					PongGameActivity.this.updateBall(updateBallServerMessage.mX, updateBallServerMessage.mY);
 				}
 			});
 
@@ -460,7 +478,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
 					final UpdatePaddleServerMessage updatePaddleServerMessage = (UpdatePaddleServerMessage) pServerMessage;
-					updatePaddle(updatePaddleServerMessage.mPaddleID, updatePaddleServerMessage.mX, updatePaddleServerMessage.mY);
+					PongGameActivity.this.updatePaddle(updatePaddleServerMessage.mPaddleID, updatePaddleServerMessage.mX, updatePaddleServerMessage.mY);
 				}
 			});
 
@@ -485,12 +503,12 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {
 		@Override
-		public void onConnected(final ServerConnector<SocketConnection> pServerConnector) {
+		public void onStarted(final ServerConnector<SocketConnection> pServerConnector) {
 			PongGameActivity.this.toast("CLIENT: Connected to server.");
 		}
 
 		@Override
-		public void onDisconnected(final ServerConnector<SocketConnection> pServerConnector) {
+		public void onTerminated(final ServerConnector<SocketConnection> pServerConnector) {
 			PongGameActivity.this.toast("CLIENT: Disconnected from Server.");
 			PongGameActivity.this.finish();
 		}
@@ -498,12 +516,12 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
-		public void onConnected(final ClientConnector<SocketConnection> pClientConnector) {
+		public void onStarted(final ClientConnector<SocketConnection> pClientConnector) {
 			PongGameActivity.this.toast("SERVER: Client connected: " + pClientConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 
 		@Override
-		public void onDisconnected(final ClientConnector<SocketConnection> pClientConnector) {
+		public void onTerminated(final ClientConnector<SocketConnection> pClientConnector) {
 			PongGameActivity.this.toast("SERVER: Client disconnected: " + pClientConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 	}

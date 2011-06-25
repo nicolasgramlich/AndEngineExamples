@@ -20,6 +20,7 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.messages.client.ClientMessageFlags;
+import org.anddev.andengine.examples.adt.messages.server.ConnectionCloseServerMessage;
 import org.anddev.andengine.examples.adt.messages.server.ServerMessageFlags;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
@@ -31,8 +32,8 @@ import org.anddev.andengine.extension.multiplayer.protocol.client.connector.Serv
 import org.anddev.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector.ISocketConnectionServerConnectorListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServer;
-import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServerDiscoveryServer;
 import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServer.ISocketServerListener;
+import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServerDiscoveryServer;
 import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServerDiscoveryServer.ISocketServerDiscoveryServerListener;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector;
@@ -52,6 +53,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 /**
@@ -232,6 +234,11 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 	@Override
 	protected void onDestroy() {
 		if(this.mSocketServer != null) {
+			try {
+				this.mSocketServer.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
+			} catch (final IOException e) {
+				Debug.e(e);
+			}
 			this.mSocketServer.terminate();
 		}
 
@@ -248,6 +255,16 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 		}
 
 		super.onDestroy();
+	}
+
+	@Override
+	public boolean onKeyUp(final int pKeyCode, final KeyEvent pEvent) {
+		switch(pKeyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				this.finish();
+				return true;
+		}
+		return super.onKeyUp(pKeyCode, pEvent);
 	}
 
 	// ===========================================================
@@ -335,16 +352,10 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 		try {
 			this.mServerConnector = new SocketConnectionServerConnector(new SocketConnection(new Socket(pIPAddress, pPort)), new ExampleServerConnectorListener());
 
-			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_ESTABLISHED, new IServerMessageHandler<SocketConnection>() {
+			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_CONNECTION_CLOSE, ConnectionCloseServerMessage.class, new IServerMessageHandler<SocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					MultiplayerServerDiscoveryExample.this.log("CLIENT: Connection established.");
-				}
-			});
-			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_REJECTED_PROTOCOL_MISSMATCH, new IServerMessageHandler<SocketConnection>() {
-				@Override
-				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					MultiplayerServerDiscoveryExample.this.log("CLIENT: Connection rejected.");
+					MultiplayerServerDiscoveryExample.this.finish();
 				}
 			});
 
@@ -355,6 +366,7 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 					MultiplayerServerDiscoveryExample.this.addFace(addFaceServerMessage.mID, addFaceServerMessage.mX, addFaceServerMessage.mY);
 				}
 			});
+
 			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class, new IServerMessageHandler<SocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
@@ -471,12 +483,12 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 
 	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {
 		@Override
-		public void onConnected(final ServerConnector<SocketConnection> pConnector) {
+		public void onStarted(final ServerConnector<SocketConnection> pConnector) {
 			MultiplayerServerDiscoveryExample.this.toast("Client: Connected to server.");
 		}
 
 		@Override
-		public void onDisconnected(final ServerConnector<SocketConnection> pConnector) {
+		public void onTerminated(final ServerConnector<SocketConnection> pConnector) {
 			MultiplayerServerDiscoveryExample.this.toast("Client: Disconnected from Server...");
 			MultiplayerServerDiscoveryExample.this.finish();
 		}
@@ -502,12 +514,12 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
-		public void onConnected(final ClientConnector<SocketConnection> pConnector) {
+		public void onStarted(final ClientConnector<SocketConnection> pConnector) {
 			MultiplayerServerDiscoveryExample.this.toast("Server: Client connected: " + pConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 
 		@Override
-		public void onDisconnected(final ClientConnector<SocketConnection> pConnector) {
+		public void onTerminated(final ClientConnector<SocketConnection> pConnector) {
 			MultiplayerServerDiscoveryExample.this.toast("Server: Client disconnected: " + pConnector.getConnection().getSocket().getInetAddress().getHostAddress());
 		}
 	}

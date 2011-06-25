@@ -17,6 +17,7 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.messages.client.ClientMessageFlags;
+import org.anddev.andengine.examples.adt.messages.server.ConnectionCloseServerMessage;
 import org.anddev.andengine.examples.adt.messages.server.ServerMessageFlags;
 import org.anddev.andengine.examples.util.BluetoothListDevicesActivity;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.IMessage;
@@ -49,6 +50,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 /**
@@ -190,6 +192,11 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 	@Override
 	protected void onDestroy() {
 		if(this.mBluetoothSocketServer != null) {
+			try {
+				this.mBluetoothSocketServer.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
+			} catch (final IOException e) {
+				Debug.e(e);
+			}
 			this.mBluetoothSocketServer.terminate();
 		}
 
@@ -198,6 +205,16 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 		}
 
 		super.onDestroy();
+	}
+
+	@Override
+	public boolean onKeyUp(final int pKeyCode, final KeyEvent pEvent) {
+		switch(pKeyCode) {
+			case KeyEvent.KEYCODE_BACK:
+				this.finish();
+				return true;
+		}
+		return super.onKeyUp(pKeyCode, pEvent);
 	}
 
 	@Override
@@ -345,18 +362,13 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 		try {
 			this.mServerConnector = new BluetoothSocketConnectionServerConnector(new BluetoothSocketConnection(this.mBluetoothAdapter, this.mServerMACAddress, EXAMPLE_UUID), new ExampleServerConnectorListener());
 
-			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_ESTABLISHED, new IServerMessageHandler<BluetoothSocketConnection>() {
+			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_CONNECTION_CLOSE, ConnectionCloseServerMessage.class, new IServerMessageHandler<BluetoothSocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<BluetoothSocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					MultiplayerBluetoothExample.this.log("CLIENT: Connection established.");
+					MultiplayerBluetoothExample.this.finish();
 				}
 			});
-			this.mServerConnector.registerServerMessageHandler(FLAG_MESSAGE_SERVER_CONNECTION_REJECTED_PROTOCOL_MISSMATCH, new IServerMessageHandler<BluetoothSocketConnection>() {
-				@Override
-				public void onHandleMessage(final ServerConnector<BluetoothSocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					MultiplayerBluetoothExample.this.log("CLIENT: Connection rejected.");
-				}
-			});
+
 			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_ADD_FACE, AddFaceServerMessage.class, new IServerMessageHandler<BluetoothSocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<BluetoothSocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
@@ -364,6 +376,7 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 					MultiplayerBluetoothExample.this.addFace(addFaceServerMessage.mID, addFaceServerMessage.mX, addFaceServerMessage.mY);
 				}
 			});
+
 			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class, new IServerMessageHandler<BluetoothSocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<BluetoothSocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
@@ -480,12 +493,12 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 
 	private class ExampleServerConnectorListener implements IBluetoothSocketConnectionServerConnectorListener {
 		@Override
-		public void onConnected(final ServerConnector<BluetoothSocketConnection> pConnector) {
+		public void onStarted(final ServerConnector<BluetoothSocketConnection> pConnector) {
 			MultiplayerBluetoothExample.this.toast("CLIENT: Connected to server.");
 		}
 
 		@Override
-		public void onDisconnected(final ServerConnector<BluetoothSocketConnection> pConnector) {
+		public void onTerminated(final ServerConnector<BluetoothSocketConnection> pConnector) {
 			MultiplayerBluetoothExample.this.toast("CLIENT: Disconnected from Server...");
 			MultiplayerBluetoothExample.this.finish();
 		}
@@ -511,12 +524,12 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 
 	private class ExampleClientConnectorListener implements IBluetoothSocketConnectionClientConnectorListener {
 		@Override
-		public void onConnected(final ClientConnector<BluetoothSocketConnection> pConnector) {
+		public void onStarted(final ClientConnector<BluetoothSocketConnection> pConnector) {
 			MultiplayerBluetoothExample.this.toast("SERVER: Client connected: " + pConnector.getConnection().getBluetoothSocket().getRemoteDevice().getAddress());
 		}
 
 		@Override
-		public void onDisconnected(final ClientConnector<BluetoothSocketConnection> pConnector) {
+		public void onTerminated(final ClientConnector<BluetoothSocketConnection> pConnector) {
 			MultiplayerBluetoothExample.this.toast("SERVER: Client disconnected: " + pConnector.getConnection().getBluetoothSocket().getRemoteDevice().getAddress());
 		}
 	}
