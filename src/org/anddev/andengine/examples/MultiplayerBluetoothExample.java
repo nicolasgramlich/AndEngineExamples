@@ -190,11 +190,11 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 	@Override
 	protected void onDestroy() {
 		if(this.mBluetoothSocketServer != null) {
-			this.mBluetoothSocketServer.interrupt();
+			this.mBluetoothSocketServer.terminate();
 		}
 
 		if(this.mServerConnector != null) {
-			this.mServerConnector.getConnection().interrupt();
+			this.mServerConnector.terminate();
 		}
 
 		super.onDestroy();

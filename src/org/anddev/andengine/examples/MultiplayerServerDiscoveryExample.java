@@ -117,66 +117,11 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 	// ===========================================================
 
 	@Override
-	protected Dialog onCreateDialog(final int pID) {
-		switch(pID) {
-			case DIALOG_CHOOSE_SERVER_OR_CLIENT_ID:
-				return new AlertDialog.Builder(this)
-				.setIcon(android.R.drawable.ic_dialog_info)
-				.setTitle("Be Server or Client ...")
-				.setCancelable(false)
-				.setPositiveButton("Client", new OnClickListener() {
-					@Override
-					public void onClick(final DialogInterface pDialog, final int pWhich) {
-						MultiplayerServerDiscoveryExample.this.initServerDiscovery();
-					}
-				})
-				.setNeutralButton("Server", new OnClickListener() {
-					@Override
-					public void onClick(final DialogInterface pDialog, final int pWhich) {
-						MultiplayerServerDiscoveryExample.this.toast("You can add and move sprites, which are only shown on the clients.");
-						MultiplayerServerDiscoveryExample.this.initServer();
-					}
-				})
-				.setNegativeButton("Both", new OnClickListener() {
-					@Override
-					public void onClick(final DialogInterface pDialog, final int pWhich) {
-						MultiplayerServerDiscoveryExample.this.toast("You can add sprites and move them, by dragging them.");
-						MultiplayerServerDiscoveryExample.this.initServerAndClient();
-					}
-				})
-				.create();
-			default:
-				return super.onCreateDialog(pID);
-		}
-	}
-
-	@Override
 	public Engine onLoadEngine() {
 		this.showDialog(DIALOG_CHOOSE_SERVER_OR_CLIENT_ID);
 
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
-	}
-
-	@Override
-	protected void onDestroy() {
-		if(this.mSocketServer != null) {
-			this.mSocketServer.terminate();
-		}
-
-		if(this.mSocketServerDiscoveryServer != null) {
-			this.mSocketServerDiscoveryServer.terminate();
-		}
-
-		if(this.mServerConnector != null) {
-			this.mServerConnector.terminate();
-		}
-
-		if(this.mSocketServerDiscoveryClient != null) {
-			this.mSocketServerDiscoveryClient.terminate();
-		}
-
-		super.onDestroy();
 	}
 
 	@Override
@@ -247,6 +192,62 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 	@Override
 	public void onLoadComplete() {
 
+	}
+
+	@Override
+	protected Dialog onCreateDialog(final int pID) {
+		switch(pID) {
+			case DIALOG_CHOOSE_SERVER_OR_CLIENT_ID:
+				return new AlertDialog.Builder(this)
+				.setIcon(android.R.drawable.ic_dialog_info)
+				.setTitle("Be Server or Client ...")
+				.setMessage("For automatic ServerDiscovery to work, all devices need to be on the same WiFi!")
+				.setCancelable(false)
+				.setPositiveButton("Client", new OnClickListener() {
+					@Override
+					public void onClick(final DialogInterface pDialog, final int pWhich) {
+						MultiplayerServerDiscoveryExample.this.initServerDiscovery();
+					}
+				})
+				.setNeutralButton("Server", new OnClickListener() {
+					@Override
+					public void onClick(final DialogInterface pDialog, final int pWhich) {
+						MultiplayerServerDiscoveryExample.this.toast("You can add and move sprites, which are only shown on the clients.");
+						MultiplayerServerDiscoveryExample.this.initServer();
+					}
+				})
+				.setNegativeButton("Both", new OnClickListener() {
+					@Override
+					public void onClick(final DialogInterface pDialog, final int pWhich) {
+						MultiplayerServerDiscoveryExample.this.toast("You can add sprites and move them, by dragging them.");
+						MultiplayerServerDiscoveryExample.this.initServerAndClient();
+					}
+				})
+				.create();
+			default:
+				return super.onCreateDialog(pID);
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		if(this.mSocketServer != null) {
+			this.mSocketServer.terminate();
+		}
+
+		if(this.mSocketServerDiscoveryServer != null) {
+			this.mSocketServerDiscoveryServer.terminate();
+		}
+
+		if(this.mServerConnector != null) {
+			this.mServerConnector.terminate();
+		}
+
+		if(this.mSocketServerDiscoveryClient != null) {
+			this.mSocketServerDiscoveryClient.terminate();
+		}
+
+		super.onDestroy();
 	}
 
 	// ===========================================================
@@ -530,7 +531,7 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 
 		@Override
 		public void onDiscovered(final SocketServerDiscoveryServer pSocketServerDiscoveryServer, final InetAddress pInetAddress, final int pPort) {
-			MultiplayerServerDiscoveryExample.this.toast("Discovered by: " + pInetAddress.getHostAddress() + ":" + pPort);
+			MultiplayerServerDiscoveryExample.this.toast("DiscoveryServer: Discovered by: " + pInetAddress.getHostAddress() + ":" + pPort);
 		}
 	}
 }

@@ -113,6 +113,84 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	// ===========================================================
 
 	@Override
+	public Engine onLoadEngine() {
+		this.showDialog(DIALOG_CHOOSE_SERVER_OR_CLIENT_ID);
+
+		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+	}
+
+	@Override
+	public void onLoadResources() {
+		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box.png", 0, 0);
+
+		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+	}
+
+	@Override
+	public Scene onLoadScene() {
+		this.mEngine.registerUpdateHandler(new FPSLogger());
+
+		final Scene scene = new Scene();
+		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+
+		/* We allow only the server to actively send around messages. */
+		if(MultiplayerExample.this.mSocketServer != null) {
+			scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
+				@Override
+				public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
+					if(pSceneTouchEvent.isActionDown()) {
+						try {
+							final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_FACE);
+							addFaceServerMessage.set(MultiplayerExample.this.mFaceIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+
+							MultiplayerExample.this.mSocketServer.sendBroadcastServerMessage(addFaceServerMessage);
+
+							MultiplayerExample.this.mMessagePool.recycleMessage(addFaceServerMessage);
+						} catch (final IOException e) {
+							Debug.e(e);
+						}
+						return true;
+					} else {
+						return false;
+					}
+				}
+			});
+
+			scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
+				@Override
+				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+					try {
+						final Sprite face = (Sprite)pTouchArea;
+						final Integer faceID = (Integer)face.getUserData();
+
+						final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_MOVE_FACE);
+						moveFaceServerMessage.set(faceID, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+
+						MultiplayerExample.this.mSocketServer.sendBroadcastServerMessage(moveFaceServerMessage);
+
+						MultiplayerExample.this.mMessagePool.recycleMessage(moveFaceServerMessage);
+					} catch (final IOException e) {
+						Debug.e(e);
+						return false;
+					}
+					return true;
+				}
+			});
+
+			scene.setTouchAreaBindingEnabled(true);
+		}
+
+		return scene;
+	}
+
+	@Override
+	public void onLoadComplete() {
+
+	}
+
+	@Override
 	protected Dialog onCreateDialog(final int pID) {
 		switch(pID) {
 			case DIALOG_SHOW_SERVER_IP_ID:
@@ -193,14 +271,6 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	}
 
 	@Override
-	public Engine onLoadEngine() {
-		this.showDialog(DIALOG_CHOOSE_SERVER_OR_CLIENT_ID);
-
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
-	}
-
-	@Override
 	protected void onDestroy() {
 		if(this.mSocketServer != null) {
 			this.mSocketServer.terminate();
@@ -211,76 +281,6 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 		}
 
 		super.onDestroy();
-	}
-
-	@Override
-	public void onLoadResources() {
-		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box.png", 0, 0);
-
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
-	}
-
-	@Override
-	public Scene onLoadScene() {
-		this.mEngine.registerUpdateHandler(new FPSLogger());
-
-		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
-
-		/* We allow only the server to actively send around messages. */
-		if(MultiplayerExample.this.mSocketServer != null) {
-			scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
-				@Override
-				public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-					if(pSceneTouchEvent.isActionDown()) {
-						try {
-							final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_FACE);
-							addFaceServerMessage.set(MultiplayerExample.this.mFaceIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-
-							MultiplayerExample.this.mSocketServer.sendBroadcastServerMessage(addFaceServerMessage);
-
-							MultiplayerExample.this.mMessagePool.recycleMessage(addFaceServerMessage);
-						} catch (final IOException e) {
-							Debug.e(e);
-						}
-						return true;
-					} else {
-						return false;
-					}
-				}
-			});
-
-			scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
-				@Override
-				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-					try {
-						final Sprite face = (Sprite)pTouchArea;
-						final Integer faceID = (Integer)face.getUserData();
-
-						final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_MOVE_FACE);
-						moveFaceServerMessage.set(faceID, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-
-						MultiplayerExample.this.mSocketServer.sendBroadcastServerMessage(moveFaceServerMessage);
-
-						MultiplayerExample.this.mMessagePool.recycleMessage(moveFaceServerMessage);
-					} catch (final IOException e) {
-						Debug.e(e);
-						return false;
-					}
-					return true;
-				}
-			});
-
-			scene.setTouchAreaBindingEnabled(true);
-		}
-
-		return scene;
-	}
-
-	@Override
-	public void onLoadComplete() {
-
 	}
 
 	// ===========================================================
