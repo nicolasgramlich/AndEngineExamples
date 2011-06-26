@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
@@ -38,7 +39,9 @@ import org.anddev.andengine.extension.multiplayer.protocol.server.SocketServerDi
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector;
 import org.anddev.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
+import org.anddev.andengine.extension.multiplayer.protocol.shared.IDiscoveryData.DefaultDiscoveryData;
 import org.anddev.andengine.extension.multiplayer.protocol.shared.SocketConnection;
+import org.anddev.andengine.extension.multiplayer.protocol.util.IPUtils;
 import org.anddev.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.anddev.andengine.extension.multiplayer.protocol.util.WifiUtils;
 import org.anddev.andengine.input.touch.TouchEvent;
@@ -94,8 +97,8 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 
 	private final MessagePool<IMessage> mMessagePool = new MessagePool<IMessage>();
 
-	private SocketServerDiscoveryServer mSocketServerDiscoveryServer;
-	private SocketServerDiscoveryClient mSocketServerDiscoveryClient;
+	private SocketServerDiscoveryServer<DefaultDiscoveryData> mSocketServerDiscoveryServer;
+	private SocketServerDiscoveryClient<DefaultDiscoveryData> mSocketServerDiscoveryClient;
 
 	// ===========================================================
 	// Constructors
@@ -312,8 +315,13 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 		this.mSocketServer.start();
 
 		try {
-			final String wifiIPv4Address = WifiUtils.getWifiIPv4Address(this);
-			this.mSocketServerDiscoveryServer = new SocketServerDiscoveryServer(DISCOVERY_PORT, wifiIPv4Address, SERVER_PORT, new ExampleSocketServerDiscoveryServerListener());
+			final byte[] wifiIPv4Address = WifiUtils.getWifiIPv4AddressRaw(this);
+			this.mSocketServerDiscoveryServer = new SocketServerDiscoveryServer<DefaultDiscoveryData>(DISCOVERY_PORT, new ExampleSocketServerDiscoveryServerListener()) {
+				@Override
+				protected DefaultDiscoveryData onCreateDiscoveryResponse() {
+					return new DefaultDiscoveryData(wifiIPv4Address, SERVER_PORT);
+				}
+			};
 			this.mSocketServerDiscoveryServer.start();
 		} catch (final Throwable t) {
 			Debug.e(t);
@@ -322,21 +330,26 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 
 	private void initServerDiscovery() {
 		try {
-			this.mSocketServerDiscoveryClient = new SocketServerDiscoveryClient(this, DISCOVERY_PORT, LOCAL_PORT, new ISocketServerDiscoveryClientListener() {
+			this.mSocketServerDiscoveryClient = new SocketServerDiscoveryClient<DefaultDiscoveryData>(WifiUtils.getBroadcastIPAddressRaw(this), DISCOVERY_PORT, LOCAL_PORT, DefaultDiscoveryData.class, new ISocketServerDiscoveryClientListener<DefaultDiscoveryData>() {
 				@Override
-				public void onDiscovery(final SocketServerDiscoveryClient pSocketServerDiscoveryClient, final String pIPAddress, final int pPort) {
-					MultiplayerServerDiscoveryExample.this.toast("DiscoveryClient: Server discovered at: " + pIPAddress + ":" + pPort);
-					MultiplayerServerDiscoveryExample.this.initClient(pIPAddress, pPort);
+				public void onDiscovery(final SocketServerDiscoveryClient<DefaultDiscoveryData> pSocketServerDiscoveryClient, final DefaultDiscoveryData pDiscoveryData) {
+					try {
+						final String ipAddressAsString = IPUtils.ipAddressToString(pDiscoveryData.getServerIP());
+						MultiplayerServerDiscoveryExample.this.toast("DiscoveryClient: Server discovered at: " + ipAddressAsString + ":" + pDiscoveryData.getServerPort());
+						MultiplayerServerDiscoveryExample.this.initClient(ipAddressAsString, pDiscoveryData.getServerPort());
+					} catch (final UnknownHostException e) {
+						MultiplayerServerDiscoveryExample.this.toast("DiscoveryClient: IPException: " + e);
+					}
 				}
 
 				@Override
-				public void onTimeout(final SocketServerDiscoveryClient pSocketServerDiscoveryClient, final SocketTimeoutException pSocketTimeoutException) {
+				public void onTimeout(final SocketServerDiscoveryClient<DefaultDiscoveryData> pSocketServerDiscoveryClient, final SocketTimeoutException pSocketTimeoutException) {
 					Debug.e(pSocketTimeoutException);
 					MultiplayerServerDiscoveryExample.this.toast("DiscoveryClient: Timeout: " + pSocketTimeoutException);
 				}
 
 				@Override
-				public void onException(final SocketServerDiscoveryClient pSocketServerDiscoveryClient, final Throwable pThrowable) {
+				public void onException(final SocketServerDiscoveryClient<DefaultDiscoveryData> pSocketServerDiscoveryClient, final Throwable pThrowable) {
 					Debug.e(pThrowable);
 					MultiplayerServerDiscoveryExample.this.toast("DiscoveryClient: Exception: " + pThrowable);
 				}
@@ -524,25 +537,25 @@ public class MultiplayerServerDiscoveryExample extends BaseExample implements Cl
 		}
 	}
 
-	public class ExampleSocketServerDiscoveryServerListener implements ISocketServerDiscoveryServerListener {
+	public class ExampleSocketServerDiscoveryServerListener implements ISocketServerDiscoveryServerListener<DefaultDiscoveryData> {
 		@Override
-		public void onStarted(final SocketServerDiscoveryServer pSocketServerDiscoveryServer) {
+		public void onStarted(final SocketServerDiscoveryServer<DefaultDiscoveryData> pSocketServerDiscoveryServer) {
 			MultiplayerServerDiscoveryExample.this.toast("DiscoveryServer: Started.");
 		}
 
 		@Override
-		public void onTerminated(final SocketServerDiscoveryServer pSocketServerDiscoveryServer) {
+		public void onTerminated(final SocketServerDiscoveryServer<DefaultDiscoveryData> pSocketServerDiscoveryServer) {
 			MultiplayerServerDiscoveryExample.this.toast("DiscoveryServer: Terminated.");
 		}
 
 		@Override
-		public void onException(final SocketServerDiscoveryServer pSocketServerDiscoveryServer, final Throwable pThrowable) {
+		public void onException(final SocketServerDiscoveryServer<DefaultDiscoveryData> pSocketServerDiscoveryServer, final Throwable pThrowable) {
 			Debug.e(pThrowable);
 			MultiplayerServerDiscoveryExample.this.toast("DiscoveryServer: Exception: " + pThrowable);
 		}
 
 		@Override
-		public void onDiscovered(final SocketServerDiscoveryServer pSocketServerDiscoveryServer, final InetAddress pInetAddress, final int pPort) {
+		public void onDiscovered(final SocketServerDiscoveryServer<DefaultDiscoveryData> pSocketServerDiscoveryServer, final InetAddress pInetAddress, final int pPort) {
 			MultiplayerServerDiscoveryExample.this.toast("DiscoveryServer: Discovered by: " + pInetAddress.getHostAddress() + ":" + pPort);
 		}
 	}
