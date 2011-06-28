@@ -103,8 +103,6 @@ public class PhysicsMouseJointExample extends BaseExample implements IAccelerome
 		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mCircleFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
-
-		this.enableAccelerometerSensor(this);
 	}
 
 	@Override
@@ -193,6 +191,20 @@ public class PhysicsMouseJointExample extends BaseExample implements IAccelerome
 		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getX(), pAccelerometerData.getY());
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
+	}
+
+	@Override
+	public void onResumeGame() {
+		super.onResumeGame();
+
+		this.enableAccelerometerSensor(this);
+	}
+
+	@Override
+	public void onPauseGame() {
+		super.onPauseGame();
+
+		this.disableAccelerometerSensor();
 	}
 
 	// ===========================================================

@@ -104,7 +104,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 	// Methods
 	// ===========================================================
 
-	private void drawUsingSprites(final Scene scene) {
+	private void drawUsingSprites(final Scene pScene) {
 		final IEntityModifier faceEntityModifier = new SequenceEntityModifier(
 				new RotationByModifier(2, 90),
 				new AlphaModifier(1.5f, 1, 0),
@@ -125,11 +125,11 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion);
 			face.registerEntityModifier(faceEntityModifier.clone());
 
-			scene.attachChild(face);
+			pScene.attachChild(face);
 		}
 	}
 
-	private void drawUsingSpritesWithSharedVertexBuffer(final Scene scene) {
+	private void drawUsingSpritesWithSharedVertexBuffer(final Scene pScene) {
 		final IEntityModifier faceEntityModifier = new SequenceEntityModifier(
 				new RotationByModifier(2, 90),
 				new AlphaModifier(1.5f, 1, 0),
@@ -154,11 +154,11 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, sharedVertexBuffer);
 			face.registerEntityModifier(faceEntityModifier.clone());
 
-			scene.attachChild(face);
+			pScene.attachChild(face);
 		}
 	}
 
-	private void drawUsingSpriteBatch(final Scene scene) {
+	private void drawUsingSpriteBatch(final Scene pScene) {
 		final IEntityModifier faceEntityModifier = new SequenceEntityModifier(
 				new RotationByModifier(2, 90),
 				//				new AlphaModifier(1.5f, 1, 0),
@@ -191,7 +191,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 		}
 		spriteGroup.registerEntityModifier(spriteBatchEntityModifier);
 
-		scene.attachChild(spriteGroup);
+		pScene.attachChild(spriteGroup);
 	}
 
 	// ===========================================================

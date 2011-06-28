@@ -91,8 +91,6 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		this.mCircleFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
 		this.mCircleFaceTextureRegion.setTextureRegionBufferManaged(false);
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
-
-		this.enableAccelerometerSensor(this);
 	}
 
 	@Override
@@ -159,6 +157,20 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getX(), pAccelerometerData.getY());
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
+	}
+
+	@Override
+	public void onResumeGame() {
+		super.onResumeGame();
+
+		this.enableAccelerometerSensor(this);
+	}
+
+	@Override
+	public void onPauseGame() {
+		super.onPauseGame();
+
+		this.disableAccelerometerSensor();
 	}
 
 	// ===========================================================

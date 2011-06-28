@@ -88,8 +88,6 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		this.mTexture = new Texture(64, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/face_box_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mEngine.getTextureManager().loadTexture(this.mTexture);
-
-		this.enableAccelerometerSensor(this);
 	}
 
 	@Override
@@ -143,6 +141,20 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getX(), pAccelerometerData.getY());
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
+	}
+
+	@Override
+	public void onResumeGame() {
+		super.onResumeGame();
+
+		this.enableAccelerometerSensor(this);
+	}
+
+	@Override
+	public void onPauseGame() {
+		super.onPauseGame();
+
+		this.disableAccelerometerSensor();
 	}
 
 	// ===========================================================

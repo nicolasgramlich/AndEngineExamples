@@ -97,8 +97,6 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		this.mHUDTexture = new Texture(256, 128,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mToggleButtonTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mHUDTexture, this, "gfx/toggle_button.png", 0, 0, 2, 1); // 256x128
 		this.mEngine.getTextureManager().loadTexture(this.mHUDTexture);
-
-		this.enableAccelerometerSensor(this);
 	}
 
 	@Override
@@ -187,6 +185,20 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getX(), pAccelerometerData.getY());
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
+	}
+
+	@Override
+	public void onResumeGame() {
+		super.onResumeGame();
+
+		this.enableAccelerometerSensor(this);
+	}
+
+	@Override
+	public void onPauseGame() {
+		super.onPauseGame();
+
+		this.disableAccelerometerSensor();
 	}
 
 	// ===========================================================
