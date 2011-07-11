@@ -185,7 +185,6 @@ public class CollisionDetectionExample extends BaseExample {
 
 		/* The actual collision-checking. */
 		scene.registerUpdateHandler(new IUpdateHandler() {
-
 			@Override
 			public void reset() { }
 
@@ -201,6 +200,10 @@ public class CollisionDetectionExample extends BaseExample {
 					line.setColor(1, 0, 0);
 				} else {
 					line.setColor(0, 1, 0);
+				}
+				
+				if(!mCamera.isRectangularShapeVisible(face)) {
+					centerRectangle.setColor(1, 0, 1);
 				}
 			}
 		});

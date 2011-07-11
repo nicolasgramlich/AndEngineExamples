@@ -59,7 +59,7 @@ public class AnimatedSpritesExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mTexture = new Texture(512, 256, TextureOptions.BILINEAR);
 
 		TextureRegionFactory.setAssetBasePath("gfx/");
 		this.mSnapdragonTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "snapdragon_tiled.png", 0, 0, 4, 3);

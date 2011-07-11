@@ -9,8 +9,9 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.opengl.texture.BaseTexture.ITextureStateListener;
+import org.anddev.andengine.opengl.texture.ITexture;
 import org.anddev.andengine.opengl.texture.Texture;
-import org.anddev.andengine.opengl.texture.Texture.ITextureStateListener;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
@@ -64,7 +65,7 @@ public class ImageFormatsExample extends BaseExample {
 	public void onLoadResources() {
 		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA, new ITextureStateListener.TextureStateAdapter() {
 			@Override
-			public void onTextureSourceLoadExeption(final Texture pTexture, final ITextureSource pTextureSource, final Throwable pThrowable) {
+			public void onTextureSourceLoadExeption(final ITexture pTexture, final ITextureSource pTextureSource, final Throwable pThrowable) {
 				ImageFormatsExample.this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
