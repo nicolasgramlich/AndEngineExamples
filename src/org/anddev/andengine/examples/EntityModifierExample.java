@@ -103,7 +103,7 @@ public class EntityModifierExample extends BaseExample {
 							EntityModifierExample.this.runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									Toast.makeText(EntityModifierExample.this, "Sequence started.", Toast.LENGTH_LONG).show();
+									Toast.makeText(EntityModifierExample.this, "Sequence started.", Toast.LENGTH_SHORT).show();
 								}
 							});
 						}
@@ -113,12 +113,12 @@ public class EntityModifierExample extends BaseExample {
 							EntityModifierExample.this.runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									Toast.makeText(EntityModifierExample.this, "Sequence finished.", Toast.LENGTH_LONG).show();
+									Toast.makeText(EntityModifierExample.this, "Sequence finished.", Toast.LENGTH_SHORT).show();
 								}
 							});
 						}
 					},
-					1,
+					2,
 					new ILoopEntityModifierListener() {
 						@Override
 						public void onLoopStarted(final LoopModifier<IEntity> pLoopModifier, final int pLoop, final int pLoopCount) {
