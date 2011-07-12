@@ -125,10 +125,10 @@ public class CollisionDetectionExample extends BaseExample {
 		final LoopEntityModifier entityModifier = new LoopEntityModifier(new ParallelEntityModifier(new RotationModifier(6, 0, 360), new SequenceEntityModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1))));
 
 		/* Create A spinning rectangle and a line. */
-		final Rectangle centerRectangle = new Rectangle(centerX - 50, centerY - 16, 32, 32);
-		centerRectangle.registerEntityModifier(entityModifier);
+		final Rectangle rectangle = new Rectangle(centerX - 50, centerY - 16, 32, 32);
+		rectangle.registerEntityModifier(entityModifier);
 
-		scene.attachChild(centerRectangle);
+		scene.attachChild(rectangle);
 		
 		final Line line = new Line(centerX + 50 - 16, centerY, centerX + 50 + 16, centerY);
 		line.registerEntityModifier(entityModifier.clone());
@@ -190,10 +190,10 @@ public class CollisionDetectionExample extends BaseExample {
 
 			@Override
 			public void onUpdate(final float pSecondsElapsed) {
-				if(centerRectangle.collidesWith(face)) {
-					centerRectangle.setColor(1, 0, 0);
+				if(rectangle.collidesWith(face)) {
+					rectangle.setColor(1, 0, 0);
 				} else {
-					centerRectangle.setColor(0, 1, 0);
+					rectangle.setColor(0, 1, 0);
 				}
 				
 				if(line.collidesWith(face)){
@@ -203,7 +203,8 @@ public class CollisionDetectionExample extends BaseExample {
 				}
 				
 				if(!mCamera.isRectangularShapeVisible(face)) {
-					centerRectangle.setColor(1, 0, 1);
+					rectangle.setColor(1, 0, 1);
+					line.setColor(1, 0, 1);
 				}
 			}
 		});
