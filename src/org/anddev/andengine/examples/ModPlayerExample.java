@@ -14,10 +14,10 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.util.Callback;
 import org.anddev.andengine.util.FileUtils;
 import org.helllabs.android.xmp.ModPlayer;
@@ -43,7 +43,7 @@ public class ModPlayerExample extends BaseExample {
 	// Fields
 	// ===========================================================
 
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 	private TextureRegion mILove8BitTextureRegion;
 
 	private final ModPlayer mModPlayer = ModPlayer.getInstance();
@@ -69,9 +69,11 @@ public class ModPlayerExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128, TextureOptions.DEFAULT);
-		TextureRegionFactory.setAssetBasePath("gfx/");
-		this.mILove8BitTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "i_love_8_bit.png", 0, 0);
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+
+		this.mBitmapTexture = new BitmapTexture(128, 128, TextureOptions.DEFAULT);
+
+		this.mILove8BitTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "i_love_8_bit.png", 0, 0);
 
 		if(FileUtils.isFileExistingOnExternalStorage(this, SAMPLE_MOD_DIRECTORY + SAMPLE_MOD_FILENAME)) {
 			this.startPlayingMod();
@@ -91,7 +93,7 @@ public class ModPlayerExample extends BaseExample {
 			});
 		}
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override

@@ -13,11 +13,11 @@ import org.anddev.andengine.entity.modifier.PathModifier.Path;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.RepeatingSpriteBackground;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.bitmap.source.AssetBitmapTextureSource;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
-import org.anddev.andengine.opengl.texture.source.AssetTextureSource;
 import org.anddev.andengine.util.Debug;
 import org.anddev.andengine.util.modifier.ease.EaseSineInOut;
 
@@ -43,7 +43,7 @@ public class PathModifierExample extends BaseExample {
 
 	private RepeatingSpriteBackground mGrassBackground;
 
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 	private TiledTextureRegion mPlayerTextureRegion;
 
 	// ===========================================================
@@ -67,12 +67,15 @@ public class PathModifierExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128, TextureOptions.DEFAULT);
-		this.mPlayerTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/player.png", 0, 0, 3, 4);
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, this.mEngine.getTextureManager(), new AssetTextureSource(this, "gfx/background_grass.png"));
+		this.mBitmapTexture = new BitmapTexture(128, 128, TextureOptions.DEFAULT);
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		this.mPlayerTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "player.png", 0, 0, 3, 4);
+
+		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, this.mEngine.getTextureManager(), new AssetBitmapTextureSource(this, "gfx/background_grass.png"));
+
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override

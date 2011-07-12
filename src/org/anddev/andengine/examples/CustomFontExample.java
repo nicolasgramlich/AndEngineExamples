@@ -11,8 +11,8 @@ import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
 
 import android.graphics.Color;
 
@@ -43,11 +43,11 @@ public class CustomFontExample extends BaseExample {
 	private Font mUnrealTournamenFont;
 	private Font mKingdomOfHeartsFont;
 
-	private Texture mDroidFontTexture;
-	private Texture mPlokFontTexture;
-	private Texture mNeverwinterNightsFontTexture;
-	private Texture mUnrealTournamentFontTexture;
-	private Texture mKingdomOfHeartsFontTexture;
+	private BitmapTexture mDroidFontTexture;
+	private BitmapTexture mPlokFontTexture;
+	private BitmapTexture mNeverwinterNightsFontTexture;
+	private BitmapTexture mUnrealTournamentFontTexture;
+	private BitmapTexture mKingdomOfHeartsFontTexture;
 
 	// ===========================================================
 	// Constructors
@@ -70,11 +70,11 @@ public class CustomFontExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		/* The custom fonts. */
-		this.mDroidFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mKingdomOfHeartsFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mNeverwinterNightsFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mPlokFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mUnrealTournamentFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mDroidFontTexture = new BitmapTexture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mKingdomOfHeartsFontTexture = new BitmapTexture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mNeverwinterNightsFontTexture = new BitmapTexture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mPlokFontTexture = new BitmapTexture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mUnrealTournamentFontTexture = new BitmapTexture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		FontFactory.setAssetBasePath("font/");
 		this.mDroidFont = FontFactory.createFromAsset(this.mDroidFontTexture, this, "Droid.ttf", FONT_SIZE, true, Color.BLACK);

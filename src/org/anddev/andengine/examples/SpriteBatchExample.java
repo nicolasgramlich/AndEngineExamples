@@ -10,10 +10,10 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.batch.SpriteBatch;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
 /**
  * @author Nicolas Gramlich
@@ -32,7 +32,7 @@ public class SpriteBatchExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 	private TextureRegion mFaceTextureRegion;
 
 	// ===========================================================
@@ -55,10 +55,13 @@ public class SpriteBatchExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box.png", 0, 0);
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		this.mBitmapTexture = new BitmapTexture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
+		this.mFaceTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "face_box.png", 0, 0);
+
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override
@@ -79,7 +82,7 @@ public class SpriteBatchExample extends BaseExample {
 		faceSprite2.setRotation(45);
 
 		/* Create the face and add it to the scene. */
-		final SpriteBatch dynamicSpriteBatch = new SpriteBatch(this.mTexture, 2) {
+		final SpriteBatch dynamicSpriteBatch = new SpriteBatch(this.mBitmapTexture, 2) {
 			@Override
 			public void onDrawSpriteBatch() {
 				this.draw(faceSprite1);
@@ -87,7 +90,7 @@ public class SpriteBatchExample extends BaseExample {
 			}
 		};
 		
-		final SpriteBatch staticSpriteBatch = new SpriteBatch(this.mTexture, 2);
+		final SpriteBatch staticSpriteBatch = new SpriteBatch(this.mBitmapTexture, 2);
 		staticSpriteBatch.draw(this.mFaceTextureRegion, -50, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight(), 2, 2);
 		staticSpriteBatch.draw(this.mFaceTextureRegion, 50, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight(), 45);
 		staticSpriteBatch.submit();

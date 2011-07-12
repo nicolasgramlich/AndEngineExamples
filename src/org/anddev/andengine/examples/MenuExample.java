@@ -16,10 +16,10 @@ import org.anddev.andengine.entity.scene.menu.item.IMenuItem;
 import org.anddev.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
 import android.view.KeyEvent;
 
@@ -46,12 +46,12 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 
 	protected Scene mMainScene;
 
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 	private TextureRegion mFaceTextureRegion;
 
 	protected MenuScene mMenuScene;
 
-	private Texture mMenuTexture;
+	private BitmapTexture mMenuTexture;
 	protected TextureRegion mMenuResetTextureRegion;
 	protected TextureRegion mMenuQuitTextureRegion;
 
@@ -75,13 +75,19 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box_menu.png", 0, 0);
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mMenuTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mMenuResetTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_reset.png", 0, 0);
-		this.mMenuQuitTextureRegion = TextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_quit.png", 0, 50);
+		this.mBitmapTexture = new BitmapTexture(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
+		this.mFaceTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "face_box_menu.png", 0, 0);
+
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
+
+		this.mMenuTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
+		this.mMenuResetTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_reset.png", 0, 0);
+		this.mMenuQuitTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_quit.png", 0, 50);
+
 		this.mEngine.getTextureManager().loadTexture(this.mMenuTexture);
 	}
 

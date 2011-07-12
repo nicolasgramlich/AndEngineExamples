@@ -19,13 +19,14 @@ import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.examples.adt.cityradar.City;
 import org.anddev.andengine.opengl.font.Font;
-import org.anddev.andengine.opengl.texture.BuildableTexture;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.builder.BlackPawnTextureBuilder;
-import org.anddev.andengine.opengl.texture.builder.ITextureBuilder.TextureSourcePackingException;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.bitmap.BuildableBitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.source.IBitmapTextureSource;
+import org.anddev.andengine.opengl.texture.buildable.builder.BlackPawnTextureBuilder;
+import org.anddev.andengine.opengl.texture.buildable.builder.ITextureBuilder.TextureSourcePackingException;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.sensor.location.ILocationListener;
 import org.anddev.andengine.sensor.location.LocationProviderStatus;
 import org.anddev.andengine.sensor.location.LocationSensorOptions;
@@ -62,12 +63,12 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 
 	private Camera mCamera;
 
-	private BuildableTexture mBuildableTexture;
+	private BuildableBitmapTexture mBuildableBitmapTexture;
 
 	private TextureRegion mRadarPointTextureRegion;
 	private TextureRegion mRadarTextureRegion;
 
-	private Texture mFontTexture;
+	private BitmapTexture mFontBitmapTexture;
 	private Font mFont;
 
 	private Location mUserLocation;
@@ -117,25 +118,26 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	@Override
 	public void onLoadResources() {
 		/* Init font. */
-		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFont = new Font(this.mFontTexture, Typeface.DEFAULT, 12, true, Color.WHITE);
+		this.mFontBitmapTexture = new BitmapTexture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFont = new Font(this.mFontBitmapTexture, Typeface.DEFAULT, 12, true, Color.WHITE);
 
 		this.mEngine.getFontManager().loadFont(this.mFont);
-		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mFontBitmapTexture);
 
 		/* Init TextureRegions. */
-		this.mBuildableTexture = new BuildableTexture(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBuildableBitmapTexture = new BuildableBitmapTexture(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-		this.mRadarTextureRegion = TextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "gfx/radar.png");
-		this.mRadarPointTextureRegion = TextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "gfx/radarpoint.png");
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mRadarTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBuildableBitmapTexture, this, "radar.png");
+		this.mRadarPointTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBuildableBitmapTexture, this, "radarpoint.png");
 
 		try {
-			this.mBuildableTexture.build(new BlackPawnTextureBuilder(1));
+			this.mBuildableBitmapTexture.build(new BlackPawnTextureBuilder<IBitmapTextureSource, BitmapTexture>(1));
 		} catch (final TextureSourcePackingException e) {
 			Debug.e(e);
 		}
 
-		this.mEngine.getTextureManager().loadTexture(this.mBuildableTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBuildableBitmapTexture);
 	}
 
 	@Override

@@ -19,10 +19,10 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.batch.SpriteGroup;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.opengl.vertex.RectangleVertexBuffer;
 
 /**
@@ -44,7 +44,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 	// ===========================================================
 
 	private Camera mCamera;
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 	private TextureRegion mFaceTextureRegion;
 
 	// ===========================================================
@@ -82,10 +82,13 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box.png", 0, 0);
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		this.mBitmapTexture = new BitmapTexture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
+		this.mFaceTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "face_box.png", 0, 0);
+
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override
@@ -182,7 +185,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 				new AlphaModifier(1.5f, 0, 1)
 		);
 
-		final SpriteGroup spriteGroup = new SpriteGroup(this.mTexture, SPRITE_COUNT);
+		final SpriteGroup spriteGroup = new SpriteGroup(this.mBitmapTexture, SPRITE_COUNT);
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion);
 			face.registerEntityModifier(faceEntityModifier.clone());

@@ -13,10 +13,10 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.svg.adt.ISVGColorMapper;
 import org.anddev.andengine.extension.svg.adt.SVGDirectColorMapper;
 import org.anddev.andengine.extension.svg.opengl.texture.region.SVGTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.BuildableTexture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.builder.BlackPawnTextureBuilder;
-import org.anddev.andengine.opengl.texture.builder.ITextureBuilder.TextureSourcePackingException;
+import org.anddev.andengine.opengl.texture.bitmap.BuildableBitmapTexture;
+import org.anddev.andengine.opengl.texture.buildable.builder.BlackPawnTextureBuilder;
+import org.anddev.andengine.opengl.texture.buildable.builder.ITextureBuilder.TextureSourcePackingException;
 import org.anddev.andengine.opengl.texture.region.BaseTextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
@@ -47,7 +47,7 @@ public class SVGTextureRegionExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private BuildableTexture mBuildableTexture;
+	private BuildableBitmapTexture mBuildableTexture;
 	private BaseTextureRegion[] mSVGTestTextureRegions;
 
 	// ===========================================================
@@ -70,7 +70,7 @@ public class SVGTextureRegionExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mBuildableTexture = new BuildableTexture(1024, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBuildableTexture = new BuildableBitmapTexture(1024, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		SVGTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mSVGTestTextureRegions = new BaseTextureRegion[COUNT];

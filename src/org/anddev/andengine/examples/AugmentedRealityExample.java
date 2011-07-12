@@ -11,10 +11,10 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.augmentedreality.BaseAugmentedRealityGameActivity;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
 import android.widget.Toast;
 
@@ -35,7 +35,7 @@ public class AugmentedRealityExample extends BaseAugmentedRealityGameActivity {
 	// ===========================================================
 
 	private Camera mCamera;
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 	private TextureRegion mFaceTextureRegion;
 
 	// ===========================================================
@@ -59,10 +59,12 @@ public class AugmentedRealityExample extends BaseAugmentedRealityGameActivity {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box.png", 0, 0);
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		
+		this.mBitmapTexture = new BitmapTexture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFaceTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "face_box.png", 0, 0);
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override

@@ -4,10 +4,10 @@ import org.anddev.andengine.entity.scene.menu.MenuScene;
 import org.anddev.andengine.entity.scene.menu.animator.SlideMenuAnimator;
 import org.anddev.andengine.entity.scene.menu.item.IMenuItem;
 import org.anddev.andengine.entity.scene.menu.item.SpriteMenuItem;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
 
 /**
@@ -28,7 +28,7 @@ public class SubMenuExample extends MenuExample {
 
 	private MenuScene mSubMenuScene;
 
-	private Texture mSubMenuTexture;
+	private BitmapTexture mSubMenuTexture;
 	private TextureRegion mMenuOkTextureRegion;
 	private TextureRegion mMenuBackTextureRegion;
 
@@ -47,10 +47,10 @@ public class SubMenuExample extends MenuExample {
 	@Override
 	public void onLoadResources() {
 		super.onLoadResources();
-		this.mSubMenuTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mSubMenuTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-		this.mMenuOkTextureRegion = TextureRegionFactory.createFromAsset(this.mSubMenuTexture, this, "gfx/menu_ok.png", 0, 0);
-		this.mMenuBackTextureRegion = TextureRegionFactory.createFromAsset(this.mSubMenuTexture, this, "gfx/menu_back.png", 0, 50);
+		this.mMenuOkTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mSubMenuTexture, this, "menu_ok.png", 0, 0);
+		this.mMenuBackTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mSubMenuTexture, this, "menu_back.png", 0, 50);
 
 		this.mEngine.getTextureManager().loadTexture(this.mSubMenuTexture);
 	}

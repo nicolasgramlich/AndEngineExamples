@@ -14,10 +14,10 @@ import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.font.Font;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.util.modifier.ease.EaseBackIn;
 import org.anddev.andengine.util.modifier.ease.EaseBackInOut;
 import org.anddev.andengine.util.modifier.ease.EaseBackOut;
@@ -75,10 +75,10 @@ public class EaseFunctionExample extends BaseExample {
 
 	private Camera mCamera;
 
-	private Texture mFontTexture;
+	private BitmapTexture mFontTexture;
 	private Font mFont;
 
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 	private TextureRegion mBadgeTextureRegion;
 	private TextureRegion mNextTextureRegion;
 
@@ -171,19 +171,21 @@ public class EaseFunctionExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		/* The font. */
-		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFontTexture = new BitmapTexture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.WHITE);
 
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
 		this.mEngine.getFontManager().loadFont(this.mFont);
 
-		/* The textures. */
-		this.mTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mNextTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/next.png", 0, 0);
-		this.mBadgeTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/badge.png", 97, 0);
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		/* The textures. */
+		this.mBitmapTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mNextTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "next.png", 0, 0);
+		this.mBadgeTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "badge.png", 97, 0);
+
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override

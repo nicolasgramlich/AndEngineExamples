@@ -8,13 +8,13 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.bitmap.source.AssetBitmapTextureSource;
+import org.anddev.andengine.opengl.texture.bitmap.source.decorator.ColorKeyBitmapTextureSourceDecorator;
+import org.anddev.andengine.opengl.texture.bitmap.source.decorator.shape.RectangleBitmapTextureSourceDecoratorShape;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.opengl.texture.source.AssetTextureSource;
-import org.anddev.andengine.opengl.texture.source.decorator.ColorKeyTextureSourceDecorator;
-import org.anddev.andengine.opengl.texture.source.decorator.shape.RectangleTextureSourceDecoratorShape;
 
 import android.graphics.Color;
 
@@ -36,7 +36,7 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 	private Camera mCamera;
 
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 
 	private TextureRegion mChromaticCircleTextureRegion;
 	private TextureRegion mChromaticCircleColorKeyedTextureRegion;
@@ -61,22 +61,22 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBitmapTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		/* The actual AssetTextureSource. */
-		final AssetTextureSource baseTextureSource = new AssetTextureSource(this, "gfx/chromatic_circle.png");
+		final AssetBitmapTextureSource baseTextureSource = new AssetBitmapTextureSource(this, "gfx/chromatic_circle.png");
 
-		this.mChromaticCircleTextureRegion = TextureRegionFactory.createFromSource(this.mTexture, baseTextureSource, 0, 0);
+		this.mChromaticCircleTextureRegion = BitmapTextureRegionFactory.createFromSource(this.mBitmapTexture, baseTextureSource, 0, 0);
 
 		/* We will remove both the red and the green segment of the chromatic circle,
 		 * by nesting two ColorKeyTextureSourceDecorators around the actual baseTextureSource. */
 		final int colorKeyRed = Color.rgb(255, 0, 51); // Red segment
 		final int colorKeyGreen = Color.rgb(0, 179, 0); // Green segment
-		final ColorKeyTextureSourceDecorator colorKeyedTextureSource = new ColorKeyTextureSourceDecorator(new ColorKeyTextureSourceDecorator(baseTextureSource, RectangleTextureSourceDecoratorShape.getDefaultInstance(), colorKeyRed), RectangleTextureSourceDecoratorShape.getDefaultInstance(), colorKeyGreen);
+		final ColorKeyBitmapTextureSourceDecorator colorKeyedTextureSource = new ColorKeyBitmapTextureSourceDecorator(new ColorKeyBitmapTextureSourceDecorator(baseTextureSource, RectangleBitmapTextureSourceDecoratorShape.getDefaultInstance(), colorKeyRed), RectangleBitmapTextureSourceDecoratorShape.getDefaultInstance(), colorKeyGreen);
 
-		this.mChromaticCircleColorKeyedTextureRegion = TextureRegionFactory.createFromSource(this.mTexture, colorKeyedTextureSource, 128, 0);
+		this.mChromaticCircleColorKeyedTextureRegion = BitmapTextureRegionFactory.createFromSource(this.mBitmapTexture, colorKeyedTextureSource, 128, 0);
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override

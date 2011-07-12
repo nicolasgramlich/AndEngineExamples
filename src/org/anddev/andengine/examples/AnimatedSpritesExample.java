@@ -9,9 +9,9 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
 /**
@@ -32,7 +32,7 @@ public class AnimatedSpritesExample extends BaseExample {
 
 	private Camera mCamera;
 
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 
 	private TiledTextureRegion mSnapdragonTextureRegion;
 	private TiledTextureRegion mHelicopterTextureRegion;
@@ -59,15 +59,16 @@ public class AnimatedSpritesExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(512, 256, TextureOptions.BILINEAR);
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
 
-		TextureRegionFactory.setAssetBasePath("gfx/");
-		this.mSnapdragonTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "snapdragon_tiled.png", 0, 0, 4, 3);
-		this.mHelicopterTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "helicopter_tiled.png", 400, 0, 2, 2);
-		this.mBananaTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "banana_tiled.png", 0, 180, 4, 2);
-		this.mFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_box_tiled.png", 132, 180, 2, 1);
+		this.mBitmapTexture = new BitmapTexture(512, 256, TextureOptions.BILINEAR);
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		this.mSnapdragonTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "snapdragon_tiled.png", 0, 0, 4, 3);
+		this.mHelicopterTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "helicopter_tiled.png", 400, 0, 2, 2);
+		this.mBananaTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "banana_tiled.png", 0, 180, 4, 2);
+		this.mFaceTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "face_box_tiled.png", 132, 180, 2, 1);
+
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override

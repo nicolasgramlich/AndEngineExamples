@@ -23,9 +23,9 @@ import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.util.Debug;
 import org.anddev.andengine.util.constants.Constants;
@@ -50,7 +50,7 @@ public class TMXTiledMapExample extends BaseExample {
 
 	private BoundCamera mBoundChaseCamera;
 
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 	private TiledTextureRegion mPlayerTextureRegion;
 	private TMXTiledMap mTMXTiledMap;
 	protected int mCactusCount;
@@ -76,10 +76,13 @@ public class TMXTiledMapExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128, TextureOptions.DEFAULT);
-		this.mPlayerTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "gfx/player.png", 0, 0, 3, 4); // 72x128
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		this.mBitmapTexture = new BitmapTexture(128, 128, TextureOptions.DEFAULT);
+
+		this.mPlayerTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "player.png", 0, 0, 3, 4);
+
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override

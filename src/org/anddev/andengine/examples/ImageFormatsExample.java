@@ -11,11 +11,11 @@ import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.BaseTexture.ITextureStateListener;
 import org.anddev.andengine.opengl.texture.ITexture;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.bitmap.source.IBitmapTextureSource;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.opengl.texture.source.ITextureSource;
 
 import android.widget.Toast;
 
@@ -36,7 +36,7 @@ public class ImageFormatsExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 	private TextureRegion mPNGTextureRegion;
 	private TextureRegion mJPGTextureRegion;
 	private TextureRegion mGIFTextureRegion;
@@ -63,24 +63,26 @@ public class ImageFormatsExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA, new ITextureStateListener.TextureStateAdapter() {
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+
+		this.mBitmapTexture = new BitmapTexture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA, new ITextureStateListener.TextureStateAdapter<IBitmapTextureSource>() {
 			@Override
-			public void onTextureSourceLoadExeption(final ITexture pTexture, final ITextureSource pTextureSource, final Throwable pThrowable) {
+			public void onTextureSourceLoadExeption(final ITexture<IBitmapTextureSource> pTexture, final IBitmapTextureSource pBitmapTextureSource, final Throwable pThrowable) {
 				ImageFormatsExample.this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						Toast.makeText(ImageFormatsExample.this, "Failed loading TextureSource: " + pTextureSource.toString(), Toast.LENGTH_LONG).show();
+						Toast.makeText(ImageFormatsExample.this, "Failed loading BitmapTextureSource: " + pBitmapTextureSource.toString(), Toast.LENGTH_LONG).show();
 					}
 				});
 			}
 		});
 
-		this.mPNGTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_png.png", 0, 0);
-		this.mJPGTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_jpg.jpg", 49, 0);
-		this.mGIFTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_gif.gif", 0, 49);
-		this.mBMPTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/imageformat_bmp.bmp", 49, 49);
+		this.mPNGTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "imageformat_png.png", 0, 0);
+		this.mJPGTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "imageformat_jpg.jpg", 49, 0);
+		this.mGIFTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "imageformat_gif.gif", 0, 49);
+		this.mBMPTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "imageformat_bmp.bmp", 49, 49);
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override

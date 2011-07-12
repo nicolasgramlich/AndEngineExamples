@@ -26,10 +26,10 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouch;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouchController;
 import org.anddev.andengine.extension.input.touch.exception.MultiTouchException;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.util.MathUtils;
 
 import android.widget.Toast;
@@ -52,10 +52,10 @@ public class CollisionDetectionExample extends BaseExample {
 
 	private Camera mCamera;
 
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 	private TextureRegion mFaceTextureRegion;
 
-	private Texture mOnScreenControlTexture;
+	private BitmapTexture mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
 
@@ -99,16 +99,16 @@ public class CollisionDetectionExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		TextureRegionFactory.setAssetBasePath("gfx/");
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mTexture = new Texture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "face_box.png", 0, 0);
+		this.mBitmapTexture = new BitmapTexture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFaceTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "face_box.png", 0, 0);
 
-		this.mOnScreenControlTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
+		this.mOnScreenControlTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mOnScreenControlBaseTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
+		this.mOnScreenControlKnobTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 
-		this.mEngine.getTextureManager().loadTextures(this.mTexture, this.mOnScreenControlTexture);
+		this.mEngine.getTextureManager().loadTextures(this.mBitmapTexture, this.mOnScreenControlTexture);
 	}
 
 	@Override

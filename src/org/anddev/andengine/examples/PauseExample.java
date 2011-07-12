@@ -11,10 +11,10 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
 import android.view.KeyEvent;
 
@@ -35,7 +35,7 @@ public class PauseExample extends BaseExample {
 	// ===========================================================
 	private Camera mCamera;
 
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 	private Scene mMainScene;
 	private TextureRegion mFaceTextureRegion;
 	private TextureRegion mPausedTextureRegion;
@@ -61,11 +61,14 @@ public class PauseExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mPausedTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/paused.png", 0, 0);
-		this.mFaceTextureRegion = TextureRegionFactory.createFromAsset(this.mTexture, this, "gfx/face_box_menu.png", 0, 50);
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		this.mBitmapTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
+		this.mPausedTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "paused.png", 0, 0);
+		this.mFaceTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "face_box_menu.png", 0, 50);
+
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override

@@ -19,9 +19,9 @@ import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.input.touch.TouchEvent;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
@@ -50,7 +50,7 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 	// Fields
 	// ===========================================================
 
-	private Texture mTexture;
+	private BitmapTexture mBitmapTexture;
 
 	private TiledTextureRegion mBoxFaceTextureRegion;
 	private TiledTextureRegion mCircleFaceTextureRegion;
@@ -86,11 +86,14 @@ public class PhysicsJumpExample extends BaseExample implements IAccelerometerLis
 
 	@Override
 	public void onLoadResources() {
-		this.mTexture = new Texture(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		TextureRegionFactory.setAssetBasePath("gfx/");
-		this.mBoxFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
-		this.mCircleFaceTextureRegion = TextureRegionFactory.createTiledFromAsset(this.mTexture, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
-		this.mEngine.getTextureManager().loadTexture(this.mTexture);
+		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+
+		this.mBitmapTexture = new BitmapTexture(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+
+		this.mBoxFaceTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "face_box_tiled.png", 0, 0, 2, 1);
+		this.mCircleFaceTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "face_circle_tiled.png", 0, 32, 2, 1);
+
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
 	}
 
 	@Override
