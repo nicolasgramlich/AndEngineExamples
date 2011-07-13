@@ -60,6 +60,9 @@ import android.view.KeyEvent;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 17:10:24 - 19.06.2010
  */

@@ -1,6 +1,9 @@
 package org.anddev.andengine.examples.game.snake.util.constants;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 17:42:10 - 09.07.2010
  */

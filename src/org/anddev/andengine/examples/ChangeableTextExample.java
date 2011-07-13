@@ -19,6 +19,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 20:06:15 - 08.07.2010
  */

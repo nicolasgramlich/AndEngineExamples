@@ -25,6 +25,9 @@ import org.anddev.andengine.util.Debug;
 import android.graphics.Color;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 13:58:12 - 21.05.2011
  */

@@ -1,6 +1,12 @@
 package org.anddev.andengine.examples.adt.cityradar;
 
-
+/**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
+ * @author Nicolas Gramlich
+ * @since 20:32:16 - 28.10.2010
+ */
 public class City {
 	// ===========================================================
 	// Constants

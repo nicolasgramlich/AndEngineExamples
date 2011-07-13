@@ -1,6 +1,9 @@
 package org.anddev.andengine.examples.adt.card;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 18:59:46 - 18.06.2010
  */

@@ -78,6 +78,9 @@ import org.anddev.andengine.examples.game.snake.SnakeGameActivity;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 20:42:27 - 16.06.2010
  */

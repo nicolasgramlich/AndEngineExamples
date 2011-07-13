@@ -38,6 +38,9 @@ import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 10:38:36 - 27.06.2010
  */

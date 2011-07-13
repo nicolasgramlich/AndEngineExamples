@@ -42,6 +42,9 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 
 /**
  * @author albrandroid
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 10:35:23 - 28.02.2011
  */

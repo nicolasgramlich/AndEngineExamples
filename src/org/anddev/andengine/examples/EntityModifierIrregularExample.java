@@ -25,6 +25,9 @@ import org.anddev.andengine.util.modifier.IModifier;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 21:42:39 - 06.07.2010
  */

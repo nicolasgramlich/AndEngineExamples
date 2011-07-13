@@ -25,6 +25,9 @@ import org.xml.sax.Attributes;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 17:16:10 - 11.10.2010
  */

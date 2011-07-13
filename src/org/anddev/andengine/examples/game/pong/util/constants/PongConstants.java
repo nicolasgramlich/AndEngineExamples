@@ -3,6 +3,9 @@ package org.anddev.andengine.examples.game.pong.util.constants;
 import org.anddev.andengine.examples.game.pong.adt.PaddleUserData;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 19:49:20 - 28.02.2011
  */

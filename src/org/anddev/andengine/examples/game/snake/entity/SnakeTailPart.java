@@ -3,6 +3,9 @@ package org.anddev.andengine.examples.game.snake.entity;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 17:44:59 - 09.07.2010
  */

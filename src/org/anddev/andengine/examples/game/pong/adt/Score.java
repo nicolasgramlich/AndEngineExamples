@@ -1,6 +1,9 @@
 package org.anddev.andengine.examples.game.pong.adt;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 12:11:58 - 01.03.2011
  */

@@ -27,6 +27,9 @@ import android.widget.TextView;
  * by the user, the MAC address of the device is sent back to the parent
  * Activity in the result Intent.
  * 
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 12:19:52 - 06.03.2011
  */

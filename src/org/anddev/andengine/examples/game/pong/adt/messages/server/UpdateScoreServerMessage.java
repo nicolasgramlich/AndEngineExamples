@@ -8,6 +8,9 @@ import org.anddev.andengine.examples.game.pong.util.constants.PongConstants;
 import org.anddev.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 02:02:12 - 01.03.2011
  */

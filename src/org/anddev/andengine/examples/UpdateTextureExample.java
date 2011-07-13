@@ -19,6 +19,9 @@ import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 12:14:22 - 30.06.2010
  */

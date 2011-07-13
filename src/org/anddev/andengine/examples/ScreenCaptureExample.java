@@ -25,6 +25,9 @@ import org.anddev.andengine.util.FileUtils;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */

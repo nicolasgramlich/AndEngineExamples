@@ -27,6 +27,9 @@ import org.anddev.andengine.util.MathUtils;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 00:06:23 - 11.07.2010
  */

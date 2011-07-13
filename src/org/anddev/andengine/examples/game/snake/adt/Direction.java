@@ -1,6 +1,9 @@
 package org.anddev.andengine.examples.game.snake.adt;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 02:29:05 - 08.07.2010
  */

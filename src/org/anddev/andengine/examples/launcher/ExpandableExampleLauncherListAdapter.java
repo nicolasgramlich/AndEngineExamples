@@ -10,6 +10,9 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 20:43:54 - 16.06.2010
  */

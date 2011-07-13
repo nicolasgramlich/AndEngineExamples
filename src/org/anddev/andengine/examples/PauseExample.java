@@ -19,6 +19,9 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import android.view.KeyEvent;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 11:33:33 - 01.04.2010
  */

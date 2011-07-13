@@ -17,6 +17,9 @@ import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
 import android.graphics.Color;
 
 /**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */

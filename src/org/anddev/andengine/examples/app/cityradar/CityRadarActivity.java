@@ -44,6 +44,13 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+/**
+ * (c) 2010 Nicolas Gramlich 
+ * (c) 2011 Zynga Inc.
+ * 
+ * @author Nicolas Gramlich
+ * @since 20:32:16 - 28.10.2010
+ */
 public class CityRadarActivity extends BaseGameActivity implements IOrientationListener, ILocationListener {
 	// ===========================================================
 	// Constants
