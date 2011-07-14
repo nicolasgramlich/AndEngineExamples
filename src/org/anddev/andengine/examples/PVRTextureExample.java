@@ -1,29 +1,27 @@
 package org.anddev.andengine.examples;
 
+import java.io.InputStream;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.input.touch.TouchEvent;
-import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.compressed.pvr.PVRTexture;
+import org.anddev.andengine.opengl.texture.compressed.pvr.PVRTexture.PVRTextureFormat;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.util.MathUtils;
-
-import android.widget.Toast;
+import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
+import org.anddev.andengine.util.Debug;
 
 /**
  * @author Nicolas Gramlich
- * @since 12:14:29 - 30.06.2010
+ * @since 11:54:51 - 03.04.2010
  */
-public class LoadTextureExample extends BaseExample {
+public class PVRTextureExample extends BaseExample {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -36,8 +34,10 @@ public class LoadTextureExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private Scene mScene;
+
+	private PVRTexture mPVRTexture;
+
+	private TextureRegion mBadgeTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -53,35 +53,43 @@ public class LoadTextureExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
-		Toast.makeText(this, "Touch the screen to load a completely new BitmapTextureAtlas in a random location with every touch!", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
 
 	@Override
 	public void onLoadResources() {
-		/* Nothing done here. */
+		try {
+			this.mPVRTexture = new PVRTexture(PVRTextureFormat.RGBA_8888) {
+				@Override
+				protected InputStream getInputStream() {
+					return PVRTextureExample.this.getResources().openRawResource(R.raw.quads_rgba_8888);
+				}
+			};
+			this.mBadgeTextureRegion = TextureRegionFactory.extractFromTexture(this.mPVRTexture, 0, 0, 32, 32, true);
+
+			this.mEngine.getTextureManager().loadTextures(this.mPVRTexture);
+		} catch (Throwable e) {
+			Debug.e(e);
+		}
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		this.mScene = new Scene();
-		this.mScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		final Scene scene = new Scene();
+		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
-		this.mScene.setOnSceneTouchListener(new IOnSceneTouchListener() {
-			@Override
-			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-				if(pSceneTouchEvent.isActionDown()) {
-					LoadTextureExample.this.loadNewTexture();
-				}
+		final int centerX = (CAMERA_WIDTH - this.mBadgeTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mBadgeTextureRegion.getHeight()) / 2;
 
-				return true;
-			}
-		});
+		final Sprite badge = new Sprite(centerX, centerY, this.mBadgeTextureRegion);
+		badge.setScale(1);
 
-		return this.mScene;
+		scene.attachChild(badge);
+
+		return scene;
 	}
 
 	@Override
@@ -92,18 +100,6 @@ public class LoadTextureExample extends BaseExample {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	private void loadNewTexture() {
-		this.mBitmapTextureAtlas  = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		final TextureRegion faceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "gfx/face_box.png", 0, 0);
-
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
-
-		final float x = (CAMERA_WIDTH - faceTextureRegion.getWidth()) * MathUtils.RANDOM.nextFloat();
-		final float y = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) * MathUtils.RANDOM.nextFloat();
-		final Sprite clickToUnload = new Sprite(x, y, faceTextureRegion);
-		this.mScene.attachChild(clickToUnload);
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

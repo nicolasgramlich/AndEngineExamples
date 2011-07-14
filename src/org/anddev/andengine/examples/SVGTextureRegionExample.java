@@ -12,11 +12,13 @@ import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.svg.adt.ISVGColorMapper;
 import org.anddev.andengine.extension.svg.adt.SVGDirectColorMapper;
-import org.anddev.andengine.extension.svg.opengl.texture.region.SVGTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.BuildableTexture;
+import org.anddev.andengine.extension.svg.opengl.texture.atlas.bitmap.SVGBitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.builder.BlackPawnTextureBuilder;
-import org.anddev.andengine.opengl.texture.builder.ITextureBuilder.TextureSourcePackingException;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.anddev.andengine.opengl.texture.buildable.builder.BlackPawnTextureBuilder;
+import org.anddev.andengine.opengl.texture.buildable.builder.ITextureBuilder.TextureAtlasSourcePackingException;
 import org.anddev.andengine.opengl.texture.region.BaseTextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
@@ -47,7 +49,7 @@ public class SVGTextureRegionExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private BuildableTexture mBuildableTexture;
+	private BuildableBitmapTextureAtlas mBuildableBitmapTextureAtlas;
 	private BaseTextureRegion[] mSVGTestTextureRegions;
 
 	// ===========================================================
@@ -70,18 +72,18 @@ public class SVGTextureRegionExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mBuildableTexture = new BuildableTexture(1024, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		SVGTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(1024, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		SVGBitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mSVGTestTextureRegions = new BaseTextureRegion[COUNT];
 		int i = 0;
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "chick.svg", 16, 16);
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "chick.svg", 32, 32);
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "chick.svg", 64, 64);
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "chick.svg", 128, 128);
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "badge.svg", 16, 16);
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "badge.svg", 64, 64);
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "badge.svg", 128, 128, new ISVGColorMapper() {
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "chick.svg", 16, 16);
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "chick.svg", 32, 32);
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "chick.svg", 64, 64);
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "chick.svg", 128, 128);
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "badge.svg", 16, 16);
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "badge.svg", 64, 64);
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "badge.svg", 128, 128, new ISVGColorMapper() {
 			@Override
 			public Integer mapColor(final Integer pColor) {
 				if(pColor == null) {
@@ -92,7 +94,7 @@ public class SVGTextureRegionExample extends BaseExample {
 				}
 			}
 		});
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createFromAsset(this.mBuildableTexture, this, "badge.svg", 256, 256, new ISVGColorMapper() {
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "badge.svg", 256, 256, new ISVGColorMapper() {
 			@Override
 			public Integer mapColor(final Integer pColor) {
 				if(pColor == null) {
@@ -103,21 +105,21 @@ public class SVGTextureRegionExample extends BaseExample {
 				}
 			}
 		});
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createTiledFromAsset(this.mBuildableTexture, this, "pacdroid.svg", 64, 64, 2, 2);
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createTiledFromAsset(this.mBuildableTexture, this, "pacdroid.svg", 256, 256, 2, 2);
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "pacdroid.svg", 64, 64, 2, 2);
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "pacdroid.svg", 256, 256, 2, 2);
 		final SVGDirectColorMapper angryPacDroidSVGColorMapper = new SVGDirectColorMapper();
 		angryPacDroidSVGColorMapper.addColorMapping(0xA7CA4A, 0xEA872A);
 		angryPacDroidSVGColorMapper.addColorMapping(0xC1DA7F, 0xFAA15F);
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createTiledFromAsset(this.mBuildableTexture, this, "pacdroid.svg", 256, 256, angryPacDroidSVGColorMapper, 2, 2);
-		this.mSVGTestTextureRegions[i++] = SVGTextureRegionFactory.createTiledFromAsset(this.mBuildableTexture, this, "pacdroid_apples.svg", 256, 256, 2, 2);
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "pacdroid.svg", 256, 256, angryPacDroidSVGColorMapper, 2, 2);
+		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "pacdroid_apples.svg", 256, 256, 2, 2);
 
 		try {
-			this.mBuildableTexture.build(new BlackPawnTextureBuilder(1));
-		} catch (final TextureSourcePackingException e) {
+			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1));
+		} catch (final TextureAtlasSourcePackingException e) {
 			Debug.e(e);
 		}
 
-		this.mEngine.getTextureManager().loadTexture(this.mBuildableTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBuildableBitmapTextureAtlas);
 	}
 
 	@Override

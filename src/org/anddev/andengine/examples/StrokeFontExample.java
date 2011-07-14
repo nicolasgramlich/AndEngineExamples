@@ -11,8 +11,8 @@ import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.StrokeFont;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -37,9 +37,9 @@ public class StrokeFontExample extends BaseExample {
 
 	private Camera mCamera;
 
-	private Texture mFontTexture;
-	private Texture mStrokeFontTexture;
-	private Texture mStrokeOnlyFontTexture;
+	private BitmapTextureAtlas mFontTexture;
+	private BitmapTextureAtlas mStrokeFontTexture;
+	private BitmapTextureAtlas mStrokeOnlyFontTexture;
 
 	private Font mFont;
 	private StrokeFont mStrokeFont;
@@ -65,9 +65,9 @@ public class StrokeFontExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mStrokeFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mStrokeOnlyFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mStrokeFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mStrokeOnlyFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK);
 		this.mStrokeFont = new StrokeFont(this.mStrokeFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK, 2, Color.WHITE);

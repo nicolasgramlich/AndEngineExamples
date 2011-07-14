@@ -28,6 +28,7 @@ import org.anddev.andengine.examples.MultiplayerBluetoothExample;
 import org.anddev.andengine.examples.MultiplayerExample;
 import org.anddev.andengine.examples.MultiplayerServerDiscoveryExample;
 import org.anddev.andengine.examples.MusicExample;
+import org.anddev.andengine.examples.PVRTextureExample;
 import org.anddev.andengine.examples.ParticleSystemCoolExample;
 import org.anddev.andengine.examples.ParticleSystemNexusExample;
 import org.anddev.andengine.examples.ParticleSystemSimpleExample;
@@ -127,6 +128,7 @@ enum Example {
 	PHYSICSREVOLUTEJOINT(PhysicsRevoluteJointExample.class, R.string.example_physicsrevolutejoint),
 	PHYSICSREMOVE(PhysicsRemoveExample.class, R.string.example_physicsremove),
 	PINCHZOOM(PinchZoomExample.class, R.string.example_pinchzoom),
+	PVRTEXTURE(PVRTextureExample.class, R.string.example_pvrtexture),
 	RECTANGLE(RectangleExample.class, R.string.example_rectangle),
 	REPEATINGSPRITEBACKGROUND(RepeatingSpriteBackgroundExample.class, R.string.example_repeatingspritebackground),
 	ROTATION3D(Rotation3DExample.class, R.string.example_rotation3d),

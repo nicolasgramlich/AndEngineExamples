@@ -12,8 +12,8 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.util.FPSCounter;
 import org.anddev.andengine.opengl.font.Font;
-import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -35,7 +35,7 @@ public class ChangeableTextExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private Texture mFontTexture;
+	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
 
 	// ===========================================================
@@ -58,7 +58,7 @@ public class ChangeableTextExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mFontTexture = new Texture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48, true, Color.BLACK);
 

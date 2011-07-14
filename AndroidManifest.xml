@@ -67,6 +67,7 @@
 		<activity android:name=".PhysicsRevoluteJointExample" android:configChanges="orientation"/>
 		<activity android:name=".PhysicsMouseJointExample" android:configChanges="orientation"/>
 		<activity android:name=".PinchZoomExample" android:configChanges="orientation"/>
+		<activity android:name=".PVRTextureExample" android:configChanges="orientation"/>
 		<activity android:name=".RectangleExample" android:configChanges="orientation"/>
 		<activity android:name=".RepeatingSpriteBackgroundExample" android:configChanges="orientation"/>
 		<activity android:name=".Rotation3DExample" android:configChanges="orientation"/>
