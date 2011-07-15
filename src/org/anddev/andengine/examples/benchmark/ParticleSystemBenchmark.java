@@ -20,14 +20,11 @@ import org.anddev.andengine.entity.particle.modifier.ScaleModifier;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 09:27:21 - 29.06.2010
  */
@@ -47,7 +44,7 @@ public class ParticleSystemBenchmark extends BaseBenchmark {
 	// ===========================================================
 
 	private Camera mCamera;
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private TextureRegion mParticleTextureRegion;
 
 	// ===========================================================
@@ -85,13 +82,11 @@ public class ParticleSystemBenchmark extends BaseBenchmark {
 
 	@Override
 	public void onLoadResources() {
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-		this.mBitmapTexture = new BitmapTexture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mParticleTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "gfx/particle_fire.png", 0, 0);
 
-		this.mParticleTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "particle_fire.png", 0, 0);
-
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override

@@ -42,7 +42,7 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.Debug;
 
@@ -59,9 +59,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 19:36:45 - 28.02.2011
  */
@@ -100,7 +97,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	private final SparseArray<Rectangle> mPaddleMap = new SparseArray<Rectangle>();
 	private final SparseArray<ChangeableText> mScoreChangeableTextMap = new SparseArray<ChangeableText>();
 
-	private BitmapTexture mScoreFontTexture;
+	private BitmapTextureAtlas mScoreFontTexture;
 	private Font mScoreFont;
 
 	private float mPaddleCenterY;
@@ -123,7 +120,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 	@Override
 	public void onLoadResources() {
-		this.mScoreFontTexture = new BitmapTexture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mScoreFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		FontFactory.setAssetBasePath("font/");
 		this.mScoreFont = FontFactory.createFromAsset(this.mScoreFontTexture, this, "LCD.ttf", 32, true, Color.WHITE);

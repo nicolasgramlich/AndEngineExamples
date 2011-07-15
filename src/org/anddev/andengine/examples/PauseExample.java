@@ -12,16 +12,13 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
 import android.view.KeyEvent;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 11:33:33 - 01.04.2010
  */
@@ -38,7 +35,7 @@ public class PauseExample extends BaseExample {
 	// ===========================================================
 	private Camera mCamera;
 
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private Scene mMainScene;
 	private TextureRegion mFaceTextureRegion;
 	private TextureRegion mPausedTextureRegion;
@@ -64,14 +61,11 @@ public class PauseExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mPausedTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "gfx/paused.png", 0, 0);
+		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "gfx/face_box_menu.png", 0, 50);
 
-		this.mBitmapTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		this.mPausedTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "paused.png", 0, 0);
-		this.mFaceTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "face_box_menu.png", 0, 50);
-
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override

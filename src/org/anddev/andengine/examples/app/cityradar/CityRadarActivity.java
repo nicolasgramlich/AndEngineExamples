@@ -20,12 +20,12 @@ import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.examples.adt.cityradar.City;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.bitmap.BuildableBitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.source.IBitmapTextureSource;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 import org.anddev.andengine.opengl.texture.buildable.builder.BlackPawnTextureBuilder;
-import org.anddev.andengine.opengl.texture.buildable.builder.ITextureBuilder.TextureSourcePackingException;
+import org.anddev.andengine.opengl.texture.buildable.builder.ITextureBuilder.TextureAtlasSourcePackingException;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.sensor.location.ILocationListener;
 import org.anddev.andengine.sensor.location.LocationProviderStatus;
@@ -44,13 +44,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-/**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
- * @author Nicolas Gramlich
- * @since 20:32:16 - 28.10.2010
- */
 public class CityRadarActivity extends BaseGameActivity implements IOrientationListener, ILocationListener {
 	// ===========================================================
 	// Constants
@@ -70,12 +63,12 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 
 	private Camera mCamera;
 
-	private BuildableBitmapTexture mBuildableBitmapTexture;
+	private BuildableBitmapTextureAtlas mBuildableBitmapTextureAtlas;
 
 	private TextureRegion mRadarPointTextureRegion;
 	private TextureRegion mRadarTextureRegion;
 
-	private BitmapTexture mFontBitmapTexture;
+	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
 
 	private Location mUserLocation;
@@ -125,26 +118,25 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	@Override
 	public void onLoadResources() {
 		/* Init font. */
-		this.mFontBitmapTexture = new BitmapTexture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFont = new Font(this.mFontBitmapTexture, Typeface.DEFAULT, 12, true, Color.WHITE);
+		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFont = new Font(this.mFontTexture, Typeface.DEFAULT, 12, true, Color.WHITE);
 
 		this.mEngine.getFontManager().loadFont(this.mFont);
-		this.mEngine.getTextureManager().loadTexture(this.mFontBitmapTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
 
 		/* Init TextureRegions. */
-		this.mBuildableBitmapTexture = new BuildableBitmapTexture(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
-		this.mRadarTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBuildableBitmapTexture, this, "radar.png");
-		this.mRadarPointTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBuildableBitmapTexture, this, "radarpoint.png");
+		this.mRadarTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "gfx/radar.png");
+		this.mRadarPointTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "gfx/radarpoint.png");
 
 		try {
-			this.mBuildableBitmapTexture.build(new BlackPawnTextureBuilder<IBitmapTextureSource, BitmapTexture>(1));
-		} catch (final TextureSourcePackingException e) {
+			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1));
+		} catch (final TextureAtlasSourcePackingException e) {
 			Debug.e(e);
 		}
 
-		this.mEngine.getTextureManager().loadTexture(this.mBuildableBitmapTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBuildableBitmapTextureAtlas);
 	}
 
 	@Override

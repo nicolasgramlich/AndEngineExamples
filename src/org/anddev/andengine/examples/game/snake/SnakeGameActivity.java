@@ -33,8 +33,8 @@ import org.anddev.andengine.examples.game.snake.util.constants.SnakeConstants;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
@@ -45,9 +45,6 @@ import org.anddev.andengine.util.MathUtils;
 import android.graphics.Color;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 02:26:05 - 08.07.2010
  */
@@ -74,18 +71,18 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 
 	private DigitalOnScreenControl mDigitalOnScreenControl;
 
-	private BitmapTexture mFontTexture;
+	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
 
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private TextureRegion mTailPartTextureRegion;
 	private TiledTextureRegion mHeadTextureRegion;
 	private TiledTextureRegion mFrogTextureRegion;
 
-	private BitmapTexture mBackgroundTexture;
+	private BitmapTextureAtlas mBackgroundTexture;
 	private TextureRegion mBackgroundTextureRegion;
 
-	private BitmapTexture mOnScreenControlTexture;
+	private BitmapTextureAtlas mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
 
@@ -124,29 +121,27 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	public void onLoadResources() {
 		/* Load the font we are going to use. */
 		FontFactory.setAssetBasePath("font/");
-		this.mFontTexture = new BitmapTexture(512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFontTexture = new BitmapTextureAtlas(512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "Plok.ttf", 32, true, Color.WHITE);
 
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
 		this.mEngine.getFontManager().loadFont(this.mFont);
 
 		/* Load all the textures this game needs. */
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mHeadTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "snake_head.png", 0, 0, 3, 1);
+		this.mTailPartTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "snake_tailpart.png", 96, 0);
+		this.mFrogTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "frog.png", 0, 64, 3, 1);
 
-		this.mBitmapTexture = new BitmapTexture(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBackgroundTexture = new BitmapTextureAtlas(1024, 512, TextureOptions.DEFAULT);
+		this.mBackgroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "snake_background.png", 0, 0);
 
-		this.mHeadTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "snake_head.png", 0, 0, 3, 1);
-		this.mTailPartTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "snake_tailpart.png", 96, 0);
-		this.mFrogTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "frog.png", 0, 64, 3, 1);
+		this.mOnScreenControlTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
+		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 
-		this.mBackgroundTexture = new BitmapTexture(1024, 512, TextureOptions.DEFAULT);
-		this.mBackgroundTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "snake_background.png", 0, 0);
-
-		this.mOnScreenControlTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mOnScreenControlBaseTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
-
-		this.mEngine.getTextureManager().loadTextures(this.mBackgroundTexture, this.mBitmapTexture, this.mOnScreenControlTexture);
+		this.mEngine.getTextureManager().loadTextures(this.mBackgroundTexture, this.mBitmapTextureAtlas, this.mOnScreenControlTexture);
 
 		/* Load all the sounds this game needs. */
 		try {

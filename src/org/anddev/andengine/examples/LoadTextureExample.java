@@ -12,17 +12,14 @@ import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.util.MathUtils;
 
 import android.widget.Toast;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 12:14:29 - 30.06.2010
  */
@@ -39,7 +36,7 @@ public class LoadTextureExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private Scene mScene;
 
 	// ===========================================================
@@ -56,7 +53,7 @@ public class LoadTextureExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
-		Toast.makeText(this, "Touch the screen to load a completely new Texture in a random location with every touch!", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Touch the screen to load a completely new BitmapTextureAtlas in a random location with every touch!", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
@@ -97,14 +94,10 @@ public class LoadTextureExample extends BaseExample {
 	// ===========================================================
 
 	private void loadNewTexture() {
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mBitmapTextureAtlas  = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		final TextureRegion faceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "gfx/face_box.png", 0, 0);
 
-		this.mBitmapTexture = new BitmapTexture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		final TextureRegion faceTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "ace_box.png", 0, 0);
-
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
-
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 
 		final float x = (CAMERA_WIDTH - faceTextureRegion.getWidth()) * MathUtils.RANDOM.nextFloat();
 		final float y = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) * MathUtils.RANDOM.nextFloat();

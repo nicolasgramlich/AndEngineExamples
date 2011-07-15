@@ -24,8 +24,8 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.util.modifier.IModifier;
 import org.anddev.andengine.util.modifier.LoopModifier;
@@ -33,9 +33,6 @@ import org.anddev.andengine.util.modifier.LoopModifier;
 import android.widget.Toast;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
@@ -52,7 +49,7 @@ public class EntityModifierExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private TiledTextureRegion mFaceTextureRegion;
 
 	// ===========================================================
@@ -75,13 +72,10 @@ public class EntityModifierExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "gfx/face_box_tiled.png", 0, 0, 2, 1);
 
-		this.mBitmapTexture = new BitmapTexture(64, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		this.mFaceTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "face_box_tiled.png", 0, 0, 2, 1);
-
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override
@@ -109,7 +103,7 @@ public class EntityModifierExample extends BaseExample {
 							EntityModifierExample.this.runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									Toast.makeText(EntityModifierExample.this, "Sequence started.", Toast.LENGTH_LONG).show();
+									Toast.makeText(EntityModifierExample.this, "Sequence started.", Toast.LENGTH_SHORT).show();
 								}
 							});
 						}
@@ -119,12 +113,12 @@ public class EntityModifierExample extends BaseExample {
 							EntityModifierExample.this.runOnUiThread(new Runnable() {
 								@Override
 								public void run() {
-									Toast.makeText(EntityModifierExample.this, "Sequence finished.", Toast.LENGTH_LONG).show();
+									Toast.makeText(EntityModifierExample.this, "Sequence finished.", Toast.LENGTH_SHORT).show();
 								}
 							});
 						}
 					},
-					1,
+					2,
 					new ILoopEntityModifierListener() {
 						@Override
 						public void onLoopStarted(final LoopModifier<IEntity> pLoopModifier, final int pLoop, final int pLoopCount) {

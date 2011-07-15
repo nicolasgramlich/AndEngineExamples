@@ -12,16 +12,13 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
 import android.widget.Toast;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 12:14:22 - 30.06.2010
  */
@@ -38,7 +35,7 @@ public class UpdateTextureExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private TiledTextureRegion mFaceTextureRegion;
 
 	private boolean mToggleBox = true;
@@ -57,20 +54,17 @@ public class UpdateTextureExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
-		Toast.makeText(this, "Touch the screen to update (redraw) an existing Texture with every touch!", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Touch the screen to update (redraw) an existing BitmapTextureAtlas with every touch!", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
 
 	@Override
 	public void onLoadResources() {
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "gfx/face_box_tiled.png", 0, 0, 2, 1);
 
-		this.mBitmapTexture = new BitmapTexture(64, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		this.mFaceTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "face_box_tiled.png", 0, 0, 2, 1);
-
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override
@@ -112,9 +106,9 @@ public class UpdateTextureExample extends BaseExample {
 	// ===========================================================
 
 	private void toggle() {
-		this.mBitmapTexture.clearTextureSources();
+		this.mBitmapTextureAtlas.clearTextureAtlasSources();
 		this.mToggleBox = !this.mToggleBox;
-		BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, this.mToggleBox ? "face_box_tiled.png" : "face_circle_tiled.png", 0, 0, 2, 1);
+		BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, this.mToggleBox ? "gfx/face_box_tiled.png" : "gfx/face_circle_tiled.png", 0, 0, 2, 1);
 	}
 
 	// ===========================================================

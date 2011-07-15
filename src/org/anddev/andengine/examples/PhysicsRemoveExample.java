@@ -20,8 +20,8 @@ import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
@@ -35,9 +35,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 18:47:08 - 19.03.2010
  */
@@ -53,7 +50,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 	// Fields
 	// ===========================================================
 
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 
 	private TiledTextureRegion mBoxFaceTextureRegion;
 	private TiledTextureRegion mCircleFaceTextureRegion;
@@ -87,16 +84,13 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 	@Override
 	public void onLoadResources() {
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTexture = new BitmapTexture(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		this.mBoxFaceTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mBoxFaceTextureRegion.setTextureRegionBufferManaged(false);
-		this.mCircleFaceTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mBitmapTexture, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
+		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
 		this.mCircleFaceTextureRegion.setTextureRegionBufferManaged(false);
-
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override
@@ -214,7 +208,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 
 		this.mScene.unregisterTouchArea(face);
 		this.mScene.detachChild(face);
-
+		
 		System.gc();
 	}
 

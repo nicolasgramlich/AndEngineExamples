@@ -17,16 +17,13 @@ import org.anddev.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
 import android.view.KeyEvent;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 01:30:15 - 02.04.2010
  */
@@ -49,12 +46,12 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 
 	protected Scene mMainScene;
 
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private TextureRegion mFaceTextureRegion;
 
 	protected MenuScene mMenuScene;
 
-	private BitmapTexture mMenuTexture;
+	private BitmapTextureAtlas mMenuTexture;
 	protected TextureRegion mMenuResetTextureRegion;
 	protected TextureRegion mMenuQuitTextureRegion;
 
@@ -78,19 +75,13 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 
 	@Override
 	public void onLoadResources() {
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "gfx/face_box_menu.png", 0, 0);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 
-		this.mBitmapTexture = new BitmapTexture(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		this.mFaceTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "face_box_menu.png", 0, 0);
-
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
-
-		this.mMenuTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		this.mMenuResetTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_reset.png", 0, 0);
-		this.mMenuQuitTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_quit.png", 0, 50);
-
+		this.mMenuTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_reset.png", 0, 0);
+		this.mMenuQuitTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "gfx/menu_quit.png", 0, 50);
 		this.mEngine.getTextureManager().loadTexture(this.mMenuTexture);
 	}
 

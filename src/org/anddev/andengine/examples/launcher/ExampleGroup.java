@@ -4,9 +4,6 @@ import org.anddev.andengine.examples.R;
 
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 11:13:34 - 27.06.2010
  */
@@ -36,7 +33,7 @@ public enum ExampleGroup {
 	BACKGROUND(R.string.examplegroup_background, 
 			Example.REPEATINGSPRITEBACKGROUND, Example.AUTOPARALLAXBACKGROUND, Example.TMXTILEDMAP),
 	OTHER(R.string.examplegroup_other, 
-			Example.SCREENCAPTURE, Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTMENU, Example.ZOOM , Example.IMAGEFORMATS, Example.TEXTUREOPTIONS, Example.COLORKEYTEXTURESOURCEDECORATOR, Example.LOADTEXTURE, Example.UPDATETEXTURE, Example.RUNNABLEPOOLUPDATEHANDLER, Example.SVGTEXTUREREGION, Example.XMLLAYOUT, Example.LEVELLOADER),
+			Example.SCREENCAPTURE, Example.PAUSE, Example.MENU, Example.SUBMENU, Example.TEXTMENU, Example.ZOOM , Example.IMAGEFORMATS, Example.PVRTEXTURE, Example.PVRGZTEXTURE, Example.ETC1TEXTURE, Example.TEXTUREOPTIONS, Example.COLORKEYTEXTURESOURCEDECORATOR, Example.LOADTEXTURE, Example.UPDATETEXTURE, Example.RUNNABLEPOOLUPDATEHANDLER, Example.SVGTEXTUREREGION, Example.XMLLAYOUT, Example.LEVELLOADER),
 	APP(R.string.examplegroup_app, 
 			Example.APP_CITYRADAR),
 	GAME(R.string.examplegroup_game, 

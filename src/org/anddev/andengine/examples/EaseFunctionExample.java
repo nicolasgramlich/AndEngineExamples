@@ -15,8 +15,8 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.util.modifier.ease.EaseBackIn;
 import org.anddev.andengine.util.modifier.ease.EaseBackInOut;
@@ -58,9 +58,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 15:12:16 - 30.07.2010
  */
@@ -78,10 +75,10 @@ public class EaseFunctionExample extends BaseExample {
 
 	private Camera mCamera;
 
-	private BitmapTexture mFontTexture;
+	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
 
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private TextureRegion mBadgeTextureRegion;
 	private TextureRegion mNextTextureRegion;
 
@@ -174,21 +171,19 @@ public class EaseFunctionExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		/* The font. */
-		this.mFontTexture = new BitmapTexture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.WHITE);
 
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
 		this.mEngine.getFontManager().loadFont(this.mFont);
 
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
-
 		/* The textures. */
-		this.mBitmapTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mNextTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "next.png", 0, 0);
-		this.mBadgeTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "badge.png", 97, 0);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mNextTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "gfx/next.png", 0, 0);
+		this.mBadgeTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "gfx/badge.png", 97, 0);
 
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override

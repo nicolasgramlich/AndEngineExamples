@@ -9,19 +9,16 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.bitmap.source.AssetBitmapTextureSource;
-import org.anddev.andengine.opengl.texture.bitmap.source.decorator.ColorKeyBitmapTextureSourceDecorator;
-import org.anddev.andengine.opengl.texture.bitmap.source.decorator.shape.RectangleBitmapTextureSourceDecoratorShape;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasSource;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.source.decorator.ColorKeyBitmapTextureAtlasSourceDecorator;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.source.decorator.shape.RectangleBitmapTextureAtlasSourceDecoratorShape;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
 import android.graphics.Color;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
@@ -39,7 +36,7 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 	private Camera mCamera;
 
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 
 	private TextureRegion mChromaticCircleTextureRegion;
 	private TextureRegion mChromaticCircleColorKeyedTextureRegion;
@@ -64,22 +61,22 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		/* The actual AssetTextureSource. */
-		final AssetBitmapTextureSource baseTextureSource = new AssetBitmapTextureSource(this, "gfx/chromatic_circle.png");
+		final AssetBitmapTextureAtlasSource baseTextureSource = new AssetBitmapTextureAtlasSource(this, "gfx/chromatic_circle.png");
 
-		this.mChromaticCircleTextureRegion = BitmapTextureRegionFactory.createFromSource(this.mBitmapTexture, baseTextureSource, 0, 0);
+		this.mChromaticCircleTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromSource(this.mBitmapTextureAtlas, baseTextureSource, 0, 0);
 
 		/* We will remove both the red and the green segment of the chromatic circle,
 		 * by nesting two ColorKeyTextureSourceDecorators around the actual baseTextureSource. */
 		final int colorKeyRed = Color.rgb(255, 0, 51); // Red segment
 		final int colorKeyGreen = Color.rgb(0, 179, 0); // Green segment
-		final ColorKeyBitmapTextureSourceDecorator colorKeyedTextureSource = new ColorKeyBitmapTextureSourceDecorator(new ColorKeyBitmapTextureSourceDecorator(baseTextureSource, RectangleBitmapTextureSourceDecoratorShape.getDefaultInstance(), colorKeyRed), RectangleBitmapTextureSourceDecoratorShape.getDefaultInstance(), colorKeyGreen);
+		final ColorKeyBitmapTextureAtlasSourceDecorator colorKeyBitmapTextureAtlasSource = new ColorKeyBitmapTextureAtlasSourceDecorator(new ColorKeyBitmapTextureAtlasSourceDecorator(baseTextureSource, RectangleBitmapTextureAtlasSourceDecoratorShape.getDefaultInstance(), colorKeyRed), RectangleBitmapTextureAtlasSourceDecoratorShape.getDefaultInstance(), colorKeyGreen);
 
-		this.mChromaticCircleColorKeyedTextureRegion = BitmapTextureRegionFactory.createFromSource(this.mBitmapTexture, colorKeyedTextureSource, 128, 0);
+		this.mChromaticCircleColorKeyedTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromSource(this.mBitmapTextureAtlas, colorKeyBitmapTextureAtlasSource, 128, 0);
 
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override

@@ -42,6 +42,7 @@
 		<activity android:name=".EaseFunctionExample" android:configChanges="orientation"/>
 		<activity android:name=".EntityModifierExample" android:configChanges="orientation"/>
 		<activity android:name=".EntityModifierIrregularExample" android:configChanges="orientation"/>
+		<activity android:name=".ETC1TextureExample" android:configChanges="orientation"/>
 		<activity android:name=".ImageFormatsExample" android:configChanges="orientation"/>
 		<activity android:name=".LevelLoaderExample" android:configChanges="orientation"/>
 		<activity android:name=".LineExample" android:configChanges="orientation"/>
@@ -67,6 +68,8 @@
 		<activity android:name=".PhysicsRevoluteJointExample" android:configChanges="orientation"/>
 		<activity android:name=".PhysicsMouseJointExample" android:configChanges="orientation"/>
 		<activity android:name=".PinchZoomExample" android:configChanges="orientation"/>
+		<activity android:name=".PVRGZTextureExample" android:configChanges="orientation"/>
+		<activity android:name=".PVRTextureExample" android:configChanges="orientation"/>
 		<activity android:name=".RectangleExample" android:configChanges="orientation"/>
 		<activity android:name=".RepeatingSpriteBackgroundExample" android:configChanges="orientation"/>
 		<activity android:name=".Rotation3DExample" android:configChanges="orientation"/>

@@ -23,17 +23,14 @@ import org.anddev.andengine.input.touch.detector.ScrollDetector;
 import org.anddev.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.anddev.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
 import android.widget.Toast;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 15:44:58 - 05.11.2010
  */
@@ -50,7 +47,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 	// ===========================================================
 
 	private ZoomCamera mZoomCamera;
-	private BitmapTexture mCardDeckTexture;
+	private BitmapTextureAtlas mCardDeckTexture;
 
 	private Scene mScene;
 
@@ -91,11 +88,9 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 
 	@Override
 	public void onLoadResources() {
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mCardDeckTexture = new BitmapTextureAtlas(1024, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-		this.mCardDeckTexture = new BitmapTexture(1024, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		BitmapTextureRegionFactory.createFromAsset(this.mCardDeckTexture, this, "carddeck_tiled.png", 0, 0);
+		BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mCardDeckTexture, this, "gfx/carddeck_tiled.png", 0, 0);
 
 		this.mCardTotextureRegionMap = new HashMap<Card, TextureRegion>();
 

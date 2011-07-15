@@ -13,6 +13,7 @@ import org.anddev.andengine.examples.ColorKeyTextureSourceDecoratorExample;
 import org.anddev.andengine.examples.CoordinateConversionExample;
 import org.anddev.andengine.examples.CustomFontExample;
 import org.anddev.andengine.examples.DigitalOnScreenControlExample;
+import org.anddev.andengine.examples.ETC1TextureExample;
 import org.anddev.andengine.examples.EaseFunctionExample;
 import org.anddev.andengine.examples.EntityModifierExample;
 import org.anddev.andengine.examples.EntityModifierIrregularExample;
@@ -28,6 +29,8 @@ import org.anddev.andengine.examples.MultiplayerBluetoothExample;
 import org.anddev.andengine.examples.MultiplayerExample;
 import org.anddev.andengine.examples.MultiplayerServerDiscoveryExample;
 import org.anddev.andengine.examples.MusicExample;
+import org.anddev.andengine.examples.PVRGZTextureExample;
+import org.anddev.andengine.examples.PVRTextureExample;
 import org.anddev.andengine.examples.ParticleSystemCoolExample;
 import org.anddev.andengine.examples.ParticleSystemNexusExample;
 import org.anddev.andengine.examples.ParticleSystemSimpleExample;
@@ -78,9 +81,6 @@ import org.anddev.andengine.examples.game.snake.SnakeGameActivity;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 20:42:27 - 16.06.2010
  */
@@ -105,6 +105,7 @@ enum Example {
 	EASEFUNCTION(EaseFunctionExample.class, R.string.example_easefunction),
 	ENTITYMODIFIER(EntityModifierExample.class, R.string.example_entitymodifier),
 	ENTITYMODIFIERIRREGULAR(EntityModifierIrregularExample.class, R.string.example_entitymodifierirregular),
+	ETC1TEXTURE(ETC1TextureExample.class, R.string.example_etc1texture),
 	IMAGEFORMATS(ImageFormatsExample.class, R.string.example_imageformats),
 	LEVELLOADER(LevelLoaderExample.class, R.string.example_levelloader),
 	LINE(LineExample.class, R.string.example_line),
@@ -130,6 +131,8 @@ enum Example {
 	PHYSICSREVOLUTEJOINT(PhysicsRevoluteJointExample.class, R.string.example_physicsrevolutejoint),
 	PHYSICSREMOVE(PhysicsRemoveExample.class, R.string.example_physicsremove),
 	PINCHZOOM(PinchZoomExample.class, R.string.example_pinchzoom),
+	PVRGZTEXTURE(PVRGZTextureExample.class, R.string.example_pvrgztexture),
+	PVRTEXTURE(PVRTextureExample.class, R.string.example_pvrtexture),
 	RECTANGLE(RectangleExample.class, R.string.example_rectangle),
 	REPEATINGSPRITEBACKGROUND(RepeatingSpriteBackgroundExample.class, R.string.example_repeatingspritebackground),
 	ROTATION3D(Rotation3DExample.class, R.string.example_rotation3d),

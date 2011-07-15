@@ -15,8 +15,8 @@ import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.util.Callback;
 import org.anddev.andengine.util.FileUtils;
@@ -25,9 +25,6 @@ import org.helllabs.android.xmp.ModPlayer;
 import android.widget.Toast;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 15:51:47 - 13.06.2010
  */
@@ -46,7 +43,7 @@ public class ModPlayerExample extends BaseExample {
 	// Fields
 	// ===========================================================
 
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private TextureRegion mILove8BitTextureRegion;
 
 	private final ModPlayer mModPlayer = ModPlayer.getInstance();
@@ -72,11 +69,9 @@ public class ModPlayerExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTexture = new BitmapTexture(128, 128, TextureOptions.DEFAULT);
-
-		this.mILove8BitTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "i_love_8_bit.png", 0, 0);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128, TextureOptions.DEFAULT);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mILove8BitTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "i_love_8_bit.png", 0, 0);
 
 		if(FileUtils.isFileExistingOnExternalStorage(this, SAMPLE_MOD_DIRECTORY + SAMPLE_MOD_FILENAME)) {
 			this.startPlayingMod();
@@ -96,7 +91,7 @@ public class ModPlayerExample extends BaseExample {
 			});
 		}
 
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override

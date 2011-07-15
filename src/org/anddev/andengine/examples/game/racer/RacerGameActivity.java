@@ -23,8 +23,8 @@ import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
@@ -36,9 +36,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 22:43:20 - 15.07.2010
  */
@@ -61,17 +58,17 @@ public class RacerGameActivity  extends BaseGameActivity {
 
 	private Camera mCamera;
 
-	private BitmapTexture mVehiclesBitmapTexture;
+	private BitmapTextureAtlas mVehiclesTexture;
 	private TiledTextureRegion mVehiclesTextureRegion;
 
-	private BitmapTexture mBoxBitmapTexture;
+	private BitmapTextureAtlas mBoxTexture;
 	private TextureRegion mBoxTextureRegion;
 
-	private BitmapTexture mRacetrackBitmapTexture;
+	private BitmapTextureAtlas mRacetrackTexture;
 	private TextureRegion mRacetrackStraightTextureRegion;
 	private TextureRegion mRacetrackCurveTextureRegion;
 
-	private BitmapTexture mOnScreenControlBitmapTexture;
+	private BitmapTextureAtlas mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
 
@@ -102,23 +99,23 @@ public class RacerGameActivity  extends BaseGameActivity {
 
 	@Override
 	public void onLoadResources() {
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mVehiclesBitmapTexture = new BitmapTexture(128, 16, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mVehiclesTextureRegion = BitmapTextureRegionFactory.createTiledFromAsset(this.mVehiclesBitmapTexture, this, "vehicles.png", 0, 0, 6, 1);
+		this.mVehiclesTexture = new BitmapTextureAtlas(128, 16, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mVehiclesTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mVehiclesTexture, this, "vehicles.png", 0, 0, 6, 1);
 
-		this.mRacetrackBitmapTexture = new BitmapTexture(128, 256, TextureOptions.REPEATING_BILINEAR_PREMULTIPLYALPHA);
-		this.mRacetrackStraightTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mRacetrackBitmapTexture, this, "racetrack_straight.png", 0, 0);
-		this.mRacetrackCurveTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mRacetrackBitmapTexture, this, "racetrack_curve.png", 0, 128);
+		this.mRacetrackTexture = new BitmapTextureAtlas(128, 256, TextureOptions.REPEATING_BILINEAR_PREMULTIPLYALPHA);
+		this.mRacetrackStraightTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mRacetrackTexture, this, "racetrack_straight.png", 0, 0);
+		this.mRacetrackCurveTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mRacetrackTexture, this, "racetrack_curve.png", 0, 128);
 
-		this.mOnScreenControlBitmapTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mOnScreenControlBaseTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mOnScreenControlBitmapTexture, this, "onscreen_control_base.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mOnScreenControlBitmapTexture, this, "onscreen_control_knob.png", 128, 0);
+		this.mOnScreenControlTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
+		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 
-		this.mBoxBitmapTexture = new BitmapTexture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mBoxTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBoxBitmapTexture, this, "box.png", 0, 0);
+		this.mBoxTexture = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBoxTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBoxTexture, this, "box.png", 0, 0);
 
-		this.mEngine.getTextureManager().loadTextures(this.mVehiclesBitmapTexture, this.mRacetrackBitmapTexture, this.mOnScreenControlBitmapTexture, this.mBoxBitmapTexture);
+		this.mEngine.getTextureManager().loadTextures(this.mVehiclesTexture, this.mRacetrackTexture, this.mOnScreenControlTexture, this.mBoxTexture);
 	}
 
 	@Override

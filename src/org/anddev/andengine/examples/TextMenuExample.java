@@ -20,17 +20,14 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
 import android.graphics.Color;
 import android.view.KeyEvent;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 01:30:15 - 02.04.2010
  */
@@ -53,10 +50,10 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 
 	protected Scene mMainScene;
 
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private TextureRegion mFaceTextureRegion;
 
-	private BitmapTexture mFontTexture;
+	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
 
 	protected MenuScene mMenuScene;
@@ -82,7 +79,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 	@Override
 	public void onLoadResources() {
 		/* Load Font/Textures. */
-		this.mFontTexture = new BitmapTexture(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		FontFactory.setAssetBasePath("font/");
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "Plok.ttf", 48, true, Color.WHITE);
@@ -90,13 +87,9 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 		this.mEngine.getFontManager().loadFont(this.mFont);
 
 		/* Load Sprite-Textures. */
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTexture = new BitmapTexture(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		this.mFaceTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "face_box_menu.png", 0, 0);
-
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTexture);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "gfx/face_box_menu.png", 0, 0);
+		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override

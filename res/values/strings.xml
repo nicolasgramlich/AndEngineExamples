@@ -54,10 +54,11 @@
 	<string name="example_easefunction">Using EaseFunctions</string>
 	<string name="example_entitymodifier">Using EntityModifiers</string>
 	<string name="example_entitymodifierirregular">Irregular EntityModifiers</string>
+	<string name="example_etc1texture">Using ETC1 Textures</string>
 	<string name="example_imageformats">Using ImageFormats (PNG, JPG, GIF, BMP)</string>
 	<string name="example_levelloader">Loading a Level from XML</string>
 	<string name="example_line">Drawing Lines</string>
-	<string name="example_loadtexture">Load Texture Dynamic</string>
+	<string name="example_loadtexture">Load BitmapTextureAtlas Dynamic</string>
 	<string name="example_menu">Using Menus</string>
 	<string name="example_modplayer">Playing .MOD Music</string>
 	<string name="example_movingball">A Moving Ball</string>
@@ -79,6 +80,8 @@
 	<string name="example_physicsjump">Combining Physics and Touch</string>
 	<string name="example_physicsremove">Removing a Physics Object</string>
 	<string name="example_pinchzoom">Using PinchZoom</string>
+	<string name="example_pvrgztexture">PVRGZ Texture</string>
+	<string name="example_pvrtexture">PVR Texture</string>
 	<string name="example_rectangle">Drawing Rectangles</string>
 	<string name="example_repeatingspritebackground">Using a RepeatingSpriteBackground</string>
 	<string name="example_rotation3d">Rotating in 3D</string>

@@ -27,17 +27,14 @@ import org.anddev.andengine.extension.input.touch.controller.MultiTouch;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouchController;
 import org.anddev.andengine.extension.input.touch.exception.MultiTouchException;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.util.MathUtils;
 
 import android.widget.Toast;
 
 /**
- * (c) 2010 Nicolas Gramlich 
- * (c) 2011 Zynga Inc.
- * 
  * @author Nicolas Gramlich
  * @since 00:06:23 - 11.07.2010
  */
@@ -55,10 +52,10 @@ public class CollisionDetectionExample extends BaseExample {
 
 	private Camera mCamera;
 
-	private BitmapTexture mBitmapTexture;
+	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private TextureRegion mFaceTextureRegion;
 
-	private BitmapTexture mOnScreenControlTexture;
+	private BitmapTextureAtlas mOnScreenControlTexture;
 	private TextureRegion mOnScreenControlBaseTextureRegion;
 	private TextureRegion mOnScreenControlKnobTextureRegion;
 
@@ -102,16 +99,16 @@ public class CollisionDetectionExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		BitmapTextureRegionFactory.setAssetBasePath("gfx/");
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTexture = new BitmapTexture(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFaceTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mBitmapTexture, this, "face_box.png", 0, 0);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
-		this.mOnScreenControlTexture = new BitmapTexture(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mOnScreenControlBaseTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = BitmapTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
+		this.mOnScreenControlTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
+		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 
-		this.mEngine.getTextureManager().loadTextures(this.mBitmapTexture, this.mOnScreenControlTexture);
+		this.mEngine.getTextureManager().loadTextures(this.mBitmapTextureAtlas, this.mOnScreenControlTexture);
 	}
 
 	@Override
@@ -128,10 +125,10 @@ public class CollisionDetectionExample extends BaseExample {
 		final LoopEntityModifier entityModifier = new LoopEntityModifier(new ParallelEntityModifier(new RotationModifier(6, 0, 360), new SequenceEntityModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1))));
 
 		/* Create A spinning rectangle and a line. */
-		final Rectangle rectangle = new Rectangle(centerX - 50, centerY - 16, 32, 32);
-		rectangle.registerEntityModifier(entityModifier);
+		final Rectangle centerRectangle = new Rectangle(centerX - 50, centerY - 16, 32, 32);
+		centerRectangle.registerEntityModifier(entityModifier);
 
-		scene.attachChild(rectangle);
+		scene.attachChild(centerRectangle);
 		
 		final Line line = new Line(centerX + 50 - 16, centerY, centerX + 50 + 16, centerY);
 		line.registerEntityModifier(entityModifier.clone());
@@ -193,10 +190,10 @@ public class CollisionDetectionExample extends BaseExample {
 
 			@Override
 			public void onUpdate(final float pSecondsElapsed) {
-				if(rectangle.collidesWith(face)) {
-					rectangle.setColor(1, 0, 0);
+				if(centerRectangle.collidesWith(face)) {
+					centerRectangle.setColor(1, 0, 0);
 				} else {
-					rectangle.setColor(0, 1, 0);
+					centerRectangle.setColor(0, 1, 0);
 				}
 				
 				if(line.collidesWith(face)){
@@ -206,8 +203,7 @@ public class CollisionDetectionExample extends BaseExample {
 				}
 				
 				if(!mCamera.isRectangularShapeVisible(face)) {
-					rectangle.setColor(1, 0, 1);
-					line.setColor(1, 0, 1);
+					centerRectangle.setColor(1, 0, 1);
 				}
 			}
 		});
