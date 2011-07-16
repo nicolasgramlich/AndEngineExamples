@@ -75,38 +75,6 @@ public class ScreenCaptureExample extends BaseExample {
 
 		final Scene scene = new Scene();
 		final ScreenCapture screenCapture = new ScreenCapture();
-		scene.attachChild(screenCapture);
-		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
-			@Override
-			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-				if(pSceneTouchEvent.isActionDown()) {
-					final int viewWidth = ScreenCaptureExample.this.mRenderSurfaceView.getWidth();
-					final int viewHeight = ScreenCaptureExample.this.mRenderSurfaceView.getHeight();
-					screenCapture.capture(viewWidth, viewHeight, FileUtils.getAbsolutePathOnExternalStorage(ScreenCaptureExample.this, "Screen_" + System.currentTimeMillis() + ".png"), new IScreenCaptureCallback() {
-						@Override
-						public void onScreenCaptured(final String pFilePath) {
-							ScreenCaptureExample.this.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									Toast.makeText(ScreenCaptureExample.this, "Screenshot: " + pFilePath + " taken!", Toast.LENGTH_SHORT).show();
-								}
-							});
-						}
-
-						@Override
-						public void onScreenCaptureFailed(final String pFilePath, final Exception pException) {
-							ScreenCaptureExample.this.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									Toast.makeText(ScreenCaptureExample.this, "FAILED capturing Screenshot: " + pFilePath + " !", Toast.LENGTH_SHORT).show();
-								}
-							});
-						}
-					});
-				}
-				return true;
-			}
-		});
 
 		scene.setBackground(new ColorBackground(0, 0, 0));
 
@@ -145,6 +113,40 @@ public class ScreenCaptureExample extends BaseExample {
 
 		scene.attachChild(rectangleGroup);
 
+		/* Attaching the ScreenCapture to the end. */
+		scene.attachChild(screenCapture);
+		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
+			@Override
+			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
+				if(pSceneTouchEvent.isActionDown()) {
+					final int viewWidth = ScreenCaptureExample.this.mRenderSurfaceView.getWidth();
+					final int viewHeight = ScreenCaptureExample.this.mRenderSurfaceView.getHeight();
+					screenCapture.capture(viewWidth, viewHeight, FileUtils.getAbsolutePathOnExternalStorage(ScreenCaptureExample.this, "Screen_" + System.currentTimeMillis() + ".png"), new IScreenCaptureCallback() {
+						@Override
+						public void onScreenCaptured(final String pFilePath) {
+							ScreenCaptureExample.this.runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									Toast.makeText(ScreenCaptureExample.this, "Screenshot: " + pFilePath + " taken!", Toast.LENGTH_SHORT).show();
+								}
+							});
+						}
+
+						@Override
+						public void onScreenCaptureFailed(final String pFilePath, final Exception pException) {
+							ScreenCaptureExample.this.runOnUiThread(new Runnable() {
+								@Override
+								public void run() {
+									Toast.makeText(ScreenCaptureExample.this, "FAILED capturing Screenshot: " + pFilePath + " !", Toast.LENGTH_SHORT).show();
+								}
+							});
+						}
+					});
+				}
+				return true;
+			}
+		});
+		
 		return scene;
 	}
 
