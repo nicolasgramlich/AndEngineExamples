@@ -62,7 +62,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public Example getChild(final int pGroupPosition, final int pChildPosition) {
-		return EXAMPLEGROUPS[pGroupPosition].EXAMPLES[pChildPosition];
+		return EXAMPLEGROUPS[pGroupPosition].mExamples[pChildPosition];
 	}
 
 	@Override
@@ -72,7 +72,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(final int pGroupPosition) {
-		return EXAMPLEGROUPS[pGroupPosition].EXAMPLES.length;
+		return EXAMPLEGROUPS[pGroupPosition].mExamples.length;
 	}
 
 	@Override
@@ -97,7 +97,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 			groupView = LayoutInflater.from(this.mContext).inflate(R.layout.listrow_examplegroup, null);
 		}
 
-		((TextView)groupView.findViewById(R.id.tv_listrow_examplegroup_name)).setText(this.getGroup(pGroupPosition).NAMERESID);
+		((TextView)groupView.findViewById(R.id.tv_listrow_examplegroup_name)).setText(this.getGroup(pGroupPosition).mNameResourceID);
 		return groupView;
 	}
 

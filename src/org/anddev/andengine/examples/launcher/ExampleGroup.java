@@ -48,16 +48,17 @@ public enum ExampleGroup {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	public final Example[] EXAMPLES;
-	public final int NAMERESID;
+
+	public final Example[] mExamples;
+	public final int mNameResourceID;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	private ExampleGroup(final int pNameResID, final Example ... pExamples) {
-		this.NAMERESID = pNameResID;
-		this.EXAMPLES = pExamples;
+	private ExampleGroup(final int pNameResourceID, final Example ... pExamples) {
+		this.mNameResourceID = pNameResourceID;
+		this.mExamples = pExamples;
 	}
 
 	// ===========================================================
