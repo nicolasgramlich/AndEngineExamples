@@ -20,6 +20,9 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.util.GLHelper;
 
 /**
+ * (c) 2010 Nicolas Gramlich
+ * (c) 2011 Zynga
+ *
  * @author Nicolas Gramlich
  * @since 10:10:10 - 10.10.2010
  */

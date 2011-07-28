@@ -45,6 +45,9 @@ import org.anddev.andengine.util.MathUtils;
 import android.graphics.Color;
 
 /**
+ * (c) 2010 Nicolas Gramlich
+ * (c) 2011 Zynga
+ *
  * @author Nicolas Gramlich
  * @since 02:26:05 - 08.07.2010
  */

@@ -25,6 +25,9 @@ import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich
+ * (c) 2011 Zynga
+ *
  * @author Nicolas Gramlich
  * @since 18:20:40 - 18.06.2010
  */

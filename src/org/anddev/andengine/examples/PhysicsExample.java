@@ -37,6 +37,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 /**
+ * (c) 2010 Nicolas Gramlich
+ * (c) 2011 Zynga
+ *
  * @author Nicolas Gramlich
  * @since 18:47:08 - 19.03.2010
  */

@@ -24,6 +24,9 @@ import org.anddev.andengine.util.modifier.ease.EaseSineInOut;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich
+ * (c) 2011 Zynga
+ *
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */

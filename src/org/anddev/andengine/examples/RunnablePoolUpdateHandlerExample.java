@@ -21,6 +21,9 @@ import org.anddev.andengine.util.pool.RunnablePoolUpdateHandler;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich
+ * (c) 2011 Zynga
+ *
  * @author Nicolas Gramlich
  * @since 14:56:22 - 15.06.2011
  */

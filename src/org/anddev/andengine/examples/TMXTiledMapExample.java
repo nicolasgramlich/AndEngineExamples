@@ -33,6 +33,9 @@ import org.anddev.andengine.util.constants.Constants;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich
+ * (c) 2011 Zynga
+ *
  * @author Nicolas Gramlich
  * @since 13:58:48 - 19.07.2010
  */

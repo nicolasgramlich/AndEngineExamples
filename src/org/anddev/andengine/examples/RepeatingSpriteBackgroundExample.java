@@ -21,6 +21,9 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextur
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
 /**
+ * (c) 2010 Nicolas Gramlich
+ * (c) 2011 Zynga
+ *
  * @author Nicolas Gramlich
  * @since 13:58:48 - 19.07.2010
  */

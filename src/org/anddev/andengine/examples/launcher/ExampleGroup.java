@@ -4,6 +4,9 @@ import org.anddev.andengine.examples.R;
 
 
 /**
+ * (c) 2010 Nicolas Gramlich
+ * (c) 2011 Zynga
+ *
  * @author Nicolas Gramlich
  * @since 11:13:34 - 27.06.2010
  */

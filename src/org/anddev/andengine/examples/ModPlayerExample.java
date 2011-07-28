@@ -25,6 +25,9 @@ import org.helllabs.android.xmp.ModPlayer;
 import android.widget.Toast;
 
 /**
+ * (c) 2010 Nicolas Gramlich
+ * (c) 2011 Zynga
+ *
  * @author Nicolas Gramlich
  * @since 15:51:47 - 13.06.2010
  */

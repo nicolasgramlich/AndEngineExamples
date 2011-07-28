@@ -28,6 +28,9 @@ import android.graphics.Color;
 import android.view.KeyEvent;
 
 /**
+ * (c) 2010 Nicolas Gramlich
+ * (c) 2011 Zynga
+ *
  * @author Nicolas Gramlich
  * @since 01:30:15 - 02.04.2010
  */
