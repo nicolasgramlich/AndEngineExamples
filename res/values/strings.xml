@@ -80,6 +80,7 @@
 	<string name="example_physicsjump">Combining Physics and Touch</string>
 	<string name="example_physicsremove">Removing a Physics Object</string>
 	<string name="example_pinchzoom">Using PinchZoom</string>
+	<string name="example_pvrccztexture">PVRCCZ Texture</string>
 	<string name="example_pvrgztexture">PVRGZ Texture</string>
 	<string name="example_pvrtexture">PVR Texture</string>
 	<string name="example_rectangle">Drawing Rectangles</string>

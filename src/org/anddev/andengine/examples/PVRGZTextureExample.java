@@ -1,7 +1,7 @@
 package org.anddev.andengine.examples;
 
 import java.io.IOException;
-import java.util.zip.GZIPInputStream;
+import java.io.InputStream;
 
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.SmoothCamera;
@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
- * @since 11:54:51 - 03.04.2010
+ * @since 13:54:51 - 13.07.2011
  */
 public class PVRGZTextureExample extends BaseExample {
 	// ===========================================================
@@ -85,8 +85,8 @@ public class PVRGZTextureExample extends BaseExample {
 		try {
 			this.mTexture = new PVRGZTexture(PVRTextureFormat.RGBA_8888, TextureOptions.BILINEAR) {
 				@Override
-				protected GZIPInputStream getGZIPInputStream() throws IOException {
-					return new GZIPInputStream(PVRGZTextureExample.this.getResources().openRawResource(R.raw.house_pvrgz_argb_8888));
+				protected InputStream getInputStream() throws IOException {
+					return PVRGZTextureExample.this.getResources().openRawResource(R.raw.house_pvrgz_argb_8888);
 				}
 			};
 

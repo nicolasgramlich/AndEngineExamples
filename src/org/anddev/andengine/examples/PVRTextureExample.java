@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 /**
  * @author Nicolas Gramlich
- * @since 11:54:51 - 03.04.2010
+ * @since 11:54:51 - 13.07.2011
  */
 public class PVRTextureExample extends BaseExample {
 	// ===========================================================
@@ -96,28 +96,28 @@ public class PVRTextureExample extends BaseExample {
 		try {
 			this.mTextureRGB565 = new PVRTexture(PVRTextureFormat.RGB_565, new TextureOptions(GL10.GL_LINEAR, GL10.GL_LINEAR, GL10.GL_CLAMP_TO_EDGE, GL10.GL_CLAMP_TO_EDGE, GL10.GL_MODULATE, false)) {
 				@Override
-				protected InputStream getInputStream() throws IOException {
+				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_rgb_565);
 				}
 			};
 
 			this.mTextureRGBA5551 = new PVRTexture(PVRTextureFormat.RGBA_5551, new TextureOptions(GL10.GL_LINEAR, GL10.GL_LINEAR, GL10.GL_CLAMP_TO_EDGE, GL10.GL_CLAMP_TO_EDGE, GL10.GL_MODULATE, false)) {
 				@Override
-				protected InputStream getInputStream() throws IOException {
+				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_5551);
 				}
 			};
 
 			this.mTextureARGB4444 = new PVRTexture(PVRTextureFormat.RGBA_4444, new TextureOptions(GL10.GL_LINEAR, GL10.GL_LINEAR, GL10.GL_CLAMP_TO_EDGE, GL10.GL_CLAMP_TO_EDGE, GL10.GL_MODULATE, false)) {
 				@Override
-				protected InputStream getInputStream() throws IOException {
+				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_4444);
 				}
 			};
 
 			this.mTextureRGBA888MipMaps = new PVRTexture(PVRTextureFormat.RGBA_8888, new TextureOptions(GL10.GL_LINEAR_MIPMAP_LINEAR, GL10.GL_LINEAR, GL10.GL_CLAMP_TO_EDGE, GL10.GL_CLAMP_TO_EDGE, GL10.GL_MODULATE, false)) {
 				@Override
-				protected InputStream getInputStream() throws IOException {
+				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_8888_mipmaps);
 				}
 			};
