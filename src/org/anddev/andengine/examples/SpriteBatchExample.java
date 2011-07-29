@@ -8,6 +8,7 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.sprite.batch.DynamicSpriteBatch;
 import org.anddev.andengine.entity.sprite.batch.SpriteBatch;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -82,11 +83,13 @@ public class SpriteBatchExample extends BaseExample {
 		faceSprite2.setRotation(45);
 
 		/* Create the face and add it to the scene. */
-		final SpriteBatch dynamicSpriteBatch = new SpriteBatch(this.mBitmapTextureAtlas, 2) {
+		final SpriteBatch dynamicSpriteBatch = new DynamicSpriteBatch(this.mBitmapTextureAtlas, 2) {
 			@Override
-			public void onDrawSpriteBatch() {
+			public boolean onUpdateSpriteBatch() {
 				this.draw(faceSprite1);
 				this.draw(faceSprite2);
+
+				return true;
 			}
 		};
 		
