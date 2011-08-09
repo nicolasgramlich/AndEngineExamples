@@ -18,6 +18,7 @@ import org.anddev.andengine.entity.modifier.SequenceEntityModifier;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.opengl.shader.ShaderProgram;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -94,9 +95,9 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
-		//		this.drawUsingSprites(scene);
-		//		this.drawUsingSpritesWithSharedVertexBuffer(scene);
-		this.drawUsingSpriteBatch(scene);
+		this.drawUsingSprites(scene);
+//		this.drawUsingSpritesWithSharedVertexBuffer(scene);
+//		this.drawUsingSpriteBatch(scene);
 
 		return scene;
 	}
@@ -122,78 +123,85 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 				)
 		);
 
+		ShaderProgram shaderProgram = null;
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion);
+			if(shaderProgram == null) {
+				face.setDefaultShaderProgram();
+				shaderProgram = face.getShaderProgram();
+			} else {
+				face.setShaderProgram(shaderProgram);
+			}
 			face.registerEntityModifier(faceEntityModifier.clone());
 
 			pScene.attachChild(face);
 		}
 	}
 
-	private void drawUsingSpritesWithSharedVertexBuffer(final Scene pScene) {
-		final IEntityModifier faceEntityModifier = new SequenceEntityModifier(
-				new RotationByModifier(2, 90),
-				new AlphaModifier(1.5f, 1, 0),
-				new AlphaModifier(1.5f, 0, 1),
-				new ScaleModifier(2.5f, 1, 0.5f),
-				new DelayModifier(0.5f),
-				new ParallelEntityModifier(
-						new ScaleModifier(2f, 0.5f, 5),
-						new RotationByModifier(2, 90)
-				),
-				new ParallelEntityModifier(
-						new ScaleModifier(2f, 5, 1),
-						new RotationModifier(2f, 180, 0)
-				)
-		);
-
-		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
-		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW, true);
-		sharedVertexBuffer.update(this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
-
-		for(int i = 0; i < SPRITE_COUNT; i++) {
-			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, sharedVertexBuffer);
-			face.registerEntityModifier(faceEntityModifier.clone());
-
-			pScene.attachChild(face);
-		}
-	}
-
-	private void drawUsingSpriteBatch(final Scene pScene) {
-		final IEntityModifier faceEntityModifier = new SequenceEntityModifier(
-				new RotationByModifier(2, 90),
-				//				new AlphaModifier(1.5f, 1, 0),
-				//				new AlphaModifier(1.5f, 0, 1),
-				new DelayModifier(1.5f + 1.5f),
-				new ScaleModifier(2.5f, 1, 0.5f),
-				new DelayModifier(0.5f),
-				new ParallelEntityModifier(
-						new ScaleModifier(2f, 0.5f, 5),
-						new RotationByModifier(2, 90)
-				),
-				new ParallelEntityModifier(
-						new ScaleModifier(2f, 5, 1),
-						new RotationModifier(2f, 180, 0)
-				)
-		);
-
-		final IEntityModifier spriteBatchEntityModifier = new SequenceEntityModifier(
-				new DelayModifier(2),
-				new AlphaModifier(1.5f, 1, 0),
-				new AlphaModifier(1.5f, 0, 1)
-		);
-
-		final SpriteGroup spriteGroup = new SpriteGroup(this.mBitmapTextureAtlas, SPRITE_COUNT);
-		for(int i = 0; i < SPRITE_COUNT; i++) {
-			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion);
-			face.registerEntityModifier(faceEntityModifier.clone());
-
-			spriteGroup.attachChild(face);
-		}
-		spriteGroup.registerEntityModifier(spriteBatchEntityModifier);
-
-		pScene.attachChild(spriteGroup);
-	}
+//	private void drawUsingSpritesWithSharedVertexBuffer(final Scene pScene) {
+//		final IEntityModifier faceEntityModifier = new SequenceEntityModifier(
+//				new RotationByModifier(2, 90),
+//				new AlphaModifier(1.5f, 1, 0),
+//				new AlphaModifier(1.5f, 0, 1),
+//				new ScaleModifier(2.5f, 1, 0.5f),
+//				new DelayModifier(0.5f),
+//				new ParallelEntityModifier(
+//						new ScaleModifier(2f, 0.5f, 5),
+//						new RotationByModifier(2, 90)
+//				),
+//				new ParallelEntityModifier(
+//						new ScaleModifier(2f, 5, 1),
+//						new RotationModifier(2f, 180, 0)
+//				)
+//		);
+//
+//		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
+//		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW, true);
+//		sharedVertexBuffer.update(this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
+//
+//		for(int i = 0; i < SPRITE_COUNT; i++) {
+//			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, sharedVertexBuffer);
+//			face.registerEntityModifier(faceEntityModifier.clone());
+//
+//			pScene.attachChild(face);
+//		}
+//	}
+//
+//	private void drawUsingSpriteBatch(final Scene pScene) {
+//		final IEntityModifier faceEntityModifier = new SequenceEntityModifier(
+//				new RotationByModifier(2, 90),
+//				//				new AlphaModifier(1.5f, 1, 0),
+//				//				new AlphaModifier(1.5f, 0, 1),
+//				new DelayModifier(1.5f + 1.5f),
+//				new ScaleModifier(2.5f, 1, 0.5f),
+//				new DelayModifier(0.5f),
+//				new ParallelEntityModifier(
+//						new ScaleModifier(2f, 0.5f, 5),
+//						new RotationByModifier(2, 90)
+//				),
+//				new ParallelEntityModifier(
+//						new ScaleModifier(2f, 5, 1),
+//						new RotationModifier(2f, 180, 0)
+//				)
+//		);
+//
+//		final IEntityModifier spriteBatchEntityModifier = new SequenceEntityModifier(
+//				new DelayModifier(2),
+//				new AlphaModifier(1.5f, 1, 0),
+//				new AlphaModifier(1.5f, 0, 1)
+//		);
+//
+//		final SpriteGroup spriteGroup = new SpriteGroup(this.mBitmapTextureAtlas, SPRITE_COUNT);
+//		for(int i = 0; i < SPRITE_COUNT; i++) {
+//			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion);
+//			face.registerEntityModifier(faceEntityModifier.clone());
+//
+//			spriteGroup.attachChild(face);
+//		}
+//		spriteGroup.registerEntityModifier(spriteBatchEntityModifier);
+//
+//		pScene.attachChild(spriteGroup);
+//	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes

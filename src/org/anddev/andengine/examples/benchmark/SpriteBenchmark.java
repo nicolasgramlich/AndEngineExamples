@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples.benchmark;
 
-import javax.microedition.khronos.opengles.GL11;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -10,10 +8,14 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.sprite.batch.SpriteBatch;
+import org.anddev.andengine.opengl.shader.ShaderProgram;
+import org.anddev.andengine.opengl.shader.util.constants.ShaderProgramConstants;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
+import org.anddev.andengine.opengl.util.GLHelper;
 
 import android.opengl.GLES20;
 
@@ -32,7 +34,25 @@ public class SpriteBenchmark extends BaseBenchmark {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 
-	private static final int SPRITE_COUNT = 1000;
+	private static final int SPRITE_COUNT = 5000;
+	
+	public static final String SHADERPROGRAM_VERTEXSHADER_DEFAULT =
+			"uniform mat4 " + ShaderProgramConstants.UNIFORM_MODELVIEWPROJECTIONMATRIX + ";\n" +
+			"attribute vec4 " + ShaderProgramConstants.ATTRIBUTE_POSITION + ";\n" +
+			"attribute vec2 " + ShaderProgramConstants.ATTRIBUTE_TEXTURECOORDINATES + ";\n" +
+            "varying vec2 " + ShaderProgramConstants.VARYING_TEXTURECOORDINATES + ";\n" +
+			"void main() {\n" +
+            "   " + ShaderProgramConstants.VARYING_TEXTURECOORDINATES + " = " + ShaderProgramConstants.ATTRIBUTE_TEXTURECOORDINATES + ";\n" +
+			"   gl_Position = " + ShaderProgramConstants.UNIFORM_MODELVIEWPROJECTIONMATRIX + " * " + ShaderProgramConstants.ATTRIBUTE_POSITION + ";\n" +
+			"}";
+
+	public static final String SHADERPROGRAM_FRAGMENTSHADER_DEFAULT =
+			"precision mediump float;\n" +
+		    "uniform sampler2D " + ShaderProgramConstants.UNIFORM_TEXTURE_0 + ";\n" +
+            "varying vec2 " + ShaderProgramConstants.VARYING_TEXTURECOORDINATES + ";\n" +
+			"void main() {\n" +
+			"  gl_FragColor = texture2D(" + ShaderProgramConstants.UNIFORM_TEXTURE_0 + ", " + ShaderProgramConstants.VARYING_TEXTURECOORDINATES + ");\n" +
+			"}";
 
 	// ===========================================================
 	// Fields
@@ -88,9 +108,9 @@ public class SpriteBenchmark extends BaseBenchmark {
 		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
-//		this.drawUsingSprites(scene);
+		this.drawUsingSprites(scene);
 //		this.drawUsingSpritesWithSharedVertexBuffer(scene);
-		this.drawUsingSpriteBatch(scene);
+//		this.drawUsingSpriteBatch(scene);
 
 		return scene;
 	}
@@ -99,33 +119,55 @@ public class SpriteBenchmark extends BaseBenchmark {
 	// Methods
 	// ===========================================================
 
-	private void drawUsingSprites(final Scene scene) {
+	private void drawUsingSprites(final Scene pScene) {
+		final ShaderProgram sharedShaderProgram = new ShaderProgram(SHADERPROGRAM_VERTEXSHADER_DEFAULT, SHADERPROGRAM_FRAGMENTSHADER_DEFAULT) {
+			@Override
+			public void bind() {
+				super.bind();
+
+				this.setUniform(ShaderProgramConstants.UNIFORM_MODELVIEWPROJECTIONMATRIX, GLHelper.getModelViewProjectionMatrix());
+				this.setTexture(ShaderProgramConstants.UNIFORM_TEXTURE_0, 0);
+			}
+		};
+
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion);
+			face.setShaderProgram(sharedShaderProgram);
 			face.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 			face.setIgnoreUpdate(true);
-			scene.attachChild(face);
+			pScene.attachChild(face);
 		}
 	}
 
-	private void drawUsingSpritesWithSharedVertexBuffer(final Scene scene) {
-		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
-		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_STATIC_DRAW, true);
-		sharedVertexBuffer.update(this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
-		
-		for(int i = 0; i < SPRITE_COUNT; i++) {
-			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
-			face.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-			face.setIgnoreUpdate(true);
-			scene.attachChild(face);
-		}
-	}
+//	private void drawUsingSpritesWithSharedVertexBuffer(final Scene pScene) {
+//		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
+//		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_STATIC_DRAW, true);
+//		sharedVertexBuffer.update(this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
+//		
+//		for(int i = 0; i < SPRITE_COUNT; i++) {
+//			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
+//			face.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+//			face.setIgnoreUpdate(true);
+//			pScene.attachChild(face);
+//		}
+//	}
 
-	private void drawUsingSpriteBatch(final Scene scene) {
+	private void drawUsingSpriteBatch(final Scene pScene) {
+		final ShaderProgram shaderProgram = new ShaderProgram(SHADERPROGRAM_VERTEXSHADER_DEFAULT, SHADERPROGRAM_FRAGMENTSHADER_DEFAULT) {
+			@Override
+			public void bind() {
+				super.bind();
+
+				this.setUniform(ShaderProgramConstants.UNIFORM_MODELVIEWPROJECTIONMATRIX, GLHelper.getModelViewProjectionMatrix());
+				this.setTexture(ShaderProgramConstants.UNIFORM_TEXTURE_0, 0);
+			}
+		};
 		final int width = this.mFaceTextureRegion.getWidth();
 		final int height = this.mFaceTextureRegion.getHeight();
 
 		final SpriteBatch spriteBatch = new SpriteBatch(this.mBitmapTextureAtlas, SPRITE_COUNT);
+		spriteBatch.setShaderProgram(shaderProgram);
+//		spriteBatch.setDefaultShaderProgram();
 		spriteBatch.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final float x = this.mRandom.nextFloat() * (CAMERA_WIDTH - 32);
@@ -134,7 +176,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 		}
 		spriteBatch.submit();
 
-		scene.attachChild(spriteBatch);
+		pScene.attachChild(spriteBatch);
 	}
 
 	// ===========================================================
