@@ -40,7 +40,7 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.util.Debug;
 
 import android.app.AlertDialog;
@@ -85,7 +85,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	private Camera mCamera;
 
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private TextureRegion mFaceTextureRegion;
+	private ITextureRegion mFaceTextureRegion;
 
 	private int mFaceIDCounter;
 	private final SparseArray<Sprite> mFaces = new SparseArray<Sprite>();

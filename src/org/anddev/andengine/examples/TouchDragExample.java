@@ -13,7 +13,7 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 
 import android.widget.Toast;
 
@@ -38,7 +38,7 @@ public class TouchDragExample extends BaseExample {
 
 	private Camera mCamera;
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private TextureRegion mFaceTextureRegion;
+	private ITextureRegion mFaceTextureRegion;
 
 	// ===========================================================
 	// Constructors

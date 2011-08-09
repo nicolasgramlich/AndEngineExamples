@@ -3,11 +3,10 @@ package org.anddev.andengine.examples;
 import org.anddev.andengine.entity.scene.menu.MenuScene;
 import org.anddev.andengine.entity.scene.menu.animator.SlideMenuAnimator;
 import org.anddev.andengine.entity.scene.menu.item.IMenuItem;
-import org.anddev.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 
 
 /**
@@ -32,8 +31,8 @@ public class SubMenuExample extends MenuExample {
 	private MenuScene mSubMenuScene;
 
 	private BitmapTextureAtlas mSubMenuTexture;
-	private TextureRegion mMenuOkTextureRegion;
-	private TextureRegion mMenuBackTextureRegion;
+	private ITextureRegion mMenuOkTextureRegion;
+	private ITextureRegion mMenuBackTextureRegion;
 
 	// ===========================================================
 	// Constructors

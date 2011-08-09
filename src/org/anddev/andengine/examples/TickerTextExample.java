@@ -14,13 +14,11 @@ import org.anddev.andengine.entity.modifier.ScaleModifier;
 import org.anddev.andengine.entity.modifier.SequenceEntityModifier;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
-import org.anddev.andengine.entity.text.Text;
-import org.anddev.andengine.entity.text.TickerText;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.util.HorizontalAlign;
+import org.w3c.dom.Text;
 
 import android.graphics.Color;
 import android.graphics.Typeface;

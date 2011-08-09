@@ -14,7 +14,7 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 
 import android.view.KeyEvent;
 
@@ -40,8 +40,8 @@ public class PauseExample extends BaseExample {
 
 	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private Scene mMainScene;
-	private TextureRegion mFaceTextureRegion;
-	private TextureRegion mPausedTextureRegion;
+	private ITextureRegion mFaceTextureRegion;
+	private ITextureRegion mPausedTextureRegion;
 	private CameraScene mPauseScene;
 
 	// ===========================================================

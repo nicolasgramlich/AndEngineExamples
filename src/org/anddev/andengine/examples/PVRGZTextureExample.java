@@ -19,7 +19,7 @@ import org.anddev.andengine.opengl.texture.ITexture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.compressed.pvr.PVRGZTexture;
 import org.anddev.andengine.opengl.texture.compressed.pvr.PVRTexture.PVRTextureFormat;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.util.Debug;
 
@@ -47,7 +47,7 @@ public class PVRGZTextureExample extends BaseExample {
 	private SmoothCamera mSmoothCamera;
 
 	private ITexture mTexture;
-	private TextureRegion mHouseTextureRegion;
+	private ITextureRegion mHouseTextureRegion;
 
 	private ZoomState mZoomState = ZoomState.NONE;
 

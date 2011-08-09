@@ -18,7 +18,7 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.ITexture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.compressed.etc1.ETC1Texture;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.util.Debug;
 
@@ -46,7 +46,7 @@ public class ETC1TextureExample extends BaseExample {
 	private SmoothCamera mSmoothCamera;
 
 	private ITexture mTexture;
-	private TextureRegion mHouseTextureRegion;
+	private ITextureRegion mHouseTextureRegion;
 
 	private ZoomState mZoomState = ZoomState.NONE;
 

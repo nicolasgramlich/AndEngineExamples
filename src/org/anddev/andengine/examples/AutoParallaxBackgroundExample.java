@@ -8,13 +8,12 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.AutoParallaxBackground;
 import org.anddev.andengine.entity.scene.background.ParallaxBackground.ParallaxEntity;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
 /**
@@ -44,9 +43,9 @@ public class AutoParallaxBackgroundExample extends BaseExample {
 
 	private BitmapTextureAtlas mAutoParallaxBackgroundTexture;
 
-	private TextureRegion mParallaxLayerBack;
-	private TextureRegion mParallaxLayerMid;
-	private TextureRegion mParallaxLayerFront;
+	private ITextureRegion mParallaxLayerBack;
+	private ITextureRegion mParallaxLayerMid;
+	private ITextureRegion mParallaxLayerFront;
 
 	// ===========================================================
 	// Constructors

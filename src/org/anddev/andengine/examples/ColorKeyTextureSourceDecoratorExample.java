@@ -14,7 +14,7 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextur
 import org.anddev.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasSource;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.source.decorator.ColorKeyBitmapTextureAtlasSourceDecorator;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.source.decorator.shape.RectangleBitmapTextureAtlasSourceDecoratorShape;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 
 import android.graphics.Color;
 
@@ -41,8 +41,8 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 	private BitmapTextureAtlas mBitmapTextureAtlas;
 
-	private TextureRegion mChromaticCircleTextureRegion;
-	private TextureRegion mChromaticCircleColorKeyedTextureRegion;
+	private ITextureRegion mChromaticCircleTextureRegion;
+	private ITextureRegion mChromaticCircleColorKeyedTextureRegion;
 
 	// ===========================================================
 	// Constructors

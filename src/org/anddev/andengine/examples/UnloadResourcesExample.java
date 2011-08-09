@@ -10,11 +10,10 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
-import org.anddev.andengine.opengl.buffer.BufferObjectManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -37,7 +36,7 @@ public class UnloadResourcesExample extends BaseExample {
 
 	private Camera mCamera;
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private TextureRegion mClickToUnloadTextureRegion;
+	private ITextureRegion mClickToUnloadTextureRegion;
 
 	// ===========================================================
 	// Constructors

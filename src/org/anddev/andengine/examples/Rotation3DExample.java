@@ -16,7 +16,7 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.util.GLHelper;
 
 /**
@@ -40,7 +40,7 @@ public class Rotation3DExample extends BaseExample {
 
 	private Camera mCamera;
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private TextureRegion mFaceTextureRegion;
+	private ITextureRegion mFaceTextureRegion;
 
 	// ===========================================================
 	// Constructors

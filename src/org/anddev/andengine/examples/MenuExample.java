@@ -13,12 +13,12 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.scene.menu.MenuScene;
 import org.anddev.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.anddev.andengine.entity.scene.menu.item.IMenuItem;
-import org.anddev.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
 import android.view.KeyEvent;
@@ -50,7 +50,7 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 	protected Scene mMainScene;
 
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private TextureRegion mFaceTextureRegion;
+	private ITextureRegion mFaceTextureRegion;
 
 	protected MenuScene mMenuScene;
 

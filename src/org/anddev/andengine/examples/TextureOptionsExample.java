@@ -12,7 +12,7 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -39,9 +39,9 @@ public class TextureOptionsExample extends BaseExample {
 	private BitmapTextureAtlas mBitmapTextureAtlasBilinear;
 	private BitmapTextureAtlas mBitmapTextureAtlasRepeating;
 
-	private TextureRegion mFaceTextureRegion;
-	private TextureRegion mFaceTextureRegionBilinear;
-	private TextureRegion mFaceTextureRegionRepeating;
+	private ITextureRegion mFaceTextureRegion;
+	private ITextureRegion mFaceTextureRegionBilinear;
+	private ITextureRegion mFaceTextureRegionRepeating;
 
 	// ===========================================================
 	// Constructors

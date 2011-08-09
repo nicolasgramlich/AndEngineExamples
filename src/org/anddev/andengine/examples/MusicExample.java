@@ -19,7 +19,7 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.util.Debug;
 
 import android.widget.Toast;
@@ -44,7 +44,7 @@ public class MusicExample extends BaseExample {
 	// ===========================================================
 
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private TextureRegion mNotesTextureRegion;
+	private ITextureRegion mNotesTextureRegion;
 
 	private Music mMusic;
 

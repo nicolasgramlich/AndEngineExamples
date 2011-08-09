@@ -16,17 +16,15 @@ import org.anddev.andengine.entity.modifier.RotationModifier;
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
-import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.examples.adt.cityradar.City;
-import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
-import org.anddev.andengine.opengl.texture.buildable.builder.BlackPawnTextureBuilder;
-import org.anddev.andengine.opengl.texture.buildable.builder.ITextureBuilder.TextureAtlasSourcePackingException;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureBuilder;
+import org.anddev.andengine.opengl.texture.atlas.buildable.builder.ITextureBuilder.TextureAtlasSourcePackingException;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.sensor.location.ILocationListener;
 import org.anddev.andengine.sensor.location.LocationProviderStatus;
 import org.anddev.andengine.sensor.location.LocationSensorOptions;
@@ -36,6 +34,7 @@ import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.Debug;
 import org.anddev.andengine.util.MathUtils;
 import org.anddev.andengine.util.modifier.ease.EaseLinear;
+import org.w3c.dom.Text;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -65,8 +64,8 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 
 	private BuildableBitmapTextureAtlas mBuildableBitmapTextureAtlas;
 
-	private TextureRegion mRadarPointTextureRegion;
-	private TextureRegion mRadarTextureRegion;
+	private ITextureRegion mRadarPointTextureRegion;
+	private ITextureRegion mRadarTextureRegion;
 
 	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;

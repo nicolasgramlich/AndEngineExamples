@@ -9,7 +9,6 @@ import org.anddev.andengine.engine.handler.timer.ITimerCallback;
 import org.anddev.andengine.engine.handler.timer.TimerHandler;
 import org.anddev.andengine.entity.util.FPSCounter;
 import org.anddev.andengine.examples.R;
-import org.anddev.andengine.opengl.util.GLHelper;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.Callback;
 import org.anddev.andengine.util.Debug;
@@ -178,8 +177,8 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 				nameValuePairs.add(new BasicNameValuePair("device_cpuabi", Build.CPU_ABI));
 				nameValuePairs.add(new BasicNameValuePair("device_board", Build.BOARD));
 				nameValuePairs.add(new BasicNameValuePair("device_fingerprint", Build.FINGERPRINT));
-				nameValuePairs.add(new BasicNameValuePair("benchmark_extension_vbo", GLHelper.EXTENSIONS_VERTEXBUFFEROBJECTS ? "1" : "0"));
-				nameValuePairs.add(new BasicNameValuePair("benchmark_extension_drawtexture", GLHelper.EXTENSIONS_DRAWTEXTURE ? "1" : "0"));
+				nameValuePairs.add(new BasicNameValuePair("benchmark_extension_vbo", "1"));
+				nameValuePairs.add(new BasicNameValuePair("benchmark_extension_drawtexture", "1"));
 				final TelephonyManager telephonyManager = (TelephonyManager)BaseBenchmark.this.getSystemService(Context.TELEPHONY_SERVICE);
 				nameValuePairs.add(new BasicNameValuePair("device_imei", telephonyManager.getDeviceId()));
 				final DisplayMetrics displayMetrics = new DisplayMetrics();

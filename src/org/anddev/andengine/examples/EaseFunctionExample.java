@@ -10,14 +10,12 @@ import org.anddev.andengine.entity.modifier.MoveModifier;
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
-import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
-import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.util.modifier.ease.EaseBackIn;
 import org.anddev.andengine.util.modifier.ease.EaseBackInOut;
 import org.anddev.andengine.util.modifier.ease.EaseBackOut;
@@ -82,8 +80,8 @@ public class EaseFunctionExample extends BaseExample {
 	private Font mFont;
 
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private TextureRegion mBadgeTextureRegion;
-	private TextureRegion mNextTextureRegion;
+	private ITextureRegion mBadgeTextureRegion;
+	private ITextureRegion mNextTextureRegion;
 
 	private static final IEaseFunction[][] EASEFUNCTIONS = new IEaseFunction[][]{
 		new IEaseFunction[] {

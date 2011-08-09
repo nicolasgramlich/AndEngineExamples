@@ -14,7 +14,7 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.util.pool.RunnablePoolItem;
 import org.anddev.andengine.util.pool.RunnablePoolUpdateHandler;
 
@@ -43,7 +43,7 @@ public class RunnablePoolUpdateHandlerExample extends BaseExample implements IOn
 
 	private Camera mCamera;
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private TextureRegion mFaceTextureRegion;
+	private ITextureRegion mFaceTextureRegion;
 
 	private int mTargetFaceIndex = 0;
 	private final Sprite[] mFaces = new Sprite[FACE_COUNT];

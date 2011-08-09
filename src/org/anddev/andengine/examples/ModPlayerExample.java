@@ -17,7 +17,7 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.util.Callback;
 import org.anddev.andengine.util.FileUtils;
 import org.helllabs.android.xmp.ModPlayer;
@@ -47,7 +47,7 @@ public class ModPlayerExample extends BaseExample {
 	// ===========================================================
 
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private TextureRegion mILove8BitTextureRegion;
+	private ITextureRegion mILove8BitTextureRegion;
 
 	private final ModPlayer mModPlayer = ModPlayer.getInstance();
 

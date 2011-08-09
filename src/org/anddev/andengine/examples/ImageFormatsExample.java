@@ -15,7 +15,7 @@ import org.anddev.andengine.opengl.texture.atlas.ITextureAtlas.ITextureAtlasStat
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 
 import android.widget.Toast;
 
@@ -40,10 +40,10 @@ public class ImageFormatsExample extends BaseExample {
 
 	private Camera mCamera;
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private TextureRegion mPNGTextureRegion;
-	private TextureRegion mJPGTextureRegion;
-	private TextureRegion mGIFTextureRegion;
-	private TextureRegion mBMPTextureRegion;
+	private ITextureRegion mPNGTextureRegion;
+	private ITextureRegion mJPGTextureRegion;
+	private ITextureRegion mGIFTextureRegion;
+	private ITextureRegion mBMPTextureRegion;
 
 	// ===========================================================
 	// Constructors
