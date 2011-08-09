@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -16,6 +14,8 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
+
+import android.opengl.GLES20;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -77,7 +77,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 		/* Left to right Particle System. */
 		{
 			final ParticleSystem particleSystem = new ParticleSystem(new PointParticleEmitter(0, CAMERA_HEIGHT), 6, 10, 200, this.mParticleTextureRegion);
-			particleSystem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+			particleSystem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE);
 
 			particleSystem.addParticleInitializer(new VelocityInitializer(15, 22, -60, -90));
 			particleSystem.addParticleInitializer(new AccelerationInitializer(5, 15));
@@ -97,7 +97,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 		/* Right to left Particle System. */
 		{
 			final ParticleSystem particleSystem = new ParticleSystem(new PointParticleEmitter(CAMERA_WIDTH - 32, CAMERA_HEIGHT), 8, 12, 200, this.mParticleTextureRegion);
-			particleSystem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+			particleSystem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE);
 
 			particleSystem.addParticleInitializer(new VelocityInitializer(-15, -22, -60, -90));
 			particleSystem.addParticleInitializer(new AccelerationInitializer(-5, 15));

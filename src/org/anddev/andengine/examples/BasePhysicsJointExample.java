@@ -10,6 +10,7 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.Shape;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
@@ -19,7 +20,7 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.util.Debug;
@@ -56,8 +57,8 @@ public class BasePhysicsJointExample extends BaseExample implements IAcceleromet
 
 	private Scene mScene;
 
-	protected TiledTextureRegion mBoxFaceTextureRegion;
-	protected TiledTextureRegion mCircleFaceTextureRegion;
+	protected ITiledTextureRegion mBoxFaceTextureRegion;
+	protected ITiledTextureRegion mCircleFaceTextureRegion;
 
 	protected PhysicsWorld mPhysicsWorld;
 

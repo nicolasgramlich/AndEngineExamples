@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.handler.physics.PhysicsHandler;
@@ -21,6 +19,7 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextur
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.util.MathUtils;
 
+import android.opengl.GLES20;
 import android.widget.Toast;
 
 /**
@@ -132,7 +131,7 @@ public class AnalogOnScreenControlsExample extends BaseExample {
 				/* Nothing. */
 			}
 		});
-		velocityOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		velocityOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		velocityOnScreenControl.getControlBase().setAlpha(0.5f);
 
 		scene.setChildScene(velocityOnScreenControl);
@@ -156,7 +155,7 @@ public class AnalogOnScreenControlsExample extends BaseExample {
 				/* Nothing. */
 			}
 		});
-		rotationOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		rotationOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		rotationOnScreenControl.getControlBase().setAlpha(0.5f);
 
 		velocityOnScreenControl.setChildScene(rotationOnScreenControl);

@@ -88,7 +88,7 @@ public class PVRCCZTextureExample extends BaseExample {
 		try {
 			this.mTexture = new PVRCCZTexture(PVRTextureFormat.RGBA_8888, TextureOptions.BILINEAR) {
 				@Override
-				protected InputStream getInputStream() throws IOException {
+				protected InputStream onGetInputStream() throws IOException {
 					return PVRCCZTextureExample.this.getResources().openRawResource(R.raw.house_pvrccz_argb_8888);
 				}
 			};

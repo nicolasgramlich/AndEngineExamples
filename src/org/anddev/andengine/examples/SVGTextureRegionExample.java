@@ -7,6 +7,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.svg.adt.ISVGColorMapper;
@@ -19,6 +20,7 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtl
 import org.anddev.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureBuilder;
 import org.anddev.andengine.opengl.texture.atlas.buildable.builder.ITextureBuilder.TextureAtlasSourcePackingException;
 import org.anddev.andengine.opengl.texture.region.BaseTextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.util.Debug;
@@ -142,7 +144,7 @@ public class SVGTextureRegionExample extends BaseExample {
 			final float y = centerY - SIZE * 0.5f;
 			final BaseTextureRegion baseTextureRegion = this.mSVGTestTextureRegions[i];
 			if(baseTextureRegion instanceof TextureRegion) {
-				final TextureRegion textureRegion = (TextureRegion)baseTextureRegion;
+				final ITextureRegion textureRegion = (TextureRegion)baseTextureRegion;
 				scene.attachChild(new Sprite(x, y, SIZE, SIZE, textureRegion));
 			} else if(baseTextureRegion instanceof TiledTextureRegion) {
 				final TiledTextureRegion tiledTextureRegion = (TiledTextureRegion)baseTextureRegion;

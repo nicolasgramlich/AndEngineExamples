@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -56,9 +54,9 @@ public class Rotation3DExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+		this.mCamera = new Camera(0, 0, Rotation3DExample.CAMERA_WIDTH, Rotation3DExample.CAMERA_HEIGHT);
 		this.mCamera.setZClippingPlanes(-100, 100);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(Rotation3DExample.CAMERA_WIDTH, Rotation3DExample.CAMERA_HEIGHT), this.mCamera));
 	}
 
 	@Override
@@ -77,35 +75,40 @@ public class Rotation3DExample extends BaseExample {
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final int centerX = (Rotation3DExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final int centerY = (Rotation3DExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene. */
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion) {
-			@Override
-			protected void applyRotation(final GL10 pGL) {
-				/* Disable culling so we can see the backside of this sprite. */
-				GLHelper.disableCulling(pGL);
 
+			@Override
+			protected void preDraw(final Camera pCamera) {
+				super.preDraw(pCamera);
+
+				/* Disable culling so we can see the backside of this sprite. */
+				GLHelper.disableCulling();
+			}
+			@Override
+			protected void applyRotation() {
 				final float rotation = this.mRotation;
 
 				if(rotation != 0) {
 					final float rotationCenterX = this.mRotationCenterX;
 					final float rotationCenterY = this.mRotationCenterY;
 
-					pGL.glTranslatef(rotationCenterX, rotationCenterY, 0);
+					GLHelper.glTranslatef(rotationCenterX, rotationCenterY, 0);
 					/* Note we are applying rotation around the y-axis and not the z-axis anymore! */
-					pGL.glRotatef(rotation, 0, 1, 0);
-					pGL.glTranslatef(-rotationCenterX, -rotationCenterY, 0);
+					GLHelper.glRotatef(rotation, 0, 1, 0);
+					GLHelper.glTranslatef(-rotationCenterX, -rotationCenterY, 0);
 				}
 			}
 
 			@Override
-			protected void drawVertices(final GL10 pGL, final Camera pCamera) {
-				super.drawVertices(pGL, pCamera);
-
+			protected void postDraw(final Camera pCamera) {
 				/* Enable culling as 'normal' entities profit from culling. */
-				GLHelper.enableCulling(pGL);
+				GLHelper.enableCulling();
+
+				super.postDraw(pCamera);
 			}
 		};
 		face.registerEntityModifier(new LoopEntityModifier(new RotationModifier(6, 0, 360)));

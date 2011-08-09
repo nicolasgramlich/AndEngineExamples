@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -16,6 +14,8 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
+
+import android.opengl.GLES20;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -80,7 +80,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 		/* LowerLeft to LowerRight Particle System. */
 		{
 			final ParticleSystem particleSystem = new ParticleSystem(new PointParticleEmitter(-32, CAMERA_HEIGHT - 32), RATE_MIN, RATE_MAX, PARTICLES_MAX, this.mParticleTextureRegion);
-			particleSystem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+			particleSystem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE);
 
 			particleSystem.addParticleInitializer(new VelocityInitializer(35, 45, 0, -10));
 			particleSystem.addParticleInitializer(new AccelerationInitializer(5, -11));
@@ -98,7 +98,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 		/* LowerRight to LowerLeft Particle System. */
 		{
 			final ParticleSystem particleSystem = new ParticleSystem(new PointParticleEmitter(CAMERA_WIDTH, CAMERA_HEIGHT - 32), RATE_MIN, RATE_MAX, PARTICLES_MAX, this.mParticleTextureRegion);
-			particleSystem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+			particleSystem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE);
 
 			particleSystem.addParticleInitializer(new VelocityInitializer(-35, -45, 0, -10));
 			particleSystem.addParticleInitializer(new AccelerationInitializer(-5, -11));
@@ -116,7 +116,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 		/* UpperLeft to UpperRight Particle System. */
 		{
 			final ParticleSystem particleSystem = new ParticleSystem(new PointParticleEmitter(-32, 0), RATE_MIN, RATE_MAX, PARTICLES_MAX, this.mParticleTextureRegion);
-			particleSystem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+			particleSystem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE);
 
 			particleSystem.addParticleInitializer(new VelocityInitializer(35, 45, 0, 10));
 			particleSystem.addParticleInitializer(new AccelerationInitializer(5, 11));
@@ -134,7 +134,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 		/* UpperRight to UpperLeft Particle System. */
 		{
 			final ParticleSystem particleSystem = new ParticleSystem(new PointParticleEmitter(CAMERA_WIDTH, 0), RATE_MIN, RATE_MAX, PARTICLES_MAX, this.mParticleTextureRegion);
-			particleSystem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+			particleSystem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE);
 
 			particleSystem.addParticleInitializer(new VelocityInitializer(-35, -45, 0, 10));
 			particleSystem.addParticleInitializer(new AccelerationInitializer(-5, 11));

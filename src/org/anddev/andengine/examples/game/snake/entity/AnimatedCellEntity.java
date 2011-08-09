@@ -1,5 +1,6 @@
 package org.anddev.andengine.examples.game.snake.entity;
 
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.examples.game.snake.util.constants.SnakeConstants;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 

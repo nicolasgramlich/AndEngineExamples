@@ -11,7 +11,9 @@ import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.shape.IAreaShape;
 import org.anddev.andengine.entity.shape.Shape;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
@@ -209,10 +211,10 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	 * /__\
 	 * </pre>
 	 */
-	private static Body createTriangleBody(final PhysicsWorld pPhysicsWorld, final Shape pShape, final BodyType pBodyType, final FixtureDef pFixtureDef) {
+	private static Body createTriangleBody(final PhysicsWorld pPhysicsWorld, final IAreaShape pAreaShape, final BodyType pBodyType, final FixtureDef pFixtureDef) {
 		/* Remember that the vertices are relative to the center-coordinates of the Shape. */
-		final float halfWidth = pShape.getWidthScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
-		final float halfHeight = pShape.getHeightScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
+		final float halfWidth = pAreaShape.getWidthScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
+		final float halfHeight = pAreaShape.getHeightScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
 
 		final float top = -halfHeight;
 		final float bottom = halfHeight;
@@ -226,7 +228,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 				new Vector2(left, bottom)
 		};
 
-		return PhysicsFactory.createPolygonBody(pPhysicsWorld, pShape, vertices, pBodyType, pFixtureDef);
+		return PhysicsFactory.createPolygonBody(pPhysicsWorld, pAreaShape, vertices, pBodyType, pFixtureDef);
 	}
 
 	/**
@@ -240,10 +242,10 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	 *  \/
 	 * </pre>
 	 */
-	private static Body createHexagonBody(final PhysicsWorld pPhysicsWorld, final Shape pShape, final BodyType pBodyType, final FixtureDef pFixtureDef) {
+	private static Body createHexagonBody(final PhysicsWorld pPhysicsWorld, final IAreaShape pAreaShape, final BodyType pBodyType, final FixtureDef pFixtureDef) {
 		/* Remember that the vertices are relative to the center-coordinates of the Shape. */
-		final float halfWidth = pShape.getWidthScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
-		final float halfHeight = pShape.getHeightScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
+		final float halfWidth = pAreaShape.getWidthScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
+		final float halfHeight = pAreaShape.getHeightScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
 
 		/* The top and bottom vertex of the hexagon are on the bottom and top of hexagon-sprite. */
 		final float top = -halfHeight;
@@ -266,7 +268,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 				new Vector2(left, higher)
 		};
 
-		return PhysicsFactory.createPolygonBody(pPhysicsWorld, pShape, vertices, pBodyType, pFixtureDef);
+		return PhysicsFactory.createPolygonBody(pPhysicsWorld, pAreaShape, vertices, pBodyType, pFixtureDef);
 	}
 
 	// ===========================================================

@@ -11,8 +11,9 @@ import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.Scene.ITouchArea;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
-import org.anddev.andengine.entity.shape.IShape;
+import org.anddev.andengine.entity.shape.IAreaShape;
 import org.anddev.andengine.entity.shape.Shape;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
@@ -171,7 +172,7 @@ public class PhysicsMouseJointExample extends BaseExample implements IAccelerome
 	@Override
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 		if(pSceneTouchEvent.isActionDown()) {
-			final IShape face = (IShape) pTouchArea;
+			final IAreaShape face = (IAreaShape) pTouchArea;
 			/*
 			 * If we have a active MouseJoint, we are just moving it around
 			 * instead of creating a second one.
@@ -210,7 +211,7 @@ public class PhysicsMouseJointExample extends BaseExample implements IAccelerome
 	// Methods
 	// ===========================================================
 
-	public MouseJoint createMouseJoint(final IShape pFace, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+	public MouseJoint createMouseJoint(final IAreaShape pFace, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 		final Body body = (Body) pFace.getUserData();
 		final MouseJointDef mouseJointDef = new MouseJointDef();
 

@@ -3,8 +3,6 @@ package org.anddev.andengine.examples.app.cityradar;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.camera.hud.HUD;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -41,6 +39,7 @@ import android.graphics.Typeface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.opengl.GLES20;
 import android.os.Bundle;
 
 public class CityRadarActivity extends BaseGameActivity implements IOrientationListener, ILocationListener {
@@ -165,7 +164,7 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 
 			final Text cityNameText = new Text(CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, this.mFont, city.getName()) {
 				@Override
-				protected void onManagedDraw(final GL10 pGL, final Camera pCamera) {
+				protected void onManagedDraw(final GLES20 pGL, final Camera pCamera) {
 					/* This ensures that the name of the city is always 'pointing down'. */
 					this.setRotation(-CityRadarActivity.this.mCamera.getRotation());
 					super.onManagedDraw(pGL, pCamera);

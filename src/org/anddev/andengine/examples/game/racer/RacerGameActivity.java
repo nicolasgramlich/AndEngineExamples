@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples.game.racer;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -12,6 +10,7 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.sprite.TiledSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
@@ -26,6 +25,8 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.MathUtils;
+
+import android.opengl.GLES20;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -168,7 +169,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 				/* Nothing. */
 			}
 		});
-		analogOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		analogOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		analogOnScreenControl.getControlBase().setAlpha(0.5f);
 		//		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
 		//		analogOnScreenControl.getControlBase().setScale(0.75f);
@@ -213,10 +214,10 @@ public class RacerGameActivity  extends BaseGameActivity {
 	private void initRacetrack() {
 		/* Straights. */
 		{
-			final TextureRegion racetrackHorizontalStraightTextureRegion = this.mRacetrackStraightTextureRegion.clone();
+			final ITextureRegion racetrackHorizontalStraightTextureRegion = this.mRacetrackStraightTextureRegion.clone();
 			racetrackHorizontalStraightTextureRegion.setWidth(3 * this.mRacetrackStraightTextureRegion.getWidth());
 
-			final TextureRegion racetrackVerticalStraightTextureRegion = this.mRacetrackStraightTextureRegion;
+			final ITextureRegion racetrackVerticalStraightTextureRegion = this.mRacetrackStraightTextureRegion;
 
 			/* Top Straight */
 			this.mScene.attachChild(new Sprite(RACETRACK_WIDTH, 0, 3 * RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackHorizontalStraightTextureRegion));
@@ -235,7 +236,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 
 		/* Edges */
 		{
-			final TextureRegion racetrackCurveTextureRegion = this.mRacetrackCurveTextureRegion;
+			final ITextureRegion racetrackCurveTextureRegion = this.mRacetrackCurveTextureRegion;
 
 			/* Upper Left */
 			final Sprite upperLeftCurve = new Sprite(0, 0, RACETRACK_WIDTH, RACETRACK_WIDTH, racetrackCurveTextureRegion);

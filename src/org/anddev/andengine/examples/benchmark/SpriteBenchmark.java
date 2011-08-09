@@ -1,6 +1,5 @@
 package org.anddev.andengine.examples.benchmark;
 
-import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
 import org.anddev.andengine.engine.Engine;
@@ -15,6 +14,8 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
+
+import android.opengl.GLES20;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -101,7 +102,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 	private void drawUsingSprites(final Scene scene) {
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion);
-			face.setBlendFunction(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
+			face.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 			face.setIgnoreUpdate(true);
 			scene.attachChild(face);
 		}
@@ -114,7 +115,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 		
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
-			face.setBlendFunction(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
+			face.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 			face.setIgnoreUpdate(true);
 			scene.attachChild(face);
 		}
@@ -125,7 +126,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 		final int height = this.mFaceTextureRegion.getHeight();
 
 		final SpriteBatch spriteBatch = new SpriteBatch(this.mBitmapTextureAtlas, SPRITE_COUNT);
-		spriteBatch.setBlendFunction(GL10.GL_ONE, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		spriteBatch.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final float x = this.mRandom.nextFloat() * (CAMERA_WIDTH - 32);
 			final float y = this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32);

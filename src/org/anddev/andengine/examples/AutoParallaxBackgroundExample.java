@@ -8,6 +8,7 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.AutoParallaxBackground;
 import org.anddev.andengine.entity.scene.background.ParallaxBackground.ParallaxEntity;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
@@ -91,17 +92,17 @@ public class AutoParallaxBackgroundExample extends BaseExample {
 		scene.setBackground(autoParallaxBackground);
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int playerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getTileWidth()) / 2;
-		final int playerY = CAMERA_HEIGHT - this.mPlayerTextureRegion.getTileHeight() - 5;
+		final int playerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getWidth()) / 2;
+		final int playerY = CAMERA_HEIGHT - this.mPlayerTextureRegion.getHeight() - 5;
 
 		/* Create two sprits and add it to the scene. */
 		final AnimatedSprite player = new AnimatedSprite(playerX, playerY, this.mPlayerTextureRegion);
-		player.setScaleCenterY(this.mPlayerTextureRegion.getTileHeight());
+		player.setScaleCenterY(this.mPlayerTextureRegion.getHeight());
 		player.setScale(2);
 		player.animate(new long[]{200, 200, 200}, 3, 5, true);
 
 		final AnimatedSprite enemy = new AnimatedSprite(playerX - 80, playerY, this.mEnemyTextureRegion);
-		enemy.setScaleCenterY(this.mEnemyTextureRegion.getTileHeight());
+		enemy.setScaleCenterY(this.mEnemyTextureRegion.getHeight());
 		enemy.setScale(2);
 		enemy.animate(new long[]{200, 200, 200}, 3, 5, true);
 

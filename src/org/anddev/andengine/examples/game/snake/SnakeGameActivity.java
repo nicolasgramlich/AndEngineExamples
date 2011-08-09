@@ -2,8 +2,6 @@ package org.anddev.andengine.examples.game.snake;
 
 import java.io.IOException;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.audio.sound.Sound;
 import org.anddev.andengine.audio.sound.SoundFactory;
 import org.anddev.andengine.engine.Engine;
@@ -37,6 +35,7 @@ import org.anddev.andengine.util.MathUtils;
 import org.w3c.dom.Text;
 
 import android.graphics.Color;
+import android.opengl.GLES20;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -165,7 +164,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 
 		/* The ScoreText showing how many points the pEntity scored. */
 		this.mScoreText = new ChangeableText(5, 5, this.mFont, "Score: 0", "Score: XXXX".length());
-		this.mScoreText.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		this.mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mScoreText.setAlpha(0.5f);
 		this.mScene.getChild(LAYER_SCORE).attachChild(this.mScoreText);
 
@@ -198,7 +197,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 			}
 		});
 		/* Make the controls semi-transparent. */
-		this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
 
 		this.mScene.setChildScene(this.mDigitalOnScreenControl);

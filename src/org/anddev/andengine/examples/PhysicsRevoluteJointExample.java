@@ -2,6 +2,7 @@ package org.anddev.andengine.examples;
 
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
@@ -58,8 +59,8 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 		final int centerX = CAMERA_WIDTH / 2;
 		final int centerY = CAMERA_HEIGHT / 2;
 
-		final int spriteWidth = this.mBoxFaceTextureRegion.getTileWidth();
-		final int spriteHeight = this.mBoxFaceTextureRegion.getTileHeight();
+		final int spriteWidth = this.mBoxFaceTextureRegion.getWidth();
+		final int spriteHeight = this.mBoxFaceTextureRegion.getHeight();
 
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(10, 0.2f, 0.5f);
 

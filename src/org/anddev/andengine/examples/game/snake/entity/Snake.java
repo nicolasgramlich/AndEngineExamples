@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.examples.game.snake.adt.Direction;
 import org.anddev.andengine.examples.game.snake.adt.SnakeSuicideException;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
 /**
@@ -29,14 +29,14 @@ public class Snake extends Entity {
 
 	private Direction mDirection;
 	private boolean mGrow;
-	private final TextureRegion mTailPartTextureRegion;
+	private final ITextureRegion mTailPartTextureRegion;
 	private Direction mLastMoveDirection;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public Snake(final Direction pInitialDirection, final int pCellX, final int pCellY, final TiledTextureRegion pHeadTextureRegion, final TextureRegion pTailPartTextureRegion) {
+	public Snake(final Direction pInitialDirection, final int pCellX, final int pCellY, final TiledTextureRegion pHeadTextureRegion, final ITextureRegion pTailPartTextureRegion) {
 		super(0, 0);
 		this.mTailPartTextureRegion = pTailPartTextureRegion;
 		this.mHead = new SnakeHead(pCellX, pCellY, pHeadTextureRegion);

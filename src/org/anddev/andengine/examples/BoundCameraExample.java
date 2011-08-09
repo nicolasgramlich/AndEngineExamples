@@ -12,6 +12,8 @@ import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.shape.Shape;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
+import org.anddev.andengine.entity.sprite.TiledSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
@@ -129,7 +131,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 
 		final HUD hud = new HUD();
 
-		final TiledSprite toggleButton = new TiledSprite(CAMERA_WIDTH / 2 - this.mToggleButtonTextureRegion.getTileWidth(), CAMERA_HEIGHT / 2 - this.mToggleButtonTextureRegion.getTileHeight(), this.mToggleButtonTextureRegion){
+		final TiledSprite toggleButton = new TiledSprite(CAMERA_WIDTH / 2 - this.mToggleButtonTextureRegion.getWidth(), CAMERA_HEIGHT / 2 - this.mToggleButtonTextureRegion.getTileHeight(), this.mToggleButtonTextureRegion){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				if(pSceneTouchEvent.isActionDown()) {

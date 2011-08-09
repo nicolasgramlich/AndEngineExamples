@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -19,8 +17,8 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
+import android.opengl.GLES20;
 import android.view.KeyEvent;
 
 /**
@@ -55,8 +53,8 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 	protected MenuScene mMenuScene;
 
 	private BitmapTextureAtlas mMenuTexture;
-	protected TextureRegion mMenuResetTextureRegion;
-	protected TextureRegion mMenuQuitTextureRegion;
+	protected ITextureRegion mMenuResetTextureRegion;
+	protected ITextureRegion mMenuQuitTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -154,11 +152,11 @@ public class MenuExample extends BaseExample implements IOnMenuItemClickListener
 		this.mMenuScene = new MenuScene(this.mCamera);
 
 		final SpriteMenuItem resetMenuItem = new SpriteMenuItem(MENU_RESET, this.mMenuResetTextureRegion);
-		resetMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		resetMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mMenuScene.addMenuItem(resetMenuItem);
 
 		final SpriteMenuItem quitMenuItem = new SpriteMenuItem(MENU_QUIT, this.mMenuQuitTextureRegion);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		quitMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mMenuScene.addMenuItem(quitMenuItem);
 
 		this.mMenuScene.buildAnimations();

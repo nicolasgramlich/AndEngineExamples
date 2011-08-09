@@ -3,8 +3,6 @@ package org.anddev.andengine.examples;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.SmoothCamera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -26,6 +24,7 @@ import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.util.Debug;
 
+import android.opengl.GLES20;
 import android.widget.Toast;
 
 /**
@@ -97,28 +96,28 @@ public class PVRTextureExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		try {
-			this.mTextureRGB565 = new PVRTexture(PVRTextureFormat.RGB_565, new TextureOptions(GL10.GL_LINEAR, GL10.GL_LINEAR, GL10.GL_CLAMP_TO_EDGE, GL10.GL_CLAMP_TO_EDGE, GL10.GL_MODULATE, false)) {
+			this.mTextureRGB565 = new PVRTexture(PVRTextureFormat.RGB_565, new TextureOptions(GLES20.GL_LINEAR, GLES20.GL_LINEAR, GLES20.GL_CLAMP_TO_EDGE, GLES20.GL_CLAMP_TO_EDGE, false)) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_rgb_565);
 				}
 			};
 
-			this.mTextureRGBA5551 = new PVRTexture(PVRTextureFormat.RGBA_5551, new TextureOptions(GL10.GL_LINEAR, GL10.GL_LINEAR, GL10.GL_CLAMP_TO_EDGE, GL10.GL_CLAMP_TO_EDGE, GL10.GL_MODULATE, false)) {
+			this.mTextureRGBA5551 = new PVRTexture(PVRTextureFormat.RGBA_5551, new TextureOptions(GLES20.GL_LINEAR, GLES20.GL_LINEAR, GLES20.GL_CLAMP_TO_EDGE, GLES20.GL_CLAMP_TO_EDGE, false)) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_5551);
 				}
 			};
 
-			this.mTextureARGB4444 = new PVRTexture(PVRTextureFormat.RGBA_4444, new TextureOptions(GL10.GL_LINEAR, GL10.GL_LINEAR, GL10.GL_CLAMP_TO_EDGE, GL10.GL_CLAMP_TO_EDGE, GL10.GL_MODULATE, false)) {
+			this.mTextureARGB4444 = new PVRTexture(PVRTextureFormat.RGBA_4444, new TextureOptions(GLES20.GL_LINEAR, GLES20.GL_LINEAR, GLES20.GL_CLAMP_TO_EDGE, GLES20.GL_CLAMP_TO_EDGE, false)) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_4444);
 				}
 			};
 
-			this.mTextureRGBA888MipMaps = new PVRTexture(PVRTextureFormat.RGBA_8888, new TextureOptions(GL10.GL_LINEAR_MIPMAP_LINEAR, GL10.GL_LINEAR, GL10.GL_CLAMP_TO_EDGE, GL10.GL_CLAMP_TO_EDGE, GL10.GL_MODULATE, false)) {
+			this.mTextureRGBA888MipMaps = new PVRTexture(PVRTextureFormat.RGBA_8888, new TextureOptions(GLES20.GL_LINEAR_MIPMAP_LINEAR, GLES20.GL_LINEAR, GLES20.GL_CLAMP_TO_EDGE, GLES20.GL_CLAMP_TO_EDGE, false)) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_8888_mipmaps);

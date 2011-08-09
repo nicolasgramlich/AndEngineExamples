@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -22,6 +20,7 @@ import org.w3c.dom.Text;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.opengl.GLES20;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -91,7 +90,7 @@ public class TickerTextExample extends BaseExample {
 						new RotationModifier(5, 0, 360)
 				)
 		);
-		text.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		text.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		scene.attachChild(text);
 
 		return scene;

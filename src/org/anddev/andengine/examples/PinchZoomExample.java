@@ -25,7 +25,7 @@ import org.anddev.andengine.input.touch.detector.SurfaceScrollDetector;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 
 import android.widget.Toast;
@@ -54,7 +54,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 
 	private Scene mScene;
 
-	private HashMap<Card, TextureRegion> mCardTotextureRegionMap;
+	private HashMap<Card, ITextureRegion> mCardTotextureRegionMap;
 	private SurfaceScrollDetector mScrollDetector;
 	private PinchZoomDetector mPinchZoomDetector;
 	private float mPinchZoomStartedCameraZoomFactor;
@@ -95,11 +95,11 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 
 		BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mCardDeckTexture, this, "gfx/carddeck_tiled.png", 0, 0);
 
-		this.mCardTotextureRegionMap = new HashMap<Card, TextureRegion>();
+		this.mCardTotextureRegionMap = new HashMap<Card, ITextureRegion>();
 
 		/* Extract the TextureRegion of each card in the whole deck. */
 		for(final Card card : Card.values()) {
-			final TextureRegion cardTextureRegion = TextureRegionFactory.extractFromTexture(this.mCardDeckTexture, card.getTexturePositionX(), card.getTexturePositionY(), Card.CARD_WIDTH, Card.CARD_HEIGHT, true);
+			final ITextureRegion cardTextureRegion = TextureRegionFactory.extractFromTexture(this.mCardDeckTexture, card.getTexturePositionX(), card.getTexturePositionY(), Card.CARD_WIDTH, Card.CARD_HEIGHT, true);
 			this.mCardTotextureRegionMap.put(card, cardTextureRegion);
 		}
 

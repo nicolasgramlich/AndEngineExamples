@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -19,6 +17,7 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextur
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.ui.activity.LayoutGameActivity;
 
+import android.opengl.GLES20;
 import android.widget.Toast;
 
 /**
@@ -101,7 +100,7 @@ public class XMLLayoutExample extends LayoutGameActivity {
 
 		particleSystem.addParticleInitializer(new ColorInitializer(1, 0, 0));
 		particleSystem.addParticleInitializer(new AlphaInitializer(0));
-		particleSystem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE);
+		particleSystem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE);
 		particleSystem.addParticleInitializer(new VelocityInitializer(-2, 2, -20, -10));
 		particleSystem.addParticleInitializer(new RotationInitializer(0.0f, 360.0f));
 

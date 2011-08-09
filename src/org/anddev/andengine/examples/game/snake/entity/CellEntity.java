@@ -2,7 +2,7 @@ package org.anddev.andengine.examples.game.snake.entity;
 
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.examples.game.snake.util.constants.SnakeConstants;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -27,7 +27,7 @@ public abstract class CellEntity extends Sprite implements SnakeConstants, ICell
 	// Constructors
 	// ===========================================================
 
-	public CellEntity(final int pCellX, final int pCellY, final int pWidth, final int pHeight, final TextureRegion pTextureRegion) {
+	public CellEntity(final int pCellX, final int pCellY, final int pWidth, final int pHeight, final ITextureRegion pTextureRegion) {
 		super(pCellX * CELL_WIDTH, pCellY * CELL_HEIGHT, pWidth, pHeight, pTextureRegion);
 		this.mCellX = pCellX;
 		this.mCellY = pCellY;

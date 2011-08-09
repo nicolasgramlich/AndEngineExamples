@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -22,6 +20,7 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextur
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 
 import android.graphics.Color;
+import android.opengl.GLES20;
 import android.view.KeyEvent;
 
 /**
@@ -158,11 +157,11 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 		final MenuScene menuScene = new MenuScene(this.mCamera);
 
 		final IMenuItem resetMenuItem = new ColorMenuItemDecorator(new TextMenuItem(MENU_RESET, this.mFont, "RESET"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-		resetMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		resetMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(resetMenuItem);
 
 		final IMenuItem quitMenuItem = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, this.mFont, "QUIT"), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-		quitMenuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		quitMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(quitMenuItem);
 
 		menuScene.buildAnimations();

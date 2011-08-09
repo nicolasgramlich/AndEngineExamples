@@ -1,7 +1,5 @@
 package org.anddev.andengine.examples;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.handler.physics.PhysicsHandler;
@@ -20,6 +18,7 @@ import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.opengl.GLES20;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -105,7 +104,7 @@ public class DigitalOnScreenControlExample extends BaseExample {
 				physicsHandler.setVelocity(pValueX * 100, pValueY * 100);
 			}
 		});
-		this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
 		this.mDigitalOnScreenControl.getControlBase().setScaleCenter(0, 128);
 		this.mDigitalOnScreenControl.getControlBase().setScale(1.25f);

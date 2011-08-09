@@ -14,6 +14,7 @@ import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
+import org.anddev.andengine.opengl.vbo.VertexBufferObjectManager;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -78,8 +79,7 @@ public class UnloadResourcesExample extends BaseExample {
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				/* Completely remove all resources associated with this sprite. */
-				BufferObjectManager.getActiveInstance().unloadBufferObject(this.getVertexBuffer());
-				BufferObjectManager.getActiveInstance().unloadBufferObject(UnloadResourcesExample.this.mClickToUnloadTextureRegion.getTextureBuffer());
+				VertexBufferObjectManager.getActiveInstance().unloadBufferObject(this.getMesh().getVertexBufferObject());
 				UnloadResourcesExample.this.mEngine.getTextureManager().unloadTexture(UnloadResourcesExample.this.mBitmapTextureAtlas);
 
 				/* And remove the sprite from the Scene. */

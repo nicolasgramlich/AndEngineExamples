@@ -11,6 +11,7 @@ import org.anddev.andengine.entity.modifier.PathModifier;
 import org.anddev.andengine.entity.modifier.PathModifier.IPathModifierListener;
 import org.anddev.andengine.entity.modifier.PathModifier.Path;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -80,8 +81,8 @@ public class RepeatingSpriteBackgroundExample extends BaseExample {
 		scene.setBackground(this.mGrassBackground);
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getTileWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mPlayerTextureRegion.getTileHeight()) / 2;
+		final int centerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mPlayerTextureRegion.getHeight()) / 2;
 
 		/* Create the sprite and add it to the scene. */
 		final AnimatedSprite player = new AnimatedSprite(centerX, centerY, 48, 64, this.mPlayerTextureRegion);

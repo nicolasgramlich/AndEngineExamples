@@ -1,6 +1,6 @@
 package org.anddev.andengine.examples.game.snake.entity;
 
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -22,11 +22,11 @@ public class SnakeTailPart extends CellEntity implements Cloneable {
 	// Constructors
 	// ===========================================================
 
-	public SnakeTailPart(final SnakeHead pSnakeHead, final TextureRegion pTextureRegion) {
+	public SnakeTailPart(final SnakeHead pSnakeHead, final ITextureRegion pTextureRegion) {
 		this(pSnakeHead.mCellX, pSnakeHead.mCellY, pTextureRegion);
 	}
 
-	public SnakeTailPart(final int pCellX, final int pCellY, final TextureRegion pTextureRegion) {
+	public SnakeTailPart(final int pCellX, final int pCellY, final ITextureRegion pTextureRegion) {
 		super(pCellX, pCellY, CELL_WIDTH, CELL_HEIGHT, pTextureRegion);
 	}
 
