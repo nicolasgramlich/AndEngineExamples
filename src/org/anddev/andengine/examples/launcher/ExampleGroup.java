@@ -26,7 +26,7 @@ public enum ExampleGroup {
 			Example.MULTIPLAYER, Example.MULTIPLAYERSERVERDISCOVERY, Example.MULTIPLAYERBLUETOOTH),
 	PHYSICS(R.string.examplegroup_physics,
 			Example.PHYSICS, Example.PHYSICSFIXEDSTEP, Example.PHYSICSCOLLISIONFILTERING, Example.PHYSICSJUMP, Example.PHYSICSREVOLUTEJOINT, Example.PHYSICSMOUSEJOINT, Example.PHYSICSREMOVE),
-//	TEXT(R.string.examplegroup_text),
+	TEXT(R.string.examplegroup_text, Example.TEXT),
 	AUDIO(R.string.examplegroup_audio, 
 			Example.SOUND, Example.MUSIC, Example.MODPLAYER),
 	ADVANCED(R.string.examplegroup_advanced, 

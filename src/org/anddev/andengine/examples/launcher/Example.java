@@ -41,6 +41,7 @@ import org.anddev.andengine.examples.SoundExample;
 import org.anddev.andengine.examples.SplitScreenExample;
 import org.anddev.andengine.examples.SpriteExample;
 import org.anddev.andengine.examples.SpriteRemoveExample;
+import org.anddev.andengine.examples.TextExample;
 import org.anddev.andengine.examples.TouchDragExample;
 import org.anddev.andengine.examples.UnloadResourcesExample;
 import org.anddev.andengine.examples.UpdateTextureExample;
@@ -121,7 +122,7 @@ enum Example {
 //	STROKEFONT(StrokeFontExample.class, R.string.example_strokefont),
 //	SUBMENU(SubMenuExample.class, R.string.example_submenu),
 	SVGTEXTUREREGION(SVGTextureRegionExample.class, R.string.example_svgtextureregion),
-//	TEXT(TextExample.class, R.string.example_text),
+	TEXT(TextExample.class, R.string.example_text),
 //	TEXTMENU(TextMenuExample.class, R.string.example_textmenu),
 //	TEXTUREOPTIONS(TextureOptionsExample.class, R.string.example_textureoptions),
 //	TMXTILEDMAP(TMXTiledMapExample.class, R.string.example_tmxtiledmap),

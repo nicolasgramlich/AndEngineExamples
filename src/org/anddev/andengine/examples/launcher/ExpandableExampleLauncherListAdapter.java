@@ -28,7 +28,7 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 //		ExampleGroup.PARTICLESYSTEM,
 		ExampleGroup.MULTIPLAYER,
 		ExampleGroup.PHYSICS,
-//		ExampleGroup.TEXT,
+		ExampleGroup.TEXT,
 		ExampleGroup.AUDIO,
 		ExampleGroup.ADVANCED,
 		ExampleGroup.BACKGROUND,
