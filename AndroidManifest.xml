@@ -87,6 +87,7 @@
 		<activity android:name=".TextExample" android:configChanges="orientation"/>
 		<activity android:name=".TextMenuExample" android:configChanges="orientation"/>
 		<activity android:name=".TextureOptionsExample" android:configChanges="orientation"/>
+		<activity android:name=".TexturePackerExample" android:configChanges="orientation"/>
 		<activity android:name=".TMXTiledMapExample" android:configChanges="orientation"/>
 		<activity android:name=".TickerTextExample" android:configChanges="orientation"/>
 		<activity android:name=".TouchDragExample" android:configChanges="orientation"/>

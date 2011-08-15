@@ -21,7 +21,6 @@ import org.anddev.andengine.opengl.texture.atlas.buildable.builder.BlackPawnText
 import org.anddev.andengine.opengl.texture.atlas.buildable.builder.ITextureBuilder.TextureAtlasSourcePackingException;
 import org.anddev.andengine.opengl.texture.region.BaseTextureRegion;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
-import org.anddev.andengine.opengl.texture.region.TextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.util.Debug;
 
@@ -46,7 +45,7 @@ public class SVGTextureRegionExample extends BaseExample {
 
 	private static final int COUNT = 12;
 	private static final int COLUMNS = 4;
-	private static final int ROWS = (int)Math.ceil((float)COUNT / COLUMNS);
+	private static final int ROWS = (int)Math.ceil((float)SVGTextureRegionExample.COUNT / SVGTextureRegionExample.COLUMNS);
 
 	// ===========================================================
 	// Fields
@@ -54,7 +53,7 @@ public class SVGTextureRegionExample extends BaseExample {
 
 	private Camera mCamera;
 	private BuildableBitmapTextureAtlas mBuildableBitmapTextureAtlas;
-	private BaseTextureRegion[] mSVGTestTextureRegions;
+	private ITextureRegion[] mSVGTestTextureRegions;
 
 	// ===========================================================
 	// Constructors
@@ -70,8 +69,8 @@ public class SVGTextureRegionExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+		this.mCamera = new Camera(0, 0, SVGTextureRegionExample.CAMERA_WIDTH, SVGTextureRegionExample.CAMERA_HEIGHT);
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(SVGTextureRegionExample.CAMERA_WIDTH, SVGTextureRegionExample.CAMERA_HEIGHT), this.mCamera));
 	}
 
 	@Override
@@ -79,7 +78,7 @@ public class SVGTextureRegionExample extends BaseExample {
 		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(1024, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		SVGBitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mSVGTestTextureRegions = new BaseTextureRegion[COUNT];
+		this.mSVGTestTextureRegions = new BaseTextureRegion[SVGTextureRegionExample.COUNT];
 		int i = 0;
 		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "chick.svg", 16, 16);
 		this.mSVGTestTextureRegions[i++] = SVGBitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "chick.svg", 32, 32);
@@ -133,24 +132,23 @@ public class SVGTextureRegionExample extends BaseExample {
 		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.5f, 0.5f, 0.5f));
 
-		for(int i = 0; i < COUNT; i++) {
-			final int row = i / COLUMNS;
-			final int column = i % COLUMNS;
+		for(int i = 0; i < SVGTextureRegionExample.COUNT; i++) {
+			final int row = i / SVGTextureRegionExample.COLUMNS;
+			final int column = i % SVGTextureRegionExample.COLUMNS;
 
-			final float centerX = this.mCamera.getWidth() / (COLUMNS + 1) * (column + 1);
-			final float centerY = this.mCamera.getHeight() / (ROWS + 1) * (row + 1);
+			final float centerX = this.mCamera.getWidth() / (SVGTextureRegionExample.COLUMNS + 1) * (column + 1);
+			final float centerY = this.mCamera.getHeight() / (SVGTextureRegionExample.ROWS + 1) * (row + 1);
 
-			final float x = centerX - SIZE * 0.5f;
-			final float y = centerY - SIZE * 0.5f;
-			final BaseTextureRegion baseTextureRegion = this.mSVGTestTextureRegions[i];
-			if(baseTextureRegion instanceof TextureRegion) {
-				final ITextureRegion textureRegion = (TextureRegion)baseTextureRegion;
-				scene.attachChild(new Sprite(x, y, SIZE, SIZE, textureRegion));
-			} else if(baseTextureRegion instanceof TiledTextureRegion) {
-				final TiledTextureRegion tiledTextureRegion = (TiledTextureRegion)baseTextureRegion;
-				final AnimatedSprite animatedSprite = new AnimatedSprite(x, y, SIZE, SIZE, tiledTextureRegion);
+			final float x = centerX - SVGTextureRegionExample.SIZE * 0.5f;
+			final float y = centerY - SVGTextureRegionExample.SIZE * 0.5f;
+			final ITextureRegion textureRegion = this.mSVGTestTextureRegions[i];
+			if(textureRegion instanceof TiledTextureRegion) {
+				final TiledTextureRegion tiledTextureRegion = (TiledTextureRegion)textureRegion;
+				final AnimatedSprite animatedSprite = new AnimatedSprite(x, y, SVGTextureRegionExample.SIZE, SVGTextureRegionExample.SIZE, tiledTextureRegion);
 				animatedSprite.animate(500);
 				scene.attachChild(animatedSprite);
+			} else { 
+				scene.attachChild(new Sprite(x, y, SVGTextureRegionExample.SIZE, SVGTextureRegionExample.SIZE, textureRegion));
 			}
 		}
 

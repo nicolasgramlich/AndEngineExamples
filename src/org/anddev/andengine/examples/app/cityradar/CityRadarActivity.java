@@ -14,7 +14,9 @@ import org.anddev.andengine.entity.modifier.RotationModifier;
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.examples.adt.cityradar.City;
+import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -30,16 +32,14 @@ import org.anddev.andengine.sensor.orientation.IOrientationListener;
 import org.anddev.andengine.sensor.orientation.OrientationData;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 import org.anddev.andengine.util.Debug;
-import org.anddev.andengine.util.MathUtils;
+import org.anddev.andengine.util.math.MathUtils;
 import org.anddev.andengine.util.modifier.ease.EaseLinear;
-import org.w3c.dom.Text;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.opengl.GLES20;
 import android.os.Bundle;
 
 public class CityRadarActivity extends BaseGameActivity implements IOrientationListener, ILocationListener {
@@ -125,8 +125,9 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 		/* Init TextureRegions. */
 		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-		this.mRadarTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "gfx/radar.png");
-		this.mRadarPointTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "gfx/radarpoint.png");
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mRadarTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "radar.png");
+		this.mRadarPointTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "radarpoint.png");
 
 		try {
 			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1));
@@ -164,10 +165,10 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 
 			final Text cityNameText = new Text(CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, this.mFont, city.getName()) {
 				@Override
-				protected void onManagedDraw(final GLES20 pGL, final Camera pCamera) {
+				protected void onManagedDraw(final Camera pCamera) {
 					/* This ensures that the name of the city is always 'pointing down'. */
 					this.setRotation(-CityRadarActivity.this.mCamera.getRotation());
-					super.onManagedDraw(pGL, pCamera);
+					super.onManagedDraw(pCamera);
 				}
 			};
 			cityNameText.setRotationCenterY(- citySprite.getHeight() / 2);

@@ -16,15 +16,11 @@ import org.anddev.andengine.entity.modifier.SequenceEntityModifier;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
-import org.anddev.andengine.entity.sprite.batch.SpriteBatch;
 import org.anddev.andengine.entity.sprite.batch.SpriteGroup;
-import org.anddev.andengine.opengl.shader.ShaderProgram;
-import org.anddev.andengine.opengl.shader.util.constants.ShaderProgramConstants;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
-import org.anddev.andengine.opengl.util.GLHelper;
 
 import android.opengl.GLES20;
 
@@ -43,26 +39,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 
-	private static final int SPRITE_COUNT = 1000;
-
-	public static final String SHADERPROGRAM_VERTEXSHADER_DEFAULT =
-			"uniform mat4 " + ShaderProgramConstants.UNIFORM_MODELVIEWPROJECTIONMATRIX + ";\n" +
-			"attribute vec4 " + ShaderProgramConstants.ATTRIBUTE_POSITION + ";\n" +
-			"attribute vec2 " + ShaderProgramConstants.ATTRIBUTE_TEXTURECOORDINATES + ";\n" +
-			"varying vec2 " + ShaderProgramConstants.VARYING_TEXTURECOORDINATES + ";\n" +
-			"void main() {\n" +
-			"   " + ShaderProgramConstants.VARYING_TEXTURECOORDINATES + " = " + ShaderProgramConstants.ATTRIBUTE_TEXTURECOORDINATES + ";\n" +
-			"   gl_Position = " + ShaderProgramConstants.UNIFORM_MODELVIEWPROJECTIONMATRIX + " * " + ShaderProgramConstants.ATTRIBUTE_POSITION + ";\n" +
-			"}";
-
-	public static final String SHADERPROGRAM_FRAGMENTSHADER_DEFAULT =
-			"precision mediump float;\n" + // TODO Try 'precision lowp float;\n'
-			"uniform sampler2D " + ShaderProgramConstants.UNIFORM_TEXTURE_0 + ";\n" +
-			"uniform float " + ShaderProgramConstants.UNIFORM_ALPHA + ";\n" +
-			"varying vec2 " + ShaderProgramConstants.VARYING_TEXTURECOORDINATES + ";\n" +
-			"void main() {\n" +
-			"  gl_FragColor = vec4(1.0, 1.0, 1.0, " + ShaderProgramConstants.UNIFORM_ALPHA + ") * texture2D(" + ShaderProgramConstants.UNIFORM_TEXTURE_0 + ", " + ShaderProgramConstants.VARYING_TEXTURECOORDINATES + ");\n" +
-			"}";
+	private static final int SPRITE_COUNT = 2000;
 	
 	// ===========================================================
 	// Fields
@@ -108,7 +85,8 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 	@Override
 	public void onLoadResources() {
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "gfx/face_box.png", 0, 0);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
 		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
 	}
@@ -146,15 +124,10 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 				)
 		);
 
-		ShaderProgram shaderProgram = null;
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion);
-			if(shaderProgram == null) {
-				face.setDefaultShaderProgram();
-				shaderProgram = face.getShaderProgram();
-			} else {
-				face.setShaderProgram(shaderProgram);
-			}
+			face.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
 			face.registerEntityModifier(faceEntityModifier.clone());
 
 			pScene.attachChild(face);
@@ -184,6 +157,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 //
 //		for(int i = 0; i < SPRITE_COUNT; i++) {
 //			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, sharedVertexBuffer);
+//			face.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 //			face.registerEntityModifier(faceEntityModifier.clone());
 //
 //			pScene.attachChild(face);
@@ -193,9 +167,8 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 	private void drawUsingSpriteBatch(final Scene pScene) {
 		final IEntityModifier faceEntityModifier = new SequenceEntityModifier(
 				new RotationByModifier(2, 90),
-				//				new AlphaModifier(1.5f, 1, 0),
-				//				new AlphaModifier(1.5f, 0, 1),
-				new DelayModifier(1.5f + 1.5f),
+				new AlphaModifier(1.5f, 1, 0),
+				new AlphaModifier(1.5f, 0, 1),
 				new ScaleModifier(2.5f, 1, 0.5f),
 				new DelayModifier(0.5f),
 				new ParallelEntityModifier(
@@ -208,26 +181,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 				)
 		);
 
-		final IEntityModifier spriteBatchEntityModifier = new SequenceEntityModifier(
-				new DelayModifier(2),
-				new AlphaModifier(1.5f, 1, 0),
-				new AlphaModifier(1.5f, 0, 1)
-		);
-
 		final SpriteGroup spriteGroup = new SpriteGroup(this.mBitmapTextureAtlas, EntityModifierBenchmark.SPRITE_COUNT);
-
-		final ShaderProgram shaderProgram = new ShaderProgram(EntityModifierBenchmark.SHADERPROGRAM_VERTEXSHADER_DEFAULT, EntityModifierBenchmark.SHADERPROGRAM_FRAGMENTSHADER_DEFAULT) {
-			@Override
-			public void bind() {
-				super.bind();
-
-				this.setUniform(ShaderProgramConstants.UNIFORM_MODELVIEWPROJECTIONMATRIX, GLHelper.getModelViewProjectionMatrix());
-				this.setTexture(ShaderProgramConstants.UNIFORM_TEXTURE_0, 0);
-				this.setUniform(ShaderProgramConstants.UNIFORM_ALPHA, spriteGroup.getAlpha());
-			}
-		};
-		spriteGroup.setShaderProgram(shaderProgram);
-//		spriteGroup.setDefaultShaderProgram();
 		spriteGroup.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		for(int i = 0; i < EntityModifierBenchmark.SPRITE_COUNT; i++) {
@@ -236,7 +190,6 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 
 			spriteGroup.attachChild(face);
 		}
-		spriteGroup.registerEntityModifier(spriteBatchEntityModifier);
 
 		pScene.attachChild(spriteGroup);
 	}

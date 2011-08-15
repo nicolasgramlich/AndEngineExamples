@@ -30,4 +30,46 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>AndEngineAugmentedRealityExtension_src</name>
+			<type>2</type>
+			<locationURI>_android_AndEngineAugmentedRealityExtension_689d0606/src</locationURI>
+		</link>
+		<link>
+			<name>AndEngineMODPlayerExtension_src</name>
+			<type>2</type>
+			<locationURI>_android_AndEngineMODPlayerExtension_e98659b5/src</locationURI>
+		</link>
+		<link>
+			<name>AndEngineMultiTouchExtension_src</name>
+			<type>2</type>
+			<locationURI>_android_AndEngineMultiTouchExtension_388759c0/src</locationURI>
+		</link>
+		<link>
+			<name>AndEngineMultiplayerExtension_src</name>
+			<type>2</type>
+			<locationURI>_android_AndEngineMultiplayerExtension_5fcf107e/src</locationURI>
+		</link>
+		<link>
+			<name>AndEnginePhysicsBox2DExtension_src</name>
+			<type>2</type>
+			<locationURI>_android_AndEnginePhysicsBox2DExtension_83d4a030/src</locationURI>
+		</link>
+		<link>
+			<name>AndEngineSVGTextureRegionExtension_src</name>
+			<type>2</type>
+			<locationURI>_android_AndEngineSVGTextureRegionExtension_f1da7bb/src</locationURI>
+		</link>
+		<link>
+			<name>AndEngineTexturePackerExtension_src</name>
+			<type>2</type>
+			<locationURI>_android_AndEngineTexturePackerExtension_63b7e5f7/src</locationURI>
+		</link>
+		<link>
+			<name>AndEngine_src</name>
+			<type>2</type>
+			<locationURI>_android_AndEngine_6e0d82d9/src</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

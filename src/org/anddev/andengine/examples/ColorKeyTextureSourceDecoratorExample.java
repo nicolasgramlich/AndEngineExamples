@@ -67,7 +67,8 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		/* The actual AssetTextureSource. */
-		final AssetBitmapTextureAtlasSource baseTextureSource = new AssetBitmapTextureAtlasSource(this, "gfx/chromatic_circle.png");
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		final AssetBitmapTextureAtlasSource baseTextureSource = new AssetBitmapTextureAtlasSource(this, "chromatic_circle.png");
 
 		this.mChromaticCircleTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromSource(this.mBitmapTextureAtlas, baseTextureSource, 0, 0);
 
