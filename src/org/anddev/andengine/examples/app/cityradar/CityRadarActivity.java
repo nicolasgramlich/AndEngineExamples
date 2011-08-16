@@ -119,7 +119,7 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mFont = new Font(this.mFontTexture, Typeface.DEFAULT, 12, true, Color.WHITE);
 
-		this.mEngine.getFontManager().loadFont(this.mFont);
+		this.getFontManager().loadFont(this.mFont);
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
 
 		/* Init TextureRegions. */

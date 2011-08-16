@@ -82,7 +82,7 @@ public class TickerTextBenchmark extends BaseBenchmark {
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 22, true, Color.WHITE);
 
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
-		this.mEngine.getFontManager().loadFont(this.mFont);
+		this.getFontManager().loadFont(this.mFont);
 	}
 
 	@Override

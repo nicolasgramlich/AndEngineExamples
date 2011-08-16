@@ -170,23 +170,6 @@ public class SpriteBenchmark extends BaseBenchmark {
 			.add(ShaderPrograms.ATTRIBUTE_TEXTURECOORDINATES, 2, GLES20.GL_FLOAT, false)
 			.build();
 		
-		public static final String VERTEXSHADER_COLOR_TEXTURECOORDINATES =
-				"uniform mat4 " + ShaderPrograms.UNIFORM_MODELVIEWPROJECTIONMATRIX + ";\n" +
-				"attribute vec4 " + ShaderPrograms.ATTRIBUTE_POSITION + ";\n" +
-				"attribute vec2 " + ShaderPrograms.ATTRIBUTE_TEXTURECOORDINATES + ";\n" +
-				"varying vec2 " + ShaderPrograms.VARYING_TEXTURECOORDINATES + ";\n" +
-				"void main() {\n" +
-				"   " + ShaderPrograms.VARYING_TEXTURECOORDINATES + " = " + ShaderPrograms.ATTRIBUTE_TEXTURECOORDINATES + ";\n" +
-				"   gl_Position = " + ShaderPrograms.UNIFORM_MODELVIEWPROJECTIONMATRIX + " * " + ShaderPrograms.ATTRIBUTE_POSITION + ";\n" +
-				"}";
-		
-		public static final String FRAGMENTSHADER_COLOR_TEXTURECOORDINATES = "precision lowp float;\n" + 
-				"uniform sampler2D " + ShaderPrograms.UNIFORM_TEXTURE_0 + ";\n" +
-				"varying mediump vec2 " + ShaderPrograms.VARYING_TEXTURECOORDINATES + ";\n" +
-				"void main() {\n" +
-				"  gl_FragColor = texture2D(" + ShaderPrograms.UNIFORM_TEXTURE_0 + ", " + ShaderPrograms.VARYING_TEXTURECOORDINATES + ");\n" +
-				"}";
-		
 		// ===========================================================
 		// Fields
 		// ===========================================================
@@ -201,23 +184,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 			super(pTexture, pCapacity, new SpriteBatchMeshWithoutColor(pCapacity, GLES20.GL_STATIC_DRAW, true, SpriteBatchWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR));
 			this.mSpriteBatchMeshWithoutColor = (SpriteBatchMeshWithoutColor) this.mSpriteBatchMesh;
 			
-			this.setShaderProgram(new ShaderProgram(VERTEXSHADER_COLOR_TEXTURECOORDINATES, FRAGMENTSHADER_COLOR_TEXTURECOORDINATES) {
-				private int mUniformModelViewPositionMatrixLocation = ShaderProgram.LOCATION_INVALID;
-				private int mUniformTexture0Location = ShaderProgram.LOCATION_INVALID;
-			
-				@Override
-				protected void onCompiled() {
-					this.mUniformModelViewPositionMatrixLocation = this.getUniformLocation(ShaderPrograms.UNIFORM_MODELVIEWPROJECTIONMATRIX);
-					this.mUniformTexture0Location = this.getUniformLocation(ShaderPrograms.UNIFORM_TEXTURE_0);
-				};
-			
-				@Override
-				public void bind(final VertexBufferObjectAttributes pVertexBufferObjectAttributes) {
-					super.bind(pVertexBufferObjectAttributes);
-					GLES20.glUniformMatrix4fv(this.mUniformModelViewPositionMatrixLocation, 1, false, GLHelper.getModelViewProjectionMatrix(), 0);
-					GLES20.glUniform1i(this.mUniformTexture0Location, 0);
-				};
-			});
+			this.setShaderProgram(ShaderPrograms.SHADERPROGRAM_POSITION_TEXTURECOORDINATES);
 		}
 
 		// ===========================================================

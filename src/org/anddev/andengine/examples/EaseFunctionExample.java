@@ -179,7 +179,7 @@ public class EaseFunctionExample extends BaseExample {
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.WHITE);
 
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
-		this.mEngine.getFontManager().loadFont(this.mFont);
+		this.getFontManager().loadFont(this.mFont);
 
 		/* The textures. */
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);

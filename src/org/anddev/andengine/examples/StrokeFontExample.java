@@ -77,7 +77,7 @@ public class StrokeFontExample extends BaseExample {
 		this.mStrokeOnlyFont = new StrokeFont(this.mStrokeOnlyFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK, 2, Color.WHITE, true);
 
 		this.mEngine.getTextureManager().loadTextures(this.mFontTexture, this.mStrokeFontTexture, this.mStrokeOnlyFontTexture);
-		this.mEngine.getFontManager().loadFonts(this.mFont, this.mStrokeFont, this.mStrokeOnlyFont);
+		this.getFontManager().loadFonts(this.mFont, this.mStrokeFont, this.mStrokeOnlyFont);
 	}
 
 	@Override

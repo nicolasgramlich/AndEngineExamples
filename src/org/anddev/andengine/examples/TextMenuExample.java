@@ -86,7 +86,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 		FontFactory.setAssetBasePath("font/");
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "Plok.ttf", 48, true, android.graphics.Color.WHITE);
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
-		this.mEngine.getFontManager().loadFont(this.mFont);
+		this.getFontManager().loadFont(this.mFont);
 
 		/* Load Sprite-Textures. */
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);

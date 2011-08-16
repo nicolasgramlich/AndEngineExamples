@@ -87,7 +87,7 @@ public class CustomFontExample extends BaseExample {
 		this.mUnrealTournamenFont = FontFactory.createFromAsset(this.mUnrealTournamentFontTexture, this, "UnrealTournament.ttf", FONT_SIZE, true, Color.BLACK);
 
 		this.mEngine.getTextureManager().loadTextures(this.mDroidFontTexture, this.mKingdomOfHeartsFontTexture, this.mNeverwinterNightsFontTexture, this.mPlokFontTexture, this.mUnrealTournamentFontTexture);
-		this.mEngine.getFontManager().loadFonts(this.mDroidFont, this.mKingdomOfHeartsFont, this.mNeverwinterNightsFont, this.mPlokFont, this.mUnrealTournamenFont);
+		this.getFontManager().loadFonts(this.mDroidFont, this.mKingdomOfHeartsFont, this.mNeverwinterNightsFont, this.mPlokFont, this.mUnrealTournamenFont);
 	}
 
 	@Override

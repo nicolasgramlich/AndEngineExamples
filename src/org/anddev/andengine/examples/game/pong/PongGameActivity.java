@@ -129,7 +129,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 		this.mScoreFont = FontFactory.createFromAsset(this.mScoreFontTexture, this, "LCD.ttf", 32, true, Color.WHITE);
 
 		this.mEngine.getTextureManager().loadTexture(this.mScoreFontTexture);
-		this.mEngine.getFontManager().loadFont(this.mScoreFont);
+		this.getFontManager().loadFont(this.mScoreFont);
 	}
 
 	@Override

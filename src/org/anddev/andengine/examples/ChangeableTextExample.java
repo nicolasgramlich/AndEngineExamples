@@ -66,7 +66,7 @@ public class ChangeableTextExample extends BaseExample {
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48, true, Color.BLACK);
 
 		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
-		this.mEngine.getFontManager().loadFont(this.mFont);
+		this.getFontManager().loadFont(this.mFont);
 	}
 
 	@Override

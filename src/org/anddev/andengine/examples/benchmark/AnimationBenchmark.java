@@ -8,11 +8,21 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
+import org.anddev.andengine.entity.sprite.Sprite;
+import org.anddev.andengine.entity.sprite.batch.SpriteBatch.SpriteBatchMesh;
 import org.anddev.andengine.entity.sprite.batch.SpriteGroup;
+import org.anddev.andengine.opengl.shader.ShaderProgram;
+import org.anddev.andengine.opengl.shader.util.constants.ShaderPrograms;
+import org.anddev.andengine.opengl.texture.ITexture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
+import org.anddev.andengine.opengl.vbo.VertexBufferObjectAttributes;
+import org.anddev.andengine.opengl.vbo.VertexBufferObjectAttributesBuilder;
+
+import android.opengl.GLES20;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -166,7 +176,8 @@ public class AnimationBenchmark extends BaseBenchmark {
 	}
 
 	private void drawUsingSpriteBatch(Scene pScene) {
-		final SpriteGroup spriteGroup = new SpriteGroup(this.mBitmapTextureAtlas, 4 * SPRITE_COUNT);
+//		final SpriteGroup spriteGroup = new SpriteGroup(this.mBitmapTextureAtlas, 4 * SPRITE_COUNT);
+		final SpriteGroupWithoutColor spriteGroup = new SpriteGroupWithoutColor(this.mBitmapTextureAtlas, 4 * SPRITE_COUNT);
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			/* Quickly twinkling face. */
 			final AnimatedSprite face = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion.clone()); //, faceSharedVertexBuffer);
@@ -199,4 +210,159 @@ public class AnimationBenchmark extends BaseBenchmark {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+
+	private static class SpriteGroupWithoutColor extends SpriteGroup {
+		// ===========================================================
+		// Constants
+		// ===========================================================
+
+		public static final int VERTEX_INDEX_X = 0;
+		public static final int VERTEX_INDEX_Y = SpriteGroupWithoutColor.VERTEX_INDEX_X + 1;
+		public static final int TEXTURECOORDINATES_INDEX_U = SpriteGroupWithoutColor.VERTEX_INDEX_Y + 1;
+		public static final int TEXTURECOORDINATES_INDEX_V = SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U + 1;
+
+		public static final int VERTEX_SIZE = 2 + 2;
+		public static final int VERTICES_PER_SPRITE = 6;
+		public static final int SPRITE_SIZE = SpriteGroupWithoutColor.VERTEX_SIZE * SpriteGroupWithoutColor.VERTICES_PER_SPRITE;
+
+		public static final VertexBufferObjectAttributes VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR = new VertexBufferObjectAttributesBuilder(2)
+			.add(ShaderPrograms.ATTRIBUTE_POSITION, 2, GLES20.GL_FLOAT, false)
+			.add(ShaderPrograms.ATTRIBUTE_TEXTURECOORDINATES, 2, GLES20.GL_FLOAT, false)
+			.build();
+		
+		public static final String VERTEXSHADER_COLOR_TEXTURECOORDINATES =
+				"uniform mat4 " + ShaderPrograms.UNIFORM_MODELVIEWPROJECTIONMATRIX + ";\n" +
+				"attribute vec4 " + ShaderPrograms.ATTRIBUTE_POSITION + ";\n" +
+				"attribute vec2 " + ShaderPrograms.ATTRIBUTE_TEXTURECOORDINATES + ";\n" +
+				"varying vec2 " + ShaderPrograms.VARYING_TEXTURECOORDINATES + ";\n" +
+				"void main() {\n" +
+				"   " + ShaderPrograms.VARYING_TEXTURECOORDINATES + " = " + ShaderPrograms.ATTRIBUTE_TEXTURECOORDINATES + ";\n" +
+				"   gl_Position = " + ShaderPrograms.UNIFORM_MODELVIEWPROJECTIONMATRIX + " * " + ShaderPrograms.ATTRIBUTE_POSITION + ";\n" +
+				"}";
+		
+		public static final String FRAGMENTSHADER_COLOR_TEXTURECOORDINATES = "precision lowp float;\n" + 
+				"uniform sampler2D " + ShaderPrograms.UNIFORM_TEXTURE_0 + ";\n" +
+				"varying mediump vec2 " + ShaderPrograms.VARYING_TEXTURECOORDINATES + ";\n" +
+				"void main() {\n" +
+				"  gl_FragColor = texture2D(" + ShaderPrograms.UNIFORM_TEXTURE_0 + ", " + ShaderPrograms.VARYING_TEXTURECOORDINATES + ");\n" +
+				"}";
+		
+		// ===========================================================
+		// Fields
+		// ===========================================================
+
+		private final SpriteBatchMeshWithoutColor mSpriteBatchMeshWithoutColor;
+
+		// ===========================================================
+		// Constructors
+		// ===========================================================
+
+		private SpriteGroupWithoutColor(final ITexture pTexture, final int pCapacity) {
+			super(pTexture, pCapacity, new SpriteBatchMeshWithoutColor(pCapacity, GLES20.GL_STATIC_DRAW, true, SpriteGroupWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR));
+			this.mSpriteBatchMeshWithoutColor = (SpriteBatchMeshWithoutColor) this.mSpriteBatchMesh;
+
+			this.setShaderProgram(ShaderPrograms.SHADERPROGRAM_POSITION_TEXTURECOORDINATES);
+		}
+
+		// ===========================================================
+		// Getter & Setter
+		// ===========================================================
+
+		// ===========================================================
+		// Methods for/from SuperClass/Interfaces
+		// ===========================================================
+		
+		@Override
+		public void drawWithoutChecks(final Sprite pSprite) {
+			this.mSpriteBatchMeshWithoutColor.addWithoutColor(pSprite.getTextureRegion(), pSprite.getX(), pSprite.getY(), pSprite.getWidth(), pSprite.getHeight());
+			this.mIndex++;
+		}
+
+		// ===========================================================
+		// Methods
+		// ===========================================================
+
+		// ===========================================================
+		// Inner and Anonymous Classes
+		// ===========================================================
+	}
+
+	public static class SpriteBatchMeshWithoutColor extends SpriteBatchMesh {
+		// ===========================================================
+		// Constants
+		// ===========================================================
+
+		// ===========================================================
+		// Fields
+		// ===========================================================
+
+		// ===========================================================
+		// Constructors
+		// ===========================================================
+
+		public SpriteBatchMeshWithoutColor(final int pCapacity, final int pDrawType, final boolean pManaged, final VertexBufferObjectAttributes pVertexBufferObjectAttributes) {
+			super(pCapacity * SpriteGroupWithoutColor.SPRITE_SIZE, pDrawType, pManaged, pVertexBufferObjectAttributes);
+		}
+
+		// ===========================================================
+		// Getter & Setter
+		// ===========================================================
+
+		// ===========================================================
+		// Methods for/from SuperClass/Interfaces
+		// ===========================================================
+
+		// ===========================================================
+		// Methods
+		// ===========================================================
+
+		public void addWithoutColor(final ITextureRegion pTextureRegion, final float pX, final float pY, final float pWidth, final float pHeight) {
+			final float x1 = pX;
+			final float y1 = pY;
+			final float x2 = pX + pWidth;
+			final float y2 = pY + pHeight;
+			final float u = pTextureRegion.getU();
+			final float v = pTextureRegion.getV();
+			final float u2 = pTextureRegion.getU2();
+			final float v2 = pTextureRegion.getV2();
+
+			final float[] bufferData = this.mVertexBufferObject.getBufferData();
+			final int index = this.mIndex;
+			bufferData[index + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x1;
+			bufferData[index + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y1;
+			bufferData[index + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u;
+			bufferData[index + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v;
+
+			bufferData[index + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x1;
+			bufferData[index + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y2;
+			bufferData[index + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u;
+			bufferData[index + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v2;
+
+			bufferData[index + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x2;
+			bufferData[index + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y1;
+			bufferData[index + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u2;
+			bufferData[index + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v;
+
+			bufferData[index + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x2;
+			bufferData[index + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y1;
+			bufferData[index + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u2;
+			bufferData[index + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v;
+
+			bufferData[index + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x1;
+			bufferData[index + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y2;
+			bufferData[index + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u;
+			bufferData[index + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v2;
+
+			bufferData[index + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x2;
+			bufferData[index + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y2;
+			bufferData[index + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u2;
+			bufferData[index + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v2;
+
+			this.mIndex += SpriteGroupWithoutColor.SPRITE_SIZE;
+		}
+
+		// ===========================================================
+		// Inner and Anonymous Classes
+		// ===========================================================
+	}
 }
