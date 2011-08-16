@@ -207,7 +207,7 @@ public class EaseFunctionExample extends BaseExample {
 				return true;
 			};
 		};
-		final Sprite previousSprite = new Sprite(100, 0, this.mNextTextureRegion.clone()){
+		final Sprite previousSprite = new Sprite(100, 0, this.mNextTextureRegion.deepCopy()){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				if(pSceneTouchEvent.isActionDown()) {

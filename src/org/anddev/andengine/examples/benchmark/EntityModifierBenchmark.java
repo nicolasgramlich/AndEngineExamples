@@ -39,7 +39,9 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 
-	private static final int SPRITE_COUNT = 1000;
+//	private static final int SPRITE_COUNT = 1000;
+//	private static final int SPRITE_COUNT = 2000;
+	private static final int SPRITE_COUNT = 4000;
 	
 	// ===========================================================
 	// Fields
@@ -128,7 +130,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion);
 			face.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
-			face.registerEntityModifier(faceEntityModifier.clone());
+			face.registerEntityModifier(faceEntityModifier.deepCopy());
 
 			pScene.attachChild(face);
 		}
@@ -158,7 +160,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 //		for(int i = 0; i < SPRITE_COUNT; i++) {
 //			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, sharedVertexBuffer);
 //			face.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-//			face.registerEntityModifier(faceEntityModifier.clone());
+//			face.registerEntityModifier(faceEntityModifier.deepCopy());
 //
 //			pScene.attachChild(face);
 //		}
@@ -186,7 +188,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 
 		for(int i = 0; i < EntityModifierBenchmark.SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite((EntityModifierBenchmark.CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (EntityModifierBenchmark.CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion);
-			face.registerEntityModifier(faceEntityModifier.clone());
+			face.registerEntityModifier(faceEntityModifier.deepCopy());
 
 			spriteGroup.attachChild(face);
 		}

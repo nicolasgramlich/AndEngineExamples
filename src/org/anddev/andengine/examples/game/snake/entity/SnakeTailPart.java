@@ -9,7 +9,7 @@ import org.anddev.andengine.opengl.texture.region.ITextureRegion;
  * @author Nicolas Gramlich
  * @since 17:44:59 - 09.07.2010
  */
-public class SnakeTailPart extends CellEntity implements Cloneable {
+public class SnakeTailPart extends CellEntity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -38,8 +38,7 @@ public class SnakeTailPart extends CellEntity implements Cloneable {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	@Override
-	protected SnakeTailPart clone() {
+	protected SnakeTailPart deepCopy() {
 		return new SnakeTailPart(this.mCellX, this.mCellY, this.getTextureRegion());
 	}
 

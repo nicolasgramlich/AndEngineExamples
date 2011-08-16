@@ -133,7 +133,7 @@ public class CollisionDetectionExample extends BaseExample {
 		scene.attachChild(centerRectangle);
 		
 		final Line line = new Line(centerX + 50 - 16, centerY, centerX + 50 + 16, centerY);
-		line.registerEntityModifier(entityModifier.clone());
+		line.registerEntityModifier(entityModifier.deepCopy());
 		scene.attachChild(line);
 
 		final Sprite face = new Sprite(centerX, centerY + 42, this.mFaceTextureRegion);

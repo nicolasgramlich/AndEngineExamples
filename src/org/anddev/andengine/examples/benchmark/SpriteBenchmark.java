@@ -10,14 +10,13 @@ import org.anddev.andengine.entity.scene.background.ColorBackground;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.batch.SpriteBatch;
 import org.anddev.andengine.entity.sprite.batch.SpriteBatch.SpriteBatchMesh;
-import org.anddev.andengine.opengl.shader.ShaderProgram;
 import org.anddev.andengine.opengl.shader.util.constants.ShaderPrograms;
 import org.anddev.andengine.opengl.texture.ITexture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
-import org.anddev.andengine.opengl.util.GLHelper;
+import org.anddev.andengine.opengl.vbo.VertexBufferObject.DrawType;
 import org.anddev.andengine.opengl.vbo.VertexBufferObjectAttributes;
 import org.anddev.andengine.opengl.vbo.VertexBufferObjectAttributesBuilder;
 
@@ -38,7 +37,8 @@ public class SpriteBenchmark extends BaseBenchmark {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 
-	private static final int SPRITE_COUNT = 5000;
+	private static final int SPRITE_COUNT = 1000;
+//	private static final int SPRITE_COUNT = 5000;
 
 	// ===========================================================
 	// Fields
@@ -95,9 +95,9 @@ public class SpriteBenchmark extends BaseBenchmark {
 		final Scene scene = new Scene();
 		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
 
-//		this.drawUsingSprites(scene);
+		this.drawUsingSprites(scene);
 //		this.drawUsingSpritesWithSharedVertexBuffer(scene);
-		this.drawUsingSpriteBatch(scene);
+//		this.drawUsingSpriteBatch(scene);
 
 		return scene;
 	}
@@ -132,7 +132,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 		final int width = this.mFaceTextureRegion.getWidth();
 		final int height = this.mFaceTextureRegion.getHeight();
 
-		final SpriteBatchWithoutColor spriteBatch = new SpriteBatchWithoutColor(this.mBitmapTextureAtlas, SpriteBenchmark.SPRITE_COUNT);
+		final SpriteBatchWithoutColor spriteBatch = new SpriteBatchWithoutColor(this.mBitmapTextureAtlas, SpriteBenchmark.SPRITE_COUNT, DrawType.STATIC);
 //		final SpriteBatch spriteBatch = new SpriteBatch(this.mBitmapTextureAtlas, SpriteBenchmark.SPRITE_COUNT);
 
 		spriteBatch.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
@@ -166,8 +166,8 @@ public class SpriteBenchmark extends BaseBenchmark {
 		public static final int SPRITE_SIZE = SpriteBatchWithoutColor.VERTEX_SIZE * SpriteBatchWithoutColor.VERTICES_PER_SPRITE;
 
 		public static final VertexBufferObjectAttributes VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR = new VertexBufferObjectAttributesBuilder(2)
-			.add(ShaderPrograms.ATTRIBUTE_POSITION, 2, GLES20.GL_FLOAT, false)
-			.add(ShaderPrograms.ATTRIBUTE_TEXTURECOORDINATES, 2, GLES20.GL_FLOAT, false)
+			.add(ShaderPrograms.ATTRIBUTE_POSITION_LOCATION, ShaderPrograms.ATTRIBUTE_POSITION, 2, GLES20.GL_FLOAT, false)
+			.add(ShaderPrograms.ATTRIBUTE_TEXTURECOORDINATES_LOCATION, ShaderPrograms.ATTRIBUTE_TEXTURECOORDINATES, 2, GLES20.GL_FLOAT, false)
 			.build();
 		
 		// ===========================================================
@@ -180,8 +180,8 @@ public class SpriteBenchmark extends BaseBenchmark {
 		// Constructors
 		// ===========================================================
 
-		private SpriteBatchWithoutColor(final ITexture pTexture, final int pCapacity) {
-			super(pTexture, pCapacity, new SpriteBatchMeshWithoutColor(pCapacity, GLES20.GL_STATIC_DRAW, true, SpriteBatchWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR));
+		private SpriteBatchWithoutColor(final ITexture pTexture, final int pCapacity, DrawType pDrawType) {
+			super(pTexture, pCapacity, new SpriteBatchMeshWithoutColor(pCapacity, pDrawType, true, SpriteBatchWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR));
 			this.mSpriteBatchMeshWithoutColor = (SpriteBatchMeshWithoutColor) this.mSpriteBatchMesh;
 			
 			this.setShaderProgram(ShaderPrograms.SHADERPROGRAM_POSITION_TEXTURECOORDINATES);
@@ -222,7 +222,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 		// Constructors
 		// ===========================================================
 
-		public SpriteBatchMeshWithoutColor(final int pCapacity, final int pDrawType, final boolean pManaged, final VertexBufferObjectAttributes pVertexBufferObjectAttributes) {
+		public SpriteBatchMeshWithoutColor(final int pCapacity, final DrawType pDrawType, final boolean pManaged, final VertexBufferObjectAttributes pVertexBufferObjectAttributes) {
 			super(pCapacity * SpriteBatchWithoutColor.SPRITE_SIZE, pDrawType, pManaged, pVertexBufferObjectAttributes);
 		}
 
