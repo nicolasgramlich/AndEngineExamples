@@ -13,6 +13,7 @@ import org.anddev.andengine.entity.modifier.PathModifier.Path;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.RepeatingSpriteBackground;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -73,9 +74,9 @@ public class PathModifierExample extends BaseExample {
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128, TextureOptions.DEFAULT);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "player.png", 0, 0, 3, 4);
-		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, this.mEngine.getTextureManager(), new AssetBitmapTextureAtlasSource(this, "background_grass.png"));
+		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, new AssetBitmapTextureAtlasSource(this, "gfx/background_grass.png"));
 
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override

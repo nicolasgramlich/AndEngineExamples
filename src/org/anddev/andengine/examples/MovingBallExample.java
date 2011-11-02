@@ -7,9 +7,10 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -65,7 +66,7 @@ public class MovingBallExample extends BaseExample {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png", 0, 0, 2, 1);
 
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override
@@ -73,7 +74,7 @@ public class MovingBallExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;

@@ -18,12 +18,13 @@ import org.anddev.andengine.entity.modifier.SequenceEntityModifier;
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouch;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouchController;
 import org.anddev.andengine.extension.input.touch.exception.MultiTouchException;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -110,7 +111,7 @@ public class CollisionDetectionExample extends BaseExample {
 		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 
-		this.mEngine.getTextureManager().loadTextures(this.mBitmapTextureAtlas, this.mOnScreenControlTexture);
+		TextureManager.loadTextures(this.mBitmapTextureAtlas, this.mOnScreenControlTexture);
 	}
 
 	@Override
@@ -118,7 +119,7 @@ public class CollisionDetectionExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
@@ -137,6 +138,7 @@ public class CollisionDetectionExample extends BaseExample {
 		scene.attachChild(line);
 
 		final Sprite face = new Sprite(centerX, centerY + 42, this.mFaceTextureRegion);
+		face.setSkewX(45);
 		final PhysicsHandler physicsHandler = new PhysicsHandler(face);
 		face.registerUpdateHandler(physicsHandler);
 

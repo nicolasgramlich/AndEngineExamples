@@ -10,7 +10,7 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.Scene.ITouchArea;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
@@ -18,6 +18,7 @@ import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.input.touch.TouchEvent;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -78,10 +79,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 	public Engine onLoadEngine() {
 		Toast.makeText(this, "Touch the screen to add objects. Touch an object to remove it.", Toast.LENGTH_LONG).show();
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
-		engineOptions.getTouchOptions().setRunOnUpdateThread(true);
-		return new Engine(engineOptions);
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera));
 	}
 
 	@Override
@@ -90,7 +88,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override
@@ -98,7 +96,7 @@ public class PhysicsRemoveExample extends BaseExample implements IAccelerometerL
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
-		this.mScene.setBackground(new ColorBackground(0, 0, 0));
+		this.mScene.setBackground(new Background(0, 0, 0));
 		this.mScene.setOnSceneTouchListener(this);
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);

@@ -17,6 +17,7 @@ import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.input.touch.TouchEvent;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -80,9 +81,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		Toast.makeText(this, "Touch the screen to add boxes.", Toast.LENGTH_LONG).show();
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mChaseCamera = new BoundCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, 0, CAMERA_WIDTH, 0, CAMERA_HEIGHT);
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera);
-		engineOptions.getTouchOptions().setRunOnUpdateThread(true);
-		return new SingleSceneSplitScreenEngine(engineOptions, this.mChaseCamera);
+		return new SingleSceneSplitScreenEngine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera), this.mChaseCamera);
 	}
 
 	@Override
@@ -90,7 +89,7 @@ public class SplitScreenExample extends BaseExample implements IAccelerometerLis
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.card.Card;
@@ -22,6 +22,7 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.input.touch.detector.ScrollDetector;
 import org.anddev.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.anddev.andengine.input.touch.detector.SurfaceScrollDetector;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -104,7 +105,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 			this.mCardTotextureRegionMap.put(card, cardTextureRegion);
 		}
 
-		this.mEngine.getTextureManager().loadTexture(this.mCardDeckTexture);
+		TextureManager.loadTexture(this.mCardDeckTexture);
 	}
 
 	@Override
@@ -119,7 +120,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 		this.addCard(Card.DIAMOND_ACE, 440, 100);
 		this.addCard(Card.SPADE_ACE, 440, 260);
 
-		this.mScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		this.mScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		this.mScrollDetector = new SurfaceScrollDetector(this);
 		if(MultiTouch.isSupportedByAndroidVersion()) {
@@ -144,7 +145,19 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 	}
 
 	@Override
-	public void onScroll(final ScrollDetector pScollDetector, final TouchEvent pTouchEvent, final float pDistanceX, final float pDistanceY) {
+	public void onScrollStarted(final ScrollDetector pScollDetector, final int pPointerID, final float pDistanceX, final float pDistanceY) {
+		final float zoomFactor = this.mZoomCamera.getZoomFactor();
+		this.mZoomCamera.offsetCenter(-pDistanceX / zoomFactor, -pDistanceY / zoomFactor);
+	}
+
+	@Override
+	public void onScroll(final ScrollDetector pScollDetector, final int pPointerID, final float pDistanceX, final float pDistanceY) {
+		final float zoomFactor = this.mZoomCamera.getZoomFactor();
+		this.mZoomCamera.offsetCenter(-pDistanceX / zoomFactor, -pDistanceY / zoomFactor);
+	}
+	
+	@Override
+	public void onScrollFinished(final ScrollDetector pScollDetector, final int pPointerID, final float pDistanceX, final float pDistanceY) {
 		final float zoomFactor = this.mZoomCamera.getZoomFactor();
 		this.mZoomCamera.offsetCenter(-pDistanceX / zoomFactor, -pDistanceY / zoomFactor);
 	}

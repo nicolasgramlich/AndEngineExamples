@@ -15,7 +15,7 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.Scene.ITouchArea;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.messages.client.ClientMessageFlags;
@@ -37,6 +37,7 @@ import org.anddev.andengine.extension.multiplayer.protocol.shared.SocketConnecti
 import org.anddev.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.anddev.andengine.extension.multiplayer.protocol.util.WifiUtils;
 import org.anddev.andengine.input.touch.TouchEvent;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -131,7 +132,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override
@@ -139,7 +140,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		/* We allow only the server to actively send around messages. */
 		if(MultiplayerExample.this.mSocketServer != null) {

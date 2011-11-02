@@ -8,7 +8,7 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.card.Card;
@@ -16,6 +16,7 @@ import org.anddev.andengine.extension.input.touch.controller.MultiTouch;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouchController;
 import org.anddev.andengine.extension.input.touch.exception.MultiTouchException;
 import org.anddev.andengine.input.touch.TouchEvent;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -100,7 +101,7 @@ public class MultiTouchExample extends BaseExample {
 			this.mCardTotextureRegionMap.put(card, cardTextureRegion);
 		}
 
-		this.mEngine.getTextureManager().loadTexture(this.mCardDeckTexture);
+		TextureManager.loadTexture(this.mCardDeckTexture);
 	}
 
 	@Override
@@ -115,7 +116,7 @@ public class MultiTouchExample extends BaseExample {
 		this.addCard(Card.DIAMOND_ACE, 440, 100);
 		this.addCard(Card.SPADE_ACE, 440, 260);
 
-		this.mScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		this.mScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		this.mScene.setTouchAreaBindingEnabled(true);
 

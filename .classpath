@@ -4,12 +4,13 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="src" path="AndEngineAugmentedRealityExtension_src"/>
-	<classpathentry kind="src" path="AndEngine_src"/>
 	<classpathentry kind="src" path="AndEngineMODPlayerExtension_src"/>
 	<classpathentry kind="src" path="AndEngineMultiTouchExtension_src"/>
-	<classpathentry kind="src" path="AndEngineMultiplayerExtension_src"/>
 	<classpathentry kind="src" path="AndEngineSVGTextureRegionExtension_src"/>
 	<classpathentry kind="src" path="AndEnginePhysicsBox2DExtension_src"/>
 	<classpathentry kind="src" path="AndEngineTexturePackerExtension_src"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="AndEngine_src"/>
+	<classpathentry kind="src" path="AndEngineMultiplayerExtension_src"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

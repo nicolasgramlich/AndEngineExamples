@@ -16,11 +16,13 @@ import org.anddev.andengine.entity.modifier.RotationByModifier;
 import org.anddev.andengine.entity.modifier.RotationModifier;
 import org.anddev.andengine.entity.modifier.ScaleModifier;
 import org.anddev.andengine.entity.modifier.SequenceEntityModifier;
+import org.anddev.andengine.entity.modifier.SkewXModifier;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -78,7 +80,7 @@ public class EntityModifierExample extends BaseExample {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1);
 
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override
@@ -86,7 +88,7 @@ public class EntityModifierExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
@@ -144,7 +146,8 @@ public class EntityModifierExample extends BaseExample {
 						}
 					},
 					new SequenceEntityModifier(
-							new RotationModifier(1, 0, 90),
+//							new RotationModifier(1, 0, 90),
+							new SkewXModifier(5, 0, 45),
 							new AlphaModifier(2, 1, 0),
 							new AlphaModifier(1, 0, 1),
 							new ScaleModifier(2, 1, 0.5f),

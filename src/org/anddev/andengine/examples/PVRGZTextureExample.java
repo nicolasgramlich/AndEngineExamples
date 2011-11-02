@@ -10,12 +10,13 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.ZoomState;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.ITexture;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.compressed.pvr.PVRGZTexture;
 import org.anddev.andengine.opengl.texture.compressed.pvr.PVRTexture.PVRTextureFormat;
@@ -95,7 +96,7 @@ public class PVRGZTextureExample extends BaseExample {
 
 			this.mHouseTextureRegion = TextureRegionFactory.extractFromTexture(this.mTexture, 0, 0, 512, 512, true);
 
-			this.mEngine.getTextureManager().loadTextures(this.mTexture);
+			TextureManager.loadTextures(this.mTexture);
 		} catch (final Throwable e) {
 			Debug.e(e);
 		}
@@ -106,7 +107,7 @@ public class PVRGZTextureExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		final int centerX = (CAMERA_WIDTH - this.mHouseTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mHouseTextureRegion.getHeight()) / 2;

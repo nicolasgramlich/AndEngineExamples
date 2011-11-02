@@ -8,6 +8,7 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -68,7 +69,7 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 		/* The actual AssetTextureSource. */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		final AssetBitmapTextureAtlasSource baseTextureSource = new AssetBitmapTextureAtlasSource(this, "chromatic_circle.png");
+		final AssetBitmapTextureAtlasSource baseTextureSource = new AssetBitmapTextureAtlasSource(this, "gfx/chromatic_circle.png");
 
 		this.mChromaticCircleTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromSource(this.mBitmapTextureAtlas, baseTextureSource, 0, 0);
 
@@ -80,7 +81,7 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 		this.mChromaticCircleColorKeyedTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromSource(this.mBitmapTextureAtlas, colorKeyBitmapTextureAtlasSource, 128, 0);
 
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override

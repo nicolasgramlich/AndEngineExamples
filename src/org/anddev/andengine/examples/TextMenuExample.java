@@ -7,7 +7,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.modifier.MoveModifier;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.scene.menu.MenuScene;
 import org.anddev.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.anddev.andengine.entity.scene.menu.item.IMenuItem;
@@ -17,6 +17,8 @@ import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
+import org.anddev.andengine.opengl.font.FontManager;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -85,14 +87,14 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 
 		FontFactory.setAssetBasePath("font/");
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "Plok.ttf", 48, true, android.graphics.Color.WHITE);
-		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
-		this.getFontManager().loadFont(this.mFont);
+		TextureManager.loadTexture(this.mFontTexture);
+		FontManager.loadFont(this.mFont);
 
 		/* Load Sprite-Textures. */
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box_menu.png", 0, 0);
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override
@@ -103,7 +105,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 
 		/* Just a simple scene with an animated face flying around. */
 		this.mMainScene = new Scene();
-		this.mMainScene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		this.mMainScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
 		face.registerEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));

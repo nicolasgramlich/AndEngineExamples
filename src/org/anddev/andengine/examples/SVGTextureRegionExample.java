@@ -6,13 +6,14 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.svg.adt.ISVGColorMapper;
 import org.anddev.andengine.extension.svg.adt.SVGDirectColorMapper;
 import org.anddev.andengine.extension.svg.opengl.texture.atlas.bitmap.SVGBitmapTextureAtlasTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
@@ -122,7 +123,7 @@ public class SVGTextureRegionExample extends BaseExample {
 			Debug.e(e);
 		}
 
-		this.mEngine.getTextureManager().loadTexture(this.mBuildableBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBuildableBitmapTextureAtlas);
 	}
 
 	@Override
@@ -130,7 +131,7 @@ public class SVGTextureRegionExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.5f, 0.5f, 0.5f));
+		scene.setBackground(new Background(0.5f, 0.5f, 0.5f));
 
 		for(int i = 0; i < SVGTextureRegionExample.COUNT; i++) {
 			final int row = i / SVGTextureRegionExample.COLUMNS;

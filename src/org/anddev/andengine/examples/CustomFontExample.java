@@ -6,11 +6,13 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
+import org.anddev.andengine.opengl.font.FontManager;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 
@@ -86,8 +88,8 @@ public class CustomFontExample extends BaseExample {
 		this.mPlokFont = FontFactory.createFromAsset(this.mPlokFontTexture, this, "Plok.ttf", FONT_SIZE, true, Color.BLACK);
 		this.mUnrealTournamenFont = FontFactory.createFromAsset(this.mUnrealTournamentFontTexture, this, "UnrealTournament.ttf", FONT_SIZE, true, Color.BLACK);
 
-		this.mEngine.getTextureManager().loadTextures(this.mDroidFontTexture, this.mKingdomOfHeartsFontTexture, this.mNeverwinterNightsFontTexture, this.mPlokFontTexture, this.mUnrealTournamentFontTexture);
-		this.getFontManager().loadFonts(this.mDroidFont, this.mKingdomOfHeartsFont, this.mNeverwinterNightsFont, this.mPlokFont, this.mUnrealTournamenFont);
+		TextureManager.loadTextures(this.mDroidFontTexture, this.mKingdomOfHeartsFontTexture, this.mNeverwinterNightsFontTexture, this.mPlokFontTexture, this.mUnrealTournamentFontTexture);
+		FontManager.loadFonts(this.mDroidFont, this.mKingdomOfHeartsFont, this.mNeverwinterNightsFont, this.mPlokFont, this.mUnrealTournamenFont);
 	}
 
 	@Override
@@ -95,7 +97,7 @@ public class CustomFontExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		scene.attachChild(new Text(230, 30, this.mDroidFont, "Droid Font"));
 		scene.attachChild(new Text(160, 120, this.mKingdomOfHeartsFont, "Kingdom Of Hearts Font"));

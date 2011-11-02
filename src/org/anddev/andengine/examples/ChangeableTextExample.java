@@ -8,10 +8,12 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.util.FPSCounter;
 import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.font.FontManager;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 
@@ -65,8 +67,8 @@ public class ChangeableTextExample extends BaseExample {
 
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48, true, Color.BLACK);
 
-		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
-		this.getFontManager().loadFont(this.mFont);
+		TextureManager.loadTexture(this.mFontTexture);
+		FontManager.loadFont(this.mFont);
 	}
 
 	@Override
@@ -75,7 +77,7 @@ public class ChangeableTextExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(fpsCounter);
 
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		final ChangeableText elapsedText = new ChangeableText(100, 160, this.mFont, "Seconds elapsed:", "Seconds elapsed: XXXXX".length());
 		final ChangeableText fpsText = new ChangeableText(250, 240, this.mFont, "FPS:", "FPS: XXXXX".length());

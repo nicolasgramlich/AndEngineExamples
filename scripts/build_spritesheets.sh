@@ -62,6 +62,7 @@ do
 		--no-trim \
 		--max-width 1024 \
 		--max-height 1024 \
+		--allow-free-size \
 		--andengine-wraps clamp \
 		--andengine-wrapt clamp \
 		--andengine-minfilter linear \

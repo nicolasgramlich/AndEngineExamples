@@ -6,9 +6,10 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -76,7 +77,7 @@ public class TextureOptionsExample extends BaseExample {
 		 * So we will later increase the width of such a sprite by the same factor to avoid distortion. */
 		this.mFaceTextureRegionRepeating.setWidth(10 * this.mFaceTextureRegionRepeating.getWidth());
 
-		this.mEngine.getTextureManager().loadTextures(this.mBitmapTextureAtlas, this.mBitmapTextureAtlasBilinear, this.mBitmapTextureAtlasRepeating);
+		TextureManager.loadTextures(this.mBitmapTextureAtlas, this.mBitmapTextureAtlasBilinear, this.mBitmapTextureAtlasRepeating);
 	}
 
 	@Override
@@ -84,7 +85,7 @@ public class TextureOptionsExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;

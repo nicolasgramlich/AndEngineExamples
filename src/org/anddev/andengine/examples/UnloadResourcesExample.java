@@ -6,10 +6,11 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -63,7 +64,7 @@ public class UnloadResourcesExample extends BaseExample {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mClickToUnloadTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "click_to_unload.png", 0, 0);
 
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override
@@ -71,7 +72,7 @@ public class UnloadResourcesExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		final int x = (CAMERA_WIDTH - this.mClickToUnloadTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mClickToUnloadTextureRegion.getHeight()) / 2;
@@ -79,8 +80,8 @@ public class UnloadResourcesExample extends BaseExample {
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				/* Completely remove all resources associated with this sprite. */
-				VertexBufferObjectManager.getActiveInstance().unloadBufferObject(this.getMesh().getVertexBufferObject());
-				UnloadResourcesExample.this.mEngine.getTextureManager().unloadTexture(UnloadResourcesExample.this.mBitmapTextureAtlas);
+				VertexBufferObjectManager.unloadBufferObject(this.getMesh().getVertexBufferObject());
+				TextureManager.unloadTexture(UnloadResourcesExample.this.mBitmapTextureAtlas);
 
 				/* And remove the sprite from the Scene. */
 				final Sprite thisRef = this;

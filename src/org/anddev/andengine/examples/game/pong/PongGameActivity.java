@@ -41,6 +41,8 @@ import org.anddev.andengine.extension.multiplayer.protocol.util.WifiUtils;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
+import org.anddev.andengine.opengl.font.FontManager;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
@@ -116,9 +118,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mCamera.setCenter(0,0);
 
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
-		engineOptions.getTouchOptions().setRunOnUpdateThread(true);
-		return new LimitedFPSEngine(engineOptions, FPS);
+		return new LimitedFPSEngine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera), FPS);
 	}
 
 	@Override
@@ -128,8 +128,8 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 		FontFactory.setAssetBasePath("font/");
 		this.mScoreFont = FontFactory.createFromAsset(this.mScoreFontTexture, this, "LCD.ttf", 32, true, Color.WHITE);
 
-		this.mEngine.getTextureManager().loadTexture(this.mScoreFontTexture);
-		this.getFontManager().loadFont(this.mScoreFont);
+		TextureManager.loadTexture(this.mScoreFontTexture);
+		FontManager.loadFont(this.mScoreFont);
 	}
 
 	@Override

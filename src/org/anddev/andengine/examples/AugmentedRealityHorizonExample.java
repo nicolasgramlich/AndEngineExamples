@@ -6,10 +6,11 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.augmentedreality.BaseAugmentedRealityGameActivity;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -69,7 +70,7 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override
@@ -77,7 +78,7 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 		final Scene scene = new Scene();
 		//		scene.setBackgroundEnabled(false);
-		scene.setBackground(new ColorBackground(0.0f, 0.0f, 0.0f, 0.0f));
+		scene.setBackground(new Background(0.0f, 0.0f, 0.0f, 0.0f));
 
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;

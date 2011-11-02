@@ -17,6 +17,8 @@ import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.examples.adt.cityradar.City;
 import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.font.FontManager;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -119,8 +121,8 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mFont = new Font(this.mFontTexture, Typeface.DEFAULT, 12, true, Color.WHITE);
 
-		this.getFontManager().loadFont(this.mFont);
-		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
+		FontManager.loadFont(this.mFont);
+		TextureManager.loadTexture(this.mFontTexture);
 
 		/* Init TextureRegions. */
 		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -135,7 +137,7 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 			Debug.e(e);
 		}
 
-		this.mEngine.getTextureManager().loadTexture(this.mBuildableBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBuildableBitmapTextureAtlas);
 	}
 
 	@Override

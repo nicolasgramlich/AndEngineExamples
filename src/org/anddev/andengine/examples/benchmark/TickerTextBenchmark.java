@@ -6,10 +6,12 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.text.TickerText;
 import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.font.FontManager;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.util.HorizontalAlign;
@@ -81,14 +83,14 @@ public class TickerTextBenchmark extends BaseBenchmark {
 
 		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 22, true, Color.WHITE);
 
-		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
-		this.getFontManager().loadFont(this.mFont);
+		TextureManager.loadTexture(this.mFontTexture);
+		FontManager.loadFont(this.mFont);
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 		
 		for(int i = 0; i < TEXT_COUNT; i++) {
 			final Text text = new TickerText(this.mRandom.nextInt(30), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 20), this.mFont, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", HorizontalAlign.CENTER, 5 + 5 * this.mRandom.nextFloat());

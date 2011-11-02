@@ -10,7 +10,7 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.TiledSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
@@ -19,6 +19,7 @@ import org.anddev.andengine.extension.physics.box2d.PhysicsConnector;
 import org.anddev.andengine.extension.physics.box2d.PhysicsFactory;
 import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -117,7 +118,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		this.mBoxTexture = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mBoxTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBoxTexture, this, "box.png", 0, 0);
 
-		this.mEngine.getTextureManager().loadTextures(this.mVehiclesTexture, this.mRacetrackTexture, this.mOnScreenControlTexture, this.mBoxTexture);
+		TextureManager.loadTextures(this.mVehiclesTexture, this.mRacetrackTexture, this.mOnScreenControlTexture, this.mBoxTexture);
 	}
 
 	@Override
@@ -125,7 +126,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
-		this.mScene.setBackground(new ColorBackground(0, 0, 0));
+		this.mScene.setBackground(new Background(0, 0, 0));
 
 		this.mPhysicsWorld = new FixedStepPhysicsWorld(30, new Vector2(0, 0), false, 8, 1);
 

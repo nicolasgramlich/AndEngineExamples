@@ -30,6 +30,8 @@ import org.anddev.andengine.examples.game.snake.entity.SnakeHead;
 import org.anddev.andengine.examples.game.snake.util.constants.SnakeConstants;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
+import org.anddev.andengine.opengl.font.FontManager;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -126,8 +128,8 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		this.mFontTexture = new BitmapTextureAtlas(512, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, this, "Plok.ttf", 32, true, Color.WHITE);
 
-		this.mEngine.getTextureManager().loadTexture(this.mFontTexture);
-		this.getFontManager().loadFont(this.mFont);
+		TextureManager.loadTexture(this.mFontTexture);
+		FontManager.loadFont(this.mFont);
 
 		/* Load all the textures this game needs. */
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -143,7 +145,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
 
-		this.mEngine.getTextureManager().loadTextures(this.mBackgroundTexture, this.mBitmapTextureAtlas, this.mOnScreenControlTexture);
+		TextureManager.loadTextures(this.mBackgroundTexture, this.mBitmapTextureAtlas, this.mOnScreenControlTexture);
 
 		/* Load all the sounds this game needs. */
 		try {

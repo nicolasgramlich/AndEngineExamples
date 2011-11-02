@@ -11,6 +11,7 @@ import org.anddev.andengine.entity.scene.background.ParallaxBackground.ParallaxE
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -79,7 +80,7 @@ public class AutoParallaxBackgroundExample extends BaseExample {
 		this.mParallaxLayerBack = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mAutoParallaxBackgroundTexture, this, "parallax_background_layer_back.png", 0, 188);
 		this.mParallaxLayerMid = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mAutoParallaxBackgroundTexture, this, "parallax_background_layer_mid.png", 0, 669);
 
-		this.mEngine.getTextureManager().loadTextures(this.mBitmapTextureAtlas, this.mAutoParallaxBackgroundTexture);
+		TextureManager.loadTextures(this.mBitmapTextureAtlas, this.mAutoParallaxBackgroundTexture);
 	}
 
 	@Override

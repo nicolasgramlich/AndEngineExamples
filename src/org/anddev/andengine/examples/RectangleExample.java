@@ -9,7 +9,7 @@ import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.entity.util.ScreenCapture;
 import org.anddev.andengine.entity.util.ScreenCapture.IScreenCaptureCallback;
@@ -99,7 +99,7 @@ public class RectangleExample extends BaseExample {
 			}
 		});
 
-		scene.setBackground(new ColorBackground(0, 0, 0));
+		scene.setBackground(new Background(0, 0, 0));
 
 		/* Create the rectangles. */
 		final Rectangle rect1 = this.makeColoredRectangle(-180, -180, 1, 0, 0);

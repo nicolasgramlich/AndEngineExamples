@@ -6,11 +6,13 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.font.FontManager;
 import org.anddev.andengine.opengl.font.StrokeFont;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 
@@ -76,8 +78,8 @@ public class StrokeFontExample extends BaseExample {
 		this.mStrokeFont = new StrokeFont(this.mStrokeFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK, 2, Color.WHITE);
 		this.mStrokeOnlyFont = new StrokeFont(this.mStrokeOnlyFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK, 2, Color.WHITE, true);
 
-		this.mEngine.getTextureManager().loadTextures(this.mFontTexture, this.mStrokeFontTexture, this.mStrokeOnlyFontTexture);
-		this.getFontManager().loadFonts(this.mFont, this.mStrokeFont, this.mStrokeOnlyFont);
+		TextureManager.loadTextures(this.mFontTexture, this.mStrokeFontTexture, this.mStrokeOnlyFontTexture);
+		FontManager.loadFonts(this.mFont, this.mStrokeFont, this.mStrokeOnlyFont);
 	}
 
 	@Override
@@ -85,7 +87,7 @@ public class StrokeFontExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		final Text textNormal = new Text(100, 100, this.mFont, "Just some normal Text.");
 		final Text textStroke = new Text(100, 200, this.mStrokeFont, "Text with fill and stroke.");

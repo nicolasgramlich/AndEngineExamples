@@ -6,12 +6,14 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.batch.SpriteBatch;
 import org.anddev.andengine.entity.sprite.batch.SpriteBatch.SpriteBatchMesh;
-import org.anddev.andengine.opengl.shader.util.constants.ShaderPrograms;
+import org.anddev.andengine.opengl.shader.PositionTextureCoordinatesShaderProgram;
+import org.anddev.andengine.opengl.shader.util.constants.ShaderProgramConstants;
 import org.anddev.andengine.opengl.texture.ITexture;
+import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -87,13 +89,13 @@ public class SpriteBenchmark extends BaseBenchmark {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
-		this.mEngine.getTextureManager().loadTexture(this.mBitmapTextureAtlas);
+		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override
 	public Scene onLoadScene() {
 		final Scene scene = new Scene();
-		scene.setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		this.drawUsingSprites(scene);
 //		this.drawUsingSpritesWithSharedVertexBuffer(scene);
@@ -166,8 +168,8 @@ public class SpriteBenchmark extends BaseBenchmark {
 		public static final int SPRITE_SIZE = SpriteBatchWithoutColor.VERTEX_SIZE * SpriteBatchWithoutColor.VERTICES_PER_SPRITE;
 
 		public static final VertexBufferObjectAttributes VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR = new VertexBufferObjectAttributesBuilder(2)
-			.add(ShaderPrograms.ATTRIBUTE_POSITION_LOCATION, ShaderPrograms.ATTRIBUTE_POSITION, 2, GLES20.GL_FLOAT, false)
-			.add(ShaderPrograms.ATTRIBUTE_TEXTURECOORDINATES_LOCATION, ShaderPrograms.ATTRIBUTE_TEXTURECOORDINATES, 2, GLES20.GL_FLOAT, false)
+			.add(ShaderProgramConstants.ATTRIBUTE_POSITION_LOCATION, ShaderProgramConstants.ATTRIBUTE_POSITION, 2, GLES20.GL_FLOAT, false)
+			.add(ShaderProgramConstants.ATTRIBUTE_TEXTURECOORDINATES_LOCATION, ShaderProgramConstants.ATTRIBUTE_TEXTURECOORDINATES, 2, GLES20.GL_FLOAT, false)
 			.build();
 		
 		// ===========================================================
@@ -184,7 +186,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 			super(pTexture, pCapacity, new SpriteBatchMeshWithoutColor(pCapacity, pDrawType, true, SpriteBatchWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR));
 			this.mSpriteBatchMeshWithoutColor = (SpriteBatchMeshWithoutColor) this.mSpriteBatchMesh;
 			
-			this.setShaderProgram(ShaderPrograms.SHADERPROGRAM_POSITION_TEXTURECOORDINATES);
+			this.setShaderProgram(PositionTextureCoordinatesShaderProgram.getInstance());
 		}
 
 		// ===========================================================

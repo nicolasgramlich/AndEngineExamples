@@ -15,7 +15,7 @@ import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
-import org.anddev.andengine.entity.scene.background.ColorBackground;
+import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.entity.util.ScreenCapture;
 import org.anddev.andengine.entity.util.ScreenCapture.IScreenCaptureCallback;
@@ -76,7 +76,7 @@ public class ScreenCaptureExample extends BaseExample {
 		final Scene scene = new Scene();
 		final ScreenCapture screenCapture = new ScreenCapture();
 
-		scene.setBackground(new ColorBackground(0, 0, 0));
+		scene.setBackground(new Background(0, 0, 0));
 
 		/* Create three lines that will form an arrow pointing to the eye. */
 		final Line arrowLineMain = new Line(0, 0, 0, 0, 3);
