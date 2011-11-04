@@ -16,7 +16,6 @@ import org.anddev.andengine.extension.input.touch.controller.MultiTouch;
 import org.anddev.andengine.extension.input.touch.controller.MultiTouchController;
 import org.anddev.andengine.extension.input.touch.exception.MultiTouchException;
 import org.anddev.andengine.input.touch.TouchEvent;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -88,10 +87,11 @@ public class MultiTouchExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mCardDeckTexture = new BitmapTextureAtlas(1024, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+
+		this.mCardDeckTexture = new BitmapTextureAtlas(1024, 512, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mCardDeckTexture, this, "carddeck_tiled.png", 0, 0);
+		this.mCardDeckTexture.load();
 
 		this.mCardTotextureRegionMap = new HashMap<Card, ITextureRegion>();
 
@@ -100,8 +100,6 @@ public class MultiTouchExample extends BaseExample {
 			final ITextureRegion cardTextureRegion = TextureRegionFactory.extractFromTexture(this.mCardDeckTexture, card.getTexturePositionX(), card.getTexturePositionY(), Card.CARD_WIDTH, Card.CARD_HEIGHT, true);
 			this.mCardTotextureRegionMap.put(card, cardTextureRegion);
 		}
-
-		TextureManager.loadTexture(this.mCardDeckTexture);
 	}
 
 	@Override

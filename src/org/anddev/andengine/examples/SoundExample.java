@@ -16,12 +16,11 @@ import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
-import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.debug.Debug;
 
 import android.widget.Toast;
 
@@ -70,9 +69,11 @@ public class SoundExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mTankTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "tank.png", 0, 0);
+		this.mBitmapTextureAtlas.load();
 
 		SoundFactory.setAssetBasePath("mfx/");
 		try {
@@ -80,8 +81,6 @@ public class SoundExample extends BaseExample {
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
-
-		TextureManager.loadTexture(this.mBitmapTextureAtlas);
 	}
 
 	@Override

@@ -13,7 +13,6 @@ import org.anddev.andengine.entity.sprite.batch.SpriteBatch.SpriteBatchMesh;
 import org.anddev.andengine.opengl.shader.PositionTextureCoordinatesShaderProgram;
 import org.anddev.andengine.opengl.shader.util.constants.ShaderProgramConstants;
 import org.anddev.andengine.opengl.texture.ITexture;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -89,7 +88,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
-		TextureManager.loadTexture(this.mBitmapTextureAtlas);
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override

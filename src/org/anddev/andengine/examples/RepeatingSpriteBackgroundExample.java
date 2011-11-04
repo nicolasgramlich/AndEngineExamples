@@ -14,7 +14,6 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.RepeatingSpriteBackground;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -67,12 +66,12 @@ public class RepeatingSpriteBackgroundExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128, TextureOptions.DEFAULT);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128, TextureOptions.DEFAULT);
 		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "player.png", 0, 0, 3, 4);
 		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, new AssetBitmapTextureAtlasSource(this, "gfx/background_grass.png"));
-
-		TextureManager.loadTexture(this.mBitmapTextureAtlas);
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override

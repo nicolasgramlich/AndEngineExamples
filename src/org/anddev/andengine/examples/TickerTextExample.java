@@ -16,13 +16,11 @@ import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.text.TickerText;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.Font;
-import org.anddev.andengine.opengl.font.FontManager;
-import org.anddev.andengine.opengl.texture.TextureManager;
+import org.anddev.andengine.opengl.texture.ITexture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.util.HorizontalAlign;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.opengl.GLES20;
 
@@ -46,7 +44,7 @@ public class TickerTextExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private BitmapTextureAtlas mFontTexture;
+
 	private Font mFont;
 
 	// ===========================================================
@@ -69,12 +67,9 @@ public class TickerTextExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		final ITexture fontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
-		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.BLACK);
-
-		TextureManager.loadTexture(this.mFontTexture);
-		FontManager.loadFont(this.mFont);
+		this.mFont = new Font(fontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32).load();
 	}
 
 	@Override
@@ -86,13 +81,13 @@ public class TickerTextExample extends BaseExample {
 
 		final Text text = new TickerText(30, 60, this.mFont, "There are also ticker texts!\n\nYou'll see the answer to life & universe in...\n\n5 4 3 2 1...\n\n42\n\nIndeed very funny!", HorizontalAlign.CENTER, 10);
 		text.registerEntityModifier(
-				new SequenceEntityModifier(
-						new ParallelEntityModifier(
-								new AlphaModifier(10, 0.0f, 1.0f),
-								new ScaleModifier(10, 0.5f, 1.0f)
-						),
-						new RotationModifier(5, 0, 360)
-				)
+			new SequenceEntityModifier(
+				new ParallelEntityModifier(
+					new AlphaModifier(10, 0.0f, 1.0f),
+					new ScaleModifier(10, 0.5f, 1.0f)
+				),
+				new RotationModifier(5, 0, 360)
+			)
 		);
 		text.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		scene.attachChild(text);

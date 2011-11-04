@@ -18,7 +18,6 @@ import org.anddev.andengine.extension.physics.box2d.PhysicsWorld;
 import org.anddev.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.anddev.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
 import org.anddev.andengine.input.touch.TouchEvent;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -102,7 +101,8 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
-		TextureManager.loadTexture(this.mBitmapTextureAtlas);
+
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override

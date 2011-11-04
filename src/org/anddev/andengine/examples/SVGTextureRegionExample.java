@@ -13,7 +13,6 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.extension.svg.adt.ISVGColorMapper;
 import org.anddev.andengine.extension.svg.adt.SVGDirectColorMapper;
 import org.anddev.andengine.extension.svg.opengl.texture.atlas.bitmap.SVGBitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
@@ -23,7 +22,7 @@ import org.anddev.andengine.opengl.texture.atlas.buildable.builder.ITextureBuild
 import org.anddev.andengine.opengl.texture.region.BaseTextureRegion;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
-import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.debug.Debug;
 
 import android.graphics.Color;
 
@@ -119,11 +118,10 @@ public class SVGTextureRegionExample extends BaseExample {
 
 		try {
 			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1));
+			this.mBuildableBitmapTextureAtlas.load();
 		} catch (final TextureAtlasSourcePackingException e) {
 			Debug.e(e);
 		}
-
-		TextureManager.loadTexture(this.mBuildableBitmapTextureAtlas);
 	}
 
 	@Override

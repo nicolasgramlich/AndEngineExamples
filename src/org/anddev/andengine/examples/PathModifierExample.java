@@ -13,13 +13,12 @@ import org.anddev.andengine.entity.modifier.PathModifier.Path;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.RepeatingSpriteBackground;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasSource;
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
-import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.debug.Debug;
 import org.anddev.andengine.util.modifier.ease.EaseSineInOut;
 
 import android.widget.Toast;
@@ -71,12 +70,12 @@ public class PathModifierExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128, TextureOptions.DEFAULT);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128, TextureOptions.DEFAULT);
 		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "player.png", 0, 0, 3, 4);
 		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, new AssetBitmapTextureAtlasSource(this, "gfx/background_grass.png"));
-
-		TextureManager.loadTexture(this.mBitmapTextureAtlas);
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override

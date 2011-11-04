@@ -16,13 +16,12 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.ZoomState;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.ITexture;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.compressed.pvr.PVRCCZTexture;
 import org.anddev.andengine.opengl.texture.compressed.pvr.PVRTexture.PVRTextureFormat;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.debug.Debug;
 
 import android.widget.Toast;
 
@@ -92,11 +91,9 @@ public class PVRCCZTextureExample extends BaseExample {
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRCCZTextureExample.this.getResources().openRawResource(R.raw.house_pvrccz_argb_8888);
 				}
-			};
+			}.load();
 
 			this.mHouseTextureRegion = TextureRegionFactory.extractFromTexture(this.mTexture, 0, 0, 512, 512, true);
-
-			TextureManager.loadTextures(this.mTexture);
 		} catch (final Throwable e) {
 			Debug.e(e);
 		}

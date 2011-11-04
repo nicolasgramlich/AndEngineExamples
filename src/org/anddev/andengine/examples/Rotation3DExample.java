@@ -11,7 +11,6 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -62,11 +61,11 @@ public class Rotation3DExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
-		TextureManager.loadTexture(this.mBitmapTextureAtlas);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override
@@ -82,15 +81,6 @@ public class Rotation3DExample extends BaseExample {
 
 		/* Create the face and add it to the scene. */
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion) {
-
-			@Override
-			protected void preDraw(final Camera pCamera) {
-				super.preDraw(pCamera);
-
-				/* Disable culling so we can see the backside of this sprite. */
-				GLState.disableCulling();
-			}
-
 			@Override
 			protected void applyRotation() {
 				final float rotation = this.mRotation;
@@ -104,14 +94,6 @@ public class Rotation3DExample extends BaseExample {
 					GLState.rotateModelViewGLMatrixf(rotation, 0, 1, 0);
 					GLState.translateModelViewGLMatrixf(-rotationCenterX, -rotationCenterY, 0);
 				}
-			}
-
-			@Override
-			protected void postDraw(final Camera pCamera) {
-				/* Enable culling as 'normal' entities profit from culling. */
-				GLState.enableCulling();
-
-				super.postDraw(pCamera);
 			}
 		};
 		face.registerEntityModifier(new LoopEntityModifier(new RotationModifier(6, 0, 360)));

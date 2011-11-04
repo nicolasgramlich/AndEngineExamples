@@ -8,17 +8,14 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
-import org.anddev.andengine.entity.sprite.UncoloredSprite;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.spritesheets.TexturePackerExampleSpritesheet;
 import org.anddev.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePack;
 import org.anddev.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackLoader;
 import org.anddev.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackTextureRegionLibrary;
 import org.anddev.andengine.extension.texturepacker.opengl.texture.util.texturepacker.exception.TexturePackParseException;
-import org.anddev.andengine.opengl.texture.ITexture;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.debug.Debug;
 
 /**
  * (c) 2011 Zynga
@@ -39,7 +36,6 @@ public class TexturePackerExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-	private ITexture mSpritesheetTexture;
 	private TexturePackTextureRegionLibrary mSpritesheetTexturePackTextureRegionLibrary;
 
 	// ===========================================================
@@ -64,9 +60,8 @@ public class TexturePackerExample extends BaseExample {
 	public void onLoadResources() {
 		try {
 			final TexturePack spritesheetTexturePack = new TexturePackLoader(this, "gfx/spritesheets/").loadFromAsset(this, "texturepackerexample.xml");
-			this.mSpritesheetTexture = spritesheetTexturePack.getTexture();
+			spritesheetTexturePack.loadTexture();
 			this.mSpritesheetTexturePackTextureRegionLibrary = spritesheetTexturePack.getTexturePackTextureRegionLibrary();
-			TextureManager.loadTexture(this.mSpritesheetTexture);
 		} catch (final TexturePackParseException e) {
 			Debug.e(e);
 		}
@@ -79,7 +74,7 @@ public class TexturePackerExample extends BaseExample {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(1, 1, 1));
 
-		TextureRegion faceTextureRegion = this.mSpritesheetTexturePackTextureRegionLibrary.get(TexturePackerExampleSpritesheet.TEST_ID);
+		TextureRegion faceTextureRegion = this.mSpritesheetTexturePackTextureRegionLibrary.get(TexturePackerExampleSpritesheet.FACE_BOX_ID);
 		/* Calculate the coordinates for the face, so its centered on the camera. */
 		final int centerX = (CAMERA_WIDTH - faceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) / 2;

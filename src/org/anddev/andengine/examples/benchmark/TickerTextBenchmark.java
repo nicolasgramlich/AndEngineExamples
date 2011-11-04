@@ -10,10 +10,7 @@ import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.text.TickerText;
 import org.anddev.andengine.opengl.font.Font;
-import org.anddev.andengine.opengl.font.FontManager;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.util.HorizontalAlign;
 
 import android.graphics.Color;
@@ -41,7 +38,6 @@ public class TickerTextBenchmark extends BaseBenchmark {
 	// ===========================================================
 
 	private Camera mCamera;
-	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
 
 	// ===========================================================
@@ -79,12 +75,8 @@ public class TickerTextBenchmark extends BaseBenchmark {
 
 	@Override
 	public void onLoadResources() {
-		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 22, true, Color.WHITE);
-
-		TextureManager.loadTexture(this.mFontTexture);
-		FontManager.loadFont(this.mFont);
+		Typeface typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD);
+		this.mFont = new Font(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA, typeface, 22, true, Color.WHITE).load();
 	}
 
 	@Override

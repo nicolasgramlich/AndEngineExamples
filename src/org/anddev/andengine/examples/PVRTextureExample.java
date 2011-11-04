@@ -17,13 +17,12 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.examples.adt.ZoomState;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.texture.ITexture;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.compressed.pvr.PVRTexture;
 import org.anddev.andengine.opengl.texture.compressed.pvr.PVRTexture.PVRTextureFormat;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
-import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.debug.Debug;
 
 import android.opengl.GLES20;
 import android.widget.Toast;
@@ -102,35 +101,33 @@ public class PVRTextureExample extends BaseExample {
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_rgb_565);
 				}
-			};
+			}.load();
 
 			this.mTextureRGBA5551 = new PVRTexture(PVRTextureFormat.RGBA_5551, new TextureOptions(GLES20.GL_LINEAR, GLES20.GL_LINEAR, GLES20.GL_CLAMP_TO_EDGE, GLES20.GL_CLAMP_TO_EDGE, false)) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_5551);
 				}
-			};
+			}.load();
 
 			this.mTextureARGB4444 = new PVRTexture(PVRTextureFormat.RGBA_4444, new TextureOptions(GLES20.GL_LINEAR, GLES20.GL_LINEAR, GLES20.GL_CLAMP_TO_EDGE, GLES20.GL_CLAMP_TO_EDGE, false)) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_4444);
 				}
-			};
+			}.load();
 
 			this.mTextureRGBA888MipMaps = new PVRTexture(PVRTextureFormat.RGBA_8888, new TextureOptions(GLES20.GL_LINEAR_MIPMAP_LINEAR, GLES20.GL_LINEAR, GLES20.GL_CLAMP_TO_EDGE, GLES20.GL_CLAMP_TO_EDGE, false)) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_8888_mipmaps);
 				}
-			};
+			}.load();
 
 			this.mHouseNearestTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureRGB565, 0, 0, 512, 512, true);
 			this.mHouseLinearTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureRGBA5551, 0, 0, 512, 512, true);
 			this.mHouseMipMapsNearestTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureARGB4444, 0, 0, 512, 512, true);
 			this.mHouseMipMapsLinearTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureRGBA888MipMaps, 0, 0, 512, 512, true);
-
-			TextureManager.loadTextures(this.mTextureRGB565, this.mTextureRGBA5551, this.mTextureARGB4444, this.mTextureRGBA888MipMaps);
 		} catch (final Throwable e) {
 			Debug.e(e);
 		}

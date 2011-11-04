@@ -3,7 +3,7 @@ package org.anddev.andengine.examples.launcher;
 import java.util.Arrays;
 
 import org.anddev.andengine.examples.R;
-import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.debug.Debug;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

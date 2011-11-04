@@ -11,8 +11,7 @@ import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
-import org.anddev.andengine.opengl.font.FontManager;
-import org.anddev.andengine.opengl.texture.TextureManager;
+import org.anddev.andengine.opengl.texture.ITexture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 
@@ -48,12 +47,6 @@ public class CustomFontExample extends BaseExample {
 	private Font mUnrealTournamenFont;
 	private Font mKingdomOfHeartsFont;
 
-	private BitmapTextureAtlas mDroidFontTexture;
-	private BitmapTextureAtlas mPlokFontTexture;
-	private BitmapTextureAtlas mNeverwinterNightsFontTexture;
-	private BitmapTextureAtlas mUnrealTournamentFontTexture;
-	private BitmapTextureAtlas mKingdomOfHeartsFontTexture;
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -75,21 +68,18 @@ public class CustomFontExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		/* The custom fonts. */
-		this.mDroidFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mKingdomOfHeartsFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mNeverwinterNightsFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mPlokFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mUnrealTournamentFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		final ITexture droidFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		final ITexture kingdomOfHeartsFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		final ITexture neverwinterNightsFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		final ITexture plokFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		final ITexture unrealTournamentFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		FontFactory.setAssetBasePath("font/");
-		this.mDroidFont = FontFactory.createFromAsset(this.mDroidFontTexture, this, "Droid.ttf", FONT_SIZE, true, Color.BLACK);
-		this.mKingdomOfHeartsFont = FontFactory.createFromAsset(this.mKingdomOfHeartsFontTexture, this, "KingdomOfHearts.ttf", FONT_SIZE + 20, true, Color.BLACK);
-		this.mNeverwinterNightsFont = FontFactory.createFromAsset(this.mNeverwinterNightsFontTexture, this, "NeverwinterNights.ttf", FONT_SIZE, true, Color.BLACK);
-		this.mPlokFont = FontFactory.createFromAsset(this.mPlokFontTexture, this, "Plok.ttf", FONT_SIZE, true, Color.BLACK);
-		this.mUnrealTournamenFont = FontFactory.createFromAsset(this.mUnrealTournamentFontTexture, this, "UnrealTournament.ttf", FONT_SIZE, true, Color.BLACK);
-
-		TextureManager.loadTextures(this.mDroidFontTexture, this.mKingdomOfHeartsFontTexture, this.mNeverwinterNightsFontTexture, this.mPlokFontTexture, this.mUnrealTournamentFontTexture);
-		FontManager.loadFonts(this.mDroidFont, this.mKingdomOfHeartsFont, this.mNeverwinterNightsFont, this.mPlokFont, this.mUnrealTournamenFont);
+		this.mDroidFont = FontFactory.createFromAsset(droidFontTexture, this, "Droid.ttf", FONT_SIZE, true, Color.BLACK).load();
+		this.mKingdomOfHeartsFont = FontFactory.createFromAsset(kingdomOfHeartsFontTexture, this, "KingdomOfHearts.ttf", FONT_SIZE + 20, true, Color.BLACK).load();
+		this.mNeverwinterNightsFont = FontFactory.createFromAsset(neverwinterNightsFontTexture, this, "NeverwinterNights.ttf", FONT_SIZE, true, Color.BLACK).load();
+		this.mPlokFont = FontFactory.createFromAsset(plokFontTexture, this, "Plok.ttf", FONT_SIZE, true, Color.BLACK).load();
+		this.mUnrealTournamenFont = FontFactory.createFromAsset(unrealTournamentFontTexture, this, "UnrealTournament.ttf", FONT_SIZE, true, Color.BLACK).load();
 	}
 
 	@Override

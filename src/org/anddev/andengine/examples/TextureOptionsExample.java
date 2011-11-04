@@ -9,7 +9,6 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -65,19 +64,21 @@ public class TextureOptionsExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.DEFAULT);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
+		this.mBitmapTextureAtlas.load();
 
 		this.mBitmapTextureAtlasBilinear = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mFaceTextureRegionBilinear = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlasBilinear, this, "face_box.png", 0, 0);
+		this.mBitmapTextureAtlasBilinear.load();
 
 		this.mBitmapTextureAtlasRepeating = new BitmapTextureAtlas(32, 32, TextureOptions.REPEATING_NEAREST_PREMULTIPLYALPHA);
 		this.mFaceTextureRegionRepeating = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlasRepeating, this, "face_box.png", 0, 0);
 		/* The following statement causes the BitmapTextureAtlas to be printed horizontally 10x on any Sprite that uses it.
 		 * So we will later increase the width of such a sprite by the same factor to avoid distortion. */
 		this.mFaceTextureRegionRepeating.setWidth(10 * this.mFaceTextureRegionRepeating.getWidth());
-
-		TextureManager.loadTextures(this.mBitmapTextureAtlas, this.mBitmapTextureAtlasBilinear, this.mBitmapTextureAtlasRepeating);
+		this.mBitmapTextureAtlasRepeating.load();
 	}
 
 	@Override

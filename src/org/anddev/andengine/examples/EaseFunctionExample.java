@@ -14,8 +14,7 @@ import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.font.Font;
-import org.anddev.andengine.opengl.font.FontManager;
-import org.anddev.andengine.opengl.texture.TextureManager;
+import org.anddev.andengine.opengl.texture.ITexture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -80,7 +79,6 @@ public class EaseFunctionExample extends BaseExample {
 
 	private Camera mCamera;
 
-	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
 
 	private BitmapTextureAtlas mBitmapTextureAtlas;
@@ -176,12 +174,8 @@ public class EaseFunctionExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		/* The font. */
-		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-
-		this.mFont = new Font(this.mFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.WHITE);
-
-		TextureManager.loadTexture(this.mFontTexture);
-		FontManager.loadFont(this.mFont);
+		final ITexture fontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFont = new Font(fontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32, true, Color.WHITE).load();
 
 		/* The textures. */
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -189,7 +183,7 @@ public class EaseFunctionExample extends BaseExample {
 		this.mNextTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "next.png", 0, 0);
 		this.mBadgeTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "badge.png", 97, 0);
 
-		TextureManager.loadTexture(this.mBitmapTextureAtlas);
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override

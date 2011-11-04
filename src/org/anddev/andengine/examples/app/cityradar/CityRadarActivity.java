@@ -17,8 +17,6 @@ import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.examples.adt.cityradar.City;
 import org.anddev.andengine.opengl.font.Font;
-import org.anddev.andengine.opengl.font.FontManager;
-import org.anddev.andengine.opengl.texture.TextureManager;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -33,7 +31,7 @@ import org.anddev.andengine.sensor.location.LocationSensorOptions;
 import org.anddev.andengine.sensor.orientation.IOrientationListener;
 import org.anddev.andengine.sensor.orientation.OrientationData;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
-import org.anddev.andengine.util.Debug;
+import org.anddev.andengine.util.debug.Debug;
 import org.anddev.andengine.util.math.MathUtils;
 import org.anddev.andengine.util.modifier.ease.EaseLinear;
 
@@ -68,7 +66,6 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	private ITextureRegion mRadarPointTextureRegion;
 	private ITextureRegion mRadarTextureRegion;
 
-	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
 
 	private Location mUserLocation;
@@ -118,11 +115,7 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	@Override
 	public void onLoadResources() {
 		/* Init font. */
-		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFont = new Font(this.mFontTexture, Typeface.DEFAULT, 12, true, Color.WHITE);
-
-		FontManager.loadFont(this.mFont);
-		TextureManager.loadTexture(this.mFontTexture);
+		this.mFont = new Font(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA, Typeface.DEFAULT, 12, true, Color.WHITE).load();
 
 		/* Init TextureRegions. */
 		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -133,11 +126,10 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 
 		try {
 			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(1));
+			this.mBuildableBitmapTextureAtlas.load();
 		} catch (final TextureAtlasSourcePackingException e) {
 			Debug.e(e);
 		}
-
-		TextureManager.loadTexture(this.mBuildableBitmapTextureAtlas);
 	}
 
 	@Override
