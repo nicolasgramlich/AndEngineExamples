@@ -31,10 +31,11 @@ class ExpandableExampleLauncherListAdapter extends BaseExpandableListAdapter {
 		ExampleGroup.TEXT,
 		ExampleGroup.AUDIO,
 		ExampleGroup.ADVANCED,
+		ExampleGroup.POSTPROCESSING,
 		ExampleGroup.BACKGROUND,
 		ExampleGroup.OTHER,
-//		ExampleGroup.APP,
-//		ExampleGroup.GAME,
+		ExampleGroup.APP,
+		ExampleGroup.GAME,
 		ExampleGroup.BENCHMARK
 	};
 

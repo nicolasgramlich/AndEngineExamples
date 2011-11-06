@@ -30,6 +30,7 @@
 	<string name="examplegroup_physics">Physics</string>
 	<string name="examplegroup_text">Text</string>
 	<string name="examplegroup_audio">Audio</string>
+	<string name="examplegroup_postprocessing">Post-Processing</string>
 	<string name="examplegroup_advanced">Advanced</string>
 	<string name="examplegroup_background">Backgrounds</string>
 	<string name="examplegroup_other">Others</string>
@@ -61,6 +62,7 @@
 	<string name="example_loadtexture">Load BitmapTextureAtlas Dynamic</string>
 	<string name="example_menu">Using Menus</string>
 	<string name="example_modplayer">Playing .MOD Music</string>
+	<string name="example_motiontrailing">Motion Trailing</string>
 	<string name="example_movingball">A Moving Ball</string>
 	<string name="example_multiplayer">Multiplayer Example</string>
 	<string name="example_multiplayerserverdiscovery">Multiplayer Server Discovery Example</string>

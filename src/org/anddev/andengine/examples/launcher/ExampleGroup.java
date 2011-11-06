@@ -33,6 +33,8 @@ public enum ExampleGroup {
 			Example.SOUND, Example.MUSIC, Example.MODPLAYER),
 	ADVANCED(R.string.examplegroup_advanced, 
 			Example.SPLITSCREEN, Example.BOUNDCAMERA ), // Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON),
+	POSTPROCESSING(R.string.examplegroup_postprocessing, 
+			Example.MOTIONTRAILING),
 	BACKGROUND(R.string.examplegroup_background, 
 			Example.REPEATINGSPRITEBACKGROUND, Example.AUTOPARALLAXBACKGROUND), //, Example.TMXTILEDMAP),
 	OTHER(R.string.examplegroup_other, 

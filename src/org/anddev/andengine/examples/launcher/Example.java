@@ -23,6 +23,7 @@ import org.anddev.andengine.examples.LineExample;
 import org.anddev.andengine.examples.LoadTextureExample;
 import org.anddev.andengine.examples.MenuExample;
 import org.anddev.andengine.examples.ModPlayerExample;
+import org.anddev.andengine.examples.MotionTrailingExample;
 import org.anddev.andengine.examples.MovingBallExample;
 import org.anddev.andengine.examples.MultiTouchExample;
 import org.anddev.andengine.examples.MultiplayerBluetoothExample;
@@ -111,6 +112,7 @@ enum Example {
 	LOADTEXTURE(LoadTextureExample.class, R.string.example_loadtexture),
 	MENU(MenuExample.class, R.string.example_menu),
 	MODPLAYER(ModPlayerExample.class, R.string.example_modplayer),
+	MOTIONTRAILING(MotionTrailingExample.class, R.string.example_motiontrailing),
 	MOVINGBALL(MovingBallExample.class, R.string.example_movingball),
 	MULTIPLAYER(MultiplayerExample.class, R.string.example_multiplayer),
 	MULTIPLAYERSERVERDISCOVERY(MultiplayerServerDiscoveryExample.class, R.string.example_multiplayerserverdiscovery),
