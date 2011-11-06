@@ -8,7 +8,6 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.primitive.Line;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.Background;
-import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.BitmapFont;
@@ -16,8 +15,6 @@ import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.texture.ITexture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture.BitmapTextureFormat;
-import org.anddev.andengine.opengl.texture.region.TextureRegionFactory;
 import org.anddev.andengine.util.HorizontalAlign;
 
 import android.graphics.Typeface;
@@ -44,6 +41,7 @@ public class TextExample extends BaseExample {
 	private Camera mCamera;
 	private Font mFont;
 	private BitmapFont mBitmapFont;
+	private BitmapFont mBitmapFontWithKerning;
 
 	// ===========================================================
 	// Constructors
@@ -70,6 +68,8 @@ public class TextExample extends BaseExample {
 		
 		this.mBitmapFont = new BitmapFont(this, "font/BitmapFont.fnt", TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		this.mBitmapFont.loadTextures();
+		this.mBitmapFontWithKerning = new BitmapFont(this, "font/BitmapFontWithKerning.fnt", TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBitmapFontWithKerning.loadTextures();
 	}
 
 	@Override
@@ -80,14 +80,18 @@ public class TextExample extends BaseExample {
 //		scene.attachChild(new Sprite(0, 0, TextureRegionFactory.extractFromTexture(this.mFont.getTexture())));
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final Text text = new Text(100, 100, this.mFont, "Hello Font!\nYou can even have multilined text!", HorizontalAlign.CENTER);
-		final Text bitmapText = new Text(100, 200, this.mBitmapFont, "Hello BitmapFont!\nYou can even have multilined text!", HorizontalAlign.CENTER);
-		scene.attachChild(new Line(100, 100, 500, 100));
-		scene.attachChild(new Line(100, 100, 100, 500));
-		scene.attachChild(new Line(100, 200, 500, 200));
+		final Text text = new Text(100, 50, this.mFont, "Hello Font!\n1234567890!,\n.///////////\n.........pfnpsnbfka...", HorizontalAlign.CENTER);
+		borderize(scene, text);
+		
+		final Text bitmapText = new Text(100, 200, this.mBitmapFont, "Hello BitmapFont!\n1234567890!,\n.///////////\n.........pfnpsnbfka...", HorizontalAlign.CENTER);
+		borderize(scene, bitmapText);
+		
+		final Text bitmapTextWithKerning = new Text(100, 350, this.mBitmapFontWithKerning, "Hello BitmapFont!\n1234567890!,\n.///////////\n.........pfnpsnbfka...", HorizontalAlign.CENTER);
+		borderize(scene, bitmapTextWithKerning);
 		
 		scene.attachChild(text);
 		scene.attachChild(bitmapText);
+		scene.attachChild(bitmapTextWithKerning);
 		
 //		final Text textCenter = new Text(100, 60, this.mFont, "Hello AndEngine!\nYou can even have multilined text!", HorizontalAlign.CENTER);
 //		final Text textLeft = new Text(100, 200, this.mFont, "Also left aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.LEFT);
@@ -99,6 +103,21 @@ public class TextExample extends BaseExample {
 
 		
 		return scene;
+	}
+
+	/**
+	 * @param pScene
+	 * @param pText
+	 */
+	private void borderize(final Scene pScene, final Text pText) {
+		final float left = pText.getX();
+		final float top = pText.getY();
+		final float right = left + pText.getWidth();
+		final float bottom = top + pText.getHeight();
+		pScene.attachChild(new Line(left, top, left, bottom)); // LEFT
+		pScene.attachChild(new Line(right, top, right, bottom)); // RIGHT
+		pScene.attachChild(new Line(left, top, right, top)); // TOP 
+		pScene.attachChild(new Line(left, bottom, right, bottom)); // BOTTOM
 	}
 
 	@Override
