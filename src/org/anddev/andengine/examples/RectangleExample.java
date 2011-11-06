@@ -75,27 +75,26 @@ public class RectangleExample extends BaseExample {
 
 			private Sprite mPrimaryRenderTextureSprite;
 			private Sprite mSecondaryRenderTextureSprite;
-
+			
 			@Override
 			public void onDrawFrame() throws InterruptedException {
-				final boolean firstFrame = !this.mRenderTextureInitialized;
+				final boolean firstFrame = !mRenderTextureInitialized;
 
 				final int surfaceWidth = this.mCamera.getSurfaceWidth();
 				final int surfaceHeight = this.mCamera.getSurfaceHeight();
 
 				if(!this.mRenderTextureInitialized) {
 					this.mRenderTextureInitialized = true;
-					
 					this.mRenderTextureA = new RenderTexture(surfaceWidth, surfaceHeight);
-					this.mRenderTextureA.init();
 					this.mRenderTextureB = new RenderTexture(surfaceWidth, surfaceHeight);
+					this.mRenderTextureA.init();
 					this.mRenderTextureB.init();
 
 					final ITextureRegion renderTextureATextureRegion = TextureRegionFactory.extractFromTexture(this.mRenderTextureA);
-					this.mRenderTextureASprite = new Sprite(0, 0, surfaceWidth, surfaceHeight, renderTextureATextureRegion);
+					this.mRenderTextureASprite = new Sprite(0, 0, renderTextureATextureRegion);
 
 					final ITextureRegion renderTextureBTextureRegion = TextureRegionFactory.extractFromTexture(this.mRenderTextureB);
-					this.mRenderTextureBSprite = new Sprite(0, 0, surfaceWidth, surfaceHeight, renderTextureBTextureRegion);
+					this.mRenderTextureBSprite = new Sprite(0, 0, renderTextureBTextureRegion);
 
 					this.mPrimaryRenderTexture = this.mRenderTextureA;
 					this.mPrimaryRenderTextureSprite = this.mRenderTextureASprite;
@@ -110,13 +109,8 @@ public class RectangleExample extends BaseExample {
 
 					/* Draw previous frame with reduced alpha. */
 					if(!firstFrame) {
-						GLState.pushProjectionGLMatrix();
-						GLState.orthoProjectionGLMatrixf(0, surfaceWidth, 0, surfaceHeight, -1, 1);
-						{
-							this.mSecondaryRenderTextureSprite.setAlpha(0.975f);
-							this.mSecondaryRenderTextureSprite.onDraw(this.mCamera);
-						}
-						GLState.popProjectionGLMatrix();
+						this.mSecondaryRenderTextureSprite.setAlpha(0.975f);
+						this.mSecondaryRenderTextureSprite.onDraw(this.mCamera);
 					}
 				}
 				this.mPrimaryRenderTexture.end();
