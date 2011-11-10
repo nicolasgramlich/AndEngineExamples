@@ -92,11 +92,11 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 	public void onLoadResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.BILINEAR);
 		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mBitmapTextureAtlas.load();
 
-		this.mHUDTexture = new BitmapTextureAtlas(256, 128,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mHUDTexture = new BitmapTextureAtlas(256, 128,TextureOptions.BILINEAR);
 		this.mToggleButtonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mHUDTexture, this, "toggle_button.png", 0, 0, 2, 1); // 256x128
 		this.mHUDTexture.load();
 	}

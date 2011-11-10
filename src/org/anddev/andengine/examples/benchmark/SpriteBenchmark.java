@@ -84,7 +84,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
@@ -183,7 +183,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 		private SpriteBatchWithoutColor(final ITexture pTexture, final int pCapacity, DrawType pDrawType) {
 			super(pTexture, pCapacity, new SpriteBatchMeshWithoutColor(pCapacity, pDrawType, true, SpriteBatchWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR));
-			this.mSpriteBatchMeshWithoutColor = (SpriteBatchMeshWithoutColor) this.mSpriteBatchMesh;
+			this.mSpriteBatchMeshWithoutColor = (SpriteBatchMeshWithoutColor) this.mMesh;
 			
 			this.setShaderProgram(PositionTextureCoordinatesShaderProgram.getInstance());
 		}

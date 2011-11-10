@@ -34,7 +34,7 @@ public enum ExampleGroup {
 	ADVANCED(R.string.examplegroup_advanced, 
 			Example.SPLITSCREEN, Example.BOUNDCAMERA ), // Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON),
 	POSTPROCESSING(R.string.examplegroup_postprocessing, 
-			Example.MOTIONTRAILING),
+			Example.MOTIONSTREAK, Example.RADIALBLUR),
 	BACKGROUND(R.string.examplegroup_background, 
 			Example.REPEATINGSPRITEBACKGROUND, Example.AUTOPARALLAXBACKGROUND), //, Example.TMXTILEDMAP),
 	OTHER(R.string.examplegroup_other, 

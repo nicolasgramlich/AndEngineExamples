@@ -51,7 +51,7 @@
 		<activity android:name=".LoadTextureExample" android:configChanges="orientation"/>
 		<activity android:name=".MenuExample" android:configChanges="orientation"/>
 		<activity android:name=".ModPlayerExample" android:configChanges="orientation"/>
-		<activity android:name=".MotionTrailingExample" android:configChanges="orientation"/>
+		<activity android:name=".MotionStreakExample" android:configChanges="orientation"/>
 		<activity android:name=".MovingBallExample" android:configChanges="orientation"/>
 		<activity android:name=".MultiplayerExample" android:configChanges="orientation"/>
 		<activity android:name=".MultiplayerServerDiscoveryExample" android:configChanges="orientation"/>
@@ -74,6 +74,7 @@
 		<activity android:name=".PVRCCZTextureExample" android:configChanges="orientation"/>
 		<activity android:name=".PVRGZTextureExample" android:configChanges="orientation"/>
 		<activity android:name=".PVRTextureExample" android:configChanges="orientation"/>
+		<activity android:name=".RadialBlurExample" android:configChanges="orientation"/>
 		<activity android:name=".RectangleExample" android:configChanges="orientation"/>
 		<activity android:name=".RepeatingSpriteBackgroundExample" android:configChanges="orientation"/>
 		<activity android:name=".Rotation3DExample" android:configChanges="orientation"/>

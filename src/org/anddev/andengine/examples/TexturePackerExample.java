@@ -59,7 +59,7 @@ public class TexturePackerExample extends BaseExample {
 	@Override
 	public void onLoadResources() {
 		try {
-			final TexturePack spritesheetTexturePack = new TexturePackLoader(this, "gfx/spritesheets/").loadFromAsset(this, "texturepackerexample.xml");
+			final TexturePack spritesheetTexturePack = new TexturePackLoader("gfx/spritesheets/").loadFromAsset(this, "texturepackerexample.xml");
 			spritesheetTexturePack.loadTexture();
 			this.mSpritesheetTexturePackTextureRegionLibrary = spritesheetTexturePack.getTexturePackTextureRegionLibrary();
 		} catch (final TexturePackParseException e) {

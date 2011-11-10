@@ -30,7 +30,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 16:55:18 - 06.11.2011
  */
-public class MotionTrailingExample extends BaseExample implements IOnSceneTouchListener {
+public class MotionStreakExample extends BaseExample implements IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -44,7 +44,7 @@ public class MotionTrailingExample extends BaseExample implements IOnSceneTouchL
 
 	private Camera mCamera;
 
-	private boolean mMotionTrailing = true;
+	private boolean mMotionStreaking = true;
 
 	// ===========================================================
 	// Constructors
@@ -60,10 +60,9 @@ public class MotionTrailingExample extends BaseExample implements IOnSceneTouchL
 
 	@Override
 	public Engine onLoadEngine() {
-		this.mCamera = new Camera(0, 0, MotionTrailingExample.CAMERA_WIDTH, MotionTrailingExample.CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(MotionTrailingExample.CAMERA_WIDTH, MotionTrailingExample.CAMERA_HEIGHT), this.mCamera)) {
-
-			protected static final int RENDERTEXTURE_COUNT = 2;
+		this.mCamera = new Camera(0, 0, MotionStreakExample.CAMERA_WIDTH, MotionStreakExample.CAMERA_HEIGHT);
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(MotionStreakExample.CAMERA_WIDTH, MotionStreakExample.CAMERA_HEIGHT), this.mCamera)) {
+			private static final int RENDERTEXTURE_COUNT = 2;
 
 			private boolean mRenderTextureInitialized;
 
@@ -87,14 +86,14 @@ public class MotionTrailingExample extends BaseExample implements IOnSceneTouchL
 				final int currentRenderTextureIndex = this.mCurrentRenderTextureIndex;
 				final int otherRenderTextureIndex = (currentRenderTextureIndex + 1) % RENDERTEXTURE_COUNT;
 
-				this.mRenderTextures[currentRenderTextureIndex].begin();
+				this.mRenderTextures[currentRenderTextureIndex].begin(false, true);
 				{
 					/* Draw current frame. */
 					super.onDrawFrame();
 
 					/* Draw previous frame with reduced alpha. */
 					if(!firstFrame) {
-						if(MotionTrailingExample.this.mMotionTrailing) {
+						if(MotionStreakExample.this.mMotionStreaking) {
 							this.mRenderTextureSprites[otherRenderTextureIndex].setAlpha(0.9f);
 							this.mRenderTextureSprites[otherRenderTextureIndex].onDraw(this.mCamera);
 						}
@@ -144,7 +143,7 @@ public class MotionTrailingExample extends BaseExample implements IOnSceneTouchL
 		/* Create a nice scene with some rectangles. */
 		final Scene scene = new Scene();
 
-		final Entity rectangleGroup = new Entity(MotionTrailingExample.CAMERA_WIDTH / 2, MotionTrailingExample.CAMERA_HEIGHT / 2);
+		final Entity rectangleGroup = new Entity(MotionStreakExample.CAMERA_WIDTH / 2, MotionStreakExample.CAMERA_HEIGHT / 2);
 
 		rectangleGroup.attachChild(this.makeColoredRectangle(-180, -180, 1, 0, 0));
 		rectangleGroup.attachChild(this.makeColoredRectangle(0, -180, 0, 1, 0));
@@ -170,12 +169,12 @@ public class MotionTrailingExample extends BaseExample implements IOnSceneTouchL
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(pSceneTouchEvent.isActionDown()) {
-			MotionTrailingExample.this.mMotionTrailing = !MotionTrailingExample.this.mMotionTrailing;
+			MotionStreakExample.this.mMotionStreaking = !MotionStreakExample.this.mMotionStreaking;
 
-			MotionTrailingExample.this.runOnUiThread(new Runnable(){
+			MotionStreakExample.this.runOnUiThread(new Runnable(){
 				@Override
 				public void run() {
-					Toast.makeText(MotionTrailingExample.this, "MotionTrailing " + (MotionTrailingExample.this.mMotionTrailing ? "enabled." : "disabled."), Toast.LENGTH_SHORT).show();
+					Toast.makeText(MotionStreakExample.this, "MotionStreaking " + (MotionStreakExample.this.mMotionStreaking ? "enabled." : "disabled."), Toast.LENGTH_SHORT).show();
 				}
 			});
 		}

@@ -75,7 +75,7 @@ public class SVGTextureRegionExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(1024, 1024, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(1024, 1024, TextureOptions.BILINEAR);
 		SVGBitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mSVGTestTextureRegions = new BaseTextureRegion[SVGTextureRegionExample.COUNT];

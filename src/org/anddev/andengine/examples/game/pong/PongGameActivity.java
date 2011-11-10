@@ -121,7 +121,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 
 	@Override
 	public void onLoadResources() {
-		final ITexture scoreFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		final ITexture scoreFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
 
 		FontFactory.setAssetBasePath("font/");
 		this.mScoreFont = FontFactory.createFromAsset(scoreFontTexture, this, "LCD.ttf", 32, true, Color.WHITE).load();

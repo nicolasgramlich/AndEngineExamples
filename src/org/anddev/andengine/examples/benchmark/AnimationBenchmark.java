@@ -92,7 +92,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(512, 256, TextureOptions.BILINEAR);
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mSnapdragonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "snapdragon_tiled.png", 0, 0, 4, 3);
@@ -243,7 +243,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 
 		private SpriteGroupWithoutColor(final ITexture pTexture, final int pCapacity, DrawType pDrawType) {
 			super(pTexture, pCapacity, new SpriteBatchMeshWithoutColor(pCapacity, pDrawType, true, SpriteGroupWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR));
-			this.mSpriteBatchMeshWithoutColor = (SpriteBatchMeshWithoutColor) this.mSpriteBatchMesh;
+			this.mSpriteBatchMeshWithoutColor = (SpriteBatchMeshWithoutColor) this.mMesh;
 
 			this.setShaderProgram(PositionTextureCoordinatesShaderProgram.getInstance());
 		}

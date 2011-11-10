@@ -10,6 +10,7 @@ import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.text.TickerText;
 import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.font.FontFactory;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.util.HorizontalAlign;
 
@@ -76,7 +77,7 @@ public class TickerTextBenchmark extends BaseBenchmark {
 	@Override
 	public void onLoadResources() {
 		Typeface typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD);
-		this.mFont = new Font(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA, typeface, 22, true, Color.WHITE).load();
+		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR, typeface, 22, true, Color.WHITE).load();
 	}
 
 	@Override

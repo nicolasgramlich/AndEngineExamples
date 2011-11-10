@@ -62,12 +62,12 @@
 	<string name="example_loadtexture">Load BitmapTextureAtlas Dynamic</string>
 	<string name="example_menu">Using Menus</string>
 	<string name="example_modplayer">Playing .MOD Music</string>
-	<string name="example_motiontrailing">Motion Trailing</string>
+	<string name="example_motionstreak">Motion Streak</string>
 	<string name="example_movingball">A Moving Ball</string>
-	<string name="example_multiplayer">Multiplayer Example</string>
-	<string name="example_multiplayerserverdiscovery">Multiplayer Server Discovery Example</string>
-	<string name="example_multiplayerbluetooth">Multiplayer (Bluetooth) Example</string>
-	<string name="example_multitouch">MultiTouch Example</string>
+	<string name="example_multiplayer">Multiplayer</string>
+	<string name="example_multiplayerserverdiscovery">Multiplayer Server Discovery</string>
+	<string name="example_multiplayerbluetooth">Multiplayer (Bluetooth)</string>
+	<string name="example_multitouch">MultiTouch</string>
 	<string name="example_music">Playing Music</string>
 	<string name="example_pause">Pausing the Game</string>
 	<string name="example_pathmodifier">Using a PathModifier</string>
@@ -85,6 +85,7 @@
 	<string name="example_pvrccztexture">PVRCCZ Texture</string>
 	<string name="example_pvrgztexture">PVRGZ Texture</string>
 	<string name="example_pvrtexture">PVR Texture</string>
+	<string name="example_radialblur">Radial Blur</string>
 	<string name="example_rectangle">Drawing Rectangles</string>
 	<string name="example_repeatingspritebackground">Using a RepeatingSpriteBackground</string>
 	<string name="example_rotation3d">Rotating in 3D</string>

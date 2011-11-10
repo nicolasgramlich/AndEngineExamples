@@ -12,9 +12,7 @@ import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.font.BitmapFont;
 import org.anddev.andengine.opengl.font.Font;
-import org.anddev.andengine.opengl.texture.ITexture;
-import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.anddev.andengine.opengl.font.FontFactory;
 import org.anddev.andengine.util.HorizontalAlign;
 
 import android.graphics.Typeface;
@@ -63,12 +61,11 @@ public class TextExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		final ITexture fontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		this.mFont = new Font(fontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32).load();
+		this.mFont = FontFactory.create(256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32).load();
 		
-		this.mBitmapFont = new BitmapFont(this, "font/BitmapFont.fnt", TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBitmapFont = new BitmapFont(this, "font/BitmapFont.fnt");
 		this.mBitmapFont.loadTextures();
-		this.mBitmapFontWithKerning = new BitmapFont(this, "font/BitmapFontWithKerning.fnt", TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBitmapFontWithKerning = new BitmapFont(this, "font/BitmapFontWithKerning.fnt");
 		this.mBitmapFontWithKerning.loadTextures();
 	}
 
@@ -101,14 +98,9 @@ public class TextExample extends BaseExample {
 //		scene.attachChild(textLeft);
 //		scene.attachChild(textRight);
 
-		
 		return scene;
 	}
 
-	/**
-	 * @param pScene
-	 * @param pText
-	 */
 	private void borderize(final Scene pScene, final Text pText) {
 		final float left = pText.getX();
 		final float top = pText.getY();

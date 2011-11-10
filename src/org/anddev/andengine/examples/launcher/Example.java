@@ -23,7 +23,7 @@ import org.anddev.andengine.examples.LineExample;
 import org.anddev.andengine.examples.LoadTextureExample;
 import org.anddev.andengine.examples.MenuExample;
 import org.anddev.andengine.examples.ModPlayerExample;
-import org.anddev.andengine.examples.MotionTrailingExample;
+import org.anddev.andengine.examples.MotionStreakExample;
 import org.anddev.andengine.examples.MovingBallExample;
 import org.anddev.andengine.examples.MultiTouchExample;
 import org.anddev.andengine.examples.MultiplayerBluetoothExample;
@@ -44,6 +44,7 @@ import org.anddev.andengine.examples.PhysicsRemoveExample;
 import org.anddev.andengine.examples.PhysicsRevoluteJointExample;
 import org.anddev.andengine.examples.PinchZoomExample;
 import org.anddev.andengine.examples.R;
+import org.anddev.andengine.examples.RadialBlurExample;
 import org.anddev.andengine.examples.RectangleExample;
 import org.anddev.andengine.examples.RepeatingSpriteBackgroundExample;
 import org.anddev.andengine.examples.Rotation3DExample;
@@ -112,7 +113,7 @@ enum Example {
 	LOADTEXTURE(LoadTextureExample.class, R.string.example_loadtexture),
 	MENU(MenuExample.class, R.string.example_menu),
 	MODPLAYER(ModPlayerExample.class, R.string.example_modplayer),
-	MOTIONTRAILING(MotionTrailingExample.class, R.string.example_motiontrailing),
+	MOTIONSTREAK(MotionStreakExample.class, R.string.example_motionstreak),
 	MOVINGBALL(MovingBallExample.class, R.string.example_movingball),
 	MULTIPLAYER(MultiplayerExample.class, R.string.example_multiplayer),
 	MULTIPLAYERSERVERDISCOVERY(MultiplayerServerDiscoveryExample.class, R.string.example_multiplayerserverdiscovery),
@@ -135,6 +136,7 @@ enum Example {
 	PVRCCZTEXTURE(PVRCCZTextureExample.class, R.string.example_pvrccztexture),
 	PVRGZTEXTURE(PVRGZTextureExample.class, R.string.example_pvrgztexture),
 	PVRTEXTURE(PVRTextureExample.class, R.string.example_pvrtexture),
+	RADIALBLUR(RadialBlurExample.class, R.string.example_radialblur),
 	RECTANGLE(RectangleExample.class, R.string.example_rectangle),
 	REPEATINGSPRITEBACKGROUND(RepeatingSpriteBackgroundExample.class, R.string.example_repeatingspritebackground),
 	ROTATION3D(Rotation3DExample.class, R.string.example_rotation3d),

@@ -65,11 +65,11 @@ public class TextureOptionsExample extends BaseExample {
 	public void onLoadResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.DEFAULT);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 		this.mBitmapTextureAtlas.load();
 
-		this.mBitmapTextureAtlasBilinear = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBitmapTextureAtlasBilinear = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegionBilinear = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlasBilinear, this, "face_box.png", 0, 0);
 		this.mBitmapTextureAtlasBilinear.load();
 

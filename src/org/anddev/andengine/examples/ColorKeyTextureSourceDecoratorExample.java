@@ -64,7 +64,7 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR);
 
 		/* The actual AssetTextureSource. */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");

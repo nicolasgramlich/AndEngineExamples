@@ -17,6 +17,7 @@ import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.examples.adt.cityradar.City;
 import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.font.FontFactory;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -115,10 +116,10 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	@Override
 	public void onLoadResources() {
 		/* Init font. */
-		this.mFont = new Font(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA, Typeface.DEFAULT, 12, true, Color.WHITE).load();
+		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR, Typeface.DEFAULT, 12, true, Color.WHITE).load();
 
 		/* Init TextureRegions. */
-		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(512, 256, TextureOptions.BILINEAR);
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mRadarTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "radar.png");

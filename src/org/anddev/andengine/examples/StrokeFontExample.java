@@ -65,9 +65,9 @@ public class StrokeFontExample extends BaseExample {
 
 	@Override
 	public void onLoadResources() {
-		final ITexture fontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		final ITexture strokeFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		final ITexture strokeOnlyFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		final ITexture fontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
+		final ITexture strokeFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
+		final ITexture strokeOnlyFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
 
 		this.mFont = new Font(fontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK).load();
 		this.mStrokeFont = new StrokeFont(strokeFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK, 2, Color.WHITE).load();
