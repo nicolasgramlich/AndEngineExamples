@@ -39,7 +39,6 @@ public class TextExample extends BaseExample {
 	private Camera mCamera;
 	private Font mFont;
 	private BitmapFont mBitmapFont;
-	private BitmapFont mBitmapFontWithKerning;
 
 	// ===========================================================
 	// Constructors
@@ -65,8 +64,6 @@ public class TextExample extends BaseExample {
 		
 		this.mBitmapFont = new BitmapFont(this, "font/BitmapFont.fnt");
 		this.mBitmapFont.loadTextures();
-		this.mBitmapFontWithKerning = new BitmapFont(this, "font/BitmapFontWithKerning.fnt");
-		this.mBitmapFontWithKerning.loadTextures();
 	}
 
 	@Override
@@ -74,42 +71,19 @@ public class TextExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-//		scene.attachChild(new Sprite(0, 0, TextureRegionFactory.extractFromTexture(this.mFont.getTexture())));
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final Text text = new Text(100, 50, this.mFont, "Hello Font!\n1234567890!,\n.///////////\n.........pfnpsnbfka...", HorizontalAlign.CENTER);
-		borderize(scene, text);
-		
-		final Text bitmapText = new Text(100, 200, this.mBitmapFont, "Hello BitmapFont!\n1234567890!,\n.///////////\n.........pfnpsnbfka...", HorizontalAlign.CENTER);
-		borderize(scene, bitmapText);
-		
-		final Text bitmapTextWithKerning = new Text(100, 350, this.mBitmapFontWithKerning, "Hello BitmapFont!\n1234567890!,\n.///////////\n.........pfnpsnbfka...", HorizontalAlign.CENTER);
-		borderize(scene, bitmapTextWithKerning);
-		
-		scene.attachChild(text);
+		final Text centerText = new Text(100, 40, this.mFont, "Hello AndEngine!\nYou can even have multilined text!", HorizontalAlign.CENTER);
+		final Text leftText = new Text(100, 170, this.mFont, "Also left aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.LEFT);
+		final Text rightText = new Text(100, 300, this.mFont, "And right aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.RIGHT);
+		final Text bitmapText = new Text(100, 430, this.mBitmapFont, "Hello BitmapFont!", HorizontalAlign.CENTER);
+
+		scene.attachChild(centerText);
+		scene.attachChild(leftText);
+		scene.attachChild(rightText);
 		scene.attachChild(bitmapText);
-		scene.attachChild(bitmapTextWithKerning);
-		
-//		final Text textCenter = new Text(100, 60, this.mFont, "Hello AndEngine!\nYou can even have multilined text!", HorizontalAlign.CENTER);
-//		final Text textLeft = new Text(100, 200, this.mFont, "Also left aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.LEFT);
-//		final Text textRight = new Text(100, 340, this.mFont, "And right aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.RIGHT);
-//
-//		scene.attachChild(textCenter);
-//		scene.attachChild(textLeft);
-//		scene.attachChild(textRight);
 
 		return scene;
-	}
-
-	private void borderize(final Scene pScene, final Text pText) {
-		final float left = pText.getX();
-		final float top = pText.getY();
-		final float right = left + pText.getWidth();
-		final float bottom = top + pText.getHeight();
-		pScene.attachChild(new Line(left, top, left, bottom)); // LEFT
-		pScene.attachChild(new Line(right, top, right, bottom)); // RIGHT
-		pScene.attachChild(new Line(left, top, right, top)); // TOP 
-		pScene.attachChild(new Line(left, bottom, right, bottom)); // BOTTOM
 	}
 
 	@Override
