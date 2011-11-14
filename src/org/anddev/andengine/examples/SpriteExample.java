@@ -5,15 +5,13 @@ import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.anddev.andengine.entity.modifier.LoopEntityModifier;
-import org.anddev.andengine.entity.modifier.RotationModifier;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.background.Background;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture.BitmapTextureFormat;
 import org.anddev.andengine.opengl.texture.region.ITextureRegion;
 
 /**
@@ -36,8 +34,8 @@ public class SpriteExample extends BaseExample {
 	// ===========================================================
 
 	private Camera mCamera;
-
-	private ITextureRegion[] mFaceTextureRegion = new ITextureRegion[3];
+	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITextureRegion mFaceTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -53,27 +51,17 @@ public class SpriteExample extends BaseExample {
 
 	@Override
 	public Engine onLoadEngine() {
-		this.mCamera = new Camera(0, 0, SpriteExample.CAMERA_WIDTH, SpriteExample.CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(SpriteExample.CAMERA_WIDTH, SpriteExample.CAMERA_HEIGHT), this.mCamera));
+		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
 	}
 
 	@Override
 	public void onLoadResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		BitmapTextureAtlas bitmapTextureAtlas;
-		
-		bitmapTextureAtlas = new BitmapTextureAtlas(256, 256, BitmapTextureFormat.RGBA_8888);
-		this.mFaceTextureRegion[0] = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bitmapTextureAtlas, this, "player.png", 0, 0);
-		bitmapTextureAtlas.load();
-		
-		bitmapTextureAtlas = new BitmapTextureAtlas(256, 256, BitmapTextureFormat.RGBA_4444);
-		this.mFaceTextureRegion[1] = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bitmapTextureAtlas, this, "player.png", 0, 0);
-		bitmapTextureAtlas.load();
-		
-		bitmapTextureAtlas = new BitmapTextureAtlas(256, 256, BitmapTextureFormat.RGB_565);
-		this.mFaceTextureRegion[2] = BitmapTextureAtlasTextureRegionFactory.createFromAsset(bitmapTextureAtlas, this, "player.png", 0, 0);
-		bitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override
@@ -81,13 +69,15 @@ public class SpriteExample extends BaseExample {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(1, 1, 1));
+		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
+		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+
 		/* Create the face and add it to the scene. */
-		scene.attachChild(new Sprite(100, 100, this.mFaceTextureRegion[0]));
-		scene.attachChild(new Sprite(300, 100, this.mFaceTextureRegion[1]));
-		scene.attachChild(new Sprite(500, 100, this.mFaceTextureRegion[2]));
+		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
+		scene.attachChild(face);
 
 		return scene;
 	}
