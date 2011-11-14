@@ -40,8 +40,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 	
-	private static final int SPRITE_COUNT = 250;
-//	private static final int SPRITE_COUNT = 500;
+	private static final int SPRITE_COUNT = 1000;
 
 	// ===========================================================
 	// Fields
@@ -108,9 +107,9 @@ public class AnimationBenchmark extends BaseBenchmark {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 		
-		this.drawUsingSprites(scene);
+//		this.drawUsingSprites(scene);
 //		this.drawUsingSpritesWithSharedVertexBuffer(scene);
-//		this.drawUsingSpriteBatch(scene); 
+		this.drawUsingSpriteBatch(scene); 
 
 		return scene;
 	}
@@ -311,38 +310,38 @@ public class AnimationBenchmark extends BaseBenchmark {
 			final float v2 = pTextureRegion.getV2();
 
 			final float[] bufferData = this.mVertexBufferObject.getBufferData();
-			final int index = this.mIndex;
-			bufferData[index + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x1;
-			bufferData[index + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y1;
-			bufferData[index + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u;
-			bufferData[index + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v;
+			final int bufferDataOffset = this.mBufferDataOffset;
+			bufferData[bufferDataOffset + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x1;
+			bufferData[bufferDataOffset + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y1;
+			bufferData[bufferDataOffset + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u;
+			bufferData[bufferDataOffset + 0 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v;
 
-			bufferData[index + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x1;
-			bufferData[index + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y2;
-			bufferData[index + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u;
-			bufferData[index + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v2;
+			bufferData[bufferDataOffset + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x1;
+			bufferData[bufferDataOffset + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y2;
+			bufferData[bufferDataOffset + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u;
+			bufferData[bufferDataOffset + 1 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v2;
 
-			bufferData[index + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x2;
-			bufferData[index + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y1;
-			bufferData[index + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u2;
-			bufferData[index + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v;
+			bufferData[bufferDataOffset + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x2;
+			bufferData[bufferDataOffset + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y1;
+			bufferData[bufferDataOffset + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u2;
+			bufferData[bufferDataOffset + 2 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v;
 
-			bufferData[index + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x2;
-			bufferData[index + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y1;
-			bufferData[index + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u2;
-			bufferData[index + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v;
+			bufferData[bufferDataOffset + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x2;
+			bufferData[bufferDataOffset + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y1;
+			bufferData[bufferDataOffset + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u2;
+			bufferData[bufferDataOffset + 3 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v;
 
-			bufferData[index + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x1;
-			bufferData[index + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y2;
-			bufferData[index + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u;
-			bufferData[index + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v2;
+			bufferData[bufferDataOffset + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x1;
+			bufferData[bufferDataOffset + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y2;
+			bufferData[bufferDataOffset + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u;
+			bufferData[bufferDataOffset + 4 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v2;
 
-			bufferData[index + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x2;
-			bufferData[index + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y2;
-			bufferData[index + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u2;
-			bufferData[index + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v2;
+			bufferData[bufferDataOffset + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_X] = x2;
+			bufferData[bufferDataOffset + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.VERTEX_INDEX_Y] = y2;
+			bufferData[bufferDataOffset + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_U] = u2;
+			bufferData[bufferDataOffset + 5 * SpriteGroupWithoutColor.VERTEX_SIZE + SpriteGroupWithoutColor.TEXTURECOORDINATES_INDEX_V] = v2;
 
-			this.mIndex += SpriteGroupWithoutColor.SPRITE_SIZE;
+			this.mBufferDataOffset += SpriteGroupWithoutColor.SPRITE_SIZE;
 		}
 
 		// ===========================================================
