@@ -137,7 +137,6 @@ public class CollisionDetectionExample extends BaseExample {
 		scene.attachChild(line);
 
 		final Sprite face = new Sprite(centerX, centerY + 42, this.mFaceTextureRegion);
-		face.setSkewX(45);
 		final PhysicsHandler physicsHandler = new PhysicsHandler(face);
 		face.registerUpdateHandler(physicsHandler);
 

@@ -40,7 +40,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 	
-	private static final int SPRITE_COUNT = 1000;
+	private static final int SPRITE_COUNT = 500;
 
 	// ===========================================================
 	// Fields
@@ -91,7 +91,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(512, 256, TextureOptions.BILINEAR);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mSnapdragonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "snapdragon_tiled.png", 0, 0, 4, 3);
@@ -107,7 +107,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 		
-//		this.drawUsingSprites(scene);
+//		this.drawUsingSprites(scene); 
 //		this.drawUsingSpritesWithSharedVertexBuffer(scene);
 		this.drawUsingSpriteBatch(scene); 
 
@@ -176,7 +176,6 @@ public class AnimationBenchmark extends BaseBenchmark {
 	}
 
 	private void drawUsingSpriteBatch(Scene pScene) {
-//		final SpriteGroup spriteGroup = new SpriteGroup(this.mBitmapTextureAtlas, 4 * SPRITE_COUNT);
 		final SpriteGroupWithoutColor spriteGroup = new SpriteGroupWithoutColor(this.mBitmapTextureAtlas, 4 * SPRITE_COUNT, DrawType.DYNAMIC);
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			/* Quickly twinkling face. */
@@ -241,10 +240,8 @@ public class AnimationBenchmark extends BaseBenchmark {
 		// ===========================================================
 
 		private SpriteGroupWithoutColor(final ITexture pTexture, final int pCapacity, DrawType pDrawType) {
-			super(pTexture, pCapacity, new SpriteBatchMeshWithoutColor(pCapacity, pDrawType, true, SpriteGroupWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR));
+			super(pTexture, pCapacity, new SpriteBatchMeshWithoutColor(pCapacity, pDrawType, true, SpriteGroupWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR), PositionTextureCoordinatesShaderProgram.getInstance());
 			this.mSpriteBatchMeshWithoutColor = (SpriteBatchMeshWithoutColor) this.mMesh;
-
-			this.setShaderProgram(PositionTextureCoordinatesShaderProgram.getInstance());
 		}
 
 		// ===========================================================

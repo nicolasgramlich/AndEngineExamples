@@ -146,7 +146,6 @@ public class EntityModifierExample extends BaseExample {
 					},
 					new SequenceEntityModifier(
 //							new RotationModifier(1, 0, 90),
-							new SkewXModifier(5, 0, 45),
 							new AlphaModifier(2, 1, 0),
 							new AlphaModifier(1, 0, 1),
 							new ScaleModifier(2, 1, 0.5f),

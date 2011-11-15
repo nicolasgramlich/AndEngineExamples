@@ -147,7 +147,6 @@ public class CoordinateConversionExample extends BaseExample {
 				arrowLineWingRight.setPosition(eyeX, eyeY, eyeX + 10, eyeY - 10);
 			}
 		};
-		face.setSkewX(45);
 		final PhysicsHandler physicsHandler = new PhysicsHandler(face);
 		face.registerUpdateHandler(physicsHandler);
 

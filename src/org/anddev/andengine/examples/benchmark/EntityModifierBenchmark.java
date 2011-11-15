@@ -39,7 +39,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 
-	private static final int SPRITE_COUNT = 1000;
+	private static final int SPRITE_COUNT = 2000;
 	
 	// ===========================================================
 	// Fields
@@ -84,7 +84,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 		this.mBitmapTextureAtlas.load();

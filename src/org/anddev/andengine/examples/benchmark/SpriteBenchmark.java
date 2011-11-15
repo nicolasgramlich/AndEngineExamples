@@ -83,7 +83,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 	@Override
 	public void onLoadResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
@@ -133,14 +133,12 @@ public class SpriteBenchmark extends BaseBenchmark {
 		final int height = this.mFaceTextureRegion.getHeight();
 
 		final SpriteBatchWithoutColor spriteBatch = new SpriteBatchWithoutColor(this.mBitmapTextureAtlas, SpriteBenchmark.SPRITE_COUNT, DrawType.STATIC);
-//		final SpriteBatch spriteBatch = new SpriteBatch(this.mBitmapTextureAtlas, SpriteBenchmark.SPRITE_COUNT);
 
 		spriteBatch.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		for(int i = 0; i < SpriteBenchmark.SPRITE_COUNT; i++) {
 			final float x = this.mRandom.nextFloat() * (SpriteBenchmark.CAMERA_WIDTH - 32);
 			final float y = this.mRandom.nextFloat() * (SpriteBenchmark.CAMERA_HEIGHT - 32);
 			spriteBatch.draw(this.mFaceTextureRegion, x, y, width, height);
-//			spriteBatch.draw(this.mFaceTextureRegion, x, y, width, height, 1, 1, 1, 1);
 		}
 		spriteBatch.submit();
 
@@ -181,10 +179,8 @@ public class SpriteBenchmark extends BaseBenchmark {
 		// ===========================================================
 
 		private SpriteBatchWithoutColor(final ITexture pTexture, final int pCapacity, DrawType pDrawType) {
-			super(pTexture, pCapacity, new SpriteBatchMeshWithoutColor(pCapacity, pDrawType, true, SpriteBatchWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR));
+			super(pTexture, pCapacity, new SpriteBatchMeshWithoutColor(pCapacity, pDrawType, true, SpriteBatchWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR), PositionTextureCoordinatesShaderProgram.getInstance());
 			this.mSpriteBatchMeshWithoutColor = (SpriteBatchMeshWithoutColor) this.mMesh;
-			
-			this.setShaderProgram(PositionTextureCoordinatesShaderProgram.getInstance());
 		}
 
 		// ===========================================================
