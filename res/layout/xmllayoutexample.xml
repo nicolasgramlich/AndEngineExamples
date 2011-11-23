@@ -20,7 +20,7 @@
 			android:padding="2px"
 			android:background="#FFF"
 			android:layout_gravity="center">
-			<org.anddev.andengine.opengl.view.RenderSurfaceView android:id="@+id/xmllayoutexample_rendersurfaceview"
+			<org.andengine.opengl.view.RenderSurfaceView android:id="@+id/xmllayoutexample_rendersurfaceview"
 				android:layout_width="240px" 
 				android:layout_height="240px"
 				android:layout_margin="10px" />

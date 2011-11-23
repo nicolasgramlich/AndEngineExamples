@@ -1,0 +1,102 @@
+package org.andengine.examples;
+
+import org.andengine.engine.Engine;
+import org.andengine.engine.camera.Camera;
+import org.andengine.engine.options.EngineOptions;
+import org.andengine.engine.options.EngineOptions.ScreenOrientation;
+import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.andengine.entity.scene.Scene;
+import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.util.FPSLogger;
+import org.andengine.examples.spritesheets.TexturePackerExampleSpritesheet;
+import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePack;
+import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackLoader;
+import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackTextureRegionLibrary;
+import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.exception.TexturePackParseException;
+import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.util.debug.Debug;
+
+/**
+ * (c) 2011 Zynga
+ *
+ * @author Nicolas Gramlich
+ * @since 9:55:51 - 02.08.2011
+ */
+public class TexturePackerExample extends BaseExample {
+	// ===========================================================
+	// Constants
+	// ===========================================================
+
+	private static final int CAMERA_WIDTH = 720;
+	private static final int CAMERA_HEIGHT = 480;
+
+	// ===========================================================
+	// Fields
+	// ===========================================================
+
+	private Camera mCamera;
+	private TexturePackTextureRegionLibrary mSpritesheetTexturePackTextureRegionLibrary;
+
+	// ===========================================================
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
+
+	// ===========================================================
+	// Methods for/from SuperClass/Interfaces
+	// ===========================================================
+
+	@Override
+	public Engine onLoadEngine() {
+		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+	}
+
+	@Override
+	public void onLoadResources() {
+		try {
+			final TexturePack spritesheetTexturePack = new TexturePackLoader("gfx/spritesheets/").loadFromAsset(this, "texturepackerexample.xml");
+			spritesheetTexturePack.loadTexture();
+			this.mSpritesheetTexturePackTextureRegionLibrary = spritesheetTexturePack.getTexturePackTextureRegionLibrary();
+		} catch (final TexturePackParseException e) {
+			Debug.e(e);
+		}
+	}
+
+	@Override
+	public Scene onLoadScene() {
+		this.mEngine.registerUpdateHandler(new FPSLogger());
+
+		final Scene scene = new Scene();
+		scene.setBackground(new Background(1, 1, 1));
+
+		TextureRegion faceTextureRegion = this.mSpritesheetTexturePackTextureRegionLibrary.get(TexturePackerExampleSpritesheet.FACE_BOX_ID);
+		/* Calculate the coordinates for the face, so its centered on the camera. */
+		final int centerX = (CAMERA_WIDTH - faceTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) / 2;
+
+		/* Create the face and add it to the scene. */
+		Sprite entity = new Sprite(centerX, centerY, faceTextureRegion);
+		entity.setScale(20);
+		scene.attachChild(entity);
+
+		return scene;
+	}
+
+	@Override
+	public void onLoadComplete() {
+
+	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	// ===========================================================
+	// Inner and Anonymous Classes
+	// ===========================================================
+}
