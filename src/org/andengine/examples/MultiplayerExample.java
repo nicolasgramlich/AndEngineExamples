@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -82,8 +81,6 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	// Fields
 	// ===========================================================
 
-	private Camera mCamera;
-
 	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private ITextureRegion mFaceTextureRegion;
 
@@ -118,15 +115,16 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		this.showDialog(DIALOG_CHOOSE_SERVER_OR_CLIENT_ID);
 
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
@@ -136,7 +134,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
@@ -193,7 +191,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

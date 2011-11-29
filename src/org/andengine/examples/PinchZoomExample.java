@@ -2,7 +2,6 @@ package org.andengine.examples;
 
 import java.util.HashMap;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.ZoomCamera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -70,9 +69,10 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		this.mZoomCamera = new ZoomCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		final Engine engine = new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mZoomCamera));
+
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mZoomCamera);
 
 		if(MultiTouch.isSupported(this)) {
 			if(MultiTouch.isSupportedDistinct(this)) {
@@ -84,11 +84,11 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 			Toast.makeText(this, "Sorry your device does NOT support MultiTouch!\n\n(Falling back to SingleTouch.)\n\nControls are placed at different vertical locations.", Toast.LENGTH_LONG).show();
 		}
 
-		return engine;
+		return engineOptions;
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mCardDeckTexture = new BitmapTextureAtlas(1024, 512, TextureOptions.BILINEAR);
@@ -105,7 +105,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
@@ -128,7 +128,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

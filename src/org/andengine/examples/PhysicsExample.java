@@ -2,7 +2,6 @@ package org.andengine.examples;
 
 import static org.andengine.extension.physics.box2d.util.constants.PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -82,14 +81,16 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		Toast.makeText(this, "Touch the screen to add objects.", Toast.LENGTH_LONG).show();
+
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera));
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 128, TextureOptions.BILINEAR);
@@ -101,7 +102,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
@@ -132,7 +133,7 @@ public class PhysicsExample extends BaseExample implements IAccelerometerListene
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

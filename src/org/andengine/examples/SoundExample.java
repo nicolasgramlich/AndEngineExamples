@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -61,16 +60,19 @@ public class SoundExample extends BaseExample {
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		Toast.makeText(this, "Touch the tank to hear an explosion sound.", Toast.LENGTH_LONG).show();
+
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		engineOptions.getAudioOptions().setNeedsSound(true);
-		return new Engine(engineOptions);
+
+		return engineOptions;
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 256, TextureOptions.BILINEAR);
@@ -86,7 +88,7 @@ public class SoundExample extends BaseExample {
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
@@ -112,7 +114,7 @@ public class SoundExample extends BaseExample {
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

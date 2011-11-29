@@ -3,7 +3,6 @@ package org.andengine.examples;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.SmoothCamera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -63,8 +62,9 @@ public class ETC1TextureExample extends BaseExample {
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		Toast.makeText(this, "Click the top half of the screen to zoom in or the bottom half to zoom out!", Toast.LENGTH_LONG);
+
 		this.mSmoothCamera = new SmoothCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, 0, 0, 0.1f) {
 			@Override
 			public void onUpdate(final float pSecondsElapsed) {
@@ -79,11 +79,12 @@ public class ETC1TextureExample extends BaseExample {
 				super.onUpdate(pSecondsElapsed);
 			}
 		};
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mSmoothCamera));
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mSmoothCamera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		try {
 			this.mTexture = new ETC1Texture(TextureOptions.BILINEAR) {
 				@Override
@@ -92,7 +93,7 @@ public class ETC1TextureExample extends BaseExample {
 				}
 			}.load();
 
-			this.mHouseTextureRegion = TextureRegionFactory.extractFromTexture(this.mTexture, 0, 0, 512, 512, true);
+			this.mHouseTextureRegion = TextureRegionFactory.extractFromTexture(this.mTexture, 0, 0, 512, 512);
 
 		} catch (final Throwable e) {
 			Debug.e(e);
@@ -100,7 +101,7 @@ public class ETC1TextureExample extends BaseExample {
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
@@ -131,7 +132,7 @@ public class ETC1TextureExample extends BaseExample {
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

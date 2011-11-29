@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -83,8 +82,6 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
-	private Camera mCamera;
 
 	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private ITextureRegion mFaceTextureRegion;
@@ -187,9 +184,10 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 	}
 
 	@Override
-	public Engine onLoadEngine() {
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+	public EngineOptions onCreateEngineOptions() {
+		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -221,7 +219,7 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
@@ -230,7 +228,7 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
@@ -287,7 +285,7 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

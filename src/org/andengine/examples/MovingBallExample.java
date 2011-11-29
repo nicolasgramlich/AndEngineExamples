@@ -1,6 +1,5 @@
 package org.andengine.examples;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.engine.options.EngineOptions;
@@ -36,8 +35,6 @@ public class MovingBallExample extends BaseExample {
 	// Fields
 	// ===========================================================
 
-	private Camera mCamera;
-
 	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private TiledTextureRegion mFaceTextureRegion;
 
@@ -54,13 +51,14 @@ public class MovingBallExample extends BaseExample {
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+	public EngineOptions onCreateEngineOptions() {
+		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.BILINEAR);
@@ -69,7 +67,7 @@ public class MovingBallExample extends BaseExample {
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
@@ -88,7 +86,7 @@ public class MovingBallExample extends BaseExample {
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

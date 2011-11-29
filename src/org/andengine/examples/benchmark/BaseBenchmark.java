@@ -99,7 +99,7 @@ public abstract class BaseBenchmark extends BaseGameActivity {
 	protected abstract float getBenchmarkStartOffset();
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 		this.mEngine.registerUpdateHandler(new TimerHandler(this.getBenchmarkStartOffset(), new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {

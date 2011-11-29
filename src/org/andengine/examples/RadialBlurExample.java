@@ -69,10 +69,15 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, RadialBlurExample.CAMERA_WIDTH, RadialBlurExample.CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(RadialBlurExample.CAMERA_WIDTH, RadialBlurExample.CAMERA_HEIGHT), this.mCamera)) {
 
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(RadialBlurExample.CAMERA_WIDTH, RadialBlurExample.CAMERA_HEIGHT), this.mCamera);
+	}
+
+	@Override
+	public Engine onCreateEngine(EngineOptions pEngineOptions) {
+		return new Engine(pEngineOptions) {
 			private boolean mRenderTextureInitialized;
 
 			private RenderTexture mRenderTexture;
@@ -134,7 +139,7 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(512, 512);
@@ -145,7 +150,7 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
@@ -167,7 +172,7 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 
@@ -315,10 +320,10 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 		}
 
 		@Override
-		public void unbind(final VertexBufferObjectAttributes pVertexBufferObjectAttributes) throws ShaderProgramException {
+		public void unbind() throws ShaderProgramException {
 			GLES20.glEnableVertexAttribArray(ShaderProgramConstants.ATTRIBUTE_COLOR_LOCATION);
 
-			super.unbind(pVertexBufferObjectAttributes);
+			super.unbind();
 		}
 
 		// ===========================================================

@@ -1,6 +1,5 @@
 package org.andengine.examples;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -39,7 +38,6 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 	// Fields
 	// ===========================================================
 
-	private Camera mCamera;
 	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private ITextureRegion mFaceTextureRegion;
 	private Sprite mFace;
@@ -57,14 +55,16 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		Toast.makeText(this, "If you don't see a sprite moving over the screen, try starting this while already being in Landscape orientation!!", Toast.LENGTH_LONG).show();
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+
+		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
@@ -73,7 +73,7 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 		final Scene scene = new Scene();
 		//		scene.setBackgroundEnabled(false);
@@ -88,7 +88,7 @@ public class AugmentedRealityHorizonExample extends BaseAugmentedRealityGameActi
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 		this.enableOrientationSensor(this);
 	}
 

@@ -1,6 +1,5 @@
 package org.andengine.examples;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
@@ -36,7 +35,6 @@ public class ChangeableTextExample extends BaseExample {
 	// Fields
 	// ===========================================================
 
-	private Camera mCamera;
 	private Font mFont;
 
 	// ===========================================================
@@ -52,18 +50,19 @@ public class ChangeableTextExample extends BaseExample {
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+	public EngineOptions onCreateEngineOptions() {
+		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48).load();
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		final FPSCounter fpsCounter = new FPSCounter();
 		this.mEngine.registerUpdateHandler(fpsCounter);
 
@@ -88,7 +87,7 @@ public class ChangeableTextExample extends BaseExample {
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

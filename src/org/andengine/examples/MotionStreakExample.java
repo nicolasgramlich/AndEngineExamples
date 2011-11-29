@@ -42,8 +42,6 @@ public class MotionStreakExample extends BaseExample implements IOnSceneTouchLis
 	// Fields
 	// ===========================================================
 
-	private Camera mCamera;
-
 	private boolean mMotionStreaking = true;
 
 	// ===========================================================
@@ -59,9 +57,16 @@ public class MotionStreakExample extends BaseExample implements IOnSceneTouchLis
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
-		this.mCamera = new Camera(0, 0, MotionStreakExample.CAMERA_WIDTH, MotionStreakExample.CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(MotionStreakExample.CAMERA_WIDTH, MotionStreakExample.CAMERA_HEIGHT), this.mCamera)) {
+	public EngineOptions onCreateEngineOptions() {
+		final Camera camera = new Camera(0, 0, MotionStreakExample.CAMERA_WIDTH, MotionStreakExample.CAMERA_HEIGHT);
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(MotionStreakExample.CAMERA_WIDTH, MotionStreakExample.CAMERA_HEIGHT), camera);
+	}
+
+	@Override
+	public Engine onCreateEngine(EngineOptions pEngineOptions) {
+		
+		return new Engine(pEngineOptions) {
 			private static final int RENDERTEXTURE_COUNT = 2;
 
 			private boolean mRenderTextureInitialized;
@@ -132,12 +137,12 @@ public class MotionStreakExample extends BaseExample implements IOnSceneTouchLis
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		/* Create a nice scene with some rectangles. */
@@ -162,7 +167,7 @@ public class MotionStreakExample extends BaseExample implements IOnSceneTouchLis
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

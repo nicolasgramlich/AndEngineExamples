@@ -48,8 +48,8 @@ public class SubMenuExample extends MenuExample {
 	// ===========================================================
 
 	@Override
-	public void onLoadResources() {
-		super.onLoadResources();
+	public void onCreateResources() {
+		super.onCreateResources();
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mSubMenuTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR);

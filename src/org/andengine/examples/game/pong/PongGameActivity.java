@@ -110,17 +110,22 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
-		this.showDialog(DIALOG_CHOOSE_SERVER_OR_CLIENT_ID);
-
+	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mCamera.setCenter(0,0);
 
-		return new LimitedFPSEngine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera), FPS);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public Engine onCreateEngine(final EngineOptions pEngineOptions) {
+		this.showDialog(DIALOG_CHOOSE_SERVER_OR_CLIENT_ID);
+
+		return new LimitedFPSEngine(pEngineOptions, FPS);
+	}
+
+	@Override
+	public void onCreateResources() {
 		final ITexture scoreFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
 
 		FontFactory.setAssetBasePath("font/");
@@ -128,7 +133,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
@@ -186,7 +191,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

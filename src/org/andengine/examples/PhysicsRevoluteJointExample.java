@@ -44,8 +44,8 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 	// ===========================================================
 
 	@Override
-	public Scene onLoadScene() {
-		final Scene scene = super.onLoadScene();
+	public Scene onCreateScene() {
+		final Scene scene = super.onCreateScene();
 		this.initJoints(scene);
 		Toast.makeText(this, "In this example, the revolute joints have their motor enabled.", Toast.LENGTH_LONG).show();
 		return scene;

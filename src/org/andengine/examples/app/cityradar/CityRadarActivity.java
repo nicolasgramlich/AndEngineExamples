@@ -108,13 +108,19 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	// ===========================================================
 
 	@Override
-	public org.andengine.engine.Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CityRadarActivity.CAMERA_WIDTH, CityRadarActivity.CAMERA_HEIGHT);
-		return new org.andengine.engine.Engine(new EngineOptions(true, ScreenOrientation.PORTRAIT, new FillResolutionPolicy(), this.mCamera));
+
+		return new EngineOptions(true, ScreenOrientation.PORTRAIT_FIXED, new FillResolutionPolicy(), this.mCamera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public org.andengine.engine.Engine onCreateEngine(final EngineOptions pEngineOptions) {
+		return new org.andengine.engine.Engine(pEngineOptions);
+	}
+
+	@Override
+	public void onCreateResources() {
 		/* Init font. */
 		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR, Typeface.DEFAULT, 12, true, Color.WHITE).load();
 
@@ -134,7 +140,7 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mScene = new Scene();
 
 		final HUD hud = new HUD();
@@ -207,7 +213,7 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 		this.refreshCitySprites();
 	}
 

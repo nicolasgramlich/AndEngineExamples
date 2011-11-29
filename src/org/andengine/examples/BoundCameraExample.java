@@ -81,15 +81,22 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		Toast.makeText(this, "Touch the screen to add boxes.", Toast.LENGTH_LONG).show();
+	
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mBoundChaseCamera = new BoundCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, 0, CAMERA_WIDTH, 0, CAMERA_HEIGHT);
-		return new SingleSceneSplitScreenEngine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera), this.mBoundChaseCamera);
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public Engine onCreateEngine(final EngineOptions pEngineOptions) {
+		return new SingleSceneSplitScreenEngine(pEngineOptions, this.mBoundChaseCamera);
+	}
+
+	@Override
+	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.BILINEAR);
@@ -102,7 +109,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
@@ -167,7 +174,7 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

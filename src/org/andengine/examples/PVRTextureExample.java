@@ -3,7 +3,7 @@ package org.andengine.examples;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.andengine.engine.Engine;
+import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.SmoothCamera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -46,8 +46,6 @@ public class PVRTextureExample extends BaseExample {
 	// Fields
 	// ===========================================================
 
-	private SmoothCamera mSmoothCamera;
-
 	private ITexture mTextureRGB565;
 	private ITexture mTextureRGBA5551;
 	private ITexture mTextureARGB4444;
@@ -73,10 +71,11 @@ public class PVRTextureExample extends BaseExample {
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		Toast.makeText(this, "The lower houses use MipMaps!", Toast.LENGTH_LONG);
 		Toast.makeText(this, "Click the top half of the screen to zoom in or the bottom half to zoom out!", Toast.LENGTH_LONG);
-		this.mSmoothCamera = new SmoothCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, 0, 0, 0.1f) {
+
+		final Camera camera = new SmoothCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT, 0, 0, 0.1f) {
 			@Override
 			public void onUpdate(final float pSecondsElapsed) {
 				switch (PVRTextureExample.this.mZoomState) {
@@ -90,11 +89,12 @@ public class PVRTextureExample extends BaseExample {
 				super.onUpdate(pSecondsElapsed);
 			}
 		};
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mSmoothCamera));
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		try {
 			this.mTextureRGB565 = new PVRTexture(PVRTextureFormat.RGB_565, new TextureOptions(GLES20.GL_LINEAR, GLES20.GL_LINEAR, GLES20.GL_CLAMP_TO_EDGE, GLES20.GL_CLAMP_TO_EDGE, false)) {
 				@Override
@@ -124,17 +124,17 @@ public class PVRTextureExample extends BaseExample {
 				}
 			}.load();
 
-			this.mHouseNearestTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureRGB565, 0, 0, 512, 512, true);
-			this.mHouseLinearTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureRGBA5551, 0, 0, 512, 512, true);
-			this.mHouseMipMapsNearestTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureARGB4444, 0, 0, 512, 512, true);
-			this.mHouseMipMapsLinearTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureRGBA888MipMaps, 0, 0, 512, 512, true);
+			this.mHouseNearestTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureRGB565, 0, 0, 512, 512);
+			this.mHouseLinearTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureRGBA5551, 0, 0, 512, 512);
+			this.mHouseMipMapsNearestTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureARGB4444, 0, 0, 512, 512);
+			this.mHouseMipMapsLinearTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureRGBA888MipMaps, 0, 0, 512, 512);
 		} catch (final Throwable e) {
 			Debug.e(e);
 		}
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
@@ -173,7 +173,7 @@ public class PVRTextureExample extends BaseExample {
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

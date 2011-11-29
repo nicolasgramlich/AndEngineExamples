@@ -1,6 +1,5 @@
 package org.andengine.examples;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.CameraFactory;
 import org.andengine.engine.options.EngineOptions;
@@ -45,7 +44,6 @@ public class CanvasTextureCompositingExample extends BaseExample {
 	// Fields
 	// ===========================================================
 
-	private Camera mCamera;
 	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private ITextureRegion mDecoratedBalloonTextureRegion;
 
@@ -62,13 +60,14 @@ public class CanvasTextureCompositingExample extends BaseExample {
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
-		this.mCamera = CameraFactory.createPixelPerfectCamera(this, 0, 0);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new FillResolutionPolicy(), this.mCamera));
+	public EngineOptions onCreateEngineOptions() {
+		final Camera camera = CameraFactory.createPixelPerfectCamera(this, 0, 0);
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new FillResolutionPolicy(), camera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(190, 190, TextureOptions.BILINEAR);
 		
 		final IBitmapTextureAtlasSource baseTextureSource = new EmptyBitmapTextureAtlasSource(190, 190);
@@ -100,7 +99,7 @@ public class CanvasTextureCompositingExample extends BaseExample {
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
@@ -119,7 +118,7 @@ public class CanvasTextureCompositingExample extends BaseExample {
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

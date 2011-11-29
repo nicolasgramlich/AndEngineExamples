@@ -1,6 +1,5 @@
 package org.andengine.examples;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -51,7 +50,6 @@ public class SVGTextureRegionExample extends BaseExample {
 	// Fields
 	// ===========================================================
 
-	private Camera mCamera;
 	private BuildableBitmapTextureAtlas mBuildableBitmapTextureAtlas;
 	private ITextureRegion[] mSVGTestTextureRegions;
 
@@ -68,13 +66,14 @@ public class SVGTextureRegionExample extends BaseExample {
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
-		this.mCamera = new Camera(0, 0, SVGTextureRegionExample.CAMERA_WIDTH, SVGTextureRegionExample.CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(SVGTextureRegionExample.CAMERA_WIDTH, SVGTextureRegionExample.CAMERA_HEIGHT), this.mCamera));
+	public EngineOptions onCreateEngineOptions() {
+		final Camera camera = new Camera(0, 0, SVGTextureRegionExample.CAMERA_WIDTH, SVGTextureRegionExample.CAMERA_HEIGHT);
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(SVGTextureRegionExample.CAMERA_WIDTH, SVGTextureRegionExample.CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(1024, 1024, TextureOptions.NEAREST);
 		SVGBitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
@@ -125,7 +124,7 @@ public class SVGTextureRegionExample extends BaseExample {
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
@@ -135,8 +134,8 @@ public class SVGTextureRegionExample extends BaseExample {
 			final int row = i / SVGTextureRegionExample.COLUMNS;
 			final int column = i % SVGTextureRegionExample.COLUMNS;
 
-			final float centerX = this.mCamera.getWidth() / (SVGTextureRegionExample.COLUMNS + 1) * (column + 1);
-			final float centerY = this.mCamera.getHeight() / (SVGTextureRegionExample.ROWS + 1) * (row + 1);
+			final float centerX = CAMERA_WIDTH / (SVGTextureRegionExample.COLUMNS + 1) * (column + 1);
+			final float centerY = CAMERA_HEIGHT / (SVGTextureRegionExample.ROWS + 1) * (row + 1);
 
 			final float x = centerX - SVGTextureRegionExample.SIZE * 0.5f;
 			final float y = centerY - SVGTextureRegionExample.SIZE * 0.5f;
@@ -155,7 +154,7 @@ public class SVGTextureRegionExample extends BaseExample {
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

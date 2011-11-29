@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.controls.BaseOnScreenControl;
 import org.andengine.engine.camera.hud.controls.BaseOnScreenControl.IOnScreenControlListener;
@@ -113,15 +112,16 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
+
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 		engineOptions.getAudioOptions().setNeedsSound(true);
-		return new Engine(engineOptions);
+		return engineOptions;
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		/* Load the font we are going to use. */
 		FontFactory.setAssetBasePath("font/");
 		this.mFont = FontFactory.createFromAsset(512, 512, TextureOptions.BILINEAR, this, "Plok.ttf", 32, true, Color.WHITE).load();
@@ -154,7 +154,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
@@ -249,7 +249,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

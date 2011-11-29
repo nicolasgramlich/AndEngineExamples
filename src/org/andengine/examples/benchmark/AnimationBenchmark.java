@@ -1,6 +1,5 @@
 package org.andengine.examples.benchmark;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -46,8 +45,6 @@ public class AnimationBenchmark extends BaseBenchmark {
 	// Fields
 	// ===========================================================
 
-	private Camera mCamera;
-
 	private BitmapTextureAtlas mBitmapTextureAtlas;
 
 	private TiledTextureRegion mSnapdragonTextureRegion;
@@ -83,14 +80,14 @@ public class AnimationBenchmark extends BaseBenchmark {
 	}
 
 	@Override
-	public Engine onLoadEngine() {
-		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
-		return new Engine(engineOptions);
+	public EngineOptions onCreateEngineOptions() {
+		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
@@ -103,7 +100,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 		

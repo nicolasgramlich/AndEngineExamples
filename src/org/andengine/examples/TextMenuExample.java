@@ -1,6 +1,5 @@
 package org.andengine.examples;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -49,7 +48,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 	// Fields
 	// ===========================================================
 
-	protected Camera mCamera;
+	private Camera mCamera;
 
 	protected Scene mMainScene;
 
@@ -73,13 +72,14 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		FontFactory.setAssetBasePath("font/");
 
 		final ITexture fontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
@@ -93,7 +93,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mMenuScene = this.createMenuScene();
@@ -110,7 +110,7 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 

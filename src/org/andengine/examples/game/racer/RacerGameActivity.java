@@ -1,6 +1,5 @@
 package org.andengine.examples.game.racer;
 
-import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
@@ -41,7 +40,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  * @author Nicolas Gramlich
  * @since 22:43:20 - 15.07.2010
  */
-public class RacerGameActivity  extends BaseGameActivity {
+public class RacerGameActivity extends BaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -94,13 +93,14 @@ public class RacerGameActivity  extends BaseGameActivity {
 	// ===========================================================
 
 	@Override
-	public Engine onLoadEngine() {
+	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera));
+
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 	}
 
 	@Override
-	public void onLoadResources() {
+	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mVehiclesTexture = new BitmapTextureAtlas(128, 16, TextureOptions.BILINEAR);
@@ -123,7 +123,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 	}
 
 	@Override
-	public Scene onLoadScene() {
+	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
@@ -143,7 +143,7 @@ public class RacerGameActivity  extends BaseGameActivity {
 	}
 
 	@Override
-	public void onLoadComplete() {
+	public void onGameCreated() {
 
 	}
 
