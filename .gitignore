@@ -1,3 +1,4 @@
+target/**
 bin/**
 doc/**
 gen/**
@@ -9,3 +10,4 @@ gdbserver
 .hg
 local.properties
 .settings
+AndEngineExamples.iml
