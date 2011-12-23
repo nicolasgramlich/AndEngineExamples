@@ -1,7 +1,5 @@
 package org.andengine.examples;
 
-import java.util.concurrent.Callable;
-
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -16,6 +14,7 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.util.Callable;
 import org.andengine.util.Callback;
 import org.andengine.util.FileUtils;
 import org.helllabs.android.xmp.ModPlayer;
@@ -81,17 +80,22 @@ public class ModPlayerExample extends BaseExample {
 		if(FileUtils.isFileExistingOnExternalStorage(this, SAMPLE_MOD_DIRECTORY + SAMPLE_MOD_FILENAME)) {
 			this.startPlayingMod();
 		} else {
-			this.doAsync(R.string.dialog_modplayerexample_loading_to_external_title, R.string.dialog_modplayerexample_loading_to_external_message, new Callable<Void>() {
+			ModPlayerExample.this.runOnUiThread(new Runnable() {
 				@Override
-				public Void call() throws Exception {
-					FileUtils.ensureDirectoriesExistOnExternalStorage(ModPlayerExample.this, SAMPLE_MOD_DIRECTORY);
-					FileUtils.copyToExternalStorage(ModPlayerExample.this, SAMPLE_MOD_DIRECTORY + SAMPLE_MOD_FILENAME, SAMPLE_MOD_DIRECTORY + SAMPLE_MOD_FILENAME);
-					return null;
-				}
-			}, new Callback<Void>() {
-				@Override
-				public void onCallback(final Void pCallbackValue) {
-					ModPlayerExample.this.startPlayingMod();
+				public void run() {
+					ModPlayerExample.this.doAsync(R.string.dialog_modplayerexample_loading_to_external_title, R.string.dialog_modplayerexample_loading_to_external_message, new Callable<Void>() {
+						@Override
+						public Void call() throws Exception {
+							FileUtils.ensureDirectoriesExistOnExternalStorage(ModPlayerExample.this, SAMPLE_MOD_DIRECTORY);
+							FileUtils.copyToExternalStorage(ModPlayerExample.this, SAMPLE_MOD_DIRECTORY + SAMPLE_MOD_FILENAME, SAMPLE_MOD_DIRECTORY + SAMPLE_MOD_FILENAME);
+							return null;
+						}
+					}, new Callback<Void>() {
+						@Override
+						public void onCallback(final Void pCallbackValue) {
+							ModPlayerExample.this.startPlayingMod();
+						}
+					});
 				}
 			});
 		}

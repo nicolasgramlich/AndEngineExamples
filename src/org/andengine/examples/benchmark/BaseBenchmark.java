@@ -3,13 +3,13 @@ package org.andengine.examples.benchmark;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Callable;
 
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.util.FPSCounter;
 import org.andengine.examples.R;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.Callable;
 import org.andengine.util.Callback;
 import org.andengine.util.StreamUtils;
 import org.andengine.util.debug.Debug;

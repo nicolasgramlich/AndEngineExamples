@@ -109,7 +109,12 @@ public class LevelLoaderExample extends BaseExample {
 			public void onLoadEntity(final String pEntityName, final Attributes pAttributes) {
 				final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_WIDTH);
 				final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_HEIGHT);
-				Toast.makeText(LevelLoaderExample.this, "Loaded level with width=" + width + " and height=" + height + ".", Toast.LENGTH_LONG).show();
+				LevelLoaderExample.this.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						Toast.makeText(LevelLoaderExample.this, "Loaded level with width=" + width + " and height=" + height + ".", Toast.LENGTH_LONG).show();
+					}
+				});
 			}
 		});
 

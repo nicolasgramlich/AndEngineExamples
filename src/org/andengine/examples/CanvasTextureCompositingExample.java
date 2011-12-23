@@ -5,6 +5,7 @@ import org.andengine.engine.camera.CameraFactory;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.FillResolutionPolicy;
+import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.RotationModifier;
 import org.andengine.entity.scene.Scene;
@@ -40,6 +41,9 @@ public class CanvasTextureCompositingExample extends BaseExample {
 	// Constants
 	// ===========================================================
 
+	private static final int CAMERA_WIDTH = 480;
+	private static final int CAMERA_HEIGHT = 320;
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -61,9 +65,9 @@ public class CanvasTextureCompositingExample extends BaseExample {
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
-		final Camera camera = CameraFactory.createPixelPerfectCamera(this, 0, 0);
+		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new FillResolutionPolicy(), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -85,6 +89,7 @@ public class CanvasTextureCompositingExample extends BaseExample {
 				this.mPaint.setXfermode(null);
 
 				final Bitmap zynga = BitmapFactory.decodeStream(CanvasTextureCompositingExample.this.getAssets().open("gfx/texturecompositing/zynga.png"));
+				this.mPaint.setColorFilter(new LightingColorFilter(Color.RED, Color.TRANSPARENT));
 				pCanvas.drawBitmap(zynga, 0, 0, this.mPaint);
 			}
 			
@@ -106,8 +111,8 @@ public class CanvasTextureCompositingExample extends BaseExample {
 		scene.setBackground(new Background(0.5f, 0.5f, 0.5f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = -this.mDecoratedBalloonTextureRegion.getWidth() / 2;
-		final int centerY = -this.mDecoratedBalloonTextureRegion.getHeight() / 2;
+		final int centerX = CAMERA_WIDTH / 2 - this.mDecoratedBalloonTextureRegion.getWidth() / 2;
+		final int centerY = CAMERA_HEIGHT / 2 - this.mDecoratedBalloonTextureRegion.getHeight() / 2;
 
 		/* Create the balloon and add it to the scene. */
 		final Sprite balloon = new Sprite(centerX, centerY, this.mDecoratedBalloonTextureRegion);
