@@ -91,7 +91,7 @@ public class ETC1TextureExample extends BaseExample {
 				protected InputStream getInputStream() throws IOException {
 					return ETC1TextureExample.this.getResources().openRawResource(R.raw.house_etc1);
 				}
-			}.load();
+			}.load(this.getTextureManager());
 
 			this.mHouseTextureRegion = TextureRegionFactory.extractFromTexture(this.mTexture, 0, 0, 512, 512);
 
@@ -129,11 +129,6 @@ public class ETC1TextureExample extends BaseExample {
 		});
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

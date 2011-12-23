@@ -86,7 +86,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override

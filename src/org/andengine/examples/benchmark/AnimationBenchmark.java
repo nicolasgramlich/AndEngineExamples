@@ -96,7 +96,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 		this.mBananaTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "banana_tiled.png", 0, 180, 4, 2);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 132, 180, 2, 1);
 
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override

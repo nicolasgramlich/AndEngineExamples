@@ -15,7 +15,6 @@ import org.andengine.input.touch.detector.ClickDetector;
 import org.andengine.input.touch.detector.ClickDetector.IClickDetectorListener;
 import org.andengine.opengl.shader.PositionTextureCoordinatesShaderProgram;
 import org.andengine.opengl.shader.ShaderProgram;
-import org.andengine.opengl.shader.ShaderProgramManager;
 import org.andengine.opengl.shader.exception.ShaderProgramException;
 import org.andengine.opengl.shader.exception.ShaderProgramLinkException;
 import org.andengine.opengl.shader.util.constants.ShaderProgramConstants;
@@ -84,52 +83,52 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 			private UncoloredSprite mRenderTextureSprite;
 
 			@Override
-			public void onDrawFrame() throws InterruptedException {
+			public void onDrawFrame(final GLState pGLState) throws InterruptedException {
 				final boolean firstFrame = !this.mRenderTextureInitialized;
 
 				if(firstFrame) {
-					this.initRenderTextures();
+					this.initRenderTextures(pGLState);
 					this.mRenderTextureInitialized = true;
 				}
 
 				final int surfaceWidth = this.mCamera.getSurfaceWidth();
 				final int surfaceHeight = this.mCamera.getSurfaceHeight();
 
-				this.mRenderTexture.begin();
+				this.mRenderTexture.begin(pGLState);
 				{
 					/* Draw current frame. */
-					super.onDrawFrame();
+					super.onDrawFrame(pGLState);
 				}
-				this.mRenderTexture.end();
+				this.mRenderTexture.end(pGLState);
 
 				/* Draw rendered texture with custom shader. */
 				{
-					GLState.pushProjectionGLMatrix();
-					GLState.orthoProjectionGLMatrixf(0, surfaceWidth, 0, surfaceHeight, -1, 1);
+					pGLState.pushProjectionGLMatrix();
+					pGLState.orthoProjectionGLMatrixf(0, surfaceWidth, 0, surfaceHeight, -1, 1);
 					{
-						this.mRenderTextureSprite.onDraw(this.mCamera);
+						this.mRenderTextureSprite.onDraw(pGLState, this.mCamera);
 					}
-					GLState.popProjectionGLMatrix();
+					pGLState.popProjectionGLMatrix();
 				}
 			}
 
-			private void initRenderTextures() {
+			private void initRenderTextures(final GLState pGLState) {
 				final int surfaceWidth = this.mCamera.getSurfaceWidth();
 				final int surfaceHeight = this.mCamera.getSurfaceHeight();
 
 				this.mRenderTexture = new RenderTexture(surfaceWidth, surfaceHeight);
-				this.mRenderTexture.init();
+				this.mRenderTexture.init(pGLState);
 
 				final ITextureRegion renderTextureTextureRegion = TextureRegionFactory.extractFromTexture(this.mRenderTexture);
 				this.mRenderTextureSprite = new UncoloredSprite(0, 0, renderTextureTextureRegion) {
 					@Override
-					protected void preDraw(final Camera pCamera) {
+					protected void preDraw(final GLState pGLState, final Camera pCamera) {
 						if(RadialBlurExample.this.mRadialBlurring) {
 							this.setShaderProgram(RadialBlurShaderProgram.getInstance());
 						} else {
 							this.setShaderProgram(PositionTextureCoordinatesShaderProgram.getInstance());
 						}
-						super.preDraw(pCamera);
+						super.preDraw(pGLState, pCamera);
 
 						GLES20.glUniform2f(RadialBlurShaderProgram.sUniformRadialBlurCenterLocation, RadialBlurExample.this.mRadialBlurCenterX, 1 - RadialBlurExample.this.mRadialBlurCenterY);
 					}
@@ -144,9 +143,9 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(512, 512);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "badge_large.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 
-		ShaderProgramManager.loadShaderProgram(RadialBlurShaderProgram.getInstance());
+		this.getShaderProgramManager().loadShaderProgram(RadialBlurShaderProgram.getInstance());
 	}
 
 	@Override
@@ -169,11 +168,6 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 		scene.setOnSceneTouchListener(this);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	@Override
@@ -297,11 +291,11 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 		// ===========================================================
 
 		@Override
-		protected void link() throws ShaderProgramLinkException {
+		protected void link(final GLState pGLState) throws ShaderProgramLinkException {
 			GLES20.glBindAttribLocation(this.mProgramID, ShaderProgramConstants.ATTRIBUTE_POSITION_LOCATION, ShaderProgramConstants.ATTRIBUTE_POSITION);
 			GLES20.glBindAttribLocation(this.mProgramID, ShaderProgramConstants.ATTRIBUTE_TEXTURECOORDINATES_LOCATION, ShaderProgramConstants.ATTRIBUTE_TEXTURECOORDINATES);
 
-			super.link();
+			super.link(pGLState);
 
 			RadialBlurShaderProgram.sUniformModelViewPositionMatrixLocation = this.getUniformLocation(ShaderProgramConstants.UNIFORM_MODELVIEWPROJECTIONMATRIX);
 			RadialBlurShaderProgram.sUniformTexture0Location = this.getUniformLocation(ShaderProgramConstants.UNIFORM_TEXTURE_0);
@@ -310,20 +304,20 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 		}
 
 		@Override
-		public void bind(final VertexBufferObjectAttributes pVertexBufferObjectAttributes) {
+		public void bind(final GLState pGLState, final VertexBufferObjectAttributes pVertexBufferObjectAttributes) {
 			GLES20.glDisableVertexAttribArray(ShaderProgramConstants.ATTRIBUTE_COLOR_LOCATION);
 
-			super.bind(pVertexBufferObjectAttributes);
+			super.bind(pGLState, pVertexBufferObjectAttributes);
 
-			GLES20.glUniformMatrix4fv(RadialBlurShaderProgram.sUniformModelViewPositionMatrixLocation, 1, false, GLState.getModelViewProjectionGLMatrix(), 0);
+			GLES20.glUniformMatrix4fv(RadialBlurShaderProgram.sUniformModelViewPositionMatrixLocation, 1, false, pGLState.getModelViewProjectionGLMatrix(), 0);
 			GLES20.glUniform1i(RadialBlurShaderProgram.sUniformTexture0Location, 0);
 		}
 
 		@Override
-		public void unbind() throws ShaderProgramException {
+		public void unbind(final GLState pGLState) throws ShaderProgramException {
 			GLES20.glEnableVertexAttribArray(ShaderProgramConstants.ATTRIBUTE_COLOR_LOCATION);
 
-			super.unbind();
+			super.unbind(pGLState);
 		}
 
 		// ===========================================================
@@ -334,5 +328,4 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 		// Inner and Anonymous Classes
 		// ===========================================================
 	}
-
 }

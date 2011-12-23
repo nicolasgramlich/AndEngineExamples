@@ -44,7 +44,7 @@ import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 import android.app.AlertDialog;
@@ -66,7 +66,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 19:36:45 - 28.02.2011
  */
-public class PongGameActivity extends BaseGameActivity implements PongConstants, IOnSceneTouchListener {
+public class PongGameActivity extends SimpleBaseGameActivity implements PongConstants, IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -129,7 +129,7 @@ public class PongGameActivity extends BaseGameActivity implements PongConstants,
 		final ITexture scoreFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
 
 		FontFactory.setAssetBasePath("font/");
-		this.mScoreFont = FontFactory.createFromAsset(scoreFontTexture, this, "LCD.ttf", 32, true, Color.WHITE).load();
+		this.mScoreFont = FontFactory.createFromAsset(scoreFontTexture, this, "LCD.ttf", 32, true, Color.WHITE).load(this.getTextureManager(), this.getFontManager());
 	}
 
 	@Override

@@ -63,7 +63,7 @@ public class MovingBallExample extends BaseExample {
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png", 0, 0, 2, 1);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -83,11 +83,6 @@ public class MovingBallExample extends BaseExample {
 		scene.attachChild(ball);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

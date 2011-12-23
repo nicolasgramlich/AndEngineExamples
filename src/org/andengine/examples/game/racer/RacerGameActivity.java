@@ -23,7 +23,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
-import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.math.MathUtils;
 
 import android.opengl.GLES20;
@@ -40,7 +40,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  * @author Nicolas Gramlich
  * @since 22:43:20 - 15.07.2010
  */
-public class RacerGameActivity extends BaseGameActivity {
+public class RacerGameActivity extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -105,21 +105,21 @@ public class RacerGameActivity extends BaseGameActivity {
 
 		this.mVehiclesTexture = new BitmapTextureAtlas(128, 16, TextureOptions.BILINEAR);
 		this.mVehiclesTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mVehiclesTexture, this, "vehicles.png", 0, 0, 6, 1);
-		this.mVehiclesTexture.load();
+		this.mVehiclesTexture.load(this.getTextureManager());
 
 		this.mRacetrackTexture = new BitmapTextureAtlas(128, 256, TextureOptions.REPEATING_NEAREST);
 		this.mRacetrackStraightTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mRacetrackTexture, this, "racetrack_straight.png", 0, 0);
 		this.mRacetrackCurveTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mRacetrackTexture, this, "racetrack_curve.png", 0, 128);
-		this.mRacetrackTexture.load();
+		this.mRacetrackTexture.load(this.getTextureManager());
 
 		this.mOnScreenControlTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR);
 		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
-		this.mOnScreenControlTexture.load();
+		this.mOnScreenControlTexture.load(this.getTextureManager());
 
 		this.mBoxTexture = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
 		this.mBoxTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBoxTexture, this, "box.png", 0, 0);
-		this.mBoxTexture.load();
+		this.mBoxTexture.load(this.getTextureManager());
 	}
 
 	@Override

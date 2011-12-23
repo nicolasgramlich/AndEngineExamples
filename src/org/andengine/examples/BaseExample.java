@@ -1,6 +1,6 @@
 package org.andengine.examples;
 
-import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +12,7 @@ import android.view.MenuItem;
  * @author Nicolas Gramlich
  * @since 22:10:28 - 11.04.2010
  */
-public abstract class BaseExample extends BaseGameActivity {
+public abstract class BaseExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

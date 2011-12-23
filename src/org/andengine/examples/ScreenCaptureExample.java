@@ -161,11 +161,6 @@ public class ScreenCaptureExample extends BaseExample {
 		return coloredRect;
 	}
 
-	@Override
-	public void onGameCreated() {
-
-	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================

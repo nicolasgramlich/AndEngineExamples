@@ -101,11 +101,11 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 32, TextureOptions.BILINEAR);
 		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 
 		this.mHUDTexture = new BitmapTextureAtlas(256, 128,TextureOptions.BILINEAR);
 		this.mToggleButtonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mHUDTexture, this, "toggle_button.png", 0, 0, 2, 1); // 256x128
-		this.mHUDTexture.load();
+		this.mHUDTexture.load(this.getTextureManager());
 	}
 
 	@Override
@@ -171,11 +171,6 @@ public class BoundCameraExample extends BaseExample implements IAccelerometerLis
 		this.mBoundChaseCamera.setHUD(hud);
 
 		return this.mScene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	@Override

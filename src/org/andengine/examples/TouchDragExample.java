@@ -65,7 +65,7 @@ public class TouchDragExample extends BaseExample {
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -87,14 +87,9 @@ public class TouchDragExample extends BaseExample {
 		face.setScale(4);
 		scene.attachChild(face);
 		scene.registerTouchArea(face);
-		scene.setTouchAreaBindingEnabled(true);
+		scene.setTouchAreaBindingOnActionDownEnabled(true);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

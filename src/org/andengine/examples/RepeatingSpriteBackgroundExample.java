@@ -67,8 +67,8 @@ public class RepeatingSpriteBackgroundExample extends BaseExample {
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128);
 		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "player.png", 0, 0, 3, 4);
-		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, new AssetBitmapTextureAtlasSource(this, "gfx/background_grass.png"));
-		this.mBitmapTextureAtlas.load();
+		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, this.getTextureManager(), new AssetBitmapTextureAtlasSource(this, "gfx/background_grass.png"));
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -124,11 +124,6 @@ public class RepeatingSpriteBackgroundExample extends BaseExample {
 		scene.attachChild(player);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

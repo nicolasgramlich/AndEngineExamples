@@ -8,7 +8,6 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
-import org.andengine.opengl.font.BitmapFont;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.util.HorizontalAlign;
@@ -35,7 +34,6 @@ public class TextExample extends BaseExample {
 	// ===========================================================
 
 	private Font mFont;
-	private BitmapFont mBitmapFont;
 
 	// ===========================================================
 	// Constructors
@@ -58,10 +56,7 @@ public class TextExample extends BaseExample {
 
 	@Override
 	public void onCreateResources() {
-		this.mFont = FontFactory.create(256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32).load();
-		
-		this.mBitmapFont = new BitmapFont(this, "font/BitmapFont.fnt");
-		this.mBitmapFont.loadTextures();
+		this.mFont = FontFactory.create(256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32).load(this.getTextureManager(), this.getFontManager());
 	}
 
 	@Override
@@ -74,19 +69,12 @@ public class TextExample extends BaseExample {
 		final Text centerText = new Text(100, 40, this.mFont, "Hello AndEngine!\nYou can even have multilined text!", HorizontalAlign.CENTER);
 		final Text leftText = new Text(100, 170, this.mFont, "Also left aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.LEFT);
 		final Text rightText = new Text(100, 300, this.mFont, "And right aligned!\nLorem ipsum dolor sit amat...", HorizontalAlign.RIGHT);
-		final Text bitmapText = new Text(100, 430, this.mBitmapFont, "Hello BitmapFont!", HorizontalAlign.CENTER);
 
 		scene.attachChild(centerText);
 		scene.attachChild(leftText);
 		scene.attachChild(rightText);
-		scene.attachChild(bitmapText);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

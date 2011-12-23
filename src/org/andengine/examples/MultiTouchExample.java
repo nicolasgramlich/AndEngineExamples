@@ -85,7 +85,7 @@ public class MultiTouchExample extends BaseExample {
 
 		this.mCardDeckTexture = new BitmapTextureAtlas(1024, 512, TextureOptions.BILINEAR);
 		BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mCardDeckTexture, this, "carddeck_tiled.png", 0, 0);
-		this.mCardDeckTexture.load();
+		this.mCardDeckTexture.load(this.getTextureManager());
 
 		this.mCardTotextureRegionMap = new HashMap<Card, ITextureRegion>();
 
@@ -110,14 +110,9 @@ public class MultiTouchExample extends BaseExample {
 
 		this.mScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		this.mScene.setTouchAreaBindingEnabled(true);
+		this.mScene.setTouchAreaBindingOnActionDownEnabled(true);
 
 		return this.mScene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

@@ -93,7 +93,7 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 
 		this.mCardDeckTexture = new BitmapTextureAtlas(1024, 512, TextureOptions.BILINEAR);
 		BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mCardDeckTexture, this, "carddeck_tiled.png", 0, 0);
-		this.mCardDeckTexture.load();
+		this.mCardDeckTexture.load(this.getTextureManager());
 
 		this.mCardTotextureRegionMap = new HashMap<Card, ITextureRegion>();
 
@@ -122,14 +122,9 @@ public class PinchZoomExample extends BaseExample implements IOnSceneTouchListen
 		this.mPinchZoomDetector = new PinchZoomDetector(this);
 
 		this.mScene.setOnSceneTouchListener(this);
-		this.mScene.setTouchAreaBindingEnabled(true);
+		this.mScene.setTouchAreaBindingOnActionDownEnabled(true);
 
 		return this.mScene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	@Override

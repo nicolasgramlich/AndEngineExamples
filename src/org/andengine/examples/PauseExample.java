@@ -70,7 +70,7 @@ public class PauseExample extends BaseExample {
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR);
 		this.mPausedTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "paused.png", 0, 0);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box_menu.png", 0, 50);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -95,11 +95,6 @@ public class PauseExample extends BaseExample {
 		this.mMainScene.attachChild(face);
 
 		return this.mMainScene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	@Override

@@ -101,28 +101,28 @@ public class PVRTextureExample extends BaseExample {
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_rgb_565);
 				}
-			}.load();
+			}.load(this.getTextureManager());
 
 			this.mTextureRGBA5551 = new PVRTexture(PVRTextureFormat.RGBA_5551, new TextureOptions(GLES20.GL_LINEAR, GLES20.GL_LINEAR, GLES20.GL_CLAMP_TO_EDGE, GLES20.GL_CLAMP_TO_EDGE, false)) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_5551);
 				}
-			}.load();
+			}.load(this.getTextureManager());
 
 			this.mTextureARGB4444 = new PVRTexture(PVRTextureFormat.RGBA_4444, new TextureOptions(GLES20.GL_LINEAR, GLES20.GL_LINEAR, GLES20.GL_CLAMP_TO_EDGE, GLES20.GL_CLAMP_TO_EDGE, false)) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_4444);
 				}
-			}.load();
+			}.load(this.getTextureManager());
 
 			this.mTextureRGBA888MipMaps = new PVRTexture(PVRTextureFormat.RGBA_8888, new TextureOptions(GLES20.GL_LINEAR_MIPMAP_LINEAR, GLES20.GL_LINEAR, GLES20.GL_CLAMP_TO_EDGE, GLES20.GL_CLAMP_TO_EDGE, false)) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRTextureExample.this.getResources().openRawResource(R.raw.house_pvr_argb_8888_mipmaps);
 				}
-			}.load();
+			}.load(this.getTextureManager());
 
 			this.mHouseNearestTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureRGB565, 0, 0, 512, 512);
 			this.mHouseLinearTextureRegion = TextureRegionFactory.extractFromTexture(this.mTextureRGBA5551, 0, 0, 512, 512);
@@ -170,11 +170,6 @@ public class PVRTextureExample extends BaseExample {
 		});
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

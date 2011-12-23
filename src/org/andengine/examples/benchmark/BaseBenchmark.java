@@ -9,7 +9,7 @@ import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.util.FPSCounter;
 import org.andengine.examples.R;
-import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.Callback;
 import org.andengine.util.StreamUtils;
 import org.andengine.util.debug.Debug;
@@ -43,7 +43,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 10:38:36 - 27.06.2010
  */
-public abstract class BaseBenchmark extends BaseGameActivity {
+public abstract class BaseBenchmark extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

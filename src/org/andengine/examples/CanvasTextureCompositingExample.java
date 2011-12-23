@@ -95,7 +95,7 @@ public class CanvasTextureCompositingExample extends BaseExample {
 		};
 
 		this.mDecoratedBalloonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromSource(this.mBitmapTextureAtlas, decoratedTextureAtlasSource, 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -115,11 +115,6 @@ public class CanvasTextureCompositingExample extends BaseExample {
 		scene.attachChild(balloon);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

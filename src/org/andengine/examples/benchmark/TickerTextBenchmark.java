@@ -76,7 +76,7 @@ public class TickerTextBenchmark extends BaseBenchmark {
 	@Override
 	public void onCreateResources() {
 		Typeface typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD);
-		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA, typeface, 22, true, Color.WHITE).load();
+		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA, typeface, 22, true, Color.WHITE).load(this.getTextureManager(), this.getFontManager());
 	}
 
 	@Override

@@ -123,11 +123,6 @@ public class RectangleExample extends BaseExample {
 		return coloredRect;
 	}
 
-	@Override
-	public void onGameCreated() {
-
-	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================

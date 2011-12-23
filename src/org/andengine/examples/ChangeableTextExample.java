@@ -58,7 +58,7 @@ public class ChangeableTextExample extends BaseExample {
 
 	@Override
 	public void onCreateResources() {
-		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48).load();
+		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48).load(this.getTextureManager(), this.getFontManager());
 	}
 
 	@Override
@@ -84,11 +84,6 @@ public class ChangeableTextExample extends BaseExample {
 		}));
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

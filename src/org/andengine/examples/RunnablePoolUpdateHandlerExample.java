@@ -80,7 +80,7 @@ public class RunnablePoolUpdateHandlerExample extends BaseExample implements IOn
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -104,11 +104,6 @@ public class RunnablePoolUpdateHandlerExample extends BaseExample implements IOn
 		scene.setOnSceneTouchListener(this);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	@Override

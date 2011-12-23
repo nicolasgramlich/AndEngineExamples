@@ -1,5 +1,6 @@
 package org.andengine.examples;
 
+import org.andengine.engine.options.EngineOptions;
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
@@ -44,10 +45,15 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 	// ===========================================================
 
 	@Override
+	public EngineOptions onCreateEngineOptions() {
+		Toast.makeText(this, "In this example, the revolute joints have their motor enabled.", Toast.LENGTH_LONG).show();
+		return super.onCreateEngineOptions();
+	}
+
+	@Override
 	public Scene onCreateScene() {
 		final Scene scene = super.onCreateScene();
 		this.initJoints(scene);
-		Toast.makeText(this, "In this example, the revolute joints have their motor enabled.", Toast.LENGTH_LONG).show();
 		return scene;
 	}
 

@@ -103,7 +103,7 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR);
 		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -134,11 +134,6 @@ public class PhysicsCollisionFilteringExample extends BaseExample implements IAc
 		this.mScene.registerUpdateHandler(this.mPhysicsWorld);
 
 		return this.mScene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	@Override

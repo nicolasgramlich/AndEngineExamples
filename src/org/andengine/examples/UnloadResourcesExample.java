@@ -61,7 +61,7 @@ public class UnloadResourcesExample extends BaseExample {
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128, TextureOptions.BILINEAR);
 		this.mClickToUnloadTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "click_to_unload.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -77,8 +77,8 @@ public class UnloadResourcesExample extends BaseExample {
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				/* Completely remove all resources associated with this sprite. */
-				this.getVertexBufferObject().unloadFromActiveBufferObjectManager();
-				UnloadResourcesExample.this.mBitmapTextureAtlas.unload();
+				this.getVertexBufferObject().unload();
+				UnloadResourcesExample.this.mBitmapTextureAtlas.unload(UnloadResourcesExample.this.getTextureManager());
 
 				/* And remove the sprite from the Scene. */
 				final Sprite thisRef = this;
@@ -96,11 +96,6 @@ public class UnloadResourcesExample extends BaseExample {
 		scene.registerTouchArea(clickToUnload);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

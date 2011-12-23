@@ -67,7 +67,7 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -87,11 +87,6 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 		scene.setOnSceneTouchListener(this);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	@Override

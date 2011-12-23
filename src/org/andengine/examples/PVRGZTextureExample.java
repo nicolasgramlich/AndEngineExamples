@@ -91,7 +91,7 @@ public class PVRGZTextureExample extends BaseExample {
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRGZTextureExample.this.getResources().openRawResource(R.raw.house_pvrgz_argb_8888);
 				}
-			}.load();
+			}.load(this.getTextureManager());
 
 			this.mHouseTextureRegion = TextureRegionFactory.extractFromTexture(this.mTexture, 0, 0, 512, 512);
 		} catch (final Throwable e) {
@@ -128,11 +128,6 @@ public class PVRGZTextureExample extends BaseExample {
 		});
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

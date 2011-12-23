@@ -83,13 +83,13 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 		FontFactory.setAssetBasePath("font/");
 
 		final ITexture fontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
-		this.mFont = FontFactory.createFromAsset(fontTexture, this, "Plok.ttf", 48, true, android.graphics.Color.WHITE).load();
+		this.mFont = FontFactory.createFromAsset(fontTexture, this, "Plok.ttf", 48, true, android.graphics.Color.WHITE).load(this.getTextureManager(), this.getFontManager());
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box_menu.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -107,11 +107,6 @@ public class TextMenuExample extends BaseExample implements IOnMenuItemClickList
 		this.mMainScene.attachChild(face);
 
 		return this.mMainScene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	@Override

@@ -64,7 +64,7 @@ public class Rotation3DExample extends BaseExample {
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -81,17 +81,17 @@ public class Rotation3DExample extends BaseExample {
 		/* Create the face and add it to the scene. */
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion) {
 			@Override
-			protected void applyRotation() {
+			protected void applyRotation(final GLState pGLState) {
 				final float rotation = this.mRotation;
 
 				if(rotation != 0) {
 					final float rotationCenterX = this.mRotationCenterX;
 					final float rotationCenterY = this.mRotationCenterY;
 
-					GLState.translateModelViewGLMatrixf(rotationCenterX, rotationCenterY, 0);
+					pGLState.translateModelViewGLMatrixf(rotationCenterX, rotationCenterY, 0);
 					/* Note we are applying rotation around the y-axis and not the z-axis anymore! */
-					GLState.rotateModelViewGLMatrixf(rotation, 0, 1, 0);
-					GLState.translateModelViewGLMatrixf(-rotationCenterX, -rotationCenterY, 0);
+					pGLState.rotateModelViewGLMatrixf(rotation, 0, 1, 0);
+					pGLState.translateModelViewGLMatrixf(-rotationCenterX, -rotationCenterY, 0);
 				}
 			}
 		};
@@ -99,11 +99,6 @@ public class Rotation3DExample extends BaseExample {
 		scene.attachChild(face);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

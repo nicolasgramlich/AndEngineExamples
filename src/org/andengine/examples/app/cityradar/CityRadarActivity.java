@@ -26,12 +26,13 @@ import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSourc
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.util.GLState;
 import org.andengine.sensor.location.ILocationListener;
 import org.andengine.sensor.location.LocationProviderStatus;
 import org.andengine.sensor.location.LocationSensorOptions;
 import org.andengine.sensor.orientation.IOrientationListener;
 import org.andengine.sensor.orientation.OrientationData;
-import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 import org.andengine.util.modifier.ease.EaseLinear;
@@ -43,7 +44,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-public class CityRadarActivity extends BaseGameActivity implements IOrientationListener, ILocationListener {
+public class CityRadarActivity extends SimpleBaseGameActivity implements IOrientationListener, ILocationListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -122,7 +123,7 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 	@Override
 	public void onCreateResources() {
 		/* Init font. */
-		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR, Typeface.DEFAULT, 12, true, Color.WHITE).load();
+		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR, Typeface.DEFAULT, 12, true, Color.WHITE).load(getTextureManager(), getFontManager());
 
 		/* Init TextureRegions. */
 		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(512, 256, TextureOptions.BILINEAR);
@@ -133,7 +134,7 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 
 		try {
 			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-			this.mBuildableBitmapTextureAtlas.load();
+			this.mBuildableBitmapTextureAtlas.load(getTextureManager());
 		} catch (final TextureAtlasBuilderException e) {
 			Debug.e(e);
 		}
@@ -166,10 +167,10 @@ public class CityRadarActivity extends BaseGameActivity implements IOrientationL
 
 			final Text cityNameText = new Text(CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, this.mFont, city.getName()) {
 				@Override
-				protected void onManagedDraw(final Camera pCamera) {
+				protected void onManagedDraw(final GLState pGLState, final Camera pCamera) {
 					/* This ensures that the name of the city is always 'pointing down'. */
 					this.setRotation(-CityRadarActivity.this.mCamera.getRotation());
-					super.onManagedDraw(pCamera);
+					super.onManagedDraw(pGLState, pCamera);
 				}
 			};
 			cityNameText.setRotationCenterY(- citySprite.getHeight() / 2);

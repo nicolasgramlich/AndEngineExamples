@@ -117,7 +117,7 @@ public class SVGTextureRegionExample extends BaseExample {
 
 		try {
 			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-			this.mBuildableBitmapTextureAtlas.load();
+			this.mBuildableBitmapTextureAtlas.load(this.getTextureManager());
 		} catch (final TextureAtlasBuilderException e) {
 			Debug.e(e);
 		}
@@ -151,11 +151,6 @@ public class SVGTextureRegionExample extends BaseExample {
 		}
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

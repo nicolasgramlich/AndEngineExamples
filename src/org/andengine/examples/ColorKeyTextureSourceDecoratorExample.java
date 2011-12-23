@@ -78,7 +78,7 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 		this.mChromaticCircleColorKeyedTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromSource(this.mBitmapTextureAtlas, colorKeyBitmapTextureAtlasSource, 128, 0);
 
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -98,11 +98,6 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 		scene.attachChild(chromaticCircleColorKeyed);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

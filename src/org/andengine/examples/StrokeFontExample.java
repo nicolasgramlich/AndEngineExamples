@@ -9,8 +9,10 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.font.Font;
+import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.font.StrokeFont;
 import org.andengine.opengl.texture.ITexture;
+import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 
@@ -67,9 +69,11 @@ public class StrokeFontExample extends BaseExample {
 		final ITexture strokeFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
 		final ITexture strokeOnlyFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
 
-		this.mFont = new Font(fontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK).load();
-		this.mStrokeFont = new StrokeFont(strokeFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK, 2, Color.WHITE).load();
-		this.mStrokeOnlyFont = new StrokeFont(strokeOnlyFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK, 2, Color.WHITE, true).load();
+		final TextureManager textureManager = this.getTextureManager();
+		final FontManager fontManager = this.getFontManager();
+		this.mFont = new Font(fontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK).load(textureManager, fontManager);
+		this.mStrokeFont = new StrokeFont(strokeFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK, 2, Color.WHITE).load(textureManager, fontManager);
+		this.mStrokeOnlyFont = new StrokeFont(strokeOnlyFontTexture, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), FONT_SIZE, true, Color.BLACK, 2, Color.WHITE, true).load(textureManager, fontManager);
 	}
 
 	@Override
@@ -88,11 +92,6 @@ public class StrokeFontExample extends BaseExample {
 		scene.attachChild(textStrokeOnly);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

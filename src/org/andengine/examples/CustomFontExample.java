@@ -10,7 +10,9 @@ import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
+import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.texture.ITexture;
+import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 
@@ -71,11 +73,13 @@ public class CustomFontExample extends BaseExample {
 		final ITexture unrealTournamentFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
 
 		FontFactory.setAssetBasePath("font/");
-		this.mDroidFont = FontFactory.createFromAsset(droidFontTexture, this, "Droid.ttf", FONT_SIZE, true, Color.BLACK).load();
-		this.mKingdomOfHeartsFont = FontFactory.createFromAsset(kingdomOfHeartsFontTexture, this, "KingdomOfHearts.ttf", FONT_SIZE + 20, true, Color.BLACK).load();
-		this.mNeverwinterNightsFont = FontFactory.createFromAsset(neverwinterNightsFontTexture, this, "NeverwinterNights.ttf", FONT_SIZE, true, Color.BLACK).load();
-		this.mPlokFont = FontFactory.createFromAsset(plokFontTexture, this, "Plok.ttf", FONT_SIZE, true, Color.BLACK).load();
-		this.mUnrealTournamenFont = FontFactory.createFromAsset(unrealTournamentFontTexture, this, "UnrealTournament.ttf", FONT_SIZE, true, Color.BLACK).load();
+		final TextureManager textureManager = this.getTextureManager();
+		final FontManager fontManager = this.getFontManager();
+		this.mDroidFont = FontFactory.createFromAsset(droidFontTexture, this, "Droid.ttf", FONT_SIZE, true, Color.BLACK).load(textureManager, fontManager);
+		this.mKingdomOfHeartsFont = FontFactory.createFromAsset(kingdomOfHeartsFontTexture, this, "KingdomOfHearts.ttf", FONT_SIZE + 20, true, Color.BLACK).load(textureManager, fontManager);
+		this.mNeverwinterNightsFont = FontFactory.createFromAsset(neverwinterNightsFontTexture, this, "NeverwinterNights.ttf", FONT_SIZE, true, Color.BLACK).load(textureManager, fontManager);
+		this.mPlokFont = FontFactory.createFromAsset(plokFontTexture, this, "Plok.ttf", FONT_SIZE, true, Color.BLACK).load(textureManager, fontManager);
+		this.mUnrealTournamenFont = FontFactory.createFromAsset(unrealTournamentFontTexture, this, "UnrealTournament.ttf", FONT_SIZE, true, Color.BLACK).load(textureManager, fontManager);
 	}
 
 	@Override
@@ -92,11 +96,6 @@ public class CustomFontExample extends BaseExample {
 		scene.attachChild(new Text(25, 390, this.mUnrealTournamenFont, "Unreal Tournament Font"));
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

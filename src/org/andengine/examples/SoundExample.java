@@ -77,7 +77,7 @@ public class SoundExample extends BaseExample {
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 256, TextureOptions.BILINEAR);
 		this.mTankTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "tank.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 
 		SoundFactory.setAssetBasePath("mfx/");
 		try {
@@ -111,11 +111,6 @@ public class SoundExample extends BaseExample {
 		});
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

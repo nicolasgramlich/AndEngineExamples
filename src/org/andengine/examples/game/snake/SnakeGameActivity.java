@@ -34,7 +34,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
-import org.andengine.ui.activity.BaseGameActivity;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.HorizontalAlign;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
@@ -49,7 +49,7 @@ import android.opengl.GLES20;
  * @author Nicolas Gramlich
  * @since 02:26:05 - 08.07.2010
  */
-public class SnakeGameActivity extends BaseGameActivity implements SnakeConstants {
+public class SnakeGameActivity extends SimpleBaseGameActivity implements SnakeConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -124,7 +124,7 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 	public void onCreateResources() {
 		/* Load the font we are going to use. */
 		FontFactory.setAssetBasePath("font/");
-		this.mFont = FontFactory.createFromAsset(512, 512, TextureOptions.BILINEAR, this, "Plok.ttf", 32, true, Color.WHITE).load();
+		this.mFont = FontFactory.createFromAsset(512, 512, TextureOptions.BILINEAR, this, "Plok.ttf", 32, true, Color.WHITE).load(this.getTextureManager(), this.getFontManager());
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		/* Load all the textures this game needs. */
@@ -132,16 +132,16 @@ public class SnakeGameActivity extends BaseGameActivity implements SnakeConstant
 		this.mHeadTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "snake_head.png", 0, 0, 3, 1);
 		this.mTailPartTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "snake_tailpart.png", 96, 0);
 		this.mFrogTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "frog.png", 0, 64, 3, 1);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 
 		this.mBackgroundTexture = new BitmapTextureAtlas(1024, 512);
 		this.mBackgroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "snake_background.png", 0, 0);
-		this.mBackgroundTexture.load();
+		this.mBackgroundTexture.load(this.getTextureManager());
 
 		this.mOnScreenControlTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR);
 		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
-		this.mOnScreenControlTexture.load();
+		this.mOnScreenControlTexture.load(this.getTextureManager());
 
 		/* Load all the sounds this game needs. */
 		try {

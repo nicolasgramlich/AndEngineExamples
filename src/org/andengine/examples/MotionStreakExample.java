@@ -77,11 +77,11 @@ public class MotionStreakExample extends BaseExample implements IOnSceneTouchLis
 			private int mCurrentRenderTextureIndex = 0;
 
 			@Override
-			public void onDrawFrame() throws InterruptedException {
+			public void onDrawFrame(final GLState pGLState) throws InterruptedException {
 				final boolean firstFrame = !this.mRenderTextureInitialized;
 
 				if(firstFrame) {
-					this.initRenderTextures();
+					this.initRenderTextures(pGLState);
 					this.mRenderTextureInitialized = true;
 				}
 
@@ -91,43 +91,43 @@ public class MotionStreakExample extends BaseExample implements IOnSceneTouchLis
 				final int currentRenderTextureIndex = this.mCurrentRenderTextureIndex;
 				final int otherRenderTextureIndex = (currentRenderTextureIndex + 1) % RENDERTEXTURE_COUNT;
 
-				this.mRenderTextures[currentRenderTextureIndex].begin(false, true);
+				this.mRenderTextures[currentRenderTextureIndex].begin(pGLState, false, true);
 				{
 					/* Draw current frame. */
-					super.onDrawFrame();
+					super.onDrawFrame(pGLState);
 
 					/* Draw previous frame with reduced alpha. */
 					if(!firstFrame) {
 						if(MotionStreakExample.this.mMotionStreaking) {
 							this.mRenderTextureSprites[otherRenderTextureIndex].setAlpha(0.9f);
-							this.mRenderTextureSprites[otherRenderTextureIndex].onDraw(this.mCamera);
+							this.mRenderTextureSprites[otherRenderTextureIndex].onDraw(pGLState, this.mCamera);
 						}
 					}
 				}
-				this.mRenderTextures[currentRenderTextureIndex].end();
+				this.mRenderTextures[currentRenderTextureIndex].end(pGLState);
 
 				/* Draw combined frame with full alpha. */
 				{
-					GLState.pushProjectionGLMatrix();
-					GLState.orthoProjectionGLMatrixf(0, surfaceWidth, 0, surfaceHeight, -1, 1);
+					pGLState.pushProjectionGLMatrix();
+					pGLState.orthoProjectionGLMatrixf(0, surfaceWidth, 0, surfaceHeight, -1, 1);
 					{
 						this.mRenderTextureSprites[otherRenderTextureIndex].setAlpha(1);
-						this.mRenderTextureSprites[otherRenderTextureIndex].onDraw(this.mCamera);
+						this.mRenderTextureSprites[otherRenderTextureIndex].onDraw(pGLState, this.mCamera);
 					}
-					GLState.popProjectionGLMatrix();
+					pGLState.popProjectionGLMatrix();
 				}
 
 				/* Flip RenderTextures. */
 				this.mCurrentRenderTextureIndex = otherRenderTextureIndex;
 			}
 
-			private void initRenderTextures() {
+			private void initRenderTextures(final GLState pGLState) {
 				final int surfaceWidth = this.mCamera.getSurfaceWidth();
 				final int surfaceHeight = this.mCamera.getSurfaceHeight();
 
 				for(int i = 0; i <= 1; i++) {
 					this.mRenderTextures[i] = new RenderTexture(surfaceWidth, surfaceHeight);
-					this.mRenderTextures[i].init();
+					this.mRenderTextures[i].init(pGLState);
 
 					final ITextureRegion renderTextureATextureRegion = TextureRegionFactory.extractFromTexture(this.mRenderTextures[i]);
 					this.mRenderTextureSprites[i] = new Sprite(0, 0, renderTextureATextureRegion);
@@ -164,11 +164,6 @@ public class MotionStreakExample extends BaseExample implements IOnSceneTouchLis
 		scene.setOnSceneTouchListener(this);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	@Override

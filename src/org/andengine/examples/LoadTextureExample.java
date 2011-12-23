@@ -87,11 +87,6 @@ public class LoadTextureExample extends BaseExample {
 		return this.mScene;
 	}
 
-	@Override
-	public void onGameCreated() {
-
-	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -101,7 +96,7 @@ public class LoadTextureExample extends BaseExample {
 
 		this.mBitmapTextureAtlas  = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
 		final ITextureRegion faceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 
 		final float x = (CAMERA_WIDTH - faceTextureRegion.getWidth()) * MathUtils.RANDOM.nextFloat();
 		final float y = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) * MathUtils.RANDOM.nextFloat();

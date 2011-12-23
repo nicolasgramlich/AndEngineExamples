@@ -76,7 +76,7 @@ public class MusicExample extends BaseExample {
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128, TextureOptions.BILINEAR);
 		this.mNotesTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "notes.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 
 		MusicFactory.setAssetBasePath("mfx/");
 		try {
@@ -118,11 +118,6 @@ public class MusicExample extends BaseExample {
 		});
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

@@ -85,11 +85,6 @@ public class LineExample extends BaseExample {
 		return scene;
 	}
 
-	@Override
-	public void onGameCreated() {
-
-	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================

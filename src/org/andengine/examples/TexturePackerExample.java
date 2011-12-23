@@ -59,7 +59,7 @@ public class TexturePackerExample extends BaseExample {
 	public void onCreateResources() {
 		try {
 			final TexturePack spritesheetTexturePack = new TexturePackLoader("gfx/spritesheets/").loadFromAsset(this, "texturepackerexample.xml");
-			spritesheetTexturePack.loadTexture();
+			spritesheetTexturePack.loadTexture(this.getTextureManager());
 			this.mSpritesheetTexturePackTextureRegionLibrary = spritesheetTexturePack.getTexturePackTextureRegionLibrary();
 		} catch (final TexturePackParseException e) {
 			Debug.e(e);
@@ -84,11 +84,6 @@ public class TexturePackerExample extends BaseExample {
 		scene.attachChild(entity);
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	// ===========================================================

@@ -224,7 +224,7 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mBitmapTextureAtlas.load(this.getTextureManager());
 	}
 
 	@Override
@@ -278,15 +278,10 @@ public class MultiplayerBluetoothExample extends BaseExample implements ClientMe
 				}
 			});
 
-			scene.setTouchAreaBindingEnabled(true);
+			scene.setTouchAreaBindingOnActionDownEnabled(true);
 		}
 
 		return scene;
-	}
-
-	@Override
-	public void onGameCreated() {
-
 	}
 
 	@Override
