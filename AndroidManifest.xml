@@ -34,6 +34,7 @@
 		<activity android:name=".AugmentedRealityExample" android:configChanges="orientation"/>
 		<activity android:name=".AugmentedRealityHorizonExample" android:configChanges="orientation"/>
 		<activity android:name=".AutoParallaxBackgroundExample" android:configChanges="orientation"/>
+		<activity android:name=".BitmapFontExample" android:configChanges="orientation"/>
 		<activity android:name=".BoundCameraExample" android:configChanges="orientation"/>
 		<activity android:name=".ChangeableTextExample" android:configChanges="orientation"/>
 		<activity android:name=".CollisionDetectionExample" android:configChanges="orientation"/>

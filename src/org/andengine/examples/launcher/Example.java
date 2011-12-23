@@ -4,6 +4,7 @@ import org.andengine.examples.AnalogOnScreenControlExample;
 import org.andengine.examples.AnalogOnScreenControlsExample;
 import org.andengine.examples.AnimatedSpritesExample;
 import org.andengine.examples.AutoParallaxBackgroundExample;
+import org.andengine.examples.BitmapFontExample;
 import org.andengine.examples.BoundCameraExample;
 import org.andengine.examples.CanvasTextureCompositingExample;
 import org.andengine.examples.ChangeableTextExample;
@@ -95,6 +96,7 @@ enum Example {
 //	AUGMENTEDREALITY(AugmentedRealityExample.class, R.string.example_augmentedreality),
 //	AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, R.string.example_augmentedrealityhorizon),
 	AUTOPARALLAXBACKGROUND(AutoParallaxBackgroundExample.class, R.string.example_autoparallaxbackground),
+	BITMAPFONT(BitmapFontExample.class, R.string.example_bitmapfont),
 	BOUNDCAMERA(BoundCameraExample.class, R.string.example_boundcamera),
 	CANVASTEXTURECOMPOSITING(CanvasTextureCompositingExample.class, R.string.example_canvastexturecompositing),
 	CHANGEABLETEXT(ChangeableTextExample.class, R.string.example_changeabletext),
