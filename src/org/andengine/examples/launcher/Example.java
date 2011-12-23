@@ -3,8 +3,6 @@ package org.andengine.examples.launcher;
 import org.andengine.examples.AnalogOnScreenControlExample;
 import org.andengine.examples.AnalogOnScreenControlsExample;
 import org.andengine.examples.AnimatedSpritesExample;
-import org.andengine.examples.AugmentedRealityExample;
-import org.andengine.examples.AugmentedRealityHorizonExample;
 import org.andengine.examples.AutoParallaxBackgroundExample;
 import org.andengine.examples.BoundCameraExample;
 import org.andengine.examples.CanvasTextureCompositingExample;
@@ -94,8 +92,8 @@ enum Example {
 	ANALOGONSCREENCONTROL(AnalogOnScreenControlExample.class, R.string.example_analogonscreencontrol),
 	ANALOGONSCREENCONTROLS(AnalogOnScreenControlsExample.class, R.string.example_analogonscreencontrols),
 	ANIMATEDSPRITES(AnimatedSpritesExample.class, R.string.example_animatedsprites),
-	AUGMENTEDREALITY(AugmentedRealityExample.class, R.string.example_augmentedreality),
-	AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, R.string.example_augmentedrealityhorizon),
+//	AUGMENTEDREALITY(AugmentedRealityExample.class, R.string.example_augmentedreality),
+//	AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, R.string.example_augmentedrealityhorizon),
 	AUTOPARALLAXBACKGROUND(AutoParallaxBackgroundExample.class, R.string.example_autoparallaxbackground),
 	BOUNDCAMERA(BoundCameraExample.class, R.string.example_boundcamera),
 	CANVASTEXTURECOMPOSITING(CanvasTextureCompositingExample.class, R.string.example_canvastexturecompositing),
