@@ -58,6 +58,7 @@ import org.andengine.examples.SpriteExample;
 import org.andengine.examples.SpriteRemoveExample;
 import org.andengine.examples.StrokeFontExample;
 import org.andengine.examples.SubMenuExample;
+import org.andengine.examples.TMXTiledMapExample;
 import org.andengine.examples.TextExample;
 import org.andengine.examples.TextMenuExample;
 import org.andengine.examples.TextureOptionsExample;
@@ -156,7 +157,7 @@ enum Example {
 	TEXTMENU(TextMenuExample.class, R.string.example_textmenu),
 	TEXTUREOPTIONS(TextureOptionsExample.class, R.string.example_textureoptions),
 	TEXTUREPACKER(TexturePackerExample.class, R.string.example_texturepacker),
-//	TMXTILEDMAP(TMXTiledMapExample.class, R.string.example_tmxtiledmap),
+	TMXTILEDMAP(TMXTiledMapExample.class, R.string.example_tmxtiledmap),
 	TICKERTEXT(TickerTextExample.class, R.string.example_tickertext),
 	TOUCHDRAG(TouchDragExample.class, R.string.example_touchdrag),
 	UNLOADRESOURCES(UnloadResourcesExample.class, R.string.example_unloadresources),
