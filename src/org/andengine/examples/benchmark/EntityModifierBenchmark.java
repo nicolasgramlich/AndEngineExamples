@@ -15,11 +15,13 @@ import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.sprite.Sprite.ISpriteVertexBufferObject;
 import org.andengine.entity.sprite.batch.SpriteGroup;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObject.DrawType;
 
 import android.opengl.GLES20;
 
@@ -132,35 +134,34 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 		}
 	}
 
-//	private void drawUsingSpritesWithSharedVertexBuffer(final Scene pScene) {
-//		final IEntityModifier faceEntityModifier = new SequenceEntityModifier(
-//				new RotationByModifier(2, 90),
-//				new AlphaModifier(1.5f, 1, 0),
-//				new AlphaModifier(1.5f, 0, 1),
-//				new ScaleModifier(2.5f, 1, 0.5f),
-//				new DelayModifier(0.5f),
-//				new ParallelEntityModifier(
-//						new ScaleModifier(2f, 0.5f, 5),
-//						new RotationByModifier(2, 90)
-//				),
-//				new ParallelEntityModifier(
-//						new ScaleModifier(2f, 5, 1),
-//						new RotationModifier(2f, 180, 0)
-//				)
-//		);
-//
-//		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
-//		final RectangleVertexBuffer sharedVertexBuffer = new RectangleVertexBuffer(GL11.GL_DYNAMIC_DRAW, true);
-//		sharedVertexBuffer.update(this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight());
-//
-//		for(int i = 0; i < SPRITE_COUNT; i++) {
-//			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, sharedVertexBuffer);
-//			face.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-//			face.registerEntityModifier(faceEntityModifier.deepCopy());
-//
-//			pScene.attachChild(face);
-//		}
-//	}
+	private void drawUsingSpritesWithSharedVertexBuffer(final Scene pScene) {
+		final IEntityModifier faceEntityModifier = new SequenceEntityModifier(
+				new RotationByModifier(2, 90),
+				new AlphaModifier(1.5f, 1, 0),
+				new AlphaModifier(1.5f, 0, 1),
+				new ScaleModifier(2.5f, 1, 0.5f),
+				new DelayModifier(0.5f),
+				new ParallelEntityModifier(
+						new ScaleModifier(2f, 0.5f, 5),
+						new RotationByModifier(2, 90)
+				),
+				new ParallelEntityModifier(
+						new ScaleModifier(2f, 5, 1),
+						new RotationModifier(2f, 180, 0)
+				)
+		);
+
+		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
+		final ISpriteVertexBufferObject sharedVertexBuffer = new Sprite.LowMemorySpriteVertexBufferObject(Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
+
+		for(int i = 0; i < SPRITE_COUNT; i++) {
+			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, sharedVertexBuffer);
+			face.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+			face.registerEntityModifier(faceEntityModifier.deepCopy());
+
+			pScene.attachChild(face);
+		}
+	}
 
 	private void drawUsingSpriteBatch(final Scene pScene) {
 		final IEntityModifier faceEntityModifier = new SequenceEntityModifier(
