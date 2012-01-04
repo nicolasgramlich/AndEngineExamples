@@ -76,9 +76,6 @@ public class MovingBallExample extends BaseExample {
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		final Ball ball = new Ball(centerX, centerY, this.mFaceTextureRegion);
-		final PhysicsHandler physicsHandler = new PhysicsHandler(ball);
-		ball.registerUpdateHandler(physicsHandler);
-		physicsHandler.setVelocity(DEMO_VELOCITY, DEMO_VELOCITY);
 
 		scene.attachChild(ball);
 
@@ -100,6 +97,7 @@ public class MovingBallExample extends BaseExample {
 			super(pX, pY, pTextureRegion);
 			this.mPhysicsHandler = new PhysicsHandler(this);
 			this.registerUpdateHandler(this.mPhysicsHandler);
+			this.mPhysicsHandler.setVelocity(DEMO_VELOCITY, DEMO_VELOCITY);
 		}
 
 		@Override
@@ -114,8 +112,8 @@ public class MovingBallExample extends BaseExample {
 				this.mPhysicsHandler.setVelocityY(DEMO_VELOCITY);
 			} else if(this.mY + this.getHeight() > CAMERA_HEIGHT) {
 				this.mPhysicsHandler.setVelocityY(-DEMO_VELOCITY);
-			}
-
+			}			
+			
 			super.onManagedUpdate(pSecondsElapsed);
 		}
 	}
