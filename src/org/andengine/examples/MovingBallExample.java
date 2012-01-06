@@ -52,9 +52,9 @@ public class MovingBallExample extends BaseExample {
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
-		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
+		final Camera camera = new Camera(0, 0, MovingBallExample.CAMERA_WIDTH, MovingBallExample.CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(MovingBallExample.CAMERA_WIDTH, MovingBallExample.CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -73,8 +73,8 @@ public class MovingBallExample extends BaseExample {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final int centerX = (MovingBallExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final int centerY = (MovingBallExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		final Ball ball = new Ball(centerX, centerY, this.mFaceTextureRegion);
 
 		scene.attachChild(ball);
@@ -97,23 +97,23 @@ public class MovingBallExample extends BaseExample {
 			super(pX, pY, pTextureRegion);
 			this.mPhysicsHandler = new PhysicsHandler(this);
 			this.registerUpdateHandler(this.mPhysicsHandler);
-			this.mPhysicsHandler.setVelocity(DEMO_VELOCITY, DEMO_VELOCITY);
+			this.mPhysicsHandler.setVelocity(MovingBallExample.DEMO_VELOCITY, MovingBallExample.DEMO_VELOCITY);
 		}
 
 		@Override
 		protected void onManagedUpdate(final float pSecondsElapsed) {
 			if(this.mX < 0) {
-				this.mPhysicsHandler.setVelocityX(DEMO_VELOCITY);
-			} else if(this.mX + this.getWidth() > CAMERA_WIDTH) {
-				this.mPhysicsHandler.setVelocityX(-DEMO_VELOCITY);
+				this.mPhysicsHandler.setVelocityX(MovingBallExample.DEMO_VELOCITY);
+			} else if(this.mX + this.getWidth() > MovingBallExample.CAMERA_WIDTH) {
+				this.mPhysicsHandler.setVelocityX(-MovingBallExample.DEMO_VELOCITY);
 			}
 
 			if(this.mY < 0) {
-				this.mPhysicsHandler.setVelocityY(DEMO_VELOCITY);
-			} else if(this.mY + this.getHeight() > CAMERA_HEIGHT) {
-				this.mPhysicsHandler.setVelocityY(-DEMO_VELOCITY);
-			}			
-			
+				this.mPhysicsHandler.setVelocityY(MovingBallExample.DEMO_VELOCITY);
+			} else if(this.mY + this.getHeight() > MovingBallExample.CAMERA_HEIGHT) {
+				this.mPhysicsHandler.setVelocityY(-MovingBallExample.DEMO_VELOCITY);
+			}
+
 			super.onManagedUpdate(pSecondsElapsed);
 		}
 	}
