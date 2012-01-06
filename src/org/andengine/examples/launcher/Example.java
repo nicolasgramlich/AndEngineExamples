@@ -33,6 +33,9 @@ import org.andengine.examples.MusicExample;
 import org.andengine.examples.PVRCCZTextureExample;
 import org.andengine.examples.PVRGZTextureExample;
 import org.andengine.examples.PVRTextureExample;
+import org.andengine.examples.ParticleSystemCoolExample;
+import org.andengine.examples.ParticleSystemNexusExample;
+import org.andengine.examples.ParticleSystemSimpleExample;
 import org.andengine.examples.PathModifierExample;
 import org.andengine.examples.PauseExample;
 import org.andengine.examples.PhysicsCollisionFilteringExample;
@@ -125,9 +128,9 @@ enum Example {
 	MUSIC(MusicExample.class, R.string.example_music),
 	PAUSE(PauseExample.class, R.string.example_pause),
 	PATHMODIFIER(PathModifierExample.class, R.string.example_pathmodifier),
-//	PARTICLESYSTEMNEXUS(ParticleSystemNexusExample.class, R.string.example_particlesystemnexus),
-//	PARTICLESYSTEMCOOL(ParticleSystemCoolExample.class, R.string.example_particlesystemcool),
-//	PARTICLESYSTEMSIMPLE(ParticleSystemSimpleExample.class, R.string.example_particlesystemsimple),
+	PARTICLESYSTEMNEXUS(ParticleSystemNexusExample.class, R.string.example_particlesystemnexus),
+	PARTICLESYSTEMCOOL(ParticleSystemCoolExample.class, R.string.example_particlesystemcool),
+	PARTICLESYSTEMSIMPLE(ParticleSystemSimpleExample.class, R.string.example_particlesystemsimple),
 	PHYSICSCOLLISIONFILTERING(PhysicsCollisionFilteringExample.class, R.string.example_physicscollisionfiltering),
 	PHYSICS(PhysicsExample.class, R.string.example_physics),
 	PHYSICSFIXEDSTEP(PhysicsFixedStepExample.class, R.string.example_physicsfixedstep),

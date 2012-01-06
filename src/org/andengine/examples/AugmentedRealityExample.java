@@ -1,21 +1,5 @@
 package org.andengine.examples;
 
-import org.andengine.engine.camera.Camera;
-import org.andengine.engine.options.EngineOptions;
-import org.andengine.engine.options.EngineOptions.ScreenOrientation;
-import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.andengine.entity.modifier.MoveModifier;
-import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
-import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.util.FPSLogger;
-import org.andengine.extension.augmentedreality.BaseAugmentedRealityGameActivity;
-import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.opengl.texture.region.ITextureRegion;
-
-import android.widget.Toast;
 
 /**
  * (c) 2010 Nicolas Gramlich
