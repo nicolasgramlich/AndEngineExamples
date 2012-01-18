@@ -1,6 +1,7 @@
 package org.andengine.examples.game.snake.entity;
 
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -22,12 +23,12 @@ public class SnakeTailPart extends CellEntity {
 	// Constructors
 	// ===========================================================
 
-	public SnakeTailPart(final SnakeHead pSnakeHead, final ITextureRegion pTextureRegion) {
-		this(pSnakeHead.mCellX, pSnakeHead.mCellY, pTextureRegion);
+	public SnakeTailPart(final SnakeHead pSnakeHead, final ITextureRegion pTextureRegion, final VertexBufferObjectManager pVertexBufferObjectManager) {
+		this(pSnakeHead.mCellX, pSnakeHead.mCellY, pTextureRegion, pVertexBufferObjectManager);
 	}
 
-	public SnakeTailPart(final int pCellX, final int pCellY, final ITextureRegion pTextureRegion) {
-		super(pCellX, pCellY, CELL_WIDTH, CELL_HEIGHT, pTextureRegion);
+	public SnakeTailPart(final int pCellX, final int pCellY, final ITextureRegion pTextureRegion, final VertexBufferObjectManager pVertexBufferObjectManager) {
+		super(pCellX, pCellY, CELL_WIDTH, CELL_HEIGHT, pTextureRegion, pVertexBufferObjectManager);
 	}
 
 	// ===========================================================
@@ -39,7 +40,7 @@ public class SnakeTailPart extends CellEntity {
 	// ===========================================================
 
 	protected SnakeTailPart deepCopy() {
-		return new SnakeTailPart(this.mCellX, this.mCellY, this.getTextureRegion());
+		return new SnakeTailPart(this.mCellX, this.mCellY, this.getTextureRegion(), this.getVertexBufferObjectManager());
 	}
 
 	// ===========================================================

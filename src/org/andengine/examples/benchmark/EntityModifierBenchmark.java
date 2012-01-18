@@ -22,6 +22,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObject.DrawType;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.opengl.GLES20;
 
@@ -124,8 +125,9 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 				)
 		);
 
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 		for(int i = 0; i < SPRITE_COUNT; i++) {
-			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion);
+			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, vertexBufferObjectManager);
 			face.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 			face.registerEntityModifier(faceEntityModifier.deepCopy());
@@ -152,7 +154,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 		);
 
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
-		final ISpriteVertexBufferObject sharedVertexBuffer = new Sprite.LowMemorySpriteVertexBufferObject(Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
+		final ISpriteVertexBufferObject sharedVertexBuffer = new Sprite.LowMemorySpriteVertexBufferObject(this.getVertexBufferObjectManager(), Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
 
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, sharedVertexBuffer);
@@ -180,11 +182,12 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 				)
 		);
 
-		final SpriteGroup spriteGroup = new SpriteGroup(this.mBitmapTextureAtlas, EntityModifierBenchmark.SPRITE_COUNT);
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
+		final SpriteGroup spriteGroup = new SpriteGroup(this.mBitmapTextureAtlas, EntityModifierBenchmark.SPRITE_COUNT, vertexBufferObjectManager);
 		spriteGroup.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		for(int i = 0; i < EntityModifierBenchmark.SPRITE_COUNT; i++) {
-			final Sprite face = new Sprite((EntityModifierBenchmark.CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (EntityModifierBenchmark.CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion);
+			final Sprite face = new Sprite((EntityModifierBenchmark.CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (EntityModifierBenchmark.CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, vertexBufferObjectManager);
 			face.registerEntityModifier(faceEntityModifier.deepCopy());
 
 			spriteGroup.attachChild(face);

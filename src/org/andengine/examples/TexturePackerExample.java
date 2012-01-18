@@ -79,7 +79,7 @@ public class TexturePackerExample extends BaseExample {
 		final int centerY = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene. */
-		Sprite entity = new Sprite(centerX, centerY, faceTextureRegion);
+		Sprite entity = new Sprite(centerX, centerY, faceTextureRegion, this.getVertexBufferObjectManager());
 		entity.setScale(20);
 		scene.attachChild(entity);
 

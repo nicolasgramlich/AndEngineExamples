@@ -305,7 +305,7 @@ public class MultiplayerExample extends BaseExample implements ClientMessageFlag
 	public void addFace(final int pID, final float pX, final float pY) {
 		final Scene scene = this.mEngine.getScene();
 		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
+		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		face.setPosition(pX - face.getWidth() * 0.5f, pY - face.getHeight() * 0.5f);
 		face.setUserData(pID);
 		this.mFaces.put(pID, face);

@@ -74,16 +74,16 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 			final float anchorFaceX = centerX - spriteWidth * 0.5f + 220 * (i - 1);
 			final float anchorFaceY = centerY - spriteHeight * 0.5f;
 
-			final AnimatedSprite anchorFace = new AnimatedSprite(anchorFaceX, anchorFaceY, this.mBoxFaceTextureRegion);
+			final AnimatedSprite anchorFace = new AnimatedSprite(anchorFaceX, anchorFaceY, this.mBoxFaceTextureRegion, this.getVertexBufferObjectManager());
 			final Body anchorBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, anchorFace, BodyType.StaticBody, objectFixtureDef);
 
-			final AnimatedSprite movingFace = new AnimatedSprite(anchorFaceX, anchorFaceY + 90, this.mCircleFaceTextureRegion);
+			final AnimatedSprite movingFace = new AnimatedSprite(anchorFaceX, anchorFaceY + 90, this.mCircleFaceTextureRegion, this.getVertexBufferObjectManager());
 			final Body movingBody = PhysicsFactory.createCircleBody(this.mPhysicsWorld, movingFace, BodyType.DynamicBody, objectFixtureDef);
 
 			anchorFace.animate(200);
 			anchorFace.animate(200);
 
-			final Line connectionLine = new Line(anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2, anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2);
+			final Line connectionLine = new Line(anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2, anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2, this.getVertexBufferObjectManager());
 
 			pScene.attachChild(connectionLine);
 			pScene.attachChild(anchorFace);

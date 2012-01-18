@@ -121,16 +121,16 @@ public class CollisionDetectionExample extends BaseExample {
 		final LoopEntityModifier entityModifier = new LoopEntityModifier(new ParallelEntityModifier(new RotationModifier(6, 0, 360), new SequenceEntityModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1))));
 
 		/* Create A spinning rectangle and a line. */
-		final Rectangle centerRectangle = new Rectangle(centerX - 50, centerY - 16, 32, 32);
+		final Rectangle centerRectangle = new Rectangle(centerX - 50, centerY - 16, 32, 32, this.getVertexBufferObjectManager());
 		centerRectangle.registerEntityModifier(entityModifier);
 
 		scene.attachChild(centerRectangle);
 		
-		final Line line = new Line(centerX + 50 - 16, centerY, centerX + 50 + 16, centerY);
+		final Line line = new Line(centerX + 50 - 16, centerY, centerX + 50 + 16, centerY, this.getVertexBufferObjectManager());
 		line.registerEntityModifier(entityModifier.deepCopy());
 		scene.attachChild(line);
 
-		final Sprite face = new Sprite(centerX, centerY + 42, this.mFaceTextureRegion);
+		final Sprite face = new Sprite(centerX, centerY + 42, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		final PhysicsHandler physicsHandler = new PhysicsHandler(face);
 		face.registerUpdateHandler(physicsHandler);
 
@@ -139,7 +139,7 @@ public class CollisionDetectionExample extends BaseExample {
 		/* Velocity control (left). */
 		final int x1 = 0;
 		final int y1 = CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight();
-		final AnalogOnScreenControl velocityOnScreenControl = new AnalogOnScreenControl(x1, y1, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
+		final AnalogOnScreenControl velocityOnScreenControl = new AnalogOnScreenControl(x1, y1, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, this.getVertexBufferObjectManager(), new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				physicsHandler.setVelocity(pValueX * 100, pValueY * 100);
@@ -159,7 +159,7 @@ public class CollisionDetectionExample extends BaseExample {
 		/* Rotation control (right). */
 		final int y2 = (this.mPlaceOnScreenControlsAtDifferentVerticalLocations) ? 0 : y1;
 		final int x2 = CAMERA_WIDTH - this.mOnScreenControlBaseTextureRegion.getWidth();
-		final AnalogOnScreenControl rotationOnScreenControl = new AnalogOnScreenControl(x2, y2, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, new IAnalogOnScreenControlListener() {
+		final AnalogOnScreenControl rotationOnScreenControl = new AnalogOnScreenControl(x2, y2, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, this.getVertexBufferObjectManager(), new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				if(pValueX == x1 && pValueY == x1) {

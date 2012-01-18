@@ -109,7 +109,7 @@ public class PVRCCZTextureExample extends BaseExample {
 		final int centerX = (CAMERA_WIDTH - this.mHouseTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mHouseTextureRegion.getHeight()) / 2;
 
-		scene.attachChild(new Sprite(centerX, centerY, this.mHouseTextureRegion));
+		scene.attachChild(new Sprite(centerX, centerY, this.mHouseTextureRegion, this.getVertexBufferObjectManager()));
 
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override

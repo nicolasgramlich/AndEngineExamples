@@ -111,7 +111,7 @@ public class ModPlayerExample extends BaseExample {
 		final int x = (CAMERA_WIDTH - this.mILove8BitTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mILove8BitTextureRegion.getHeight()) / 2;
 
-		final Sprite iLove8Bit = new Sprite(x, y, this.mILove8BitTextureRegion);
+		final Sprite iLove8Bit = new Sprite(x, y, this.mILove8BitTextureRegion, this.getVertexBufferObjectManager());
 		scene.attachChild(iLove8Bit);
 
 		scene.registerTouchArea(iLove8Bit);

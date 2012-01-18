@@ -78,9 +78,9 @@ public class ScreenCaptureExample extends BaseExample {
 		scene.setBackground(new Background(0, 0, 0));
 
 		/* Create three lines that will form an arrow pointing to the eye. */
-		final Line arrowLineMain = new Line(0, 0, 0, 0, 3);
-		final Line arrowLineWingLeft = new Line(0, 0, 0, 0, 3);
-		final Line arrowLineWingRight = new Line(0, 0, 0, 0, 3);
+		final Line arrowLineMain = new Line(0, 0, 0, 0, 3, this.getVertexBufferObjectManager());
+		final Line arrowLineWingLeft = new Line(0, 0, 0, 0, 3, this.getVertexBufferObjectManager());
+		final Line arrowLineWingRight = new Line(0, 0, 0, 0, 3, this.getVertexBufferObjectManager());
 
 		arrowLineMain.setColor(1, 0, 1);
 		arrowLineWingLeft.setColor(1, 0, 1);
@@ -150,10 +150,10 @@ public class ScreenCaptureExample extends BaseExample {
 	}
 
 	private Rectangle makeColoredRectangle(final float pX, final float pY, final float pRed, final float pGreen, final float pBlue) {
-		final Rectangle coloredRect = new Rectangle(pX, pY, 180, 180);
+		final Rectangle coloredRect = new Rectangle(pX, pY, 180, 180, this.getVertexBufferObjectManager());
 		coloredRect.setColor(pRed, pGreen, pBlue);
 
-		final Rectangle subRectangle = new Rectangle(45, 45, 90, 90);
+		final Rectangle subRectangle = new Rectangle(45, 45, 90, 90, this.getVertexBufferObjectManager());
 		subRectangle.registerEntityModifier(new LoopEntityModifier(new RotationModifier(3, 0, 360)));
 
 		coloredRect.attachChild(subRectangle);

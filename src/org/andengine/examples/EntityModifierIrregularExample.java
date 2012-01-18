@@ -85,12 +85,12 @@ public class EntityModifierIrregularExample extends BaseExample {
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
-		final AnimatedSprite face1 = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion);
+		final AnimatedSprite face1 = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		face1.setRotationCenter(0, 0);
 		face1.setScaleCenter(0, 0);
 		face1.animate(100);
 
-		final AnimatedSprite face2 = new AnimatedSprite(centerX + 100, centerY, this.mFaceTextureRegion);
+		final AnimatedSprite face2 = new AnimatedSprite(centerX + 100, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		face2.animate(100);
 
 		final SequenceEntityModifier entityModifier = new SequenceEntityModifier(
@@ -134,8 +134,8 @@ public class EntityModifierIrregularExample extends BaseExample {
 		scene.attachChild(face2);
 
 		/* Create some not-modified sprites, that act as fixed references to the modified ones. */
-		final AnimatedSprite face1Reference = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion);
-		final AnimatedSprite face2Reference = new AnimatedSprite(centerX + 100, centerY, this.mFaceTextureRegion);
+		final AnimatedSprite face1Reference = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+		final AnimatedSprite face2Reference = new AnimatedSprite(centerX + 100, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 
 		scene.attachChild(face1Reference);
 		scene.attachChild(face2Reference);

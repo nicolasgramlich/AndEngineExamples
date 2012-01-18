@@ -73,7 +73,7 @@ public class UnloadResourcesExample extends BaseExample {
 
 		final int x = (CAMERA_WIDTH - this.mClickToUnloadTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mClickToUnloadTextureRegion.getHeight()) / 2;
-		final Sprite clickToUnload = new Sprite(x, y, this.mClickToUnloadTextureRegion) {
+		final Sprite clickToUnload = new Sprite(x, y, this.mClickToUnloadTextureRegion, this.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				/* Completely remove all resources associated with this sprite. */

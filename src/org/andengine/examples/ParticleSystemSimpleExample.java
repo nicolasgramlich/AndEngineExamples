@@ -89,7 +89,7 @@ public class ParticleSystemSimpleExample extends BaseExample {
 		final Scene scene = new Scene();
 
 		final CircleOutlineParticleEmitter particleEmitter = new CircleOutlineParticleEmitter(ParticleSystemSimpleExample.CAMERA_WIDTH * 0.5f, ParticleSystemSimpleExample.CAMERA_HEIGHT * 0.5f + 20, 80);
-		final SpriteParticleSystem particleSystem = new SpriteParticleSystem(particleEmitter, 60, 60, 360, this.mParticleTextureRegion);
+		final SpriteParticleSystem particleSystem = new SpriteParticleSystem(particleEmitter, 60, 60, 360, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
 
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override

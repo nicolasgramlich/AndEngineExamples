@@ -96,7 +96,7 @@ public class SoundExample extends BaseExample {
 
 		final int x = (CAMERA_WIDTH - this.mTankTextureRegion.getWidth()) / 2;
 		final int y = (CAMERA_HEIGHT - this.mTankTextureRegion.getHeight()) / 2;
-		final Sprite tank = new Sprite(x, y, this.mTankTextureRegion);
+		final Sprite tank = new Sprite(x, y, this.mTankTextureRegion, this.getVertexBufferObjectManager());
 		scene.attachChild(tank);
 
 		scene.registerTouchArea(tank);

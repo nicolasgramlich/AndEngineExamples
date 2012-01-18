@@ -14,6 +14,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.widget.Toast;
 
@@ -82,9 +83,10 @@ public class ZoomExample extends BaseExample {
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create some faces and add them to the scene. */
-		scene.attachChild(new Sprite(centerX - 25, centerY - 25, this.mFaceTextureRegion));
-		scene.attachChild(new Sprite(centerX  + 25, centerY - 25, this.mFaceTextureRegion));
-		scene.attachChild(new Sprite(centerX, centerY + 25, this.mFaceTextureRegion));
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
+		scene.attachChild(new Sprite(centerX - 25, centerY - 25, this.mFaceTextureRegion, vertexBufferObjectManager));
+		scene.attachChild(new Sprite(centerX  + 25, centerY - 25, this.mFaceTextureRegion, vertexBufferObjectManager));
+		scene.attachChild(new Sprite(centerX, centerY + 25, this.mFaceTextureRegion, vertexBufferObjectManager));
 
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override

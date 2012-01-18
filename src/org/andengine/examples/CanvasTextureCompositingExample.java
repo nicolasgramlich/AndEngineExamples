@@ -113,7 +113,7 @@ public class CanvasTextureCompositingExample extends BaseExample {
 		final int centerY = CAMERA_HEIGHT / 2 - this.mDecoratedBalloonTextureRegion.getHeight() / 2;
 
 		/* Create the balloon and add it to the scene. */
-		final Sprite balloon = new Sprite(centerX, centerY, this.mDecoratedBalloonTextureRegion);
+		final Sprite balloon = new Sprite(centerX, centerY, this.mDecoratedBalloonTextureRegion, this.getVertexBufferObjectManager());
 		balloon.registerEntityModifier(new LoopEntityModifier(new RotationModifier(60, 0, 360)));
 		scene.attachChild(balloon);
 

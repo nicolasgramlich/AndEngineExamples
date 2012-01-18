@@ -7,6 +7,7 @@ import org.andengine.examples.game.snake.adt.Direction;
 import org.andengine.examples.game.snake.adt.SnakeSuicideException;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -36,10 +37,10 @@ public class Snake extends Entity {
 	// Constructors
 	// ===========================================================
 
-	public Snake(final Direction pInitialDirection, final int pCellX, final int pCellY, final TiledTextureRegion pHeadTextureRegion, final ITextureRegion pTailPartTextureRegion) {
+	public Snake(final Direction pInitialDirection, final int pCellX, final int pCellY, final TiledTextureRegion pHeadTextureRegion, final ITextureRegion pTailPartTextureRegion, final VertexBufferObjectManager pVertexBufferObjectManager) {
 		super(0, 0);
 		this.mTailPartTextureRegion = pTailPartTextureRegion;
-		this.mHead = new SnakeHead(pCellX, pCellY, pHeadTextureRegion);
+		this.mHead = new SnakeHead(pCellX, pCellY, pHeadTextureRegion, pVertexBufferObjectManager);
 		this.attachChild(this.mHead);
 		this.setDirection(pInitialDirection);
 	}
@@ -94,7 +95,7 @@ public class Snake extends Entity {
 			/* If the snake should grow,
 			 * simply add a new part in the front of the tail,
 			 * where the head currently is. */
-			final SnakeTailPart newTailPart = new SnakeTailPart(this.mHead, this.mTailPartTextureRegion);
+			final SnakeTailPart newTailPart = new SnakeTailPart(this.mHead, this.mTailPartTextureRegion, this.mHead.getVertexBufferObjectManager());
 			this.attachChild(newTailPart);
 			this.mTail.addFirst(newTailPart);
 		} else {

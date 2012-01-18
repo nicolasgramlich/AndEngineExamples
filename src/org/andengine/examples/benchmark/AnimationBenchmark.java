@@ -8,7 +8,8 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.sprite.Sprite.ISpriteVertexBufferObject;
+import org.andengine.entity.sprite.TiledSprite.ITiledSpriteVertexBufferObject;
+import org.andengine.entity.sprite.TiledSprite.LowMemoryTiledSpriteVertexBufferObject;
 import org.andengine.entity.sprite.batch.SpriteBatch.HighPerformanceSpriteBatchVertexBufferObject;
 import org.andengine.entity.sprite.batch.SpriteGroup;
 import org.andengine.opengl.shader.PositionTextureCoordinatesShaderProgram;
@@ -19,6 +20,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.opengl.vbo.VertexBufferObject.DrawType;
 import org.andengine.opengl.vbo.attribute.VertexBufferObjectAttributes;
 import org.andengine.opengl.vbo.attribute.VertexBufferObjectAttributesBuilder;
@@ -115,22 +117,22 @@ public class AnimationBenchmark extends BaseBenchmark {
 	private void drawUsingSprites(Scene pScene) {
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			/* Quickly twinkling face. */
-			final AnimatedSprite face = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion.deepCopy()); //, faceSharedVertexBuffer);
+			final AnimatedSprite face = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion.deepCopy(), this.getVertexBufferObjectManager());
 			face.animate(50 + this.mRandom.nextInt(100));
 			pScene.attachChild(face);
 
 			/* Continuously flying helicopter. */
-			final AnimatedSprite helicopter = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 48), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 48), this.mHelicopterTextureRegion.deepCopy()); //, helicopterSharedVertexBuffer);
+			final AnimatedSprite helicopter = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 48), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 48), this.mHelicopterTextureRegion.deepCopy(), this.getVertexBufferObjectManager());
 			helicopter.animate(new long[] { 50 + this.mRandom.nextInt(100), 50 + this.mRandom.nextInt(100) }, 1, 2, true);
 			pScene.attachChild(helicopter);
 
 			/* Snapdragon. */
-			final AnimatedSprite snapdragon = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 100), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 60), this.mSnapdragonTextureRegion.deepCopy()); //, snapdragonSharedVertexBuffer);
+			final AnimatedSprite snapdragon = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 100), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 60), this.mSnapdragonTextureRegion.deepCopy(), this.getVertexBufferObjectManager());
 			snapdragon.animate(50 + this.mRandom.nextInt(100));
 			pScene.attachChild(snapdragon);
 
 			/* Funny banana. */
-			final AnimatedSprite banana = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mBananaTextureRegion.deepCopy()); //, bananaSharedVertexBuffer);
+			final AnimatedSprite banana = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mBananaTextureRegion.deepCopy(), this.getVertexBufferObjectManager());
 			banana.animate(50 + this.mRandom.nextInt(100));
 			pScene.attachChild(banana);
 		}
@@ -138,54 +140,54 @@ public class AnimationBenchmark extends BaseBenchmark {
 
 	private void drawUsingSpritesWithSharedVertexBuffer(Scene pScene) {
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
-		final ISpriteVertexBufferObject faceSharedVertexBuffer = new Sprite.LowMemorySpriteVertexBufferObject(Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
-		final ISpriteVertexBufferObject helicopterSharedVertexBuffer = new Sprite.LowMemorySpriteVertexBufferObject(Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
-		final ISpriteVertexBufferObject snapdragonSharedVertexBuffer = new Sprite.LowMemorySpriteVertexBufferObject(Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
-		final ISpriteVertexBufferObject bananaSharedVertexBuffer = new Sprite.LowMemorySpriteVertexBufferObject(Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
+		final ITiledSpriteVertexBufferObject faceSharedVertexBuffer = new LowMemoryTiledSpriteVertexBufferObject(this.getVertexBufferObjectManager(), Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
+		final ITiledSpriteVertexBufferObject helicopterSharedVertexBuffer = new LowMemoryTiledSpriteVertexBufferObject(this.getVertexBufferObjectManager(), Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
+		final ITiledSpriteVertexBufferObject snapdragonSharedVertexBuffer = new LowMemoryTiledSpriteVertexBufferObject(this.getVertexBufferObjectManager(), Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
+		final ITiledSpriteVertexBufferObject bananaSharedVertexBuffer = new LowMemoryTiledSpriteVertexBufferObject(this.getVertexBufferObjectManager(), Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
 		
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			/* Quickly twinkling face. */
-			final AnimatedSprite face = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion.deepCopy()); //, faceSharedVertexBuffer);
+			final AnimatedSprite face = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion.deepCopy(), faceSharedVertexBuffer);
 			face.animate(50 + this.mRandom.nextInt(100));
 			pScene.attachChild(face);
 
 			/* Continuously flying helicopter. */
-			final AnimatedSprite helicopter = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 48), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 48), this.mHelicopterTextureRegion.deepCopy()); //, helicopterSharedVertexBuffer);
+			final AnimatedSprite helicopter = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 48), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 48), this.mHelicopterTextureRegion.deepCopy(), helicopterSharedVertexBuffer);
 			helicopter.animate(new long[] { 50 + this.mRandom.nextInt(100), 50 + this.mRandom.nextInt(100) }, 1, 2, true);
 			pScene.attachChild(helicopter);
 
 			/* Snapdragon. */
-			final AnimatedSprite snapdragon = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 100), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 60), this.mSnapdragonTextureRegion.deepCopy()); //, snapdragonSharedVertexBuffer);
+			final AnimatedSprite snapdragon = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 100), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 60), this.mSnapdragonTextureRegion.deepCopy(), snapdragonSharedVertexBuffer);
 			snapdragon.animate(50 + this.mRandom.nextInt(100));
 			pScene.attachChild(snapdragon);
 
 			/* Funny banana. */
-			final AnimatedSprite banana = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mBananaTextureRegion.deepCopy()); //, bananaSharedVertexBuffer);
+			final AnimatedSprite banana = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mBananaTextureRegion.deepCopy(), bananaSharedVertexBuffer);
 			banana.animate(50 + this.mRandom.nextInt(100));
 			pScene.attachChild(banana);
 		}
 	}
 
 	private void drawUsingSpriteBatch(Scene pScene) {
-		final SpriteGroupWithoutColor spriteGroup = new SpriteGroupWithoutColor(this.mBitmapTextureAtlas, 4 * SPRITE_COUNT, DrawType.DYNAMIC);
+		final SpriteGroupWithoutColor spriteGroup = new SpriteGroupWithoutColor(this.getVertexBufferObjectManager(), this.mBitmapTextureAtlas, 4 * SPRITE_COUNT, DrawType.DYNAMIC);
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			/* Quickly twinkling face. */
-			final AnimatedSprite face = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion.deepCopy()); //, faceSharedVertexBuffer);
+			final AnimatedSprite face = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion.deepCopy(), this.getVertexBufferObjectManager());
 			face.animate(50 + this.mRandom.nextInt(100));
 			spriteGroup.attachChild(face);
 
 			/* Continuously flying helicopter. */
-			final AnimatedSprite helicopter = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 48), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 48), this.mHelicopterTextureRegion.deepCopy()); //, helicopterSharedVertexBuffer);
+			final AnimatedSprite helicopter = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 48), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 48), this.mHelicopterTextureRegion.deepCopy(), this.getVertexBufferObjectManager());
 			helicopter.animate(new long[] { 50 + this.mRandom.nextInt(100), 50 + this.mRandom.nextInt(100) }, 1, 2, true);
 			spriteGroup.attachChild(helicopter);
 
 			/* Snapdragon. */
-			final AnimatedSprite snapdragon = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 100), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 60), this.mSnapdragonTextureRegion.deepCopy()); //, snapdragonSharedVertexBuffer);
+			final AnimatedSprite snapdragon = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 100), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 60), this.mSnapdragonTextureRegion.deepCopy(), this.getVertexBufferObjectManager());
 			snapdragon.animate(50 + this.mRandom.nextInt(100));
 			spriteGroup.attachChild(snapdragon);
 
 			/* Funny banana. */
-			final AnimatedSprite banana = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mBananaTextureRegion.deepCopy()); //, bananaSharedVertexBuffer);
+			final AnimatedSprite banana = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mBananaTextureRegion.deepCopy(), this.getVertexBufferObjectManager());
 			banana.animate(50 + this.mRandom.nextInt(100));
 			spriteGroup.attachChild(banana);
 		}
@@ -230,8 +232,8 @@ public class AnimationBenchmark extends BaseBenchmark {
 		// Constructors
 		// ===========================================================
 
-		private SpriteGroupWithoutColor(final ITexture pTexture, final int pCapacity, DrawType pDrawType) {
-			super(pTexture, pCapacity, new SpriteBatchVertexBufferObjectWithoutColor(pCapacity, pDrawType, true, SpriteGroupWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR), PositionTextureCoordinatesShaderProgram.getInstance());
+		private SpriteGroupWithoutColor(final VertexBufferObjectManager pVertexBufferObjectManager, final ITexture pTexture, final int pCapacity, DrawType pDrawType) {
+			super(pTexture, pCapacity, new SpriteBatchVertexBufferObjectWithoutColor(pVertexBufferObjectManager, pCapacity, pDrawType, true, SpriteGroupWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR), PositionTextureCoordinatesShaderProgram.getInstance());
 
 			this.mSpriteBatchVertexBufferObjectWithoutColor = (SpriteBatchVertexBufferObjectWithoutColor) this.mSpriteBatchVertexBufferObject;
 		}
@@ -272,8 +274,8 @@ public class AnimationBenchmark extends BaseBenchmark {
 		// Constructors
 		// ===========================================================
 
-		public SpriteBatchVertexBufferObjectWithoutColor(final int pCapacity, final DrawType pDrawType, final boolean pManaged, final VertexBufferObjectAttributes pVertexBufferObjectAttributes) {
-			super(pCapacity * SpriteGroupWithoutColor.SPRITE_SIZE, pDrawType, pManaged, pVertexBufferObjectAttributes);
+		public SpriteBatchVertexBufferObjectWithoutColor(final VertexBufferObjectManager pVertexBufferObjectManager, final int pCapacity, final DrawType pDrawType, final boolean pManaged, final VertexBufferObjectAttributes pVertexBufferObjectAttributes) {
+			super(pVertexBufferObjectManager, pCapacity * SpriteGroupWithoutColor.SPRITE_SIZE, pDrawType, pManaged, pVertexBufferObjectAttributes);
 		}
 
 		// ===========================================================

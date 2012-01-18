@@ -1,5 +1,8 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -10,13 +13,10 @@ import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
-import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
-import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
+import org.andengine.opengl.texture.ITexture;
+import org.andengine.opengl.texture.bitmap.BitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.util.debug.Debug;
 
 import android.widget.Toast;
@@ -40,10 +40,8 @@ public class SpriteExample extends BaseExample implements OnClickListener {
 	// Fields
 	// ===========================================================
 
-	private BuildableBitmapTextureAtlas mBitmapTextureAtlas;
-	private ITextureRegion mFace1TextureRegion;
-	private ITextureRegion mFace2TextureRegion;
-	private ITextureRegion mFace3TextureRegion;
+	private ITexture mTexture;
+	private ITextureRegion mFaceTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -66,17 +64,15 @@ public class SpriteExample extends BaseExample implements OnClickListener {
 
 	@Override
 	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTextureAtlas = new BuildableBitmapTextureAtlas(512, 512);
-		this.mFace1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png");
-		this.mFace2TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png");
-		this.mFace3TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_hexagon_tiled.png");
-		
 		try {
-			this.mBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
-			this.mBitmapTextureAtlas.load(this.getTextureManager());
-		} catch (TextureAtlasBuilderException e) {
+			this.mTexture = new BitmapTexture() {
+				@Override
+				protected InputStream onGetInputStream() throws IOException {
+					return getAssets().open("gfx/face_box_tiled.png");
+				}
+			};
+			this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(mTexture);
+		} catch (IOException e) {
 			Debug.e(e);
 		}
 	}
@@ -89,14 +85,12 @@ public class SpriteExample extends BaseExample implements OnClickListener {
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFace1TextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFace1TextureRegion.getHeight()) / 2;
+		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene. */
-		final Sprite face = new ButtonSprite(centerX, centerY, this.mFace1TextureRegion, this.mFace2TextureRegion, this.mFace3TextureRegion, this);
-		scene.registerTouchArea(face);
+		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		scene.attachChild(face);
-		scene.setTouchAreaBindingOnActionDownEnabled(true);
 
 		return scene;
 	}

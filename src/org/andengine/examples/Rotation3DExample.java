@@ -79,7 +79,7 @@ public class Rotation3DExample extends BaseExample {
 		final int centerY = (Rotation3DExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion) {
+		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager()) {
 			@Override
 			protected void applyRotation(final GLState pGLState) {
 				final float rotation = this.mRotation;

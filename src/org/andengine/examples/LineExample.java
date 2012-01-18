@@ -10,6 +10,7 @@ import org.andengine.entity.primitive.Line;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -68,6 +69,7 @@ public class LineExample extends BaseExample {
 
 		final Random random = new Random(RANDOM_SEED);
 
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 		for(int i = 0; i < LINE_COUNT; i++) {
 			final float x1 = random.nextFloat() * CAMERA_WIDTH;
 			final float x2 = random.nextFloat() * CAMERA_WIDTH;
@@ -75,7 +77,7 @@ public class LineExample extends BaseExample {
 			final float y2 = random.nextFloat() * CAMERA_HEIGHT;
 			final float lineWidth = random.nextFloat() * 5;
 
-			final Line line = new Line(x1, y1, x2, y2, lineWidth);
+			final Line line = new Line(x1, y1, x2, y2, lineWidth, vertexBufferObjectManager);
 
 			line.setColor(random.nextFloat(), random.nextFloat(), random.nextFloat());
 

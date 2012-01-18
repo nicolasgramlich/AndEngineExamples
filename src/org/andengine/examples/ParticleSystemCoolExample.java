@@ -88,7 +88,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 
 		/* Left to right Particle System. */
 		{
-			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(0, ParticleSystemCoolExample.CAMERA_HEIGHT), 6, 10, 200, this.mParticleTextureRegion);
+			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(0, ParticleSystemCoolExample.CAMERA_HEIGHT), 6, 10, 200, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
 			particleSystem.addParticleInitializer(new BlendFunctionInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
 			particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(15, 22, -60, -90));
 			particleSystem.addParticleInitializer(new AccelerationInitializer<Sprite>(5, 15));
@@ -107,7 +107,7 @@ public class ParticleSystemCoolExample extends BaseExample {
 
 		/* Right to left Particle System. */
 		{
-			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(ParticleSystemCoolExample.CAMERA_WIDTH - 32, ParticleSystemCoolExample.CAMERA_HEIGHT), 8, 12, 200, this.mParticleTextureRegion);
+			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(ParticleSystemCoolExample.CAMERA_WIDTH - 32, ParticleSystemCoolExample.CAMERA_HEIGHT), 8, 12, 200, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
 			particleSystem.addParticleInitializer(new BlendFunctionInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
 			particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(-15, -22, -60, -90));
 			particleSystem.addParticleInitializer(new AccelerationInitializer<Sprite>(-5, 15));

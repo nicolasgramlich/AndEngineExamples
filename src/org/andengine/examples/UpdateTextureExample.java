@@ -83,7 +83,7 @@ public class UpdateTextureExample extends BaseExample {
 		final int y = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene. */
-		final AnimatedSprite face = new AnimatedSprite(x, y, this.mFaceTextureRegion);
+		final AnimatedSprite face = new AnimatedSprite(x, y, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		face.animate(100);
 		scene.attachChild(face);
 

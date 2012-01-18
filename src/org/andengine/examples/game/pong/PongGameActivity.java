@@ -44,6 +44,7 @@ import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
@@ -136,23 +137,25 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
+
 		final Scene scene = new Scene();
 
 		/* Ball */
-		this.mBall = new Rectangle(0, 0, BALL_WIDTH, BALL_HEIGHT);
+		this.mBall = new Rectangle(0, 0, BALL_WIDTH, BALL_HEIGHT, vertexBufferObjectManager);
 		scene.attachChild(this.mBall);
 
 		/* Walls */
-		scene.attachChild(new Line(-GAME_WIDTH_HALF + 1, -GAME_HEIGHT_HALF, -GAME_WIDTH_HALF + 1, GAME_HEIGHT_HALF)); // Left
-		scene.attachChild(new Line(GAME_WIDTH_HALF, -GAME_HEIGHT_HALF, GAME_WIDTH_HALF, GAME_HEIGHT_HALF)); // Right
-		scene.attachChild(new Line(-GAME_WIDTH_HALF, -GAME_HEIGHT_HALF + 1, GAME_WIDTH_HALF , -GAME_HEIGHT_HALF + 1)); // Top
-		scene.attachChild(new Line(-GAME_WIDTH_HALF, GAME_HEIGHT_HALF, GAME_WIDTH_HALF, GAME_HEIGHT_HALF)); // Bottom
+		scene.attachChild(new Line(-GAME_WIDTH_HALF + 1, -GAME_HEIGHT_HALF, -GAME_WIDTH_HALF + 1, GAME_HEIGHT_HALF, vertexBufferObjectManager)); // Left
+		scene.attachChild(new Line(GAME_WIDTH_HALF, -GAME_HEIGHT_HALF, GAME_WIDTH_HALF, GAME_HEIGHT_HALF, vertexBufferObjectManager)); // Right
+		scene.attachChild(new Line(-GAME_WIDTH_HALF, -GAME_HEIGHT_HALF + 1, GAME_WIDTH_HALF , -GAME_HEIGHT_HALF + 1, vertexBufferObjectManager)); // Top
+		scene.attachChild(new Line(-GAME_WIDTH_HALF, GAME_HEIGHT_HALF, GAME_WIDTH_HALF, GAME_HEIGHT_HALF, vertexBufferObjectManager)); // Bottom
 
-		scene.attachChild(new Line(0, -GAME_HEIGHT_HALF, 0, GAME_HEIGHT_HALF)); // Middle
+		scene.attachChild(new Line(0, -GAME_HEIGHT_HALF, 0, GAME_HEIGHT_HALF, vertexBufferObjectManager)); // Middle
 
 		/* Paddles */
-		final Rectangle paddleLeft = new Rectangle(0, 0, PADDLE_WIDTH, PADDLE_HEIGHT);
-		final Rectangle paddleRight = new Rectangle(0, 0, PADDLE_WIDTH, PADDLE_HEIGHT);
+		final Rectangle paddleLeft = new Rectangle(0, 0, PADDLE_WIDTH, PADDLE_HEIGHT, vertexBufferObjectManager);
+		final Rectangle paddleRight = new Rectangle(0, 0, PADDLE_WIDTH, PADDLE_HEIGHT, vertexBufferObjectManager);
 		this.mPaddleMap.put(PADDLE_LEFT.getOwnerID(), paddleLeft);
 		this.mPaddleMap.put(PADDLE_RIGHT.getOwnerID(), paddleRight);
 
@@ -160,9 +163,9 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 		scene.attachChild(paddleRight);
 
 		/* Scores */
-		final ChangeableText scoreLeft = new ChangeableText(0, -GAME_HEIGHT_HALF + SCORE_PADDING, this.mScoreFont, "0", 2);
+		final ChangeableText scoreLeft = new ChangeableText(0, -GAME_HEIGHT_HALF + SCORE_PADDING, this.mScoreFont, "0", 2, vertexBufferObjectManager);
 		scoreLeft.setPosition(-scoreLeft.getWidth() - SCORE_PADDING, scoreLeft.getY());
-		final ChangeableText scoreRight = new ChangeableText(SCORE_PADDING, -GAME_HEIGHT_HALF + SCORE_PADDING, this.mScoreFont, "0", 2);
+		final ChangeableText scoreRight = new ChangeableText(SCORE_PADDING, -GAME_HEIGHT_HALF + SCORE_PADDING, this.mScoreFont, "0", 2, vertexBufferObjectManager);
 		this.mScoreChangeableTextMap.put(PADDLE_LEFT.getOwnerID(), scoreLeft);
 		this.mScoreChangeableTextMap.put(PADDLE_RIGHT.getOwnerID(), scoreRight);
 

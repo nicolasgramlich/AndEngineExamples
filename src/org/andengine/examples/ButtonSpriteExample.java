@@ -5,15 +5,19 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.sprite.ButtonSprite;
+import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
-import org.andengine.input.touch.TouchEvent;
-import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
+import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.util.debug.Debug;
 
 import android.widget.Toast;
 
@@ -24,7 +28,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchListener {
+public class ButtonSpriteExample extends BaseExample implements OnClickListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -36,9 +40,10 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private ITextureRegion mFaceTextureRegion;
-	private Sprite mFaceToRemove;
+	private BuildableBitmapTextureAtlas mBitmapTextureAtlas;
+	private ITextureRegion mFace1TextureRegion;
+	private ITextureRegion mFace2TextureRegion;
+	private ITextureRegion mFace3TextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -54,20 +59,26 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
-		Toast.makeText(this, "Touch the screen to safely remove the sprite.", Toast.LENGTH_LONG).show();
-
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
 	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load(this.getTextureManager());
+		this.mBitmapTextureAtlas = new BuildableBitmapTextureAtlas(512, 512);
+		this.mFace1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png");
+		this.mFace2TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png");
+		this.mFace3TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_hexagon_tiled.png");
+		
+		try {
+			this.mBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+			this.mBitmapTextureAtlas.load(this.getTextureManager());
+		} catch (TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
 	}
 
 	@Override
@@ -78,34 +89,26 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final int centerX = (CAMERA_WIDTH - this.mFace1TextureRegion.getWidth()) / 2;
+		final int centerY = (CAMERA_HEIGHT - this.mFace1TextureRegion.getHeight()) / 2;
 
-		this.mFaceToRemove = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		scene.attachChild(this.mFaceToRemove);
-
-		scene.setOnSceneTouchListener(this);
+		/* Create the button and add it to the scene. */
+		final Sprite face = new ButtonSprite(centerX, centerY, this.mFace1TextureRegion, this.mFace2TextureRegion, this.mFace3TextureRegion, this.getVertexBufferObjectManager(), this);
+		scene.registerTouchArea(face);
+		scene.attachChild(face);
+		scene.setTouchAreaBindingOnActionDownEnabled(true);
 
 		return scene;
 	}
 
 	@Override
-	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-		/* Removing entities can only be done safely on the UpdateThread.
-		 * Doing it while updating/drawing can
-		 * cause an exception with a suddenly missing entity.
-		 * Alternatively, there is a possibility to run the TouchEvents on the UpdateThread by default, by doing:
-		 * engineOptions.getTouchOptions().setRunOnUpdateThread(true);
-		 * when creating the Engine in onCreateEngine(final EngineOptions pEngineOptions); */
-		this.runOnUpdateThread(new Runnable() {
+	public void onClick(final ButtonSprite pButtonSprite, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				/* Now it is save to remove the entity! */
-				pScene.detachChild(SpriteRemoveExample.this.mFaceToRemove);
-				SpriteRemoveExample.this.mFaceToRemove.getVertexBufferObject().unload();
+				Toast.makeText(ButtonSpriteExample.this, "Clicked", Toast.LENGTH_LONG).show();
 			}
 		});
-		return false;
 	}
 
 	// ===========================================================

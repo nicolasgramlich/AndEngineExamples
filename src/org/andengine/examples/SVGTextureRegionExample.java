@@ -21,6 +21,7 @@ import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder
 import org.andengine.opengl.texture.region.BaseTextureRegion;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
 import android.graphics.Color;
@@ -130,6 +131,7 @@ public class SVGTextureRegionExample extends BaseExample {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.5f, 0.5f, 0.5f));
 
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 		for(int i = 0; i < SVGTextureRegionExample.COUNT; i++) {
 			final int row = i / SVGTextureRegionExample.COLUMNS;
 			final int column = i % SVGTextureRegionExample.COLUMNS;
@@ -142,11 +144,11 @@ public class SVGTextureRegionExample extends BaseExample {
 			final ITextureRegion textureRegion = this.mSVGTestTextureRegions[i];
 			if(textureRegion instanceof TiledTextureRegion) {
 				final TiledTextureRegion tiledTextureRegion = (TiledTextureRegion)textureRegion;
-				final AnimatedSprite animatedSprite = new AnimatedSprite(x, y, SVGTextureRegionExample.SIZE, SVGTextureRegionExample.SIZE, tiledTextureRegion);
+				final AnimatedSprite animatedSprite = new AnimatedSprite(x, y, SVGTextureRegionExample.SIZE, SVGTextureRegionExample.SIZE, tiledTextureRegion, vertexBufferObjectManager);
 				animatedSprite.animate(500);
 				scene.attachChild(animatedSprite);
 			} else { 
-				scene.attachChild(new Sprite(x, y, SVGTextureRegionExample.SIZE, SVGTextureRegionExample.SIZE, textureRegion));
+				scene.attachChild(new Sprite(x, y, SVGTextureRegionExample.SIZE, SVGTextureRegionExample.SIZE, textureRegion, vertexBufferObjectManager));
 			}
 		}
 

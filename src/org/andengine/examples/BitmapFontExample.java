@@ -63,7 +63,7 @@ public class BitmapFontExample extends BaseExample {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final Text bitmapText = new Text(160, 230, this.mBitmapFont, "Hello BitmapFont!", HorizontalAlign.CENTER);
+		final Text bitmapText = new Text(160, 230, this.mBitmapFont, "Hello BitmapFont!", HorizontalAlign.CENTER, this.getVertexBufferObjectManager());
 
 		scene.attachChild(bitmapText);
 

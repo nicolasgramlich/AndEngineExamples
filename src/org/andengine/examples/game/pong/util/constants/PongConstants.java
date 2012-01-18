@@ -27,9 +27,8 @@ public interface PongConstants {
 	public static final int PADDLE_HEIGHT_HALF = PADDLE_HEIGHT / 2;
 
 	public static final int BALL_WIDTH = 10;
-	public static final int BALL_WIDTH_HALF = BALL_WIDTH / 2;
 	public static final int BALL_HEIGHT = 10;
-	public static final int BALL_HEIGHT_HALF = BALL_HEIGHT / 2;
+	public static final int BALL_RADIUS = BALL_WIDTH / 2;
 
 	public static final int SCORE_PADDING = 5;
 

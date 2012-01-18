@@ -162,10 +162,10 @@ public class CityRadarActivity extends SimpleBaseGameActivity implements IOrient
 		for(int i = 0; i < cityCount; i++) {
 			final City city = this.mCities.get(i);
 
-			final Sprite citySprite = new Sprite(CityRadarActivity.CAMERA_WIDTH / 2, CityRadarActivity.CAMERA_HEIGHT / 2, this.mRadarPointTextureRegion);
+			final Sprite citySprite = new Sprite(CityRadarActivity.CAMERA_WIDTH / 2, CityRadarActivity.CAMERA_HEIGHT / 2, this.mRadarPointTextureRegion, this.getVertexBufferObjectManager());
 			citySprite.setColor(0, 0.5f, 0, 1f);
 
-			final Text cityNameText = new Text(CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, this.mFont, city.getName()) {
+			final Text cityNameText = new Text(CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, this.mFont, city.getName(), this.getVertexBufferObjectManager()) {
 				@Override
 				protected void onManagedDraw(final GLState pGLState, final Camera pCamera) {
 					/* This ensures that the name of the city is always 'pointing down'. */
@@ -186,27 +186,27 @@ public class CityRadarActivity extends SimpleBaseGameActivity implements IOrient
 	private void initBackground(final IEntity pEntity) {
 		/* Vertical Grid lines. */
 		for(int i = CityRadarActivity.GRID_SIZE / 2; i < CityRadarActivity.CAMERA_WIDTH; i += CityRadarActivity.GRID_SIZE) {
-			final Line line = new Line(i, 0, i, CityRadarActivity.CAMERA_HEIGHT);
+			final Line line = new Line(i, 0, i, CityRadarActivity.CAMERA_HEIGHT, this.getVertexBufferObjectManager());
 			line.setColor(0, 0.5f, 0, 1f);
 			pEntity.attachChild(line);
 		}
 
 		/* Horizontal Grid lines. */
 		for(int i = CityRadarActivity.GRID_SIZE / 2; i < CityRadarActivity.CAMERA_HEIGHT; i += CityRadarActivity.GRID_SIZE) {
-			final Line line = new Line(0, i, CityRadarActivity.CAMERA_WIDTH, i);
+			final Line line = new Line(0, i, CityRadarActivity.CAMERA_WIDTH, i, this.getVertexBufferObjectManager());
 			line.setColor(0, 0.5f, 0, 1f);
 			pEntity.attachChild(line);
 		}
 
-		/* Vertical Grid lines. */
-		final Sprite radarSprite = new Sprite(CityRadarActivity.CAMERA_WIDTH / 2 - this.mRadarTextureRegion.getWidth(), CityRadarActivity.CAMERA_HEIGHT / 2 - this.mRadarTextureRegion.getHeight(), this.mRadarTextureRegion);
+		/* Radar sprite. */
+		final Sprite radarSprite = new Sprite(CityRadarActivity.CAMERA_WIDTH / 2 - this.mRadarTextureRegion.getWidth(), CityRadarActivity.CAMERA_HEIGHT / 2 - this.mRadarTextureRegion.getHeight(), this.mRadarTextureRegion, this.getVertexBufferObjectManager());
 		radarSprite.setColor(0, 1f, 0, 1f);
 		radarSprite.setRotationCenter(radarSprite.getWidth(), radarSprite.getHeight());
 		radarSprite.registerEntityModifier(new LoopEntityModifier(new RotationModifier(3, 0, 360, EaseLinear.getInstance())));
 		pEntity.attachChild(radarSprite);
 
 		/* Title. */
-		final Text titleText = new Text(0, 0, this.mFont, "-- CityRadar --");
+		final Text titleText = new Text(0, 0, this.mFont, "-- CityRadar --", this.getVertexBufferObjectManager());
 		titleText.setPosition(CAMERA_WIDTH / 2 - titleText.getWidth() / 2, titleText.getHeight() + 35);
 		titleText.setScale(2);
 		titleText.setScaleCenterY(0);

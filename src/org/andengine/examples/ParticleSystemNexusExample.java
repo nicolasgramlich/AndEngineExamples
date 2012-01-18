@@ -90,7 +90,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 
 		/* LowerLeft to LowerRight Particle System. */
 		{
-			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(-32, ParticleSystemNexusExample.CAMERA_HEIGHT - 32), ParticleSystemNexusExample.RATE_MIN, ParticleSystemNexusExample.RATE_MAX, ParticleSystemNexusExample.PARTICLES_MAX, this.mParticleTextureRegion);
+			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(-32, ParticleSystemNexusExample.CAMERA_HEIGHT - 32), ParticleSystemNexusExample.RATE_MIN, ParticleSystemNexusExample.RATE_MAX, ParticleSystemNexusExample.PARTICLES_MAX, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
 			particleSystem.addParticleInitializer(new BlendFunctionInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
 			particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(35, 45, 0, -10));
 			particleSystem.addParticleInitializer(new AccelerationInitializer<Sprite>(5, -11));
@@ -107,7 +107,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 
 		/* LowerRight to LowerLeft Particle System. */
 		{
-			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(ParticleSystemNexusExample.CAMERA_WIDTH, ParticleSystemNexusExample.CAMERA_HEIGHT - 32), ParticleSystemNexusExample.RATE_MIN, ParticleSystemNexusExample.RATE_MAX, ParticleSystemNexusExample.PARTICLES_MAX, this.mParticleTextureRegion);
+			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(ParticleSystemNexusExample.CAMERA_WIDTH, ParticleSystemNexusExample.CAMERA_HEIGHT - 32), ParticleSystemNexusExample.RATE_MIN, ParticleSystemNexusExample.RATE_MAX, ParticleSystemNexusExample.PARTICLES_MAX, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
 			particleSystem.addParticleInitializer(new BlendFunctionInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
 			particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(-35, -45, 0, -10));
 			particleSystem.addParticleInitializer(new AccelerationInitializer<Sprite>(-5, -11));
@@ -124,7 +124,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 
 		/* UpperLeft to UpperRight Particle System. */
 		{
-			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(-32, 0), ParticleSystemNexusExample.RATE_MIN, ParticleSystemNexusExample.RATE_MAX, ParticleSystemNexusExample.PARTICLES_MAX, this.mParticleTextureRegion);
+			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(-32, 0), ParticleSystemNexusExample.RATE_MIN, ParticleSystemNexusExample.RATE_MAX, ParticleSystemNexusExample.PARTICLES_MAX, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
 			particleSystem.addParticleInitializer(new BlendFunctionInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
 			particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(35, 45, 0, 10));
 			particleSystem.addParticleInitializer(new AccelerationInitializer<Sprite>(5, 11));
@@ -141,7 +141,7 @@ public class ParticleSystemNexusExample extends BaseExample {
 
 		/* UpperRight to UpperLeft Particle System. */
 		{
-			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(ParticleSystemNexusExample.CAMERA_WIDTH, 0), ParticleSystemNexusExample.RATE_MIN, ParticleSystemNexusExample.RATE_MAX, ParticleSystemNexusExample.PARTICLES_MAX, this.mParticleTextureRegion);
+			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(ParticleSystemNexusExample.CAMERA_WIDTH, 0), ParticleSystemNexusExample.RATE_MIN, ParticleSystemNexusExample.RATE_MAX, ParticleSystemNexusExample.PARTICLES_MAX, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
 			particleSystem.addParticleInitializer(new BlendFunctionInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
 			particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(-35, -45, 0, 10));
 			particleSystem.addParticleInitializer(new AccelerationInitializer<Sprite>(-5, 11));

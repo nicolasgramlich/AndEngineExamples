@@ -1,6 +1,7 @@
 package org.andengine.examples.game.snake.entity;
 
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -22,8 +23,8 @@ public class Frog extends AnimatedCellEntity {
 	// Constructors
 	// ===========================================================
 
-	public Frog(final int pCellX, final int pCellY, final TiledTextureRegion pTiledTextureRegion) {
-		super(pCellX, pCellY, CELL_WIDTH, CELL_HEIGHT, pTiledTextureRegion);
+	public Frog(final int pCellX, final int pCellY, final TiledTextureRegion pTiledTextureRegion, final VertexBufferObjectManager pVertexBufferObjectManager) {
+		super(pCellX, pCellY, CELL_WIDTH, CELL_HEIGHT, pTiledTextureRegion, pVertexBufferObjectManager);
 	}
 
 	// ===========================================================

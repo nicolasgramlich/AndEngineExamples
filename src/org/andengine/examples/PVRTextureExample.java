@@ -22,6 +22,7 @@ import org.andengine.opengl.texture.compressed.pvr.PVRTexture;
 import org.andengine.opengl.texture.compressed.pvr.PVRTexture.PVRTextureFormat;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
 import android.opengl.GLES20;
@@ -146,10 +147,11 @@ public class PVRTextureExample extends BaseExample {
 		final Entity container = new Entity(centerX, centerY);
 		container.setScale(0.5f);
 
-		container.attachChild(new Sprite(-512, -384, this.mHouseNearestTextureRegion));
-		container.attachChild(new Sprite(0, -384, this.mHouseLinearTextureRegion));
-		container.attachChild(new Sprite(-512, -128, this.mHouseMipMapsNearestTextureRegion));
-		container.attachChild(new Sprite(0, -128, this.mHouseMipMapsLinearTextureRegion));
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
+		container.attachChild(new Sprite(-512, -384, this.mHouseNearestTextureRegion, vertexBufferObjectManager));
+		container.attachChild(new Sprite(0, -384, this.mHouseLinearTextureRegion, vertexBufferObjectManager));
+		container.attachChild(new Sprite(-512, -128, this.mHouseMipMapsNearestTextureRegion, vertexBufferObjectManager));
+		container.attachChild(new Sprite(0, -128, this.mHouseMipMapsLinearTextureRegion, vertexBufferObjectManager));
 
 		scene.attachChild(container);
 

@@ -90,9 +90,9 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 		final int centerX = (CAMERA_WIDTH - this.mChromaticCircleTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mChromaticCircleTextureRegion.getHeight()) / 2;
 
-		final Sprite chromaticCircle = new Sprite(centerX - 80, centerY, this.mChromaticCircleTextureRegion);
+		final Sprite chromaticCircle = new Sprite(centerX - 80, centerY, this.mChromaticCircleTextureRegion, this.getVertexBufferObjectManager());
 
-		final Sprite chromaticCircleColorKeyed = new Sprite(centerX + 80, centerY, this.mChromaticCircleColorKeyedTextureRegion);
+		final Sprite chromaticCircleColorKeyed = new Sprite(centerX + 80, centerY, this.mChromaticCircleColorKeyedTextureRegion, this.getVertexBufferObjectManager());
 
 		scene.attachChild(chromaticCircle);
 		scene.attachChild(chromaticCircleColorKeyed);

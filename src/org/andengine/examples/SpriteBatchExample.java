@@ -76,14 +76,14 @@ public class SpriteBatchExample extends BaseExample {
 		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		
-		final Sprite faceSprite1 = new Sprite(-50, 0, this.mFaceTextureRegion); 
-		final Sprite faceSprite2 = new Sprite(50, 0, this.mFaceTextureRegion);
+		final Sprite faceSprite1 = new Sprite(-50, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager()); 
+		final Sprite faceSprite2 = new Sprite(50, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		
 		faceSprite1.setScale(2);
 		faceSprite2.setRotation(45);
 
 		/* Create the face and add it to the scene. */
-		final SpriteBatch dynamicSpriteBatch = new DynamicSpriteBatch(this.mBitmapTextureAtlas, 2) {
+		final SpriteBatch dynamicSpriteBatch = new DynamicSpriteBatch(this.mBitmapTextureAtlas, 2, this.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onUpdateSpriteBatch() {
 				this.draw(faceSprite1);
@@ -93,7 +93,7 @@ public class SpriteBatchExample extends BaseExample {
 			}
 		};
 		
-		final SpriteBatch staticSpriteBatch = new SpriteBatch(this.mBitmapTextureAtlas, 2);
+		final SpriteBatch staticSpriteBatch = new SpriteBatch(this.mBitmapTextureAtlas, 2, this.getVertexBufferObjectManager());
 		staticSpriteBatch.draw(this.mFaceTextureRegion, -50, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight(), 2, 2, 1, 1, 1, 1);
 		staticSpriteBatch.draw(this.mFaceTextureRegion, 50, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight(), 45, 1, 1, 1, 1);
 		staticSpriteBatch.submit();

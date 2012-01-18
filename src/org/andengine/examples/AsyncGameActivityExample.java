@@ -92,7 +92,7 @@ public class AsyncGameActivityExample extends SimpleAsyncGameActivity {
 		final int centerY = (AsyncGameActivityExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
+		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		pScene.attachChild(face);
 	}
 

@@ -148,13 +148,13 @@ public class LevelLoaderExample extends BaseExample {
 		final AnimatedSprite face;
 
 		if(pType.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_BOX)) {
-			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mBoxFaceTextureRegion);
+			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mBoxFaceTextureRegion, this.getVertexBufferObjectManager());
 		} else if(pType.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_CIRCLE)) {
-			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mCircleFaceTextureRegion);
+			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mCircleFaceTextureRegion, this.getVertexBufferObjectManager());
 		} else if(pType.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_TRIANGLE)) {
-			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mTriangleFaceTextureRegion);
+			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mTriangleFaceTextureRegion, this.getVertexBufferObjectManager());
 		} else if(pType.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_HEXAGON)) {
-			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mHexagonFaceTextureRegion);
+			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mHexagonFaceTextureRegion, this.getVertexBufferObjectManager());
 		} else {
 			throw new IllegalArgumentException();
 		}
