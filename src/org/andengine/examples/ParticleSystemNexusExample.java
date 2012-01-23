@@ -11,10 +11,10 @@ import org.andengine.entity.particle.initializer.BlendFunctionInitializer;
 import org.andengine.entity.particle.initializer.ColorInitializer;
 import org.andengine.entity.particle.initializer.RotationInitializer;
 import org.andengine.entity.particle.initializer.VelocityInitializer;
-import org.andengine.entity.particle.modifier.AlphaModifier;
-import org.andengine.entity.particle.modifier.ColorModifier;
-import org.andengine.entity.particle.modifier.ExpireModifier;
-import org.andengine.entity.particle.modifier.ScaleModifier;
+import org.andengine.entity.particle.modifier.AlphaParticleModifier;
+import org.andengine.entity.particle.modifier.ColorParticleModifier;
+import org.andengine.entity.particle.modifier.ExpireParticleModifier;
+import org.andengine.entity.particle.modifier.ScaleParticleModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
@@ -97,10 +97,10 @@ public class ParticleSystemNexusExample extends BaseExample {
 			particleSystem.addParticleInitializer(new RotationInitializer<Sprite>(0.0f, 360.0f));
 			particleSystem.addParticleInitializer(new ColorInitializer<Sprite>(1.0f, 1.0f, 0.0f));
 
-			particleSystem.addParticleModifier(new ScaleModifier<Sprite>(0.5f, 2.0f, 0, 5));
-			particleSystem.addParticleModifier(new ExpireModifier<Sprite>(6.5f));
-			particleSystem.addParticleModifier(new ColorModifier<Sprite>(1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
-			particleSystem.addParticleModifier(new AlphaModifier<Sprite>(1.0f, 0.0f, 2.5f, 6.5f));
+			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0.5f, 2.0f, 0, 5));
+			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(6.5f));
+			particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
+			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(1.0f, 0.0f, 2.5f, 6.5f));
 
 			scene.attachChild(particleSystem);
 		}
@@ -114,10 +114,10 @@ public class ParticleSystemNexusExample extends BaseExample {
 			particleSystem.addParticleInitializer(new RotationInitializer<Sprite>(0.0f, 360.0f));
 			particleSystem.addParticleInitializer(new ColorInitializer<Sprite>(0.0f, 1.0f, 0.0f));
 
-			particleSystem.addParticleModifier(new ScaleModifier<Sprite>(0.5f, 2.0f, 0, 5));
-			particleSystem.addParticleModifier(new ExpireModifier<Sprite>(6.5f));
-			particleSystem.addParticleModifier(new ColorModifier<Sprite>(0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
-			particleSystem.addParticleModifier(new AlphaModifier<Sprite>(1.0f, 0.0f, 2.5f, 6.5f));
+			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0.5f, 2.0f, 0, 5));
+			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(6.5f));
+			particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
+			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(1.0f, 0.0f, 2.5f, 6.5f));
 
 			scene.attachChild(particleSystem);
 		}
@@ -131,10 +131,10 @@ public class ParticleSystemNexusExample extends BaseExample {
 			particleSystem.addParticleInitializer(new RotationInitializer<Sprite>(0.0f, 360.0f));
 			particleSystem.addParticleInitializer(new ColorInitializer<Sprite>(0.0f, 0.0f, 1.0f));
 
-			particleSystem.addParticleModifier(new ScaleModifier<Sprite>(0.5f, 2.0f, 0, 5));
-			particleSystem.addParticleModifier(new ExpireModifier<Sprite>(6.5f));
-			particleSystem.addParticleModifier(new ColorModifier<Sprite>(0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 2.5f, 5.5f));
-			particleSystem.addParticleModifier(new AlphaModifier<Sprite>(1.0f, 0.0f, 2.5f, 6.5f));
+			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0.5f, 2.0f, 0, 5));
+			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(6.5f));
+			particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 2.5f, 5.5f));
+			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(1.0f, 0.0f, 2.5f, 6.5f));
 
 			scene.attachChild(particleSystem);
 		}
@@ -148,10 +148,10 @@ public class ParticleSystemNexusExample extends BaseExample {
 			particleSystem.addParticleInitializer(new RotationInitializer<Sprite>(0.0f, 360.0f));
 			particleSystem.addParticleInitializer(new ColorInitializer<Sprite>(1.0f, 0.0f, 0.0f));
 
-			particleSystem.addParticleModifier(new ScaleModifier<Sprite>(0.5f, 2.0f, 0, 5));
-			particleSystem.addParticleModifier(new ExpireModifier<Sprite>(6.5f));
-			particleSystem.addParticleModifier(new ColorModifier<Sprite>(1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
-			particleSystem.addParticleModifier(new AlphaModifier<Sprite>(1.0f, 0.0f, 2.5f, 6.5f));
+			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0.5f, 2.0f, 0, 5));
+			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(6.5f));
+			particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 2.5f, 5.5f));
+			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(1.0f, 0.0f, 2.5f, 6.5f));
 
 			scene.attachChild(particleSystem);
 		}
