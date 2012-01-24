@@ -130,8 +130,8 @@ public class SpriteBenchmark extends BaseBenchmark {
 	}
 
 	private void drawUsingSpriteBatch(final Scene pScene) {
-		final int width = this.mFaceTextureRegion.getWidth();
-		final int height = this.mFaceTextureRegion.getHeight();
+		final float width = this.mFaceTextureRegion.getWidth();
+		final float height = this.mFaceTextureRegion.getHeight();
 
 		final SpriteBatchWithoutColor spriteBatch = new SpriteBatchWithoutColor(this.getVertexBufferObjectManager(), this.mBitmapTextureAtlas, SpriteBenchmark.SPRITE_COUNT, DrawType.STATIC);
 
@@ -193,7 +193,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 		// Methods for/from SuperClass/Interfaces
 		// ===========================================================
 
-		public void draw(final ITextureRegion pTextureRegion, final float pX, final float pY, final int pWidth, final int pHeight) {
+		public void draw(final ITextureRegion pTextureRegion, final float pX, final float pY, final float pWidth, final float pHeight) {
 			this.mSpriteBatchVertexBufferObjectWithoutColor.addWithoutColor(pTextureRegion, pX, pY, pWidth, pHeight);
 			this.mIndex++;
 		}

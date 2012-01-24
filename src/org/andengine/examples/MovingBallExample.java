@@ -74,8 +74,8 @@ public class MovingBallExample extends BaseExample {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final int centerX = (MovingBallExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (MovingBallExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = (MovingBallExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final float centerY = (MovingBallExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 		final Ball ball = new Ball(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 
 		scene.attachChild(ball);

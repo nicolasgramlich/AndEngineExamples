@@ -107,8 +107,8 @@ public class ETC1TextureExample extends BaseExample {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final int centerX = (CAMERA_WIDTH - this.mHouseTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mHouseTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mHouseTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mHouseTextureRegion.getHeight()) / 2;
 
 		scene.attachChild(new Sprite(centerX, centerY, this.mHouseTextureRegion, this.getVertexBufferObjectManager()));
 

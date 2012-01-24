@@ -71,24 +71,22 @@ public class UnloadResourcesExample extends BaseExample {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final int x = (CAMERA_WIDTH - this.mClickToUnloadTextureRegion.getWidth()) / 2;
-		final int y = (CAMERA_HEIGHT - this.mClickToUnloadTextureRegion.getHeight()) / 2;
-		final Sprite clickToUnload = new Sprite(x, y, this.mClickToUnloadTextureRegion, this.getVertexBufferObjectManager()) {
+		final float centerX = (CAMERA_WIDTH - this.mClickToUnloadTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mClickToUnloadTextureRegion.getHeight()) / 2;
+		final Sprite clickToUnload = new Sprite(centerX, centerY, this.mClickToUnloadTextureRegion, this.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				/* Completely remove all resources associated with this sprite. */
-				this.getVertexBufferObject().unload();
-				UnloadResourcesExample.this.mBitmapTextureAtlas.unload(UnloadResourcesExample.this.getTextureManager());
-
-				/* And remove the sprite from the Scene. */
-				final Sprite thisRef = this;
-				UnloadResourcesExample.this.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						scene.detachChild(thisRef);
-					}
-				});
-				return true;
+				if(pSceneTouchEvent.isActionDown()) {
+					/* Completely remove all resources associated with this sprite. */
+					this.dispose();
+					UnloadResourcesExample.this.mBitmapTextureAtlas.unload(UnloadResourcesExample.this.getTextureManager());
+					
+					/* And remove the sprite from the Scene. */
+					this.detachSelf();
+					return true;
+				} else {
+					return false;
+				}
 			}
 		};
 		scene.attachChild(clickToUnload);

@@ -66,7 +66,7 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 		/* The actual AssetTextureSource. */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		final AssetBitmapTextureAtlasSource baseTextureSource = new AssetBitmapTextureAtlasSource(this, "gfx/chromatic_circle.png");
+		final AssetBitmapTextureAtlasSource baseTextureSource = AssetBitmapTextureAtlasSource.create(this.getAssets(), "gfx/chromatic_circle.png");
 
 		this.mChromaticCircleTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromSource(this.mBitmapTextureAtlas, baseTextureSource, 0, 0);
 
@@ -87,8 +87,8 @@ public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
 
 		final Scene scene = new Scene();
 
-		final int centerX = (CAMERA_WIDTH - this.mChromaticCircleTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mChromaticCircleTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mChromaticCircleTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mChromaticCircleTextureRegion.getHeight()) / 2;
 
 		final Sprite chromaticCircle = new Sprite(centerX - 80, centerY, this.mChromaticCircleTextureRegion, this.getVertexBufferObjectManager());
 

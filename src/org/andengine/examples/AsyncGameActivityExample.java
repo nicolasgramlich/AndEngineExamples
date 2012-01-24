@@ -88,8 +88,8 @@ public class AsyncGameActivityExample extends SimpleAsyncGameActivity {
 	@Override
 	public void onPopulateSceneAsync(final Scene pScene, final IProgressListener pProgressListener) throws Exception {
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (AsyncGameActivityExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (AsyncGameActivityExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = (AsyncGameActivityExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final float centerY = (AsyncGameActivityExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene. */
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());

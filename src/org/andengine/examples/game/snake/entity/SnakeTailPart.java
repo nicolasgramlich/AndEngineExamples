@@ -39,10 +39,6 @@ public class SnakeTailPart extends CellEntity {
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	protected SnakeTailPart deepCopy() {
-		return new SnakeTailPart(this.mCellX, this.mCellY, this.getTextureRegion(), this.getVertexBufferObjectManager());
-	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================

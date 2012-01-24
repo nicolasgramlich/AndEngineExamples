@@ -62,11 +62,11 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 	// ===========================================================
 
 	private void initJoints(final Scene pScene) {
-		final int centerX = CAMERA_WIDTH / 2;
-		final int centerY = CAMERA_HEIGHT / 2;
+		final float centerX = CAMERA_WIDTH / 2;
+		final float centerY = CAMERA_HEIGHT / 2;
 
-		final int spriteWidth = this.mBoxFaceTextureRegion.getWidth();
-		final int spriteHeight = this.mBoxFaceTextureRegion.getHeight();
+		final float spriteWidth = this.mBoxFaceTextureRegion.getWidth();
+		final float spriteHeight = this.mBoxFaceTextureRegion.getHeight();
 
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(10, 0.2f, 0.5f);
 

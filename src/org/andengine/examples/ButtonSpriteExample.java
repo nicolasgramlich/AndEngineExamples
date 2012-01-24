@@ -89,8 +89,8 @@ public class ButtonSpriteExample extends BaseExample implements OnClickListener 
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFace1TextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFace1TextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mFace1TextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mFace1TextureRegion.getHeight()) / 2;
 
 		/* Create the button and add it to the scene. */
 		final Sprite face = new ButtonSprite(centerX, centerY, this.mFace1TextureRegion, this.mFace2TextureRegion, this.mFace3TextureRegion, this.getVertexBufferObjectManager(), this);

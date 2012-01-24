@@ -155,8 +155,8 @@ public class RadialBlurExample extends BaseExample implements IOnSceneTouchListe
 		final Scene scene = new Scene();
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (RadialBlurExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (RadialBlurExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = (RadialBlurExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final float centerY = (RadialBlurExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene. */
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());

@@ -109,8 +109,8 @@ public class CanvasTextureCompositingExample extends BaseExample {
 		scene.setBackground(new Background(0.5f, 0.5f, 0.5f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = CAMERA_WIDTH / 2 - this.mDecoratedBalloonTextureRegion.getWidth() / 2;
-		final int centerY = CAMERA_HEIGHT / 2 - this.mDecoratedBalloonTextureRegion.getHeight() / 2;
+		final float centerX = (CAMERA_WIDTH - this.mDecoratedBalloonTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mDecoratedBalloonTextureRegion.getHeight()) / 2;
 
 		/* Create the balloon and add it to the scene. */
 		final Sprite balloon = new Sprite(centerX, centerY, this.mDecoratedBalloonTextureRegion, this.getVertexBufferObjectManager());

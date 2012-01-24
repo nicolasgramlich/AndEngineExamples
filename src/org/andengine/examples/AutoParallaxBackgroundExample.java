@@ -94,8 +94,8 @@ public class AutoParallaxBackgroundExample extends BaseExample {
 		scene.setBackground(autoParallaxBackground);
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int playerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getWidth()) / 2;
-		final int playerY = CAMERA_HEIGHT - this.mPlayerTextureRegion.getHeight() - 5;
+		final float playerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getWidth()) / 2;
+		final float playerY = CAMERA_HEIGHT - this.mPlayerTextureRegion.getHeight() - 5;
 
 		/* Create two sprits and add it to the scene. */
 		final AnimatedSprite player = new AnimatedSprite(playerX, playerY, this.mPlayerTextureRegion, vertexBufferObjectManager);

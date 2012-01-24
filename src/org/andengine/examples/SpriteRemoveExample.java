@@ -1,5 +1,6 @@
 package org.andengine.examples;
 
+import org.andengine.engine.Engine.EngineLock;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -78,8 +79,8 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		this.mFaceToRemove = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		scene.attachChild(this.mFaceToRemove);
@@ -91,21 +92,20 @@ public class SpriteRemoveExample extends BaseExample implements IOnSceneTouchLis
 
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-		/* Removing entities can only be done safely on the UpdateThread.
-		 * Doing it while updating/drawing can
-		 * cause an exception with a suddenly missing entity.
-		 * Alternatively, there is a possibility to run the TouchEvents on the UpdateThread by default, by doing:
-		 * engineOptions.getTouchOptions().setRunOnUpdateThread(true);
-		 * when creating the Engine in onCreateEngine(final EngineOptions pEngineOptions); */
-		this.runOnUpdateThread(new Runnable() {
-			@Override
-			public void run() {
-				/* Now it is save to remove the entity! */
-				pScene.detachChild(SpriteRemoveExample.this.mFaceToRemove);
-				SpriteRemoveExample.this.mFaceToRemove.getVertexBufferObject().unload();
-			}
-		});
-		return false;
+		if(this.mFaceToRemove == null) {
+			return false;
+		}
+
+		final EngineLock engineLock = this.mEngine.getEngineLock();
+		engineLock.lock();
+
+		/* Now it is save to remove the entity! */
+		pScene.detachChild(this.mFaceToRemove);
+		this.mFaceToRemove.dispose();
+		this.mFaceToRemove = null;
+
+		engineLock.lock();
+		return true;
 	}
 
 	// ===========================================================

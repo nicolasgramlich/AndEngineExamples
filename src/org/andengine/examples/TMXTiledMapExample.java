@@ -95,7 +95,7 @@ public class TMXTiledMapExample extends BaseExample {
 		final Scene scene = new Scene();
 
 		try {
-			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, this.getVertexBufferObjectManager(), new ITMXTilePropertiesListener() {
+			final TMXLoader tmxLoader = new TMXLoader(this.getAssets(), this.mEngine.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, this.getVertexBufferObjectManager(), new ITMXTilePropertiesListener() {
 				@Override
 				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) {
 					/* We are going to count the tiles that have the property "cactus=true" set. */
@@ -104,7 +104,7 @@ public class TMXTiledMapExample extends BaseExample {
 					}
 				}
 			});
-			this.mTMXTiledMap = tmxLoader.loadFromAsset(this, "tmx/desert.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/desert.tmx");
 
 			this.runOnUiThread(new Runnable() {
 				@Override
@@ -124,8 +124,8 @@ public class TMXTiledMapExample extends BaseExample {
 		this.mBoundChaseCamera.setBoundsEnabled(true);
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mPlayerTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mPlayerTextureRegion.getHeight()) / 2;
 
 		/* Create the sprite and add it to the scene. */
 		final AnimatedSprite player = new AnimatedSprite(centerX, centerY, this.mPlayerTextureRegion, this.getVertexBufferObjectManager());

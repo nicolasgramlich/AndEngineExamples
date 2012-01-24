@@ -203,7 +203,7 @@ public class EaseFunctionExample extends BaseExample {
 				return true;
 			};
 		};
-		final Sprite previousSprite = new Sprite(100, 0, this.mNextTextureRegion.deepCopy(), this.getVertexBufferObjectManager()) {
+		final Sprite previousSprite = new Sprite(100, 0, this.mNextTextureRegion, this.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				if(pSceneTouchEvent.isActionDown()) {

@@ -141,8 +141,8 @@ public class PVRTextureExample extends BaseExample {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final int centerX = CAMERA_WIDTH / 2;
-		final int centerY = CAMERA_HEIGHT / 2;
+		final float centerX = CAMERA_WIDTH / 2;
+		final float centerY = CAMERA_HEIGHT / 2;
 
 		final Entity container = new Entity(centerX, centerY);
 		container.setScale(0.5f);

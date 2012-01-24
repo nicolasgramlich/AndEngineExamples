@@ -75,7 +75,7 @@ public class TextureOptionsExample extends BaseExample {
 		this.mFaceTextureRegionRepeating = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlasRepeating, this, "face_box.png", 0, 0);
 		/* The following statement causes the BitmapTextureAtlas to be printed horizontally 10x on any Sprite that uses it.
 		 * So we will later increase the width of such a sprite by the same factor to avoid distortion. */
-		this.mFaceTextureRegionRepeating.setWidth(10 * this.mFaceTextureRegionRepeating.getWidth());
+		this.mFaceTextureRegionRepeating.setTextureWidth(10 * this.mFaceTextureRegionRepeating.getWidth());
 		this.mBitmapTextureAtlasRepeating.load(this.getTextureManager());
 	}
 
@@ -86,8 +86,8 @@ public class TextureOptionsExample extends BaseExample {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		final Sprite face = new Sprite(centerX - 160, centerY - 40, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		face.setScale(4);

@@ -68,9 +68,9 @@ public class SpriteExample extends BaseExample implements OnClickListener {
 			this.mTexture = new BitmapTexture() {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
-					return getAssets().open("gfx/face_box_tiled.png");
+					return getAssets().open("gfx/face_box.png");
 				}
-			};
+			}.load(this.getTextureManager());
 			this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(mTexture);
 		} catch (IOException e) {
 			Debug.e(e);
@@ -85,8 +85,8 @@ public class SpriteExample extends BaseExample implements OnClickListener {
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene. */
 		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
