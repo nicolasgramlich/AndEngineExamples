@@ -18,6 +18,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.bitmap.BitmapTexture.BitmapTextureFormat;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.modifier.ease.EaseSineInOut;
 
@@ -30,7 +31,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class PathModifierExample extends BaseExample {
+public class PathModifierExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

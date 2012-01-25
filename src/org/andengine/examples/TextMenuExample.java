@@ -21,6 +21,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.color.Color;
 
 import android.opengl.GLES20;
@@ -33,7 +34,7 @@ import android.view.KeyEvent;
  * @author Nicolas Gramlich
  * @since 01:30:15 - 02.04.2010
  */
-public class TextMenuExample extends BaseExample implements IOnMenuItemClickListener {
+public class TextMenuExample extends SimpleBaseGameActivity implements IOnMenuItemClickListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

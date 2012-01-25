@@ -15,6 +15,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.util.GLState;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -23,7 +24,7 @@ import org.andengine.opengl.util.GLState;
  * @author Nicolas Gramlich
  * @since 10:10:10 - 10.10.2010
  */
-public class Rotation3DExample extends BaseExample {
+public class Rotation3DExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

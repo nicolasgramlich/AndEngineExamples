@@ -14,6 +14,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 12:14:22 - 30.06.2010
  */
-public class UpdateTextureExample extends BaseExample {
+public class UpdateTextureExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

@@ -17,6 +17,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.SAXUtils;
 import org.andengine.util.debug.Debug;
 import org.xml.sax.Attributes;
@@ -30,7 +31,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 17:16:10 - 11.10.2010
  */
-public class LevelLoaderExample extends BaseExample {
+public class LevelLoaderExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

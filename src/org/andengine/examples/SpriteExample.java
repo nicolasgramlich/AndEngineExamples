@@ -17,6 +17,7 @@ import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.bitmap.BitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 import android.widget.Toast;
@@ -28,7 +29,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class SpriteExample extends BaseExample implements OnClickListener {
+public class SpriteExample extends SimpleBaseGameActivity implements OnClickListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

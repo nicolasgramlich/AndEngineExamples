@@ -14,6 +14,7 @@ import org.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasS
 import org.andengine.opengl.texture.atlas.bitmap.source.decorator.ColorKeyBitmapTextureAtlasSourceDecorator;
 import org.andengine.opengl.texture.atlas.bitmap.source.decorator.shape.RectangleBitmapTextureAtlasSourceDecoratorShape;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.graphics.Color;
 
@@ -24,7 +25,7 @@ import android.graphics.Color;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class ColorKeyTextureSourceDecoratorExample extends BaseExample {
+public class ColorKeyTextureSourceDecoratorExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

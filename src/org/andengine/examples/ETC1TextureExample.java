@@ -19,6 +19,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.compressed.etc1.ETC1Texture;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 import android.widget.Toast;
@@ -30,7 +31,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class ETC1TextureExample extends BaseExample {
+public class ETC1TextureExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

@@ -32,7 +32,7 @@ public enum ExampleGroup {
 	AUDIO(R.string.examplegroup_audio, 
 			Example.SOUND, Example.MUSIC, Example.MODPLAYER),
 	ADVANCED(R.string.examplegroup_advanced, 
-			Example.SPLITSCREEN, Example.BOUNDCAMERA, Example.SCRIPTING ), // Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON),
+			Example.SPLITSCREEN, Example.BOUNDCAMERA), // Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON),
 	POSTPROCESSING(R.string.examplegroup_postprocessing, 
 			Example.MOTIONSTREAK, Example.RADIALBLUR),
 	BACKGROUND(R.string.examplegroup_background, 

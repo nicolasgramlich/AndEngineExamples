@@ -21,6 +21,7 @@ import org.andengine.opengl.texture.compressed.pvr.PVRCCZTexture;
 import org.andengine.opengl.texture.compressed.pvr.PVRTexture.PVRTextureFormat;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 import android.widget.Toast;
@@ -32,7 +33,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 15:31:11 - 27.07.2011
  */
-public class PVRCCZTextureExample extends BaseExample {
+public class PVRCCZTextureExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

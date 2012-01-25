@@ -18,6 +18,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 18:20:40 - 18.06.2010
  */
-public class MultiTouchExample extends BaseExample {
+public class MultiTouchExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

@@ -22,6 +22,7 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.sensor.accelerometer.AccelerometerData;
 import org.andengine.sensor.accelerometer.IAccelerometerListener;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 
@@ -40,7 +41,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  * @author Nicolas Gramlich
  * @since 18:47:08 - 19.03.2010
  */
-public class BasePhysicsJointExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener {
+public class BasePhysicsJointExample extends SimpleBaseGameActivity implements IAccelerometerListener, IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

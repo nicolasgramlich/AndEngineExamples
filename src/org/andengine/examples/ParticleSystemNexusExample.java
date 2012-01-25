@@ -23,6 +23,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.opengl.GLES20;
 
@@ -33,7 +34,7 @@ import android.opengl.GLES20;
  * @author Nicolas Gramlich
  * @since 16:44:30 - 29.06.2010
  */
-public class ParticleSystemNexusExample extends BaseExample {
+public class ParticleSystemNexusExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

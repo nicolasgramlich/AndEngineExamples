@@ -24,6 +24,7 @@ import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.sensor.accelerometer.AccelerometerData;
 import org.andengine.sensor.accelerometer.IAccelerometerListener;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.hardware.SensorManager;
 import android.widget.Toast;
@@ -40,7 +41,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  * @author Nicolas Gramlich
  * @since 21:18:08 - 27.06.2010
  */
-public class PhysicsJumpExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener, IOnAreaTouchListener {
+public class PhysicsJumpExample extends SimpleBaseGameActivity implements IAccelerometerListener, IOnSceneTouchListener, IOnAreaTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

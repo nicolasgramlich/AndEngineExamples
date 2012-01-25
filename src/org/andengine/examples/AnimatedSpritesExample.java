@@ -16,6 +16,7 @@ import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSourc
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 /**
@@ -25,7 +26,7 @@ import org.andengine.util.debug.Debug;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class AnimatedSpritesExample extends BaseExample {
+public class AnimatedSpritesExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

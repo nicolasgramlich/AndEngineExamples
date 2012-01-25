@@ -149,7 +149,6 @@ enum Example {
 	ROTATION3D(Rotation3DExample.class, R.string.example_rotation3d),
 	RUNNABLEPOOLUPDATEHANDLER(RunnablePoolUpdateHandlerExample.class, R.string.example_runnablepoolupdatehandler),
 	SCREENCAPTURE(ScreenCaptureExample.class, R.string.example_screencapture),
-	SCRIPTING(ScriptingExample.class, R.string.example_scripting),
 	SOUND(SoundExample.class, R.string.example_sound),
 	SPLITSCREEN(SplitScreenExample.class, R.string.example_splitscreen),
 	SPRITEBATCH(SpriteBatchExample.class, R.string.example_spritebatch),

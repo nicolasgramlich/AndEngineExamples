@@ -21,6 +21,7 @@ import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.render.RenderTexture;
 import org.andengine.opengl.util.GLState;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.modifier.ease.EaseQuadInOut;
 
 import android.widget.Toast;
@@ -31,7 +32,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 16:55:18 - 06.11.2011
  */
-public class MotionStreakExample extends BaseExample implements IOnSceneTouchListener {
+public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

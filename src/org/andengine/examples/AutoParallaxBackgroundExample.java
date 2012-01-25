@@ -16,6 +16,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -24,7 +25,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
  * @author Nicolas Gramlich
  * @since 19:58:39 - 19.07.2010
  */
-public class AutoParallaxBackgroundExample extends BaseExample {
+public class AutoParallaxBackgroundExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

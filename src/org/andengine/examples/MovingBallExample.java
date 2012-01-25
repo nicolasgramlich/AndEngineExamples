@@ -14,6 +14,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -22,7 +23,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class MovingBallExample extends BaseExample {
+public class MovingBallExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

@@ -14,6 +14,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -22,7 +23,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
  * @author Nicolas Gramlich
  * @since 14:27:22 - 14.06.2011
  */
-public class SpriteBatchExample extends BaseExample {
+public class SpriteBatchExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

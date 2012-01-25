@@ -39,6 +39,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 import android.app.AlertDialog;
@@ -59,7 +60,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 11:45:03 - 06.03.2011
  */
-public class MultiplayerBluetoothExample extends BaseExample implements ClientMessageFlags, ServerMessageFlags {
+public class MultiplayerBluetoothExample extends SimpleBaseGameActivity implements ClientMessageFlags, ServerMessageFlags {
 	// ===========================================================
 	// Constants
 	// ===========================================================
