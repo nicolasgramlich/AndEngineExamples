@@ -19,6 +19,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.modifier.IModifier;
 
 import android.widget.Toast;
@@ -30,7 +31,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 21:42:39 - 06.07.2010
  */
-public class EntityModifierIrregularExample extends BaseExample {
+public class EntityModifierIrregularExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

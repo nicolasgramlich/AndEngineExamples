@@ -5,6 +5,9 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.andengine.entity.modifier.AlphaModifier;
+import org.andengine.entity.modifier.ColorModifier;
+import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.particle.SpriteParticleSystem;
 import org.andengine.entity.particle.emitter.PointParticleEmitter;
 import org.andengine.entity.particle.initializer.AccelerationInitializer;
@@ -12,10 +15,6 @@ import org.andengine.entity.particle.initializer.BlendFunctionInitializer;
 import org.andengine.entity.particle.initializer.ColorInitializer;
 import org.andengine.entity.particle.initializer.RotationInitializer;
 import org.andengine.entity.particle.initializer.VelocityInitializer;
-import org.andengine.entity.particle.modifier.AlphaModifier;
-import org.andengine.entity.particle.modifier.ColorModifier;
-import org.andengine.entity.particle.modifier.ExpireModifier;
-import org.andengine.entity.particle.modifier.ScaleModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
@@ -24,6 +23,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.opengl.GLES20;
 
@@ -34,7 +34,7 @@ import android.opengl.GLES20;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class ParticleSystemCoolExample extends BaseExample {
+public class ParticleSystemCoolExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

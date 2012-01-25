@@ -14,6 +14,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.math.MathUtils;
 
 import android.widget.Toast;
@@ -25,7 +26,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 12:14:29 - 30.06.2010
  */
-public class LoadTextureExample extends BaseExample {
+public class LoadTextureExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

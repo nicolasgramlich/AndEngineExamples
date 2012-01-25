@@ -9,6 +9,7 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.font.BitmapFont;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.HorizontalAlign;
 
 /**
@@ -17,7 +18,7 @@ import org.andengine.util.HorizontalAlign;
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 18:45:46 - 23.12.2011
  */
-public class BitmapFontExample extends BaseExample {
+public class BitmapFontExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

@@ -17,6 +17,7 @@ import org.andengine.opengl.texture.atlas.bitmap.source.EmptyBitmapTextureAtlasS
 import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.atlas.bitmap.source.decorator.BaseBitmapTextureAtlasSourceDecorator;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.modifier.IModifier.DeepCopyNotSupportedException;
 
 import android.graphics.Bitmap;
@@ -34,7 +35,7 @@ import android.graphics.PorterDuffXfermode;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class CanvasTextureCompositingExample extends BaseExample {
+public class CanvasTextureCompositingExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

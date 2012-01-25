@@ -25,6 +25,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.sensor.accelerometer.AccelerometerData;
 import org.andengine.sensor.accelerometer.IAccelerometerListener;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.hardware.SensorManager;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  * @author Nicolas Gramlich
  * @since 18:08:29 - 27.07.2010
  */
-public class BoundCameraExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener {
+public class BoundCameraExample extends SimpleBaseGameActivity implements IAccelerometerListener, IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

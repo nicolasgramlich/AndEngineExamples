@@ -16,6 +16,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -29,7 +30,7 @@ import android.opengl.GLES20;
  * @author Nicolas Gramlich
  * @since 00:06:23 - 11.07.2010
  */
-public class DigitalOnScreenControlExample extends BaseExample {
+public class DigitalOnScreenControlExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

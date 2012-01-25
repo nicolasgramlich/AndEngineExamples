@@ -24,6 +24,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.sensor.accelerometer.AccelerometerData;
 import org.andengine.sensor.accelerometer.IAccelerometerListener;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 import android.hardware.SensorManager;
@@ -42,7 +43,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
  * @author Nicolas Gramlich
  * @since 18:47:08 - 19.03.2010
  */
-public class PhysicsExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener {
+public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerometerListener, IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

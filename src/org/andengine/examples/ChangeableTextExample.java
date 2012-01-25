@@ -13,6 +13,7 @@ import org.andengine.entity.util.FPSCounter;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.TextureOptions;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.graphics.Typeface;
 
@@ -23,7 +24,7 @@ import android.graphics.Typeface;
  * @author Nicolas Gramlich
  * @since 20:06:15 - 08.07.2010
  */
-public class ChangeableTextExample extends BaseExample {
+public class ChangeableTextExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

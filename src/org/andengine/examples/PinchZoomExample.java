@@ -24,6 +24,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.widget.Toast;
 
@@ -34,7 +35,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 15:44:58 - 05.11.2010
  */
-public class PinchZoomExample extends BaseExample implements IOnSceneTouchListener, IScrollDetectorListener, IPinchZoomDetectorListener {
+public class PinchZoomExample extends SimpleBaseGameActivity implements IOnSceneTouchListener, IScrollDetectorListener, IPinchZoomDetectorListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

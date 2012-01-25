@@ -25,6 +25,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.math.MathUtils;
 
 import android.opengl.GLES20;
@@ -37,7 +38,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 00:06:23 - 11.07.2010
  */
-public class CollisionDetectionExample extends BaseExample {
+public class CollisionDetectionExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

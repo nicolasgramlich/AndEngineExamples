@@ -21,6 +21,7 @@ import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder
 import org.andengine.opengl.texture.region.BaseTextureRegion;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 import android.graphics.Color;
@@ -32,7 +33,7 @@ import android.graphics.Color;
  * @author Nicolas Gramlich
  * @since 13:58:12 - 21.05.2011
  */
-public class SVGTextureRegionExample extends BaseExample {
+public class SVGTextureRegionExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

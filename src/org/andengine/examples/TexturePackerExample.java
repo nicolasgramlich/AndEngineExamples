@@ -14,6 +14,7 @@ import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.T
 import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackTextureRegionLibrary;
 import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.exception.TexturePackParseException;
 import org.andengine.opengl.texture.region.TextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 /**
@@ -22,7 +23,7 @@ import org.andengine.util.debug.Debug;
  * @author Nicolas Gramlich
  * @since 9:55:51 - 02.08.2011
  */
-public class TexturePackerExample extends BaseExample {
+public class TexturePackerExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

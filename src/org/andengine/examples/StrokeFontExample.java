@@ -15,6 +15,7 @@ import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -26,7 +27,7 @@ import android.graphics.Typeface;
  * @author Nicolas Gramlich
  * @since 22:49:43 - 26.07.2010
  */
-public class StrokeFontExample extends BaseExample {
+public class StrokeFontExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

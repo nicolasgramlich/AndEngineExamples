@@ -14,11 +14,13 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.Callable;
 import org.andengine.util.Callback;
 import org.andengine.util.FileUtils;
 import org.helllabs.android.xmp.ModPlayer;
 
+import android.R;
 import android.widget.Toast;
 
 /**
@@ -28,7 +30,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 15:51:47 - 13.06.2010
  */
-public class ModPlayerExample extends BaseExample {
+public class ModPlayerExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

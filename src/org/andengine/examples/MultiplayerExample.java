@@ -40,6 +40,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 import android.app.AlertDialog;
@@ -58,7 +59,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 17:10:24 - 19.06.2010
  */
-public class MultiplayerExample extends BaseExample implements ClientMessageFlags, ServerMessageFlags {
+public class MultiplayerExample extends SimpleBaseGameActivity implements ClientMessageFlags, ServerMessageFlags {
 	// ===========================================================
 	// Constants
 	// ===========================================================

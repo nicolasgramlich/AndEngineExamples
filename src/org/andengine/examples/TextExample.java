@@ -10,6 +10,7 @@ import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.HorizontalAlign;
 
 import android.graphics.Typeface;
@@ -21,7 +22,7 @@ import android.graphics.Typeface;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class TextExample extends BaseExample {
+public class TextExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

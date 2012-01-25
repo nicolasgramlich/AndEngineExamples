@@ -13,6 +13,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.widget.Toast;
 
@@ -23,7 +24,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 15:13:46 - 15.06.2010
  */
-public class TouchDragExample extends BaseExample {
+public class TouchDragExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

@@ -15,6 +15,7 @@ import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.graphics.Color;
 
@@ -25,7 +26,7 @@ import android.graphics.Color;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class CustomFontExample extends BaseExample {
+public class CustomFontExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

@@ -25,6 +25,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.sensor.accelerometer.AccelerometerData;
 import org.andengine.sensor.accelerometer.IAccelerometerListener;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
 import android.hardware.SensorManager;
@@ -43,7 +44,7 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
  * @author Nicolas Gramlich
  * @since 10:35:23 - 28.02.2011
  */
-public class PhysicsMouseJointExample extends BaseExample implements IAccelerometerListener, IOnSceneTouchListener, IOnAreaTouchListener {
+public class PhysicsMouseJointExample extends SimpleBaseGameActivity implements IAccelerometerListener, IOnSceneTouchListener, IOnAreaTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

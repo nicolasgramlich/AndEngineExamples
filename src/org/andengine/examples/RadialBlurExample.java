@@ -25,6 +25,7 @@ import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.render.RenderTexture;
 import org.andengine.opengl.util.GLState;
 import org.andengine.opengl.vbo.attribute.VertexBufferObjectAttributes;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.opengl.GLES20;
 
@@ -34,7 +35,7 @@ import android.opengl.GLES20;
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 16:55:18 - 06.11.2011
  */
-public class RadialBlurExample extends BaseExample implements IOnSceneTouchListener, IClickDetectorListener {
+public class RadialBlurExample extends SimpleBaseGameActivity implements IOnSceneTouchListener, IClickDetectorListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================

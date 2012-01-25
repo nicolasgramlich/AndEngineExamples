@@ -19,6 +19,7 @@ import org.andengine.entity.util.FPSLogger;
 import org.andengine.entity.util.ScreenCapture;
 import org.andengine.entity.util.ScreenCapture.IScreenCaptureCallback;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.FileUtils;
 
 import android.widget.Toast;
@@ -30,7 +31,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class ScreenCaptureExample extends BaseExample {
+public class ScreenCaptureExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

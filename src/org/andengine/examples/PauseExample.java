@@ -14,6 +14,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.view.KeyEvent;
 
@@ -24,7 +25,7 @@ import android.view.KeyEvent;
  * @author Nicolas Gramlich
  * @since 11:33:33 - 01.04.2010
  */
-public class PauseExample extends BaseExample {
+public class PauseExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================

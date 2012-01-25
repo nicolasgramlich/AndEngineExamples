@@ -18,6 +18,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.modifier.ease.EaseBackIn;
 import org.andengine.util.modifier.ease.EaseBackInOut;
 import org.andengine.util.modifier.ease.EaseBackOut;
@@ -64,7 +65,7 @@ import android.graphics.Typeface;
  * @author Nicolas Gramlich
  * @since 15:12:16 - 30.07.2010
  */
-public class EaseFunctionExample extends BaseExample {
+public class EaseFunctionExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
