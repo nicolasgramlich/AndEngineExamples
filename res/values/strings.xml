@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="tv_xmllayoutexample_above">You can put <b>one</b> <i>AndEngine</i> View into any Activity.</string>
-	<string name="tv_xmllayoutexample_below">Lorem ipsum dolor sit amat...</string>
-
     <string name="app_name">AndEngineExamples</string>
     
     <string name="btn_get_involved_caption">Open Source - Get involved...</string>
@@ -20,6 +17,11 @@
     
     <string name="dialog_modplayerexample_loading_to_external_title">Loading</string>
     <string name="dialog_modplayerexample_loading_to_external_message">Transferring \'lepeltheme.mod\' to SDCard...</string>
+    
+	<string name="tv_xmllayoutexample_above">You can put <b>one</b> <i>AndEngine</i> View into any Activity.</string>
+	<string name="tv_xmllayoutexample_below">Lorem ipsum dolor sit amat...</string>
+
+	<string name="textbreakexample_text_default">Hello, World!</string>
     
     <!-- Example-Groups -->
     <string name="examplegroup_simple">Simple</string>
@@ -102,6 +104,7 @@
 	<string name="example_submenu">Using SubMenus</string>
 	<string name="example_svgtextureregion">Using a SVGTextureRegion</string>
 	<string name="example_text">Drawing Text</string>
+	<string name="example_textbreak">Breaking Text</string>
 	<string name="example_textmenu">Using TextMenus</string>
 	<string name="example_textureoptions">Using TextureOptions</string>
 	<string name="example_texturepacker">Using TexturePack(er)</string>

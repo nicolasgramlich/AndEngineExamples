@@ -9,7 +9,7 @@ import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.ChangeableText;
+import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.font.Font;
@@ -151,7 +151,7 @@ public class EaseFunctionExample extends SimpleBaseGameActivity {
 	private int mCurrentEaseFunctionSet = 0;
 
 	private final Sprite[] mBadges = new Sprite[3];
-	private final ChangeableText[] mEaseFunctionNameTexts = new ChangeableText[3];
+	private final Text[] mEaseFunctionNameTexts = new Text[3];
 
 	// ===========================================================
 	// Constructors
@@ -229,9 +229,9 @@ public class EaseFunctionExample extends SimpleBaseGameActivity {
 		this.mBadges[1] = new Sprite(0, CAMERA_HEIGHT - 200, this.mBadgeTextureRegion, this.getVertexBufferObjectManager());
 		this.mBadges[2] = new Sprite(0, CAMERA_HEIGHT - 100, this.mBadgeTextureRegion, this.getVertexBufferObjectManager());
 
-		this.mEaseFunctionNameTexts[0] = new ChangeableText(0, CAMERA_HEIGHT - 250, this.mFont, "Function", 20, this.getVertexBufferObjectManager());
-		this.mEaseFunctionNameTexts[1] = new ChangeableText(0, CAMERA_HEIGHT - 150, this.mFont, "Function", 20, this.getVertexBufferObjectManager());
-		this.mEaseFunctionNameTexts[2] = new ChangeableText(0, CAMERA_HEIGHT - 50, this.mFont, "Function", 20, this.getVertexBufferObjectManager());
+		this.mEaseFunctionNameTexts[0] = new Text(0, CAMERA_HEIGHT - 250, this.mFont, "Function", 20, this.getVertexBufferObjectManager());
+		this.mEaseFunctionNameTexts[1] = new Text(0, CAMERA_HEIGHT - 150, this.mFont, "Function", 20, this.getVertexBufferObjectManager());
+		this.mEaseFunctionNameTexts[2] = new Text(0, CAMERA_HEIGHT - 50, this.mFont, "Function", 20, this.getVertexBufferObjectManager());
 
 		scene.attachChild(this.mBadges[0]);
 		scene.attachChild(this.mBadges[1]);
@@ -275,7 +275,7 @@ public class EaseFunctionExample extends SimpleBaseGameActivity {
 			@Override
 			public void run() {
 				final IEaseFunction[] currentEaseFunctionsSet = EASEFUNCTIONS[EaseFunctionExample.this.mCurrentEaseFunctionSet];
-				final ChangeableText[] easeFunctionNameTexts = EaseFunctionExample.this.mEaseFunctionNameTexts;
+				final Text[] easeFunctionNameTexts = EaseFunctionExample.this.mEaseFunctionNameTexts;
 				final Sprite[] faces = EaseFunctionExample.this.mBadges;
 
 				for(int i = 0; i < 3; i++) {

@@ -7,6 +7,7 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.Text;
+import org.andengine.entity.text.Text.TextOptions;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.font.BitmapFont;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
@@ -64,7 +65,7 @@ public class BitmapFontExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final Text bitmapText = new Text(160, 230, this.mBitmapFont, "Hello BitmapFont!", HorizontalAlign.CENTER, this.getVertexBufferObjectManager());
+		final Text bitmapText = new Text(160, 230, this.mBitmapFont, "Hello BitmapFont!", new TextOptions(HorizontalAlign.CENTER), this.getVertexBufferObjectManager());
 
 		scene.attachChild(bitmapText);
 

@@ -18,8 +18,8 @@ import org.andengine.entity.modifier.RotationModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.ChangeableText;
 import org.andengine.entity.text.Text;
+import org.andengine.entity.text.Text.TextOptions;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.examples.game.snake.adt.Direction;
 import org.andengine.examples.game.snake.adt.SnakeSuicideException;
@@ -92,7 +92,7 @@ public class SnakeGameActivity extends SimpleBaseGameActivity implements SnakeCo
 	private Frog mFrog;
 
 	private int mScore = 0;
-	private ChangeableText mScoreText;
+	private Text mScoreText;
 
 	private Sound mGameOverSound;
 	private Sound mMunchSound;
@@ -167,7 +167,7 @@ public class SnakeGameActivity extends SimpleBaseGameActivity implements SnakeCo
 		this.mScene.getChild(LAYER_BACKGROUND).attachChild(new Sprite(0, 0, this.mBackgroundTextureRegion, this.getVertexBufferObjectManager()));
 
 		/* The ScoreText showing how many points the pEntity scored. */
-		this.mScoreText = new ChangeableText(5, 5, this.mFont, "Score: 0", "Score: XXXX".length(), this.getVertexBufferObjectManager());
+		this.mScoreText = new Text(5, 5, this.mFont, "Score: 0", "Score: XXXX".length(), this.getVertexBufferObjectManager());
 		this.mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mScoreText.setAlpha(0.5f);
 		this.mScene.getChild(LAYER_SCORE).attachChild(this.mScoreText);
@@ -223,7 +223,7 @@ public class SnakeGameActivity extends SimpleBaseGameActivity implements SnakeCo
 		}));
 
 		/* The title-text. */
-		final Text titleText = new Text(0, 0, this.mFont, "Snake\non a Phone!", HorizontalAlign.CENTER, this.getVertexBufferObjectManager());
+		final Text titleText = new Text(0, 0, this.mFont, "Snake\non a Phone!", new TextOptions(HorizontalAlign.CENTER), this.getVertexBufferObjectManager());
 		titleText.setPosition((CAMERA_WIDTH - titleText.getWidth()) * 0.5f, (CAMERA_HEIGHT - titleText.getHeight()) * 0.5f);
 		titleText.setScale(0.0f);
 		titleText.registerEntityModifier(new ScaleModifier(2, 0.0f, 1.0f));
@@ -240,7 +240,7 @@ public class SnakeGameActivity extends SimpleBaseGameActivity implements SnakeCo
 		}));
 
 		/* The game-over text. */
-		this.mGameOverText = new Text(0, 0, this.mFont, "Game\nOver", HorizontalAlign.CENTER, this.getVertexBufferObjectManager());
+		this.mGameOverText = new Text(0, 0, this.mFont, "Game\nOver", new TextOptions(HorizontalAlign.CENTER), this.getVertexBufferObjectManager());
 		this.mGameOverText.setPosition((CAMERA_WIDTH - this.mGameOverText.getWidth()) * 0.5f, (CAMERA_HEIGHT - this.mGameOverText.getHeight()) * 0.5f);
 		this.mGameOverText.registerEntityModifier(new ScaleModifier(3, 0.1f, 2.0f));
 		this.mGameOverText.registerEntityModifier(new RotationModifier(3, 0, 720));

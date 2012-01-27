@@ -8,11 +8,11 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.text.TickerText;
+import org.andengine.entity.text.TickerText.TickerTextOptions;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.andengine.util.HorizontalAlign;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -87,7 +87,7 @@ public class TickerTextBenchmark extends BaseBenchmark {
 		
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 		for(int i = 0; i < TEXT_COUNT; i++) {
-			final Text text = new TickerText(this.mRandom.nextInt(30), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 20), this.mFont, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", HorizontalAlign.CENTER, 5 + 5 * this.mRandom.nextFloat(), vertexBufferObjectManager);
+			final Text text = new TickerText(this.mRandom.nextInt(30), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 20), this.mFont, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", new TickerTextOptions(5 + 5 * this.mRandom.nextFloat()), vertexBufferObjectManager);
 			text.setColor(this.mRandom.nextFloat(), this.mRandom.nextFloat(), this.mRandom.nextFloat());
 			scene.attachChild(text);
 		}

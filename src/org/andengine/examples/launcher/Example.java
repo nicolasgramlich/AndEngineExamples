@@ -7,7 +7,7 @@ import org.andengine.examples.AutoParallaxBackgroundExample;
 import org.andengine.examples.BitmapFontExample;
 import org.andengine.examples.BoundCameraExample;
 import org.andengine.examples.CanvasTextureCompositingExample;
-import org.andengine.examples.ChangeableTextExample;
+import org.andengine.examples.TextExample;
 import org.andengine.examples.CollisionDetectionExample;
 import org.andengine.examples.ColorKeyTextureSourceDecoratorExample;
 import org.andengine.examples.CoordinateConversionExample;
@@ -54,7 +54,6 @@ import org.andengine.examples.Rotation3DExample;
 import org.andengine.examples.RunnablePoolUpdateHandlerExample;
 import org.andengine.examples.SVGTextureRegionExample;
 import org.andengine.examples.ScreenCaptureExample;
-import org.andengine.examples.ScriptingExample;
 import org.andengine.examples.SoundExample;
 import org.andengine.examples.SplitScreenExample;
 import org.andengine.examples.SpriteBatchExample;
@@ -63,6 +62,7 @@ import org.andengine.examples.SpriteRemoveExample;
 import org.andengine.examples.StrokeFontExample;
 import org.andengine.examples.SubMenuExample;
 import org.andengine.examples.TMXTiledMapExample;
+import org.andengine.examples.TextBreakExample;
 import org.andengine.examples.TextExample;
 import org.andengine.examples.TextMenuExample;
 import org.andengine.examples.TextureOptionsExample;
@@ -104,7 +104,7 @@ enum Example {
 	BITMAPFONT(BitmapFontExample.class, R.string.example_bitmapfont),
 	BOUNDCAMERA(BoundCameraExample.class, R.string.example_boundcamera),
 	CANVASTEXTURECOMPOSITING(CanvasTextureCompositingExample.class, R.string.example_canvastexturecompositing),
-	CHANGEABLETEXT(ChangeableTextExample.class, R.string.example_changeabletext),
+	CHANGEABLETEXT(TextExample.class, R.string.example_changeabletext),
 	COLLISIONDETECTION(CollisionDetectionExample.class, R.string.example_collisiondetection),
 	COLORKEYTEXTURESOURCEDECORATOR(ColorKeyTextureSourceDecoratorExample.class, R.string.example_colorkeytexturesourcedecorator),
 	COORDINATECONVERSION(CoordinateConversionExample.class, R.string.example_coordinateconversion),
@@ -158,6 +158,7 @@ enum Example {
 	SUBMENU(SubMenuExample.class, R.string.example_submenu),
 	SVGTEXTUREREGION(SVGTextureRegionExample.class, R.string.example_svgtextureregion),
 	TEXT(TextExample.class, R.string.example_text),
+	TEXTBREAK(TextBreakExample.class, R.string.example_textbreak),
 	TEXTMENU(TextMenuExample.class, R.string.example_textmenu),
 	TEXTUREOPTIONS(TextureOptionsExample.class, R.string.example_textureoptions),
 	TEXTUREPACKER(TexturePackerExample.class, R.string.example_texturepacker),

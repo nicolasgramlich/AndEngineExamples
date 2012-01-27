@@ -15,7 +15,7 @@ import org.andengine.entity.primitive.Line;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.Scene.IOnSceneTouchListener;
-import org.andengine.entity.text.ChangeableText;
+import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.examples.adt.messages.MessageConstants;
 import org.andengine.examples.adt.messages.client.ConnectionPingClientMessage;
@@ -100,7 +100,7 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 
 	private Rectangle mBall;
 	private final SparseArray<Rectangle> mPaddleMap = new SparseArray<Rectangle>();
-	private final SparseArray<ChangeableText> mScoreChangeableTextMap = new SparseArray<ChangeableText>();
+	private final SparseArray<Text> mScoreTextMap = new SparseArray<Text>();
 
 	private Font mScoreFont;
 
@@ -163,11 +163,11 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 		scene.attachChild(paddleRight);
 
 		/* Scores */
-		final ChangeableText scoreLeft = new ChangeableText(0, -GAME_HEIGHT_HALF + SCORE_PADDING, this.mScoreFont, "0", 2, vertexBufferObjectManager);
+		final Text scoreLeft = new Text(0, -GAME_HEIGHT_HALF + SCORE_PADDING, this.mScoreFont, "0", 2, vertexBufferObjectManager);
 		scoreLeft.setPosition(-scoreLeft.getWidth() - SCORE_PADDING, scoreLeft.getY());
-		final ChangeableText scoreRight = new ChangeableText(SCORE_PADDING, -GAME_HEIGHT_HALF + SCORE_PADDING, this.mScoreFont, "0", 2, vertexBufferObjectManager);
-		this.mScoreChangeableTextMap.put(PADDLE_LEFT.getOwnerID(), scoreLeft);
-		this.mScoreChangeableTextMap.put(PADDLE_RIGHT.getOwnerID(), scoreRight);
+		final Text scoreRight = new Text(SCORE_PADDING, -GAME_HEIGHT_HALF + SCORE_PADDING, this.mScoreFont, "0", 2, vertexBufferObjectManager);
+		this.mScoreTextMap.put(PADDLE_LEFT.getOwnerID(), scoreLeft);
+		this.mScoreTextMap.put(PADDLE_RIGHT.getOwnerID(), scoreRight);
 
 		scene.attachChild(scoreLeft);
 		scene.attachChild(scoreRight);
@@ -340,12 +340,12 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 	// ===========================================================
 
 	public void updateScore(final int pPaddleID, final int pPoints) {
-		final ChangeableText scoreChangeableText = this.mScoreChangeableTextMap.get(pPaddleID);
-		scoreChangeableText.setText(String.valueOf(pPoints));
+		final Text scoreText = this.mScoreTextMap.get(pPaddleID);
+		scoreText.setText(String.valueOf(pPoints));
 
 		/* Adjust position of left Score, so that it doesn't overlap the middle line. */
 		if(pPaddleID == PADDLE_LEFT.getOwnerID()) {
-			scoreChangeableText.setPosition(-scoreChangeableText.getWidth() - SCORE_PADDING, scoreChangeableText.getY());
+			scoreText.setPosition(-scoreText.getWidth() - SCORE_PADDING, scoreText.getY());
 		}
 	}
 
