@@ -63,8 +63,8 @@ public class SubMenuExample extends MenuExample {
 		super.createMenuScene();
 
 		this.mSubMenuScene = new MenuScene(this.mCamera);
-		this.mSubMenuScene.addMenuItem(new SpriteMenuItem(MENU_QUIT_OK, this.mMenuOkTextureRegion));
-		this.mSubMenuScene.addMenuItem(new SpriteMenuItem(MENU_QUIT_BACK, this.mMenuBackTextureRegion));
+		this.mSubMenuScene.addMenuItem(new SpriteMenuItem(MENU_QUIT_OK, this.mMenuOkTextureRegion, this.getVertexBufferObjectManager()));
+		this.mSubMenuScene.addMenuItem(new SpriteMenuItem(MENU_QUIT_BACK, this.mMenuBackTextureRegion, this.getVertexBufferObjectManager()));
 		this.mSubMenuScene.setMenuAnimator(new SlideMenuAnimator());
 		this.mSubMenuScene.buildAnimations();
 

@@ -15,6 +15,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.widget.Toast;
@@ -97,10 +98,11 @@ public class ImageFormatsExample extends SimpleBaseGameActivity {
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		/* Create the icons and add them to the scene. */
-		scene.attachChild(new Sprite(160 - 24, 106 - 24, this.mPNGTextureRegion));
-		scene.attachChild(new Sprite(160 - 24, 213 - 24, this.mJPGTextureRegion));
-		scene.attachChild(new Sprite(320 - 24, 106 - 24, this.mGIFTextureRegion));
-		scene.attachChild(new Sprite(320 - 24, 213 - 24, this.mBMPTextureRegion));
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
+		scene.attachChild(new Sprite(160 - 24, 106 - 24, this.mPNGTextureRegion, vertexBufferObjectManager));
+		scene.attachChild(new Sprite(160 - 24, 213 - 24, this.mJPGTextureRegion, vertexBufferObjectManager));
+		scene.attachChild(new Sprite(320 - 24, 106 - 24, this.mGIFTextureRegion, vertexBufferObjectManager));
+		scene.attachChild(new Sprite(320 - 24, 213 - 24, this.mBMPTextureRegion, vertexBufferObjectManager));
 
 		return scene;
 	}

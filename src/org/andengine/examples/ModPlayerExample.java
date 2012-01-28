@@ -20,7 +20,6 @@ import org.andengine.util.Callback;
 import org.andengine.util.FileUtils;
 import org.helllabs.android.xmp.ModPlayer;
 
-import android.R;
 import android.widget.Toast;
 
 /**
@@ -110,10 +109,10 @@ public class ModPlayerExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final int x = (CAMERA_WIDTH - this.mILove8BitTextureRegion.getWidth()) / 2;
-		final int y = (CAMERA_HEIGHT - this.mILove8BitTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mILove8BitTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mILove8BitTextureRegion.getHeight()) / 2;
 
-		final Sprite iLove8Bit = new Sprite(x, y, this.mILove8BitTextureRegion);
+		final Sprite iLove8Bit = new Sprite(centerX, centerY, this.mILove8BitTextureRegion, this.getVertexBufferObjectManager());
 		scene.attachChild(iLove8Bit);
 
 		scene.registerTouchArea(iLove8Bit);

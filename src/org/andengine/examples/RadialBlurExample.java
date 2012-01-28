@@ -121,7 +121,7 @@ public class RadialBlurExample extends SimpleBaseGameActivity implements IOnScen
 				this.mRenderTexture.init(pGLState);
 
 				final ITextureRegion renderTextureTextureRegion = TextureRegionFactory.extractFromTexture(this.mRenderTexture);
-				this.mRenderTextureSprite = new UncoloredSprite(0, 0, renderTextureTextureRegion) {
+				this.mRenderTextureSprite = new UncoloredSprite(0, 0, renderTextureTextureRegion, this.getVertexBufferObjectManager()) {
 					@Override
 					protected void preDraw(final GLState pGLState, final Camera pCamera) {
 						if(RadialBlurExample.this.mRadialBlurring) {
@@ -156,11 +156,11 @@ public class RadialBlurExample extends SimpleBaseGameActivity implements IOnScen
 		final Scene scene = new Scene();
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (RadialBlurExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (RadialBlurExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = (RadialBlurExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final float centerY = (RadialBlurExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
+		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 //		face.setScale(3);
 		scene.attachChild(face);
 

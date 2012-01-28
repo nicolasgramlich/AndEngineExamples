@@ -94,11 +94,11 @@ public class RunnablePoolUpdateHandlerExample extends SimpleBaseGameActivity imp
 		scene.registerUpdateHandler(this.mFaceRotateRunnablePoolUpdateHandler);
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
-		this.mFaces[0] = new Sprite(centerX - 50, centerY, this.mFaceTextureRegion);
-		this.mFaces[1] = new Sprite(centerX + 50, centerY, this.mFaceTextureRegion);
+		this.mFaces[0] = new Sprite(centerX - 50, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+		this.mFaces[1] = new Sprite(centerX + 50, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		scene.attachChild(this.mFaces[0]);
 		scene.attachChild(this.mFaces[1]);
 

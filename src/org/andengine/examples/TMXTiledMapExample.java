@@ -96,7 +96,7 @@ public class TMXTiledMapExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 
 		try {
-			final TMXLoader tmxLoader = new TMXLoader(this, this.mEngine.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, new ITMXTilePropertiesListener() {
+			final TMXLoader tmxLoader = new TMXLoader(this.getAssets(), this.mEngine.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, this.getVertexBufferObjectManager(), new ITMXTilePropertiesListener() {
 				@Override
 				public void onTMXTileWithPropertiesCreated(final TMXTiledMap pTMXTiledMap, final TMXLayer pTMXLayer, final TMXTile pTMXTile, final TMXProperties<TMXTileProperty> pTMXTileProperties) {
 					/* We are going to count the tiles that have the property "cactus=true" set. */
@@ -105,7 +105,7 @@ public class TMXTiledMapExample extends SimpleBaseGameActivity {
 					}
 				}
 			});
-			this.mTMXTiledMap = tmxLoader.loadFromAsset(this, "tmx/desert.tmx");
+			this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/desert.tmx");
 
 			this.runOnUiThread(new Runnable() {
 				@Override
@@ -125,11 +125,11 @@ public class TMXTiledMapExample extends SimpleBaseGameActivity {
 		this.mBoundChaseCamera.setBoundsEnabled(true);
 
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mPlayerTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mPlayerTextureRegion.getHeight()) / 2;
 
 		/* Create the sprite and add it to the scene. */
-		final AnimatedSprite player = new AnimatedSprite(centerX, centerY, this.mPlayerTextureRegion);
+		final AnimatedSprite player = new AnimatedSprite(centerX, centerY, this.mPlayerTextureRegion, this.getVertexBufferObjectManager());
 		this.mBoundChaseCamera.setChaseEntity(player);
 
 		final Path path = new Path(5).to(0, 160).to(0, 500).to(600, 500).to(600, 160).to(0, 160);
@@ -170,7 +170,7 @@ public class TMXTiledMapExample extends SimpleBaseGameActivity {
 		})));
 
 		/* Now we are going to create a rectangle that will  always highlight the tile below the feet of the pEntity. */
-		final Rectangle currentTileRectangle = new Rectangle(0, 0, this.mTMXTiledMap.getTileWidth(), this.mTMXTiledMap.getTileHeight());
+		final Rectangle currentTileRectangle = new Rectangle(0, 0, this.mTMXTiledMap.getTileWidth(), this.mTMXTiledMap.getTileHeight(), this.getVertexBufferObjectManager());
 		currentTileRectangle.setColor(1, 0, 0, 0.25f);
 		scene.attachChild(currentTileRectangle);
 

@@ -62,11 +62,11 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 	// ===========================================================
 
 	private void initJoints(final Scene pScene) {
-		final int centerX = CAMERA_WIDTH / 2;
-		final int centerY = CAMERA_HEIGHT / 2;
+		final float centerX = CAMERA_WIDTH / 2;
+		final float centerY = CAMERA_HEIGHT / 2;
 
-		final int spriteWidth = this.mBoxFaceTextureRegion.getWidth();
-		final int spriteHeight = this.mBoxFaceTextureRegion.getHeight();
+		final float spriteWidth = this.mBoxFaceTextureRegion.getWidth();
+		final float spriteHeight = this.mBoxFaceTextureRegion.getHeight();
 
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(10, 0.2f, 0.5f);
 
@@ -74,16 +74,16 @@ public class PhysicsRevoluteJointExample extends BasePhysicsJointExample {
 			final float anchorFaceX = centerX - spriteWidth * 0.5f + 220 * (i - 1);
 			final float anchorFaceY = centerY - spriteHeight * 0.5f;
 
-			final AnimatedSprite anchorFace = new AnimatedSprite(anchorFaceX, anchorFaceY, this.mBoxFaceTextureRegion);
+			final AnimatedSprite anchorFace = new AnimatedSprite(anchorFaceX, anchorFaceY, this.mBoxFaceTextureRegion, this.getVertexBufferObjectManager());
 			final Body anchorBody = PhysicsFactory.createBoxBody(this.mPhysicsWorld, anchorFace, BodyType.StaticBody, objectFixtureDef);
 
-			final AnimatedSprite movingFace = new AnimatedSprite(anchorFaceX, anchorFaceY + 90, this.mCircleFaceTextureRegion);
+			final AnimatedSprite movingFace = new AnimatedSprite(anchorFaceX, anchorFaceY + 90, this.mCircleFaceTextureRegion, this.getVertexBufferObjectManager());
 			final Body movingBody = PhysicsFactory.createCircleBody(this.mPhysicsWorld, movingFace, BodyType.DynamicBody, objectFixtureDef);
 
 			anchorFace.animate(200);
 			anchorFace.animate(200);
 
-			final Line connectionLine = new Line(anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2, anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2);
+			final Line connectionLine = new Line(anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2, anchorFaceX + spriteWidth / 2, anchorFaceY + spriteHeight / 2, this.getVertexBufferObjectManager());
 
 			pScene.attachChild(connectionLine);
 			pScene.attachChild(anchorFace);

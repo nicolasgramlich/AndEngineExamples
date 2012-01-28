@@ -20,6 +20,7 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.render.RenderTexture;
 import org.andengine.opengl.util.GLState;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.modifier.ease.EaseQuadInOut;
 
@@ -126,12 +127,13 @@ public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSc
 				final int surfaceWidth = this.mCamera.getSurfaceWidth();
 				final int surfaceHeight = this.mCamera.getSurfaceHeight();
 
+				final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 				for(int i = 0; i <= 1; i++) {
 					this.mRenderTextures[i] = new RenderTexture(surfaceWidth, surfaceHeight);
 					this.mRenderTextures[i].init(pGLState);
 
 					final ITextureRegion renderTextureATextureRegion = TextureRegionFactory.extractFromTexture(this.mRenderTextures[i]);
-					this.mRenderTextureSprites[i] = new Sprite(0, 0, renderTextureATextureRegion);
+					this.mRenderTextureSprites[i] = new Sprite(0, 0, renderTextureATextureRegion, vertexBufferObjectManager);
 				}
 			}
 		};
@@ -187,7 +189,7 @@ public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSc
 	// ===========================================================
 	
 	private Rectangle makeColoredRectangle(final float pX, final float pY, final float pRed, final float pGreen, final float pBlue) {
-		final Rectangle coloredRect = new Rectangle(pX, pY, 180, 180);
+		final Rectangle coloredRect = new Rectangle(pX, pY, 180, 180, this.getVertexBufferObjectManager());
 		coloredRect.setColor(pRed, pGreen, pBlue);
 		return coloredRect;
 	}

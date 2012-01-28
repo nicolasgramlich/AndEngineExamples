@@ -80,9 +80,9 @@ public class PauseExample extends SimpleBaseGameActivity {
 
 		this.mPauseScene = new CameraScene(this.mCamera);
 		/* Make the 'PAUSED'-label centered on the camera. */
-		final int x = CAMERA_WIDTH / 2 - this.mPausedTextureRegion.getWidth() / 2;
-		final int y = CAMERA_HEIGHT / 2 - this.mPausedTextureRegion.getHeight() / 2;
-		final Sprite pausedSprite = new Sprite(x, y, this.mPausedTextureRegion);
+		final float centerX = (CAMERA_WIDTH - this.mPausedTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mPausedTextureRegion.getHeight()) / 2;
+		final Sprite pausedSprite = new Sprite(centerX, centerY, this.mPausedTextureRegion, this.getVertexBufferObjectManager());
 		this.mPauseScene.attachChild(pausedSprite);
 		/* Makes the paused Game look through. */
 		this.mPauseScene.setBackgroundEnabled(false);
@@ -91,7 +91,7 @@ public class PauseExample extends SimpleBaseGameActivity {
 		this.mMainScene = new Scene();
 		this.mMainScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
+		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		face.registerEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
 		this.mMainScene.attachChild(face);
 

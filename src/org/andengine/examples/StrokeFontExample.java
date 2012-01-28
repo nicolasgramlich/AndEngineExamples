@@ -15,6 +15,7 @@ import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.graphics.Color;
@@ -84,9 +85,10 @@ public class StrokeFontExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final Text textNormal = new Text(100, 100, this.mFont, "Just some normal Text.");
-		final Text textStroke = new Text(100, 200, this.mStrokeFont, "Text with fill and stroke.");
-		final Text textStrokeOnly = new Text(100, 300, this.mStrokeOnlyFont, "Text with stroke only.");
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
+		final Text textNormal = new Text(100, 100, this.mFont, "Just some normal Text.", vertexBufferObjectManager);
+		final Text textStroke = new Text(100, 200, this.mStrokeFont, "Text with fill and stroke.", vertexBufferObjectManager);
+		final Text textStrokeOnly = new Text(100, 300, this.mStrokeOnlyFont, "Text with stroke only.", vertexBufferObjectManager);
 
 		scene.attachChild(textNormal);
 		scene.attachChild(textStroke);

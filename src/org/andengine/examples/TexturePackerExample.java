@@ -76,11 +76,11 @@ public class TexturePackerExample extends SimpleBaseGameActivity {
 
 		TextureRegion faceTextureRegion = this.mSpritesheetTexturePackTextureRegionLibrary.get(TexturePackerExampleSpritesheet.FACE_BOX_ID);
 		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final int centerX = (CAMERA_WIDTH - faceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - faceTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) / 2;
 
 		/* Create the face and add it to the scene. */
-		Sprite entity = new Sprite(centerX, centerY, faceTextureRegion);
+		Sprite entity = new Sprite(centerX, centerY, faceTextureRegion, this.getVertexBufferObjectManager());
 		entity.setScale(20);
 		scene.attachChild(entity);
 

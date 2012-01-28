@@ -4,9 +4,6 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.andengine.entity.modifier.AlphaModifier;
-import org.andengine.entity.modifier.ColorModifier;
-import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.particle.SpriteParticleSystem;
 import org.andengine.entity.particle.emitter.CircleOutlineParticleEmitter;
 import org.andengine.entity.particle.initializer.AlphaInitializer;
@@ -14,6 +11,10 @@ import org.andengine.entity.particle.initializer.BlendFunctionInitializer;
 import org.andengine.entity.particle.initializer.ColorInitializer;
 import org.andengine.entity.particle.initializer.RotationInitializer;
 import org.andengine.entity.particle.initializer.VelocityInitializer;
+import org.andengine.entity.particle.modifier.AlphaParticleModifier;
+import org.andengine.entity.particle.modifier.ColorParticleModifier;
+import org.andengine.entity.particle.modifier.ExpireParticleModifier;
+import org.andengine.entity.particle.modifier.ScaleParticleModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.andengine.entity.sprite.Sprite;
@@ -89,7 +90,7 @@ public class ParticleSystemSimpleExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 
 		final CircleOutlineParticleEmitter particleEmitter = new CircleOutlineParticleEmitter(ParticleSystemSimpleExample.CAMERA_WIDTH * 0.5f, ParticleSystemSimpleExample.CAMERA_HEIGHT * 0.5f + 20, 80);
-		final SpriteParticleSystem particleSystem = new SpriteParticleSystem(particleEmitter, 60, 60, 360, this.mParticleTextureRegion);
+		final SpriteParticleSystem particleSystem = new SpriteParticleSystem(particleEmitter, 60, 60, 360, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
 
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
@@ -105,12 +106,12 @@ public class ParticleSystemSimpleExample extends SimpleBaseGameActivity {
 		particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(-2, 2, -20, -10));
 		particleSystem.addParticleInitializer(new RotationInitializer<Sprite>(0.0f, 360.0f));
 
-		particleSystem.addParticleModifier(new ScaleModifier<Sprite>(1.0f, 2.0f, 0, 5));
-		particleSystem.addParticleModifier(new ColorModifier<Sprite>(1, 1, 0, 0.5f, 0, 0, 0, 3));
-		particleSystem.addParticleModifier(new ColorModifier<Sprite>(1, 1, 0.5f, 1, 0, 1, 4, 6));
-		particleSystem.addParticleModifier(new AlphaModifier<Sprite>(0, 1, 0, 1));
-		particleSystem.addParticleModifier(new AlphaModifier<Sprite>(1, 0, 5, 6));
-		particleSystem.addParticleModifier(new ExpireModifier<Sprite>(6, 6));
+		particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 1.0f, 2.0f));
+		particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(0, 3, 1, 1, 0, 0.5f, 0, 0));
+		particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(4, 6, 1, 1, 0.5f, 1, 0, 1));
+		particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(0, 1, 0, 1));
+		particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(5, 6, 1, 0));
+		particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(6));
 
 		scene.attachChild(particleSystem);
 

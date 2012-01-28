@@ -61,8 +61,8 @@ package org.andengine.examples;
 //		//		scene.setBackgroundEnabled(false);
 //		scene.setBackground(new Background(0.0f, 0.0f, 0.0f, 0.0f));
 //
-//		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-//		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+//		final float centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+//		final float centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 //		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion);
 //		face.registerEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
 //		scene.attachChild(face);

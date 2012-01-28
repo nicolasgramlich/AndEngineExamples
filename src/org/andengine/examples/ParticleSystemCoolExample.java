@@ -5,9 +5,6 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.andengine.entity.modifier.AlphaModifier;
-import org.andengine.entity.modifier.ColorModifier;
-import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.particle.SpriteParticleSystem;
 import org.andengine.entity.particle.emitter.PointParticleEmitter;
 import org.andengine.entity.particle.initializer.AccelerationInitializer;
@@ -15,6 +12,10 @@ import org.andengine.entity.particle.initializer.BlendFunctionInitializer;
 import org.andengine.entity.particle.initializer.ColorInitializer;
 import org.andengine.entity.particle.initializer.RotationInitializer;
 import org.andengine.entity.particle.initializer.VelocityInitializer;
+import org.andengine.entity.particle.modifier.AlphaParticleModifier;
+import org.andengine.entity.particle.modifier.ColorParticleModifier;
+import org.andengine.entity.particle.modifier.ExpireParticleModifier;
+import org.andengine.entity.particle.modifier.ScaleParticleModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
@@ -88,38 +89,38 @@ public class ParticleSystemCoolExample extends SimpleBaseGameActivity {
 
 		/* Left to right Particle System. */
 		{
-			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(0, ParticleSystemCoolExample.CAMERA_HEIGHT), 6, 10, 200, this.mParticleTextureRegion);
+			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(0, ParticleSystemCoolExample.CAMERA_HEIGHT), 6, 10, 200, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
 			particleSystem.addParticleInitializer(new BlendFunctionInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
 			particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(15, 22, -60, -90));
 			particleSystem.addParticleInitializer(new AccelerationInitializer<Sprite>(5, 15));
 			particleSystem.addParticleInitializer(new RotationInitializer<Sprite>(0.0f, 360.0f));
 			particleSystem.addParticleInitializer(new ColorInitializer<Sprite>(1.0f, 0.0f, 0.0f));
 
-			particleSystem.addParticleModifier(new ScaleModifier<Sprite>(0.5f, 2.0f, 0, 5));
-			particleSystem.addParticleModifier(new ExpireModifier<Sprite>(11.5f));
-			particleSystem.addParticleModifier(new AlphaModifier<Sprite>(1.0f, 0.0f, 2.5f, 3.5f));
-			particleSystem.addParticleModifier(new AlphaModifier<Sprite>(0.0f, 1.0f, 3.5f, 4.5f));
-			particleSystem.addParticleModifier(new ColorModifier<Sprite>(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 11.5f));
-			particleSystem.addParticleModifier(new AlphaModifier<Sprite>(1.0f, 0.0f, 4.5f, 11.5f));
+			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 0.5f, 2.0f));
+			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(11.5f));
+			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(2.5f, 3.5f, 1.0f, 0.0f));
+			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(3.5f, 4.5f, 0.0f, 1.0f));
+			particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(0.0f, 11.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f));
+			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(4.5f, 11.5f, 1.0f, 0.0f));
 
 			scene.attachChild(particleSystem);
 		}
 
 		/* Right to left Particle System. */
 		{
-			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(ParticleSystemCoolExample.CAMERA_WIDTH - 32, ParticleSystemCoolExample.CAMERA_HEIGHT), 8, 12, 200, this.mParticleTextureRegion);
+			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(ParticleSystemCoolExample.CAMERA_WIDTH - 32, ParticleSystemCoolExample.CAMERA_HEIGHT), 8, 12, 200, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
 			particleSystem.addParticleInitializer(new BlendFunctionInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
 			particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(-15, -22, -60, -90));
 			particleSystem.addParticleInitializer(new AccelerationInitializer<Sprite>(-5, 15));
 			particleSystem.addParticleInitializer(new RotationInitializer<Sprite>(0.0f, 360.0f));
 			particleSystem.addParticleInitializer(new ColorInitializer<Sprite>(0.0f, 0.0f, 1.0f));
 
-			particleSystem.addParticleModifier(new ScaleModifier<Sprite>(0.5f, 2.0f, 0, 5));
-			particleSystem.addParticleModifier(new ExpireModifier<Sprite>(11.5f));
-			particleSystem.addParticleModifier(new AlphaModifier<Sprite>(1.0f, 0.0f, 2.5f, 3.5f));
-			particleSystem.addParticleModifier(new AlphaModifier<Sprite>(0.0f, 1.0f, 3.5f, 4.5f));
-			particleSystem.addParticleModifier(new ColorModifier<Sprite>(0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 11.5f));
-			particleSystem.addParticleModifier(new AlphaModifier<Sprite>(1.0f, 0.0f, 4.5f, 11.5f));
+			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 0.5f, 2.0f));
+			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(11.5f));
+			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(2.5f, 3.5f, 1.0f, 0.0f));
+			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(3.5f, 4.5f, 0.0f, 1.0f));
+			particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(0.0f, 11.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f));
+			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(4.5f, 11.5f, 1.0f, 0.0f));
 
 			scene.attachChild(particleSystem);
 		}

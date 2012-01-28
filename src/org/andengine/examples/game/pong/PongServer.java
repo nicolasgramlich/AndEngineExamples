@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.andengine.engine.handler.IUpdateHandler;
-import org.andengine.entity.primitive.Line;
-import org.andengine.entity.primitive.Rectangle;
 import org.andengine.examples.adt.messages.MessageConstants;
 import org.andengine.examples.adt.messages.client.ClientMessageFlags;
 import org.andengine.examples.adt.messages.client.ConnectionCloseClientMessage;
@@ -99,15 +97,15 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 		this.mPhysicsWorld.setContactListener(this);
 
 		/* Ball */
-		this.mBallBody = PhysicsFactory.createCircleBody(this.mPhysicsWorld, new Rectangle(-BALL_WIDTH_HALF, -BALL_HEIGHT_HALF, BALL_WIDTH, BALL_HEIGHT), BodyType.DynamicBody, BALL_FIXTUREDEF);
+		this.mBallBody = PhysicsFactory.createCircleBody(this.mPhysicsWorld, 0, 0, BALL_RADIUS, BodyType.DynamicBody, BALL_FIXTUREDEF);
 		this.mBallBody.setBullet(true);
 
 		/* Paddles */
-		final Body paddleBodyLeft = PhysicsFactory.createBoxBody(this.mPhysicsWorld, new Rectangle(-GAME_WIDTH_HALF, -PADDLE_HEIGHT_HALF, PADDLE_WIDTH, PADDLE_HEIGHT), BodyType.KinematicBody, PADDLE_FIXTUREDEF);
+		final Body paddleBodyLeft = PhysicsFactory.createBoxBody(this.mPhysicsWorld, -GAME_WIDTH_HALF, 0, PADDLE_WIDTH, PADDLE_HEIGHT, BodyType.KinematicBody, PADDLE_FIXTUREDEF);
 		paddleBodyLeft.setUserData(PADDLE_LEFT);
 		this.mPaddleBodies.put(PADDLE_LEFT.getOwnerID(), paddleBodyLeft);
 
-		final Body paddleBodyRight = PhysicsFactory.createBoxBody(this.mPhysicsWorld, new Rectangle(GAME_WIDTH_HALF - PADDLE_WIDTH, -PADDLE_HEIGHT_HALF, PADDLE_WIDTH, PADDLE_HEIGHT), BodyType.KinematicBody, PADDLE_FIXTUREDEF);
+		final Body paddleBodyRight = PhysicsFactory.createBoxBody(this.mPhysicsWorld, GAME_WIDTH_HALF - PADDLE_WIDTH_HALF, 0, PADDLE_WIDTH, PADDLE_HEIGHT, BodyType.KinematicBody, PADDLE_FIXTUREDEF);
 		paddleBodyRight.setUserData(PADDLE_RIGHT);
 		this.mPaddleBodies.put(PADDLE_RIGHT.getOwnerID(), paddleBodyRight);
 
@@ -124,25 +122,19 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 	}
 
 	private void initWalls() {
-		final Line left = new Line(-GAME_WIDTH_HALF, -GAME_HEIGHT_HALF, -GAME_WIDTH_HALF, GAME_HEIGHT_HALF);
-		final Line right = new Line(GAME_WIDTH_HALF, -GAME_HEIGHT_HALF, GAME_WIDTH_HALF, GAME_HEIGHT_HALF);
-
 		WALL_FIXTUREDEF.isSensor = true;
 
-		final Body leftBody = PhysicsFactory.createLineBody(this.mPhysicsWorld, left, WALL_FIXTUREDEF);
+		final Body leftBody = PhysicsFactory.createLineBody(this.mPhysicsWorld, -GAME_WIDTH_HALF, -GAME_HEIGHT_HALF, -GAME_WIDTH_HALF, GAME_HEIGHT_HALF, WALL_FIXTUREDEF);
 		leftBody.setUserData(this.mPaddleBodies.get(PADDLE_LEFT.getOwnerID()));
 
-		final Body rightBody = PhysicsFactory.createLineBody(this.mPhysicsWorld, right, WALL_FIXTUREDEF);
+		final Body rightBody = PhysicsFactory.createLineBody(this.mPhysicsWorld, GAME_WIDTH_HALF, -GAME_HEIGHT_HALF, GAME_WIDTH_HALF, GAME_HEIGHT_HALF, WALL_FIXTUREDEF);
 		rightBody.setUserData(this.mPaddleBodies.get(PADDLE_RIGHT.getOwnerID()));
 
 
 		WALL_FIXTUREDEF.isSensor = false;
 
-		final Line top = new Line(-GAME_WIDTH_HALF, -GAME_HEIGHT_HALF, GAME_WIDTH_HALF, -GAME_HEIGHT_HALF);
-		final Line bottom = new Line(-GAME_WIDTH_HALF, GAME_HEIGHT_HALF, GAME_WIDTH_HALF, GAME_HEIGHT_HALF);
-
-		PhysicsFactory.createLineBody(this.mPhysicsWorld, top, WALL_FIXTUREDEF);
-		PhysicsFactory.createLineBody(this.mPhysicsWorld, bottom, WALL_FIXTUREDEF);
+		PhysicsFactory.createLineBody(this.mPhysicsWorld, -GAME_WIDTH_HALF, -GAME_HEIGHT_HALF, GAME_WIDTH_HALF, -GAME_HEIGHT_HALF, WALL_FIXTUREDEF);
+		PhysicsFactory.createLineBody(this.mPhysicsWorld, -GAME_WIDTH_HALF, GAME_HEIGHT_HALF, GAME_WIDTH_HALF, GAME_HEIGHT_HALF, WALL_FIXTUREDEF);
 	}
 
 	// ===========================================================
@@ -221,8 +213,8 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 
 		/* Prepare UpdateBallServerMessage. */
 		final Vector2 ballPosition = this.mBallBody.getPosition();
-		final float ballX = ballPosition.x * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - BALL_WIDTH_HALF;
-		final float ballY = ballPosition.y * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - BALL_HEIGHT_HALF;
+		final float ballX = ballPosition.x * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - BALL_RADIUS;
+		final float ballY = ballPosition.y * PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT - BALL_RADIUS;
 
 		final UpdateBallServerMessage updateBallServerMessage = (UpdateBallServerMessage)this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_UPDATE_BALL);
 		updateBallServerMessage.set(ballX, ballY);

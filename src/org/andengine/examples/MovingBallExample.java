@@ -13,6 +13,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 /**
@@ -74,9 +75,9 @@ public class MovingBallExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final int centerX = (MovingBallExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (MovingBallExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
-		final Ball ball = new Ball(centerX, centerY, this.mFaceTextureRegion);
+		final float centerX = (MovingBallExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final float centerY = (MovingBallExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final Ball ball = new Ball(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 
 		scene.attachChild(ball);
 
@@ -94,8 +95,8 @@ public class MovingBallExample extends SimpleBaseGameActivity {
 	private static class Ball extends AnimatedSprite {
 		private final PhysicsHandler mPhysicsHandler;
 
-		public Ball(final float pX, final float pY, final TiledTextureRegion pTextureRegion) {
-			super(pX, pY, pTextureRegion);
+		public Ball(final float pX, final float pY, final TiledTextureRegion pTextureRegion, final VertexBufferObjectManager pVertexBufferObjectManager) {
+			super(pX, pY, pTextureRegion, pVertexBufferObjectManager);
 			this.mPhysicsHandler = new PhysicsHandler(this);
 			this.registerUpdateHandler(this.mPhysicsHandler);
 			this.mPhysicsHandler.setVelocity(MovingBallExample.DEMO_VELOCITY, MovingBallExample.DEMO_VELOCITY);

@@ -96,10 +96,10 @@ public class MusicExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final int x = (CAMERA_WIDTH - this.mNotesTextureRegion.getWidth()) / 2;
-		final int y = (CAMERA_HEIGHT - this.mNotesTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mNotesTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mNotesTextureRegion.getHeight()) / 2;
 
-		final Sprite notes = new Sprite(x, y, this.mNotesTextureRegion);
+		final Sprite notes = new Sprite(centerX, centerY, this.mNotesTextureRegion, this.getVertexBufferObjectManager());
 		scene.attachChild(notes);
 
 		scene.registerTouchArea(notes);

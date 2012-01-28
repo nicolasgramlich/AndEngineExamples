@@ -2,6 +2,7 @@ package org.andengine.examples.game.snake.entity;
 
 import org.andengine.examples.game.snake.adt.Direction;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -23,8 +24,9 @@ public class SnakeHead extends AnimatedCellEntity {
 	// Constructors
 	// ===========================================================
 
-	public SnakeHead(final int pCellX, final int pCellY, final TiledTextureRegion pTiledTextureRegion) {
-		super(pCellX, pCellY, CELL_WIDTH, 2 * CELL_HEIGHT, pTiledTextureRegion);
+	public SnakeHead(final int pCellX, final int pCellY, final TiledTextureRegion pTiledTextureRegion, final VertexBufferObjectManager pVertexBufferObjectManager) {
+		super(pCellX, pCellY, CELL_WIDTH, 2 * CELL_HEIGHT, pTiledTextureRegion, pVertexBufferObjectManager);
+
 		this.setRotationCenterY(CELL_HEIGHT / 2);
 	}
 

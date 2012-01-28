@@ -3,6 +3,7 @@ package org.andengine.examples.game.snake.entity;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.examples.game.snake.util.constants.SnakeConstants;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -27,8 +28,8 @@ public abstract class AnimatedCellEntity extends AnimatedSprite implements Snake
 	// Constructors
 	// ===========================================================
 
-	public AnimatedCellEntity(final int pCellX, final int pCellY, final int pWidth, final int pHeight, final TiledTextureRegion pTiledTextureRegion) {
-		super(pCellX * CELL_WIDTH, pCellY * CELL_HEIGHT, pWidth, pHeight, pTiledTextureRegion);
+	public AnimatedCellEntity(final int pCellX, final int pCellY, final int pWidth, final int pHeight, final TiledTextureRegion pTiledTextureRegion, final VertexBufferObjectManager pVertexBufferObjectManager) {
+		super(pCellX * CELL_WIDTH, pCellY * CELL_HEIGHT, pWidth, pHeight, pTiledTextureRegion, pVertexBufferObjectManager);
 		this.mCellX = pCellX;
 		this.mCellY = pCellY;
 	}

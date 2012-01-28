@@ -15,6 +15,7 @@ import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.graphics.Color;
@@ -90,11 +91,12 @@ public class CustomFontExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		scene.attachChild(new Text(230, 30, this.mDroidFont, "Droid Font"));
-		scene.attachChild(new Text(160, 120, this.mKingdomOfHeartsFont, "Kingdom Of Hearts Font"));
-		scene.attachChild(new Text(110, 210, this.mNeverwinterNightsFont, "Neverwinter Nights Font"));
-		scene.attachChild(new Text(140, 300, this.mPlokFont, "Plok Font"));
-		scene.attachChild(new Text(25, 390, this.mUnrealTournamenFont, "Unreal Tournament Font"));
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
+		scene.attachChild(new Text(230, 30, this.mDroidFont, "Droid Font", vertexBufferObjectManager));
+		scene.attachChild(new Text(160, 120, this.mKingdomOfHeartsFont, "Kingdom Of Hearts Font", vertexBufferObjectManager));
+		scene.attachChild(new Text(110, 210, this.mNeverwinterNightsFont, "Neverwinter Nights Font", vertexBufferObjectManager));
+		scene.attachChild(new Text(140, 300, this.mPlokFont, "Plok Font", vertexBufferObjectManager));
+		scene.attachChild(new Text(25, 390, this.mUnrealTournamenFont, "Unreal Tournament Font", vertexBufferObjectManager));
 
 		return scene;
 	}

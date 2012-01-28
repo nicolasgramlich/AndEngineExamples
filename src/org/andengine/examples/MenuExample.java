@@ -100,7 +100,7 @@ public class MenuExample extends SimpleBaseGameActivity implements IOnMenuItemCl
 		this.mMainScene = new Scene();
 		this.mMainScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion);
+		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		face.registerEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
 		this.mMainScene.attachChild(face);
 
@@ -150,11 +150,11 @@ public class MenuExample extends SimpleBaseGameActivity implements IOnMenuItemCl
 	protected void createMenuScene() {
 		this.mMenuScene = new MenuScene(this.mCamera);
 
-		final SpriteMenuItem resetMenuItem = new SpriteMenuItem(MENU_RESET, this.mMenuResetTextureRegion);
+		final SpriteMenuItem resetMenuItem = new SpriteMenuItem(MENU_RESET, this.mMenuResetTextureRegion, this.getVertexBufferObjectManager());
 		resetMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mMenuScene.addMenuItem(resetMenuItem);
 
-		final SpriteMenuItem quitMenuItem = new SpriteMenuItem(MENU_QUIT, this.mMenuQuitTextureRegion);
+		final SpriteMenuItem quitMenuItem = new SpriteMenuItem(MENU_QUIT, this.mMenuQuitTextureRegion, this.getVertexBufferObjectManager());
 		quitMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mMenuScene.addMenuItem(quitMenuItem);
 

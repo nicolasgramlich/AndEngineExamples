@@ -18,6 +18,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObject.DrawType;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.opengl.vbo.attribute.VertexBufferObjectAttributes;
 import org.andengine.opengl.vbo.attribute.VertexBufferObjectAttributesBuilder;
 
@@ -107,8 +108,9 @@ public class SpriteBenchmark extends BaseBenchmark {
 	// ===========================================================
 
 	private void drawUsingSprites(final Scene pScene) {
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 		for(int i = 0; i < SpriteBenchmark.SPRITE_COUNT; i++) {
-			final Sprite face = new Sprite(this.mRandom.nextFloat() * (SpriteBenchmark.CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (SpriteBenchmark.CAMERA_HEIGHT - 32), this.mFaceTextureRegion);
+			final Sprite face = new Sprite(this.mRandom.nextFloat() * (SpriteBenchmark.CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (SpriteBenchmark.CAMERA_HEIGHT - 32), this.mFaceTextureRegion, vertexBufferObjectManager);
 			face.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 			face.setIgnoreUpdate(true);
 			pScene.attachChild(face);
@@ -117,7 +119,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 	private void drawUsingSpritesWithSharedVertexBuffer(final Scene pScene) {
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
-		final ISpriteVertexBufferObject sharedVertexBuffer = new Sprite.LowMemorySpriteVertexBufferObject(Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
+		final ISpriteVertexBufferObject sharedVertexBuffer = new Sprite.LowMemorySpriteVertexBufferObject(this.getVertexBufferObjectManager(), Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
 
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
@@ -128,10 +130,10 @@ public class SpriteBenchmark extends BaseBenchmark {
 	}
 
 	private void drawUsingSpriteBatch(final Scene pScene) {
-		final int width = this.mFaceTextureRegion.getWidth();
-		final int height = this.mFaceTextureRegion.getHeight();
+		final float width = this.mFaceTextureRegion.getWidth();
+		final float height = this.mFaceTextureRegion.getHeight();
 
-		final SpriteBatchWithoutColor spriteBatch = new SpriteBatchWithoutColor(this.mBitmapTextureAtlas, SpriteBenchmark.SPRITE_COUNT, DrawType.STATIC);
+		final SpriteBatchWithoutColor spriteBatch = new SpriteBatchWithoutColor(this.getVertexBufferObjectManager(), this.mBitmapTextureAtlas, SpriteBenchmark.SPRITE_COUNT, DrawType.STATIC);
 
 		spriteBatch.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		for(int i = 0; i < SpriteBenchmark.SPRITE_COUNT; i++) {
@@ -177,8 +179,8 @@ public class SpriteBenchmark extends BaseBenchmark {
 		// Constructors
 		// ===========================================================
 
-		private SpriteBatchWithoutColor(final ITexture pTexture, final int pCapacity, DrawType pDrawType) {
-			super(pTexture, pCapacity, new SpriteBatchVertexBufferObjectWithoutColor(pCapacity, pDrawType, true, SpriteBatchWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR), PositionTextureCoordinatesShaderProgram.getInstance());
+		private SpriteBatchWithoutColor(final VertexBufferObjectManager pVertexBufferObjectManager, final ITexture pTexture, final int pCapacity, DrawType pDrawType) {
+			super(pTexture, pCapacity, new SpriteBatchVertexBufferObjectWithoutColor(pVertexBufferObjectManager, pCapacity, pDrawType, true, SpriteBatchWithoutColor.VERTEXBUFFEROBJECTATTRIBUTES_WITHOUT_COLOR), PositionTextureCoordinatesShaderProgram.getInstance());
 
 			this.mSpriteBatchVertexBufferObjectWithoutColor = (SpriteBatchVertexBufferObjectWithoutColor) this.mSpriteBatchVertexBufferObject;
 		}
@@ -191,7 +193,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 		// Methods for/from SuperClass/Interfaces
 		// ===========================================================
 
-		public void draw(final ITextureRegion pTextureRegion, final float pX, final float pY, final int pWidth, final int pHeight) {
+		public void draw(final ITextureRegion pTextureRegion, final float pX, final float pY, final float pWidth, final float pHeight) {
 			this.mSpriteBatchVertexBufferObjectWithoutColor.addWithoutColor(pTextureRegion, pX, pY, pWidth, pHeight);
 			this.mIndex++;
 		}
@@ -218,8 +220,8 @@ public class SpriteBenchmark extends BaseBenchmark {
 		// Constructors
 		// ===========================================================
 
-		public SpriteBatchVertexBufferObjectWithoutColor(final int pCapacity, final DrawType pDrawType, final boolean pManaged, final VertexBufferObjectAttributes pVertexBufferObjectAttributes) {
-			super(pCapacity * SpriteBatchWithoutColor.SPRITE_SIZE, pDrawType, pManaged, pVertexBufferObjectAttributes);
+		public SpriteBatchVertexBufferObjectWithoutColor(final VertexBufferObjectManager pVertexBufferObjectManager, final int pCapacity, final DrawType pDrawType, final boolean pManaged, final VertexBufferObjectAttributes pVertexBufferObjectAttributes) {
+			super(pVertexBufferObjectManager, pCapacity * SpriteBatchWithoutColor.SPRITE_SIZE, pDrawType, pManaged, pVertexBufferObjectAttributes);
 		}
 
 		// ===========================================================

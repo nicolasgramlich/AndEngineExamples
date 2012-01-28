@@ -91,6 +91,7 @@
 		<activity android:name=".SubMenuExample" android:configChanges="orientation"/>
 		<activity android:name=".SVGTextureRegionExample" android:configChanges="orientation"/>
 		<activity android:name=".TextExample" android:configChanges="orientation"/>
+		<activity android:name=".TextBreakExample" android:configChanges="orientation"/>
 		<activity android:name=".TextMenuExample" android:configChanges="orientation"/>
 		<activity android:name=".TextureOptionsExample" android:configChanges="orientation"/>
 		<activity android:name=".TexturePackerExample" android:configChanges="orientation"/>

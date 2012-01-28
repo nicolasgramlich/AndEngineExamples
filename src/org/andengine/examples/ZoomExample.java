@@ -14,6 +14,7 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.widget.Toast;
@@ -79,13 +80,14 @@ public class ZoomExample extends SimpleBaseGameActivity {
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		/* Calculate the coordinates for the screen-center. */
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
 		/* Create some faces and add them to the scene. */
-		scene.attachChild(new Sprite(centerX - 25, centerY - 25, this.mFaceTextureRegion));
-		scene.attachChild(new Sprite(centerX  + 25, centerY - 25, this.mFaceTextureRegion));
-		scene.attachChild(new Sprite(centerX, centerY + 25, this.mFaceTextureRegion));
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
+		scene.attachChild(new Sprite(centerX - 25, centerY - 25, this.mFaceTextureRegion, vertexBufferObjectManager));
+		scene.attachChild(new Sprite(centerX  + 25, centerY - 25, this.mFaceTextureRegion, vertexBufferObjectManager));
+		scene.attachChild(new Sprite(centerX, centerY + 25, this.mFaceTextureRegion, vertexBufferObjectManager));
 
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override

@@ -76,7 +76,7 @@ public class TextureOptionsExample extends SimpleBaseGameActivity {
 		this.mFaceTextureRegionRepeating = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlasRepeating, this, "face_box.png", 0, 0);
 		/* The following statement causes the BitmapTextureAtlas to be printed horizontally 10x on any Sprite that uses it.
 		 * So we will later increase the width of such a sprite by the same factor to avoid distortion. */
-		this.mFaceTextureRegionRepeating.setWidth(10 * this.mFaceTextureRegionRepeating.getWidth());
+		this.mFaceTextureRegionRepeating.setTextureWidth(10 * this.mFaceTextureRegionRepeating.getWidth());
 		this.mBitmapTextureAtlasRepeating.load(this.getTextureManager());
 	}
 
@@ -87,18 +87,18 @@ public class TextureOptionsExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-		final int centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final int centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
+		final float centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
-		final Sprite face = new Sprite(centerX - 160, centerY - 40, this.mFaceTextureRegion);
+		final Sprite face = new Sprite(centerX - 160, centerY - 40, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		face.setScale(4);
 
-		final Sprite faceBilinear = new Sprite(centerX + 160, centerY - 40, this.mFaceTextureRegionBilinear);
+		final Sprite faceBilinear = new Sprite(centerX + 160, centerY - 40, this.mFaceTextureRegionBilinear, this.getVertexBufferObjectManager());
 		faceBilinear.setScale(4);
 
 		/* Make sure sprite has the same size as mTextureRegionRepeating.
 		 * Giving the sprite twice the height shows you'd also have to change the height of the TextureRegion! */
-		final Sprite faceRepeating = new Sprite(centerX - 160, centerY + 100, this.mFaceTextureRegionRepeating.getWidth(), this.mFaceTextureRegionRepeating.getHeight() * 2, this.mFaceTextureRegionRepeating);
+		final Sprite faceRepeating = new Sprite(centerX - 160, centerY + 100, this.mFaceTextureRegionRepeating.getWidth(), this.mFaceTextureRegionRepeating.getHeight() * 2, this.mFaceTextureRegionRepeating, this.getVertexBufferObjectManager());
 
 		scene.attachChild(face);
 		scene.attachChild(faceBilinear);

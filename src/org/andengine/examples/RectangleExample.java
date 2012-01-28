@@ -119,7 +119,7 @@ public class RectangleExample extends SimpleBaseGameActivity {
 	}
 
 	private Rectangle makeColoredRectangle(final float pX, final float pY, final float pRed, final float pGreen, final float pBlue) {
-		final Rectangle coloredRect = new Rectangle(pX, pY, 180, 180);
+		final Rectangle coloredRect = new Rectangle(pX, pY, 180, 180, this.getVertexBufferObjectManager());
 		coloredRect.setColor(pRed, pGreen, pBlue);
 		return coloredRect;
 	}
