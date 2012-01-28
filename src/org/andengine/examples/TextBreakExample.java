@@ -101,7 +101,7 @@ public class TextBreakExample extends SimpleLayoutGameActivity implements TextWa
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
-		this.mText = new Text(50, 40, this.mFont, "", new TextOptions(true, AUTOWRAP_WIDTH, Text.LEADING_DEFAULT, HorizontalAlign.LEFT), vertexBufferObjectManager);
+		this.mText = new Text(50, 40, this.mFont, "", 1000, new TextOptions(true, AUTOWRAP_WIDTH, Text.LEADING_DEFAULT, HorizontalAlign.CENTER), vertexBufferObjectManager);
 		scene.attachChild(this.mText);
 
 		this.mLeft = new Line(0, 0, 0, TextBreakExample.CAMERA_HEIGHT, this.getVertexBufferObjectManager());
@@ -110,10 +110,14 @@ public class TextBreakExample extends SimpleLayoutGameActivity implements TextWa
 		this.mText.attachChild(this.mLeft);
 		this.mText.attachChild(this.mRight);
 
-		final Line breakLine = new Line(AUTOWRAP_WIDTH, 0, AUTOWRAP_WIDTH, TextBreakExample.CAMERA_HEIGHT, this.getVertexBufferObjectManager());
-		breakLine.setLineWidth(2);
-		breakLine.setColor(Color.RED);
-		this.mText.attachChild(breakLine);
+		final Line leftBreakLine = new Line(0, 0, 0, TextBreakExample.CAMERA_HEIGHT, this.getVertexBufferObjectManager());
+		leftBreakLine.setLineWidth(2);
+		leftBreakLine.setColor(Color.RED);
+		this.mText.attachChild(leftBreakLine);
+		final Line rightBreakLine = new Line(AUTOWRAP_WIDTH, 0, AUTOWRAP_WIDTH, TextBreakExample.CAMERA_HEIGHT, this.getVertexBufferObjectManager());
+		rightBreakLine.setLineWidth(2);
+		rightBreakLine.setColor(Color.RED);
+		this.mText.attachChild(rightBreakLine);
 
 		this.updateText();
 
@@ -129,8 +133,11 @@ public class TextBreakExample extends SimpleLayoutGameActivity implements TextWa
 		final String string = this.mEditText.getText().toString();
 		this.mText.setText(string);
 		
-		final float width = this.mText.getMaximumLineWidth();
-		this.mRight.setPosition(width, 0, width, TextBreakExample.CAMERA_HEIGHT);
+		final float left = (this.mText.getWidth() * 0.5f) - (this.mText.getLineWidthMaximum() * 0.5f);
+		this.mLeft.setPosition(left, 0, left, TextBreakExample.CAMERA_HEIGHT);
+
+		final float right = (this.mText.getWidth() * 0.5f) + (this.mText.getLineWidthMaximum() * 0.5f);
+		this.mRight.setPosition(right, 0, right, TextBreakExample.CAMERA_HEIGHT);
 	}
 
 	@Override
