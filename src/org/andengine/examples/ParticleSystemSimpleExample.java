@@ -6,11 +6,11 @@ import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.particle.SpriteParticleSystem;
 import org.andengine.entity.particle.emitter.CircleOutlineParticleEmitter;
-import org.andengine.entity.particle.initializer.AlphaInitializer;
-import org.andengine.entity.particle.initializer.BlendFunctionInitializer;
-import org.andengine.entity.particle.initializer.ColorInitializer;
-import org.andengine.entity.particle.initializer.RotationInitializer;
-import org.andengine.entity.particle.initializer.VelocityInitializer;
+import org.andengine.entity.particle.initializer.AlphaParticleInitializer;
+import org.andengine.entity.particle.initializer.BlendFunctionParticleInitializer;
+import org.andengine.entity.particle.initializer.ColorParticleInitializer;
+import org.andengine.entity.particle.initializer.RotationParticleInitializer;
+import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
 import org.andengine.entity.particle.modifier.AlphaParticleModifier;
 import org.andengine.entity.particle.modifier.ColorParticleModifier;
 import org.andengine.entity.particle.modifier.ExpireParticleModifier;
@@ -100,11 +100,11 @@ public class ParticleSystemSimpleExample extends SimpleBaseGameActivity {
 			}
 		});
 
-		particleSystem.addParticleInitializer(new ColorInitializer<Sprite>(1, 0, 0));
-		particleSystem.addParticleInitializer(new AlphaInitializer<Sprite>(0));
-		particleSystem.addParticleInitializer(new BlendFunctionInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
-		particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(-2, 2, -20, -10));
-		particleSystem.addParticleInitializer(new RotationInitializer<Sprite>(0.0f, 360.0f));
+		particleSystem.addParticleInitializer(new ColorParticleInitializer<Sprite>(1, 0, 0));
+		particleSystem.addParticleInitializer(new AlphaParticleInitializer<Sprite>(0));
+		particleSystem.addParticleInitializer(new BlendFunctionParticleInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
+		particleSystem.addParticleInitializer(new VelocityParticleInitializer<Sprite>(-2, 2, -20, -10));
+		particleSystem.addParticleInitializer(new RotationParticleInitializer<Sprite>(0.0f, 360.0f));
 
 		particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 1.0f, 2.0f));
 		particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(0, 3, 1, 1, 0, 0.5f, 0, 0));

@@ -7,11 +7,11 @@ import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.particle.SpriteParticleSystem;
 import org.andengine.entity.particle.emitter.PointParticleEmitter;
-import org.andengine.entity.particle.initializer.AccelerationInitializer;
-import org.andengine.entity.particle.initializer.BlendFunctionInitializer;
-import org.andengine.entity.particle.initializer.ColorInitializer;
-import org.andengine.entity.particle.initializer.RotationInitializer;
-import org.andengine.entity.particle.initializer.VelocityInitializer;
+import org.andengine.entity.particle.initializer.AccelerationParticleInitializer;
+import org.andengine.entity.particle.initializer.BlendFunctionParticleInitializer;
+import org.andengine.entity.particle.initializer.ColorParticleInitializer;
+import org.andengine.entity.particle.initializer.RotationParticleInitializer;
+import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
 import org.andengine.entity.particle.modifier.AlphaParticleModifier;
 import org.andengine.entity.particle.modifier.ColorParticleModifier;
 import org.andengine.entity.particle.modifier.ExpireParticleModifier;
@@ -90,11 +90,11 @@ public class ParticleSystemCoolExample extends SimpleBaseGameActivity {
 		/* Left to right Particle System. */
 		{
 			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(0, ParticleSystemCoolExample.CAMERA_HEIGHT), 6, 10, 200, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
-			particleSystem.addParticleInitializer(new BlendFunctionInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
-			particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(15, 22, -60, -90));
-			particleSystem.addParticleInitializer(new AccelerationInitializer<Sprite>(5, 15));
-			particleSystem.addParticleInitializer(new RotationInitializer<Sprite>(0.0f, 360.0f));
-			particleSystem.addParticleInitializer(new ColorInitializer<Sprite>(1.0f, 0.0f, 0.0f));
+			particleSystem.addParticleInitializer(new BlendFunctionParticleInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
+			particleSystem.addParticleInitializer(new VelocityParticleInitializer<Sprite>(15, 22, -60, -90));
+			particleSystem.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(5, 15));
+			particleSystem.addParticleInitializer(new RotationParticleInitializer<Sprite>(0.0f, 360.0f));
+			particleSystem.addParticleInitializer(new ColorParticleInitializer<Sprite>(1.0f, 0.0f, 0.0f));
 
 			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 0.5f, 2.0f));
 			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(11.5f));
@@ -109,11 +109,11 @@ public class ParticleSystemCoolExample extends SimpleBaseGameActivity {
 		/* Right to left Particle System. */
 		{
 			final SpriteParticleSystem particleSystem = new SpriteParticleSystem(new PointParticleEmitter(ParticleSystemCoolExample.CAMERA_WIDTH - 32, ParticleSystemCoolExample.CAMERA_HEIGHT), 8, 12, 200, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
-			particleSystem.addParticleInitializer(new BlendFunctionInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
-			particleSystem.addParticleInitializer(new VelocityInitializer<Sprite>(-15, -22, -60, -90));
-			particleSystem.addParticleInitializer(new AccelerationInitializer<Sprite>(-5, 15));
-			particleSystem.addParticleInitializer(new RotationInitializer<Sprite>(0.0f, 360.0f));
-			particleSystem.addParticleInitializer(new ColorInitializer<Sprite>(0.0f, 0.0f, 1.0f));
+			particleSystem.addParticleInitializer(new BlendFunctionParticleInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
+			particleSystem.addParticleInitializer(new VelocityParticleInitializer<Sprite>(-15, -22, -60, -90));
+			particleSystem.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 15));
+			particleSystem.addParticleInitializer(new RotationParticleInitializer<Sprite>(0.0f, 360.0f));
+			particleSystem.addParticleInitializer(new ColorParticleInitializer<Sprite>(0.0f, 0.0f, 1.0f));
 
 			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 0.5f, 2.0f));
 			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(11.5f));
