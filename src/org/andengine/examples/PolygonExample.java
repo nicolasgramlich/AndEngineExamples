@@ -71,6 +71,10 @@ public class PolygonExample extends SimpleBaseGameActivity {
 		
 		final float[] vertexX3 = { 0.0f,   0.0f, 200.0f, 200.0f  };
 		final float[] vertexY3 = { 0.0f, 100.0f, 100.0f, 0.0f };
+		
+		// This polygon can't be triangulated with the current algorithm and will trigger a null pointer exception
+		final float[] vertexX4 = { 0.0f,  50.0f, 100.0f, 100.0f,   0.0f };
+		final float[] vertexY4 = { 0.0f, 150.0f,   0.0f, 100.0f, 100.0f };
 
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 
@@ -80,11 +84,14 @@ public class PolygonExample extends SimpleBaseGameActivity {
 		polygon2.setColor(Color.GREEN);
 		final Polygon polygon3 = new Polygon(20, 350, vertexX3, vertexY3, vertexBufferObjectManager);
 		polygon3.setColor(Color.PINK);
+		final Polygon polygon4 = new Polygon(20, 350, vertexX4, vertexY4, vertexBufferObjectManager);
+		polygon4.setColor(Color.CYAN);
 		final Rectangle rectangle = new Rectangle(300, 300, 200, 100, vertexBufferObjectManager);
 
 		scene.attachChild(polygon1);
 		scene.attachChild(polygon2);
 		scene.attachChild(polygon3);
+		//scene.attachChild(polygon4);
 		scene.attachChild(rectangle);
 
 		return scene;
