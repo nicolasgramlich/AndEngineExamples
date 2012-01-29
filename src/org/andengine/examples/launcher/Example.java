@@ -7,6 +7,7 @@ import org.andengine.examples.AutoParallaxBackgroundExample;
 import org.andengine.examples.BitmapFontExample;
 import org.andengine.examples.BoundCameraExample;
 import org.andengine.examples.CanvasTextureCompositingExample;
+import org.andengine.examples.PolygonExample;
 import org.andengine.examples.TextExample;
 import org.andengine.examples.CollisionDetectionExample;
 import org.andengine.examples.ColorKeyTextureSourceDecoratorExample;
@@ -116,6 +117,7 @@ enum Example {
 	ETC1TEXTURE(ETC1TextureExample.class, R.string.example_etc1texture),
 	IMAGEFORMATS(ImageFormatsExample.class, R.string.example_imageformats),
 	LEVELLOADER(LevelLoaderExample.class, R.string.example_levelloader),
+	POLYGON(PolygonExample.class, R.string.example_polygon),
 	LINE(LineExample.class, R.string.example_line),
 	LOADTEXTURE(LoadTextureExample.class, R.string.example_loadtexture),
 	MENU(MenuExample.class, R.string.example_menu),
