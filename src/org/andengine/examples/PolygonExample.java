@@ -5,6 +5,7 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.primitive.Polygon;
+import org.andengine.entity.primitive.PolyLine;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
@@ -80,18 +81,27 @@ public class PolygonExample extends SimpleBaseGameActivity {
 
 		final Polygon polygon1 = new Polygon(100, 100, vertexX1, vertexY1, vertexBufferObjectManager);
 		polygon1.setColor(Color.RED);
+		
 		final Polygon polygon2 = new Polygon(400, 500, vertexX2, vertexY2, vertexBufferObjectManager);
 		polygon2.setColor(Color.GREEN);
+		
 		final Polygon polygon3 = new Polygon(20, 350, vertexX3, vertexY3, vertexBufferObjectManager);
 		polygon3.setColor(Color.PINK);
+		
 		//final Polygon polygon4 = new Polygon(20, 350, vertexX4, vertexY4, vertexBufferObjectManager);
 		//polygon4.setColor(Color.CYAN);
+		
+		final PolyLine polyLine = new PolyLine(500, 50, vertexX4, vertexY4, vertexBufferObjectManager);
+		polyLine.setColor(Color.YELLOW);
+		polyLine.setLineWidth( 7f );
+		
 		final Rectangle rectangle = new Rectangle(300, 300, 200, 100, vertexBufferObjectManager);
 
 		scene.attachChild(polygon1);
 		scene.attachChild(polygon2);
 		scene.attachChild(polygon3);
 		//scene.attachChild(polygon4);
+		scene.attachChild(polyLine);
 		scene.attachChild(rectangle);
 
 		return scene;
