@@ -84,8 +84,8 @@ public class PolygonExample extends SimpleBaseGameActivity {
 		polygon2.setColor(Color.GREEN);
 		final Polygon polygon3 = new Polygon(20, 350, vertexX3, vertexY3, vertexBufferObjectManager);
 		polygon3.setColor(Color.PINK);
-		final Polygon polygon4 = new Polygon(20, 350, vertexX4, vertexY4, vertexBufferObjectManager);
-		polygon4.setColor(Color.CYAN);
+		//final Polygon polygon4 = new Polygon(20, 350, vertexX4, vertexY4, vertexBufferObjectManager);
+		//polygon4.setColor(Color.CYAN);
 		final Rectangle rectangle = new Rectangle(300, 300, 200, 100, vertexBufferObjectManager);
 
 		scene.attachChild(polygon1);
