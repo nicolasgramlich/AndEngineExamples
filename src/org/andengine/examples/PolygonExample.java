@@ -4,6 +4,7 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.andengine.entity.primitive.Ellipse;
 import org.andengine.entity.primitive.Polygon;
 import org.andengine.entity.primitive.PolyLine;
 import org.andengine.entity.primitive.Rectangle;
@@ -95,6 +96,9 @@ public class PolygonExample extends SimpleBaseGameActivity {
 		polyLine.setColor(Color.YELLOW);
 		polyLine.setLineWidth( 7f );
 		
+		final Ellipse ellipse = new Ellipse(430, 200, 100.0f, 50.0f, vertexBufferObjectManager);
+		ellipse.setColor(Color.CYAN);
+		
 		final Rectangle rectangle = new Rectangle(300, 300, 200, 100, vertexBufferObjectManager);
 
 		scene.attachChild(polygon1);
@@ -102,6 +106,7 @@ public class PolygonExample extends SimpleBaseGameActivity {
 		scene.attachChild(polygon3);
 		//scene.attachChild(polygon4);
 		scene.attachChild(polyLine);
+		scene.attachChild(ellipse);
 		scene.attachChild(rectangle);
 
 		return scene;
