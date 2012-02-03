@@ -27,7 +27,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.constants.Constants;
+import org.andengine.util.Constants;
 import org.andengine.util.debug.Debug;
 
 import android.widget.Toast;

@@ -11,7 +11,7 @@ import org.andengine.entity.sprite.Sprite.ISpriteVertexBufferObject;
 import org.andengine.entity.sprite.batch.SpriteBatch;
 import org.andengine.entity.sprite.batch.SpriteBatch.HighPerformanceSpriteBatchVertexBufferObject;
 import org.andengine.opengl.shader.PositionTextureCoordinatesShaderProgram;
-import org.andengine.opengl.shader.util.constants.ShaderProgramConstants;
+import org.andengine.opengl.shader.constants.ShaderProgramConstants;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;

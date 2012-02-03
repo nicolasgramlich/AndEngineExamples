@@ -15,8 +15,8 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.pool.RunnablePoolItem;
-import org.andengine.util.pool.RunnablePoolUpdateHandler;
+import org.andengine.util.adt.pool.RunnablePoolItem;
+import org.andengine.util.adt.pool.RunnablePoolUpdateHandler;
 
 import android.widget.Toast;
 

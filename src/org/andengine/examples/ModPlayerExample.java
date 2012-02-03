@@ -15,9 +15,9 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.Callable;
-import org.andengine.util.Callback;
 import org.andengine.util.FileUtils;
+import org.andengine.util.call.Callable;
+import org.andengine.util.call.Callback;
 import org.helllabs.android.xmp.ModPlayer;
 
 import android.widget.Toast;

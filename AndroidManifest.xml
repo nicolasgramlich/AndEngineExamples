@@ -82,6 +82,7 @@
 		<activity android:name=".Rotation3DExample" android:configChanges="orientation"/>
 		<activity android:name=".RunnablePoolUpdateHandlerExample" android:configChanges="orientation"/>
 		<activity android:name=".ScreenCaptureExample" android:configChanges="orientation"/>
+		<activity android:name=".ScriptingExample" android:configChanges="orientation" android:windowSoftInputMode="stateVisible|adjustPan"/>
 		<activity android:name=".SoundExample" android:configChanges="orientation"/>
 		<activity android:name=".SplitScreenExample" android:configChanges="orientation"/>
 		<activity android:name=".SpriteBatchExample" android:configChanges="orientation"/>
