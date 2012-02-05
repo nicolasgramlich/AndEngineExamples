@@ -98,7 +98,6 @@
 	<string name="example_rotation3d">Rotating in 3D</string>
 	<string name="example_runnablepoolupdatehandler">Using RunnablePoolUpdateHandlers</string>
 	<string name="example_screencapture">Capturing the Screen (Screenshot)</string>
-	<string name="example_scripting">Scripting</string>
 	<string name="example_sound">Playing Sound</string>
 	<string name="example_splitscreen">Using a SplitScreen</string>
 	<string name="example_spritebatch">Drawing a SpriteBatch</string>
@@ -122,6 +121,7 @@
 
 	<!-- Benchmarks -->
 	<string name="example_benchmark_animation">Animation Benchmark</string>
+	<string name="example_benchmark_attachdetach">Attach/Detach Benchmark</string>
 	<string name="example_benchmark_particlesystem">ParticleSystem Benchmark</string>
 	<string name="example_benchmark_physics">Physics Benchmark</string>
 	<string name="example_benchmark_entitymodifier">EntityModifier Benchmark</string>

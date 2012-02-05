@@ -82,7 +82,6 @@
 		<activity android:name=".Rotation3DExample" android:configChanges="orientation"/>
 		<activity android:name=".RunnablePoolUpdateHandlerExample" android:configChanges="orientation"/>
 		<activity android:name=".ScreenCaptureExample" android:configChanges="orientation"/>
-		<activity android:name=".ScriptingExample" android:configChanges="orientation" android:windowSoftInputMode="stateVisible|adjustPan"/>
 		<activity android:name=".SoundExample" android:configChanges="orientation"/>
 		<activity android:name=".SplitScreenExample" android:configChanges="orientation"/>
 		<activity android:name=".SpriteBatchExample" android:configChanges="orientation"/>
@@ -105,6 +104,7 @@
 		<activity android:name=".ZoomExample" android:configChanges="orientation"/>
 		
 		<activity android:name=".benchmark.AnimationBenchmark" android:configChanges="orientation"/>
+		<activity android:name=".benchmark.AttachDetachBenchmark" android:configChanges="orientation"/>
 		<activity android:name=".benchmark.ParticleSystemBenchmark" android:configChanges="orientation"/>
 		<activity android:name=".benchmark.PhysicsBenchmark" android:configChanges="orientation"/>
 		<activity android:name=".benchmark.EntityModifierBenchmark" android:configChanges="orientation"/>

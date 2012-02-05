@@ -53,7 +53,6 @@ import org.andengine.examples.Rotation3DExample;
 import org.andengine.examples.RunnablePoolUpdateHandlerExample;
 import org.andengine.examples.SVGTextureRegionExample;
 import org.andengine.examples.ScreenCaptureExample;
-import org.andengine.examples.ScriptingExample;
 import org.andengine.examples.SoundExample;
 import org.andengine.examples.SplitScreenExample;
 import org.andengine.examples.SpriteBatchExample;
@@ -74,6 +73,7 @@ import org.andengine.examples.UpdateTextureExample;
 import org.andengine.examples.ZoomExample;
 import org.andengine.examples.app.cityradar.CityRadarActivity;
 import org.andengine.examples.benchmark.AnimationBenchmark;
+import org.andengine.examples.benchmark.AttachDetachBenchmark;
 import org.andengine.examples.benchmark.EntityModifierBenchmark;
 import org.andengine.examples.benchmark.PhysicsBenchmark;
 import org.andengine.examples.benchmark.SpriteBenchmark;
@@ -149,7 +149,6 @@ enum Example {
 	ROTATION3D(Rotation3DExample.class, R.string.example_rotation3d),
 	RUNNABLEPOOLUPDATEHANDLER(RunnablePoolUpdateHandlerExample.class, R.string.example_runnablepoolupdatehandler),
 	SCREENCAPTURE(ScreenCaptureExample.class, R.string.example_screencapture),
-	SCRIPTING(ScriptingExample.class, R.string.example_scripting),
 	SOUND(SoundExample.class, R.string.example_sound),
 	SPLITSCREEN(SplitScreenExample.class, R.string.example_splitscreen),
 	SPRITEBATCH(SpriteBatchExample.class, R.string.example_spritebatch),
@@ -172,6 +171,7 @@ enum Example {
 	ZOOM(ZoomExample.class, R.string.example_zoom),
 
 	BENCHMARK_ANIMATION(AnimationBenchmark.class, R.string.example_benchmark_animation),
+	BENCHMARK_ATTACHDETACH(AttachDetachBenchmark.class, R.string.example_benchmark_attachdetach),
 //	BENCHMARK_PARTICLESYSTEM(ParticleSystemBenchmark.class, R.string.example_benchmark_particlesystem),
 	BENCHMARK_PHYSICS(PhysicsBenchmark.class, R.string.example_benchmark_physics),
 	BENCHMARK_ENTITYMODIFIER(EntityModifierBenchmark.class, R.string.example_benchmark_entitymodifier),

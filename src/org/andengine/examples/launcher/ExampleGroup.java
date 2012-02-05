@@ -32,7 +32,7 @@ public enum ExampleGroup {
 	AUDIO(R.string.examplegroup_audio, 
 			Example.SOUND, Example.MUSIC, Example.MODPLAYER),
 	ADVANCED(R.string.examplegroup_advanced, 
-			Example.SPLITSCREEN, Example.BOUNDCAMERA, Example.SCRIPTING), // Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON),
+			Example.SPLITSCREEN, Example.BOUNDCAMERA), // Example.AUGMENTEDREALITY, Example.AUGMENTEDREALITYHORIZON),
 	POSTPROCESSING(R.string.examplegroup_postprocessing, 
 			Example.MOTIONSTREAK, Example.RADIALBLUR),
 	BACKGROUND(R.string.examplegroup_background, 
@@ -44,7 +44,7 @@ public enum ExampleGroup {
 	GAME(R.string.examplegroup_game, 
 			Example.GAME_PONG, Example.GAME_SNAKE, Example.GAME_RACER),
 	BENCHMARK(R.string.examplegroup_benchmark, 
-			Example.BENCHMARK_SPRITE, Example.BENCHMARK_ENTITYMODIFIER, Example.BENCHMARK_ANIMATION, Example.BENCHMARK_TICKERTEXT, /* Example.BENCHMARK_PARTICLESYSTEM, */ Example.BENCHMARK_PHYSICS);
+			Example.BENCHMARK_SPRITE, Example.BENCHMARK_ATTACHDETACH, Example.BENCHMARK_ENTITYMODIFIER, Example.BENCHMARK_ANIMATION, Example.BENCHMARK_TICKERTEXT, /* Example.BENCHMARK_PARTICLESYSTEM, */ Example.BENCHMARK_PHYSICS);
 
 	// ===========================================================
 	// Constants
