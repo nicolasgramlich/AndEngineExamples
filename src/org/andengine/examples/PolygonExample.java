@@ -5,7 +5,7 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.primitive.Ellipse;
-import org.andengine.entity.primitive.Polygon;
+import org.andengine.entity.primitive.Polygon2;
 import org.andengine.entity.primitive.PolyLine;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
@@ -80,13 +80,13 @@ public class PolygonExample extends SimpleBaseGameActivity {
 
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 
-		final Polygon polygon1 = new Polygon(100, 100, vertexX1, vertexY1, vertexBufferObjectManager);
+		final Polygon2 polygon1 = new Polygon2(100, 100, vertexX1, vertexY1, vertexBufferObjectManager);
 		polygon1.setColor(Color.RED);
 		
-		final Polygon polygon2 = new Polygon(400, 500, vertexX2, vertexY2, vertexBufferObjectManager);
+		final Polygon2 polygon2 = new Polygon2(400, 500, vertexX2, vertexY2, vertexBufferObjectManager);
 		polygon2.setColor(Color.GREEN);
 		
-		final Polygon polygon3 = new Polygon(20, 350, vertexX3, vertexY3, vertexBufferObjectManager);
+		final Polygon2 polygon3 = new Polygon2(20, 350, vertexX3, vertexY3, vertexBufferObjectManager);
 		polygon3.setColor(Color.PINK);
 		
 		//final Polygon polygon4 = new Polygon(20, 350, vertexX4, vertexY4, vertexBufferObjectManager);

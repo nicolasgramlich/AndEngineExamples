@@ -105,6 +105,7 @@
 		<activity android:name=".ZoomExample" android:configChanges="orientation"/>
 		
 		<activity android:name=".benchmark.AnimationBenchmark" android:configChanges="orientation"/>
+		<activity android:name=".benchmark.AttachDetachBenchmark" android:configChanges="orientation"/>
 		<activity android:name=".benchmark.ParticleSystemBenchmark" android:configChanges="orientation"/>
 		<activity android:name=".benchmark.PhysicsBenchmark" android:configChanges="orientation"/>
 		<activity android:name=".benchmark.EntityModifierBenchmark" android:configChanges="orientation"/>

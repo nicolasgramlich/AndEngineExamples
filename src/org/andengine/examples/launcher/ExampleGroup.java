@@ -44,7 +44,7 @@ public enum ExampleGroup {
 	GAME(R.string.examplegroup_game, 
 			Example.GAME_PONG, Example.GAME_SNAKE, Example.GAME_RACER),
 	BENCHMARK(R.string.examplegroup_benchmark, 
-			Example.BENCHMARK_SPRITE, Example.BENCHMARK_ENTITYMODIFIER, Example.BENCHMARK_ANIMATION, Example.BENCHMARK_TICKERTEXT, /* Example.BENCHMARK_PARTICLESYSTEM, */ Example.BENCHMARK_PHYSICS);
+			Example.BENCHMARK_SPRITE, Example.BENCHMARK_ATTACHDETACH, Example.BENCHMARK_ENTITYMODIFIER, Example.BENCHMARK_ANIMATION, Example.BENCHMARK_TICKERTEXT, /* Example.BENCHMARK_PARTICLESYSTEM, */ Example.BENCHMARK_PHYSICS);
 
 	// ===========================================================
 	// Constants

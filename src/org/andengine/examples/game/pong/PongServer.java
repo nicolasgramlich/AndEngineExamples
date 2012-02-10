@@ -36,6 +36,7 @@ import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
+import org.andengine.util.adt.list.SmartList;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 
@@ -180,7 +181,7 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 			final UpdateScoreServerMessage updateScoreServerMessage = (UpdateScoreServerMessage)this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_UPDATE_SCORE);
 			updateScoreServerMessage.set(opponentID, opponentPaddleScore.getScore());
 
-			final ArrayList<SocketConnectionClientConnector> clientConnectors = this.mClientConnectors;
+			final SmartList<SocketConnectionClientConnector> clientConnectors = this.mClientConnectors;
 			for(int i = 0; i < clientConnectors.size(); i++) {
 				try {
 					final ClientConnector<SocketConnection> clientConnector = clientConnectors.get(i);

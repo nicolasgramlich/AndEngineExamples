@@ -75,6 +75,7 @@ import org.andengine.examples.UpdateTextureExample;
 import org.andengine.examples.ZoomExample;
 import org.andengine.examples.app.cityradar.CityRadarActivity;
 import org.andengine.examples.benchmark.AnimationBenchmark;
+import org.andengine.examples.benchmark.AttachDetachBenchmark;
 import org.andengine.examples.benchmark.EntityModifierBenchmark;
 import org.andengine.examples.benchmark.PhysicsBenchmark;
 import org.andengine.examples.benchmark.SpriteBenchmark;
@@ -173,6 +174,7 @@ enum Example {
 	ZOOM(ZoomExample.class, R.string.example_zoom),
 
 	BENCHMARK_ANIMATION(AnimationBenchmark.class, R.string.example_benchmark_animation),
+	BENCHMARK_ATTACHDETACH(AttachDetachBenchmark.class, R.string.example_benchmark_attachdetach),
 //	BENCHMARK_PARTICLESYSTEM(ParticleSystemBenchmark.class, R.string.example_benchmark_particlesystem),
 	BENCHMARK_PHYSICS(PhysicsBenchmark.class, R.string.example_benchmark_physics),
 	BENCHMARK_ENTITYMODIFIER(EntityModifierBenchmark.class, R.string.example_benchmark_entitymodifier),
