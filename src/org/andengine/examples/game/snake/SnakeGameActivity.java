@@ -124,24 +124,25 @@ public class SnakeGameActivity extends SimpleBaseGameActivity implements SnakeCo
 	public void onCreateResources() {
 		/* Load the font we are going to use. */
 		FontFactory.setAssetBasePath("font/");
-		this.mFont = FontFactory.createFromAsset(512, 512, TextureOptions.BILINEAR, this, "Plok.ttf", 32, true, Color.WHITE).load(this.getTextureManager(), this.getFontManager());
+		this.mFont = FontFactory.createFromAsset(this.getFontManager(), this.getTextureManager(), 512, 512, TextureOptions.BILINEAR, this.getAssets(), "Plok.ttf", 32, true, Color.WHITE);
+		this.mFont.load();
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		/* Load all the textures this game needs. */
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 128, 128);
 		this.mHeadTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "snake_head.png", 0, 0, 3, 1);
 		this.mTailPartTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "snake_tailpart.png", 96, 0);
 		this.mFrogTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "frog.png", 0, 64, 3, 1);
-		this.mBitmapTextureAtlas.load(this.getTextureManager());
+		this.mBitmapTextureAtlas.load();
 
-		this.mBackgroundTexture = new BitmapTextureAtlas(1024, 512);
+		this.mBackgroundTexture = new BitmapTextureAtlas(this.getTextureManager(), 1024, 512);
 		this.mBackgroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "snake_background.png", 0, 0);
-		this.mBackgroundTexture.load(this.getTextureManager());
+		this.mBackgroundTexture.load();
 
-		this.mOnScreenControlTexture = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR);
+		this.mOnScreenControlTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 128, TextureOptions.BILINEAR);
 		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
 		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
-		this.mOnScreenControlTexture.load(this.getTextureManager());
+		this.mOnScreenControlTexture.load();
 
 		/* Load all the sounds this game needs. */
 		try {

@@ -59,7 +59,8 @@ public class ChangeableTextExample extends SimpleBaseGameActivity {
 
 	@Override
 	public void onCreateResources() {
-		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48).load(this.getTextureManager(), this.getFontManager());
+		this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 256, 256, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 48);
+		this.mFont.load();
 	}
 
 	@Override

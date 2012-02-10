@@ -54,8 +54,8 @@ public class BitmapFontExample extends SimpleBaseGameActivity {
 
 	@Override
 	public void onCreateResources() {
-		this.mBitmapFont = new BitmapFont(this, "font/BitmapFont.fnt");
-		this.mBitmapFont.loadTextures(this.getTextureManager());
+		this.mBitmapFont = new BitmapFont(this.getTextureManager(), this.getAssets(), "font/BitmapFont.fnt");
+		this.mBitmapFont.load();
 	}
 
 	@Override

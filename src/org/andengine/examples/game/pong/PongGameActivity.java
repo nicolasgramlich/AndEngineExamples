@@ -127,10 +127,11 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 
 	@Override
 	public void onCreateResources() {
-		final ITexture scoreFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
+		final ITexture scoreFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
 
 		FontFactory.setAssetBasePath("font/");
-		this.mScoreFont = FontFactory.createFromAsset(scoreFontTexture, this, "LCD.ttf", 32, true, Color.WHITE).load(this.getTextureManager(), this.getFontManager());
+		this.mScoreFont = FontFactory.createFromAsset(this.getFontManager(), scoreFontTexture, this.getAssets(), "LCD.ttf", 32, true, Color.WHITE);
+		this.mScoreFont.load();
 	}
 
 	@Override

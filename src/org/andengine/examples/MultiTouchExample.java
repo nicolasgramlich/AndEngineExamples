@@ -84,9 +84,9 @@ public class MultiTouchExample extends SimpleBaseGameActivity {
 	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mCardDeckTexture = new BitmapTextureAtlas(1024, 512, TextureOptions.BILINEAR);
+		this.mCardDeckTexture = new BitmapTextureAtlas(this.getTextureManager(), 1024, 512, TextureOptions.BILINEAR);
 		BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mCardDeckTexture, this, "carddeck_tiled.png", 0, 0);
-		this.mCardDeckTexture.load(this.getTextureManager());
+		this.mCardDeckTexture.load();
 
 		this.mCardTotextureRegionMap = new HashMap<Card, ITextureRegion>();
 

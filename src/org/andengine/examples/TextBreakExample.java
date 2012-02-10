@@ -90,7 +90,8 @@ public class TextBreakExample extends SimpleLayoutGameActivity implements TextWa
 
 	@Override
 	public void onCreateResources() {
-		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 24).load(this.getTextureManager(), this.getFontManager());
+		this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 256, 256, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 24);
+		this.mFont.load();
 	}
 
 	@Override
