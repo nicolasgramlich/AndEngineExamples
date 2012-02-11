@@ -74,6 +74,9 @@ public class PolygonExample extends SimpleBaseGameActivity {
 		final float[] vertexX3 = { 0.0f,   0.0f, 200.0f, 200.0f  };
 		final float[] vertexY3 = { 0.0f, 100.0f, 100.0f, 0.0f };
 		
+		// Dummy vertices (won't be used)
+		final float[] vertexX4Dummy = { 0.0f,   0.0f,   0.0f,   0.0f,   0.0f };
+		final float[] vertexY4Dummy = { 0.0f,   0.0f,   0.0f,   0.0f,   0.0f };
 		// This polygon can't be triangulated with the current algorithm and will trigger a null pointer exception
 		final float[] vertexX4 = { 0.0f,  50.0f, 100.0f, 100.0f,   0.0f };
 		final float[] vertexY4 = { 0.0f, 150.0f,   0.0f, 100.0f, 100.0f };
@@ -92,9 +95,11 @@ public class PolygonExample extends SimpleBaseGameActivity {
 		//final Polygon polygon4 = new Polygon(20, 350, vertexX4, vertexY4, vertexBufferObjectManager);
 		//polygon4.setColor(Color.CYAN);
 		
-		final PolyLine polyLine = new PolyLine(500, 50, vertexX4, vertexY4, vertexBufferObjectManager);
+		final PolyLine polyLine = new PolyLine(500, 50, vertexX4Dummy, vertexY4Dummy, vertexBufferObjectManager);
 		polyLine.setColor(Color.YELLOW);
 		polyLine.setLineWidth( 7f );
+		// Update and use real vertices
+		polyLine.updateVertices(vertexX4, vertexY4);
 		
 		final Ellipse ellipse = new Ellipse(430, 200, 100.0f, 50.0f, vertexBufferObjectManager);
 		ellipse.setColor(Color.CYAN);
