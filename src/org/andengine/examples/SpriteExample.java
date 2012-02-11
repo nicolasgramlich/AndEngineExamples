@@ -66,13 +66,15 @@ public class SpriteExample extends SimpleBaseGameActivity implements OnClickList
 	@Override
 	public void onCreateResources() {
 		try {
-			this.mTexture = new BitmapTexture() {
+			this.mTexture = new BitmapTexture(this.getTextureManager()) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return getAssets().open("gfx/face_box.png");
 				}
-			}.load(this.getTextureManager());
-			this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(mTexture);
+			};
+
+			this.mTexture.load();
+			this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(this.mTexture);
 		} catch (IOException e) {
 			Debug.e(e);
 		}

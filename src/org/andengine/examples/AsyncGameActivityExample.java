@@ -63,13 +63,13 @@ public class AsyncGameActivityExample extends SimpleAsyncGameActivity {
 		pProgressListener.onProgressChanged(20);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		Thread.sleep(1000);
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
 		pProgressListener.onProgressChanged(40);
 		Thread.sleep(1000);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(AsyncGameActivityExample.this.mBitmapTextureAtlas, AsyncGameActivityExample.this, "face_box.png", 0, 0);
 		pProgressListener.onProgressChanged(60);
 		Thread.sleep(1000);
-		this.mBitmapTextureAtlas.load(this.getTextureManager());
+		this.mBitmapTextureAtlas.load();
 		pProgressListener.onProgressChanged(80);
 		Thread.sleep(1000);
 		pProgressListener.onProgressChanged(100);

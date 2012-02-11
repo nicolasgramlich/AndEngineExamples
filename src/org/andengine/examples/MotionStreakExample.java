@@ -67,7 +67,6 @@ public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSc
 
 	@Override
 	public Engine onCreateEngine(EngineOptions pEngineOptions) {
-		
 		return new Engine(pEngineOptions) {
 			private static final int RENDERTEXTURE_COUNT = 2;
 
@@ -129,7 +128,7 @@ public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSc
 
 				final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 				for(int i = 0; i <= 1; i++) {
-					this.mRenderTextures[i] = new RenderTexture(surfaceWidth, surfaceHeight);
+					this.mRenderTextures[i] = new RenderTexture(MotionStreakExample.this.getTextureManager(), surfaceWidth, surfaceHeight);
 					this.mRenderTextures[i].init(pGLState);
 
 					final ITextureRegion renderTextureATextureRegion = TextureRegionFactory.extractFromTexture(this.mRenderTextures[i]);

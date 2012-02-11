@@ -59,8 +59,8 @@ public class TexturePackerExample extends SimpleBaseGameActivity {
 	@Override
 	public void onCreateResources() {
 		try {
-			final TexturePack spritesheetTexturePack = new TexturePackLoader("gfx/spritesheets/").loadFromAsset(this, "texturepackerexample.xml");
-			spritesheetTexturePack.loadTexture(this.getTextureManager());
+			final TexturePack spritesheetTexturePack = new TexturePackLoader(this.getTextureManager(), "gfx/spritesheets/").loadFromAsset(this.getAssets(), "texturepackerexample.xml");
+			spritesheetTexturePack.loadTexture();
 			this.mSpritesheetTexturePackTextureRegionLibrary = spritesheetTexturePack.getTexturePackTextureRegionLibrary();
 		} catch (final TexturePackParseException e) {
 			Debug.e(e);

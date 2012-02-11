@@ -87,12 +87,13 @@ public class PVRCCZTextureExample extends SimpleBaseGameActivity {
 	@Override
 	public void onCreateResources() {
 		try {
-			this.mTexture = new PVRCCZTexture(PVRTextureFormat.RGBA_8888, TextureOptions.BILINEAR) {
+			this.mTexture = new PVRCCZTexture(this.getTextureManager(), PVRTextureFormat.RGBA_8888, TextureOptions.BILINEAR) {
 				@Override
 				protected InputStream onGetInputStream() throws IOException {
 					return PVRCCZTextureExample.this.getResources().openRawResource(R.raw.house_pvrccz_argb_8888);
 				}
-			}.load(this.getTextureManager());
+			};
+			this.mTexture.load();
 
 			this.mHouseTextureRegion = TextureRegionFactory.extractFromTexture(this.mTexture, 0, 0, 512, 512);
 		} catch (final Throwable e) {

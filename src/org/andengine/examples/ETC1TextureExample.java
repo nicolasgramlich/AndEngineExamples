@@ -87,12 +87,13 @@ public class ETC1TextureExample extends SimpleBaseGameActivity {
 	@Override
 	public void onCreateResources() {
 		try {
-			this.mTexture = new ETC1Texture(TextureOptions.BILINEAR) {
+			this.mTexture = new ETC1Texture(this.getTextureManager(), TextureOptions.BILINEAR) {
 				@Override
 				protected InputStream getInputStream() throws IOException {
 					return ETC1TextureExample.this.getResources().openRawResource(R.raw.house_etc1);
 				}
-			}.load(this.getTextureManager());
+			};
+			this.mTexture.load();
 
 			this.mHouseTextureRegion = TextureRegionFactory.extractFromTexture(this.mTexture, 0, 0, 512, 512);
 
