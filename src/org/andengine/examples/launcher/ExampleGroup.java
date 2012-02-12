@@ -16,7 +16,7 @@ public enum ExampleGroup {
 	// ===========================================================
 
 	SIMPLE(R.string.examplegroup_simple, 
-			Example.POLYGON, Example.LINE, Example.RECTANGLE, Example.SPRITE, Example.SPRITEREMOVE, Example.SPRITEBATCH),
+			Example.POLYGON, Example.LINE, Example.RECTANGLE, Example.SPRITE, Example.SPRITEREMOVE, Example.SPRITEBATCH, Example.BUTTONSPRITE),
 	MODIFIER_AND_ANIMATION(R.string.examplegroup_modifier_and_animation, 
 			Example.MOVINGBALL, Example.ENTITYMODIFIER, Example.ENTITYMODIFIERIRREGULAR, Example.PATHMODIFIER, Example.ANIMATEDSPRITES, Example.EASEFUNCTION, Example.ROTATION3D ),
 	TOUCH(R.string.examplegroup_touch, 
