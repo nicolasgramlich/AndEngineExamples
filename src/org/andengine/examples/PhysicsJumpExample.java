@@ -16,8 +16,8 @@ import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.extension.physics.box2d.util.Vector2Pool;
-import org.andengine.input.sensor.accelerometer.AccelerometerData;
-import org.andengine.input.sensor.accelerometer.IAccelerometerListener;
+import org.andengine.input.sensor.acceleration.AccelerationData;
+import org.andengine.input.sensor.acceleration.IAccelerationListener;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -41,7 +41,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  * @author Nicolas Gramlich
  * @since 21:18:08 - 27.06.2010
  */
-public class PhysicsJumpExample extends SimpleBaseGameActivity implements IAccelerometerListener, IOnSceneTouchListener, IOnAreaTouchListener {
+public class PhysicsJumpExample extends SimpleBaseGameActivity implements IAccelerationListener, IOnSceneTouchListener, IOnAreaTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -155,7 +155,7 @@ public class PhysicsJumpExample extends SimpleBaseGameActivity implements IAccel
 	}
 
 	@Override
-	public void onAccelerometerChanged(final AccelerometerData pAccelerometerData) {
+	public void onAccelerationChanged(final AccelerationData pAccelerometerData) {
 		this.mGravityX = pAccelerometerData.getX();
 		this.mGravityY = pAccelerometerData.getY();
 
@@ -163,19 +163,25 @@ public class PhysicsJumpExample extends SimpleBaseGameActivity implements IAccel
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
 	}
+	
+	@Override
+	public void onAccelerationAccuracyChanged(AccelerationData pAccelerationData) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public void onResumeGame() {
 		super.onResumeGame();
 
-		this.enableAccelerometerSensor(this);
+		this.enableAccelerationSensor(this);
 	}
 
 	@Override
 	public void onPauseGame() {
 		super.onPauseGame();
 
-		this.disableAccelerometerSensor();
+		this.disableAccelerationSensor();
 	}
 
 	// ===========================================================
