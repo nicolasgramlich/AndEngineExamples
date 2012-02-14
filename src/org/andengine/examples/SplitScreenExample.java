@@ -144,10 +144,6 @@ public class SplitScreenExample extends SimpleBaseGameActivity implements IAccel
 	}
 
 	@Override
-<<<<<<< HEAD
-	public void onAccelerationChanged(final AccelerationData pAccelerometerData) {
-		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getX(), pAccelerometerData.getY());
-=======
 	public void onAccelerationAccuracyChanged(final AccelerationData pAccelerationData) {
 
 	}
@@ -155,15 +151,8 @@ public class SplitScreenExample extends SimpleBaseGameActivity implements IAccel
 	@Override
 	public void onAccelerationChanged(final AccelerationData pAccelerationData) {
 		final Vector2 gravity = Vector2Pool.obtain(pAccelerationData.getX(), pAccelerationData.getY());
->>>>>>> upstream/GLES2
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
-	}
-	
-	@Override
-	public void onAccelerationAccuracyChanged(AccelerationData pAccelerationData) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
