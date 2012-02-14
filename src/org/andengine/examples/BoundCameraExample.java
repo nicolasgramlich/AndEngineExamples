@@ -185,9 +185,18 @@ public class BoundCameraExample extends SimpleBaseGameActivity implements IAccel
 		return false;
 	}
 
+	public void onAccelerationAccuracyChanged(AccelerationData pAccelerationData) {
+
+	}
+
 	@Override
+<<<<<<< HEAD
 	public void onAccelerationChanged(final AccelerationData pAccelerometerData) {
 		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getX(), pAccelerometerData.getY());
+=======
+	public void onAccelerationChanged(final AccelerationData pAccelerationData) {
+		final Vector2 gravity = Vector2Pool.obtain(pAccelerationData.getX(), pAccelerationData.getY());
+>>>>>>> upstream/GLES2
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
 	}

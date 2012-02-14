@@ -155,19 +155,18 @@ public class PhysicsJumpExample extends SimpleBaseGameActivity implements IAccel
 	}
 
 	@Override
-	public void onAccelerationChanged(final AccelerationData pAccelerometerData) {
-		this.mGravityX = pAccelerometerData.getX();
-		this.mGravityY = pAccelerometerData.getY();
+	public void onAccelerationAccuracyChanged(final AccelerationData pAccelerationData) {
+
+	}
+
+	@Override
+	public void onAccelerationChanged(final AccelerationData pAccelerationData) {
+		this.mGravityX = pAccelerationData.getX();
+		this.mGravityY = pAccelerationData.getY();
 
 		final Vector2 gravity = Vector2Pool.obtain(this.mGravityX, this.mGravityY);
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
-	}
-	
-	@Override
-	public void onAccelerationAccuracyChanged(AccelerationData pAccelerationData) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

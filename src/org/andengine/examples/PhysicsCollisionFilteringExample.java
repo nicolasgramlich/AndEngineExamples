@@ -149,16 +149,15 @@ public class PhysicsCollisionFilteringExample extends SimpleBaseGameActivity imp
 	}
 
 	@Override
-	public void onAccelerationChanged(final AccelerationData pAccelerometerData) {
-		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getX(), pAccelerometerData.getY());
+	public void onAccelerationAccuracyChanged(final AccelerationData pAccelerationData) {
+
+	}
+
+	@Override
+	public void onAccelerationChanged(final AccelerationData pAccelerationData) {
+		final Vector2 gravity = Vector2Pool.obtain(pAccelerationData.getX(), pAccelerationData.getY());
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
-	}
-	
-	@Override
-	public void onAccelerationAccuracyChanged(AccelerationData pAccelerationData) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -199,7 +198,6 @@ public class PhysicsCollisionFilteringExample extends SimpleBaseGameActivity imp
 		this.mScene.attachChild(face);
 		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
 	}
-
 
 	// ===========================================================
 	// Inner and Anonymous Classes

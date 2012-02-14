@@ -240,6 +240,11 @@ public class CityRadarActivity extends SimpleBaseGameActivity implements IOrient
 	}
 
 	@Override
+	public void onOrientationAccuracyChanged(final OrientationData pOrientationData) {
+
+	}
+
+	@Override
 	public void onOrientationChanged(final OrientationData pOrientationData) {
 		this.mCamera.setRotation(-pOrientationData.getYaw());
 	}
