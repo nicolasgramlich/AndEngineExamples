@@ -71,6 +71,7 @@ import org.andengine.examples.TickerTextExample;
 import org.andengine.examples.TouchDragExample;
 import org.andengine.examples.UnloadResourcesExample;
 import org.andengine.examples.UpdateTextureExample;
+import org.andengine.examples.XMLLayoutExample;
 import org.andengine.examples.ZoomExample;
 import org.andengine.examples.app.cityradar.CityRadarActivity;
 import org.andengine.examples.benchmark.AnimationBenchmark;
@@ -169,7 +170,7 @@ enum Example {
 	TOUCHDRAG(TouchDragExample.class, R.string.example_touchdrag),
 	UNLOADRESOURCES(UnloadResourcesExample.class, R.string.example_unloadresources),
 	UPDATETEXTURE(UpdateTextureExample.class, R.string.example_updatetexture),
-//	XMLLAYOUT(XMLLayoutExample.class, R.string.example_xmllayout),
+	XMLLAYOUT(XMLLayoutExample.class, R.string.example_xmllayout),
 	ZOOM(ZoomExample.class, R.string.example_zoom),
 
 	BENCHMARK_ANIMATION(AnimationBenchmark.class, R.string.example_benchmark_animation),
