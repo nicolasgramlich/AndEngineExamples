@@ -64,20 +64,20 @@ public class TextureOptionsExample extends SimpleBaseGameActivity {
 	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load(this.getTextureManager());
+		this.mBitmapTextureAtlas.load();
 
-		this.mBitmapTextureAtlasBilinear = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR);
+		this.mBitmapTextureAtlasBilinear = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
 		this.mFaceTextureRegionBilinear = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlasBilinear, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlasBilinear.load(this.getTextureManager());
+		this.mBitmapTextureAtlasBilinear.load();
 
-		this.mBitmapTextureAtlasRepeating = new BitmapTextureAtlas(32, 32, TextureOptions.REPEATING_NEAREST);
+		this.mBitmapTextureAtlasRepeating = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.REPEATING_NEAREST);
 		this.mFaceTextureRegionRepeating = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlasRepeating, this, "face_box.png", 0, 0);
 		/* The following statement causes the BitmapTextureAtlas to be printed horizontally 10x on any Sprite that uses it.
 		 * So we will later increase the width of such a sprite by the same factor to avoid distortion. */
 		this.mFaceTextureRegionRepeating.setTextureWidth(10 * this.mFaceTextureRegionRepeating.getWidth());
-		this.mBitmapTextureAtlasRepeating.load(this.getTextureManager());
+		this.mBitmapTextureAtlasRepeating.load();
 	}
 
 	@Override

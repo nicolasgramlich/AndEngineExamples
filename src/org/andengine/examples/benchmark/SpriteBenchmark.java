@@ -4,6 +4,7 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
@@ -84,11 +85,11 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 	@Override
 	public void onCreateResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
 
-		this.mBitmapTextureAtlas.load(this.getTextureManager());
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override
@@ -96,9 +97,9 @@ public class SpriteBenchmark extends BaseBenchmark {
 		final Scene scene = new Scene();
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
-//		this.drawUsingSprites(scene);
+		this.drawUsingSprites(scene);
 //		this.drawUsingSpritesWithSharedVertexBuffer(scene);
-		this.drawUsingSpriteBatch(scene);
+//		this.drawUsingSpriteBatch(scene);
 
 		return scene;
 	}
@@ -111,8 +112,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 		for(int i = 0; i < SpriteBenchmark.SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite(this.mRandom.nextFloat() * (SpriteBenchmark.CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (SpriteBenchmark.CAMERA_HEIGHT - 32), this.mFaceTextureRegion, vertexBufferObjectManager);
-			face.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-			face.setIgnoreUpdate(true);
+			face.registerEntityModifier(new AlphaModifier(this.getBenchmarkDuration(), 1, 0));
 			pScene.attachChild(face);
 		}
 	}
@@ -123,7 +123,6 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
-			face.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 			face.setIgnoreUpdate(true);
 			pScene.attachChild(face);
 		}
@@ -135,7 +134,6 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 		final SpriteBatchWithoutColor spriteBatch = new SpriteBatchWithoutColor(this.getVertexBufferObjectManager(), this.mBitmapTextureAtlas, SpriteBenchmark.SPRITE_COUNT, DrawType.STATIC);
 
-		spriteBatch.setBlendFunction(GLES20.GL_ONE, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		for(int i = 0; i < SpriteBenchmark.SPRITE_COUNT; i++) {
 			final float x = this.mRandom.nextFloat() * (SpriteBenchmark.CAMERA_WIDTH - 32);
 			final float y = this.mRandom.nextFloat() * (SpriteBenchmark.CAMERA_HEIGHT - 32);

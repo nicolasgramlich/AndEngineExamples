@@ -10,9 +10,7 @@ import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
-import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.texture.ITexture;
-import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
@@ -68,20 +66,27 @@ public class CustomFontExample extends SimpleBaseGameActivity {
 	@Override
 	public void onCreateResources() {
 		/* The custom fonts. */
-		final ITexture droidFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
-		final ITexture kingdomOfHeartsFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
-		final ITexture neverwinterNightsFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
-		final ITexture plokFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
-		final ITexture unrealTournamentFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
+		final ITexture droidFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		final ITexture kingdomOfHeartsFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		final ITexture neverwinterNightsFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		final ITexture plokFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		final ITexture unrealTournamentFontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
 
 		FontFactory.setAssetBasePath("font/");
-		final TextureManager textureManager = this.getTextureManager();
-		final FontManager fontManager = this.getFontManager();
-		this.mDroidFont = FontFactory.createFromAsset(droidFontTexture, this, "Droid.ttf", FONT_SIZE, true, Color.BLACK).load(textureManager, fontManager);
-		this.mKingdomOfHeartsFont = FontFactory.createFromAsset(kingdomOfHeartsFontTexture, this, "KingdomOfHearts.ttf", FONT_SIZE + 20, true, Color.BLACK).load(textureManager, fontManager);
-		this.mNeverwinterNightsFont = FontFactory.createFromAsset(neverwinterNightsFontTexture, this, "NeverwinterNights.ttf", FONT_SIZE, true, Color.BLACK).load(textureManager, fontManager);
-		this.mPlokFont = FontFactory.createFromAsset(plokFontTexture, this, "Plok.ttf", FONT_SIZE, true, Color.BLACK).load(textureManager, fontManager);
-		this.mUnrealTournamenFont = FontFactory.createFromAsset(unrealTournamentFontTexture, this, "UnrealTournament.ttf", FONT_SIZE, true, Color.BLACK).load(textureManager, fontManager);
+		this.mDroidFont = FontFactory.createFromAsset(this.getFontManager(), droidFontTexture, this.getAssets(), "Droid.ttf", FONT_SIZE, true, Color.BLACK);
+		this.mDroidFont.load();
+
+		this.mKingdomOfHeartsFont = FontFactory.createFromAsset(this.getFontManager(), kingdomOfHeartsFontTexture, this.getAssets(), "KingdomOfHearts.ttf", FONT_SIZE + 20, true, Color.BLACK);
+		this.mKingdomOfHeartsFont.load();
+
+		this.mNeverwinterNightsFont = FontFactory.createFromAsset(this.getFontManager(), neverwinterNightsFontTexture, this.getAssets(), "NeverwinterNights.ttf", FONT_SIZE, true, Color.BLACK);
+		this.mNeverwinterNightsFont.load();
+
+		this.mPlokFont = FontFactory.createFromAsset(this.getFontManager(), plokFontTexture, this.getAssets(), "Plok.ttf", FONT_SIZE, true, Color.BLACK);
+		this.mPlokFont.load();
+
+		this.mUnrealTournamenFont = FontFactory.createFromAsset(this.getFontManager(), unrealTournamentFontTexture, this.getAssets(), "UnrealTournament.ttf", FONT_SIZE, true, Color.BLACK);
+		this.mUnrealTournamenFont.load();
 	}
 
 	@Override

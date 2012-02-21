@@ -76,7 +76,7 @@ public class SVGTextureRegionExample extends SimpleBaseGameActivity {
 
 	@Override
 	public void onCreateResources() {
-		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(1024, 1024, TextureOptions.NEAREST);
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 1024, 1024, TextureOptions.NEAREST);
 		SVGBitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
 		this.mSVGTestTextureRegions = new BaseTextureRegion[SVGTextureRegionExample.COUNT];
@@ -119,7 +119,7 @@ public class SVGTextureRegionExample extends SimpleBaseGameActivity {
 
 		try {
 			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-			this.mBuildableBitmapTextureAtlas.load(this.getTextureManager());
+			this.mBuildableBitmapTextureAtlas.load();
 		} catch (final TextureAtlasBuilderException e) {
 			Debug.e(e);
 		}

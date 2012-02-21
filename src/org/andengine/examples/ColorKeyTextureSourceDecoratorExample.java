@@ -63,7 +63,7 @@ public class ColorKeyTextureSourceDecoratorExample extends SimpleBaseGameActivit
 
 	@Override
 	public void onCreateResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(256, 128, TextureOptions.BILINEAR);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 256, 128, TextureOptions.BILINEAR);
 
 		/* The actual AssetTextureSource. */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
@@ -79,7 +79,7 @@ public class ColorKeyTextureSourceDecoratorExample extends SimpleBaseGameActivit
 
 		this.mChromaticCircleColorKeyedTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromSource(this.mBitmapTextureAtlas, colorKeyBitmapTextureAtlasSource, 128, 0);
 
-		this.mBitmapTextureAtlas.load(this.getTextureManager());
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override

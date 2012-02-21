@@ -60,9 +60,9 @@ public class UnloadResourcesExample extends SimpleBaseGameActivity {
 	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(128, 128, TextureOptions.BILINEAR);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 128, 128, TextureOptions.BILINEAR);
 		this.mClickToUnloadTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "click_to_unload.png", 0, 0);
-		this.mBitmapTextureAtlas.load(this.getTextureManager());
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class UnloadResourcesExample extends SimpleBaseGameActivity {
 				if(pSceneTouchEvent.isActionDown()) {
 					/* Completely remove all resources associated with this sprite. */
 					this.dispose();
-					UnloadResourcesExample.this.mBitmapTextureAtlas.unload(UnloadResourcesExample.this.getTextureManager());
+					UnloadResourcesExample.this.mBitmapTextureAtlas.unload();
 					
 					/* And remove the sprite from the Scene. */
 					this.detachSelf();

@@ -117,7 +117,7 @@ public class RadialBlurExample extends SimpleBaseGameActivity implements IOnScen
 				final int surfaceWidth = this.mCamera.getSurfaceWidth();
 				final int surfaceHeight = this.mCamera.getSurfaceHeight();
 
-				this.mRenderTexture = new RenderTexture(surfaceWidth, surfaceHeight);
+				this.mRenderTexture = new RenderTexture(RadialBlurExample.this.getTextureManager(), surfaceWidth, surfaceHeight);
 				this.mRenderTexture.init(pGLState);
 
 				final ITextureRegion renderTextureTextureRegion = TextureRegionFactory.extractFromTexture(this.mRenderTexture);
@@ -142,9 +142,9 @@ public class RadialBlurExample extends SimpleBaseGameActivity implements IOnScen
 	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(512, 512);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 512, 512);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "badge_large.png", 0, 0);
-		this.mBitmapTextureAtlas.load(this.getTextureManager());
+		this.mBitmapTextureAtlas.load();
 
 		this.getShaderProgramManager().loadShaderProgram(RadialBlurShaderProgram.getInstance());
 	}

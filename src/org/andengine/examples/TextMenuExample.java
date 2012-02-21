@@ -83,14 +83,15 @@ public class TextMenuExample extends SimpleBaseGameActivity implements IOnMenuIt
 	public void onCreateResources() {
 		FontFactory.setAssetBasePath("font/");
 
-		final ITexture fontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR);
-		this.mFont = FontFactory.createFromAsset(fontTexture, this, "Plok.ttf", 48, true, android.graphics.Color.WHITE).load(this.getTextureManager(), this.getFontManager());
+		final ITexture fontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
+		this.mFont = FontFactory.createFromAsset(this.getFontManager(), fontTexture, this.getAssets(), "Plok.ttf", 48, true, android.graphics.Color.WHITE);
+		this.mFont.load();
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 64, TextureOptions.BILINEAR);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 64, TextureOptions.BILINEAR);
 		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box_menu.png", 0, 0);
-		this.mBitmapTextureAtlas.load(this.getTextureManager());
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override

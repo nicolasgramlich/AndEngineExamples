@@ -123,10 +123,11 @@ public class CityRadarActivity extends SimpleBaseGameActivity implements IOrient
 	@Override
 	public void onCreateResources() {
 		/* Init font. */
-		this.mFont = FontFactory.create(256, 256, TextureOptions.BILINEAR, Typeface.DEFAULT, 12, true, Color.WHITE).load(getTextureManager(), getFontManager());
+		this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 256, 256, TextureOptions.BILINEAR, Typeface.DEFAULT, 12, true, Color.WHITE);
+		this.mFont.load();
 
 		/* Init TextureRegions. */
-		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(512, 256, TextureOptions.BILINEAR);
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 512, 256, TextureOptions.BILINEAR);
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		this.mRadarTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "radar.png");
@@ -134,7 +135,7 @@ public class CityRadarActivity extends SimpleBaseGameActivity implements IOrient
 
 		try {
 			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
-			this.mBuildableBitmapTextureAtlas.load(getTextureManager());
+			this.mBuildableBitmapTextureAtlas.load();
 		} catch (final TextureAtlasBuilderException e) {
 			Debug.e(e);
 		}
@@ -236,6 +237,11 @@ public class CityRadarActivity extends SimpleBaseGameActivity implements IOrient
 		super.onPause();
 		this.mEngine.disableOrientationSensor(this);
 		this.mEngine.disableLocationSensor(this);
+	}
+
+	@Override
+	public void onOrientationAccuracyChanged(final OrientationData pOrientationData) {
+
 	}
 
 	@Override

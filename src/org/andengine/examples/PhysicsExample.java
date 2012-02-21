@@ -17,8 +17,8 @@ import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.extension.physics.box2d.util.Vector2Pool;
-import org.andengine.input.sensor.accelerometer.AccelerometerData;
-import org.andengine.input.sensor.accelerometer.IAccelerometerListener;
+import org.andengine.input.sensor.acceleration.AccelerationData;
+import org.andengine.input.sensor.acceleration.IAccelerationListener;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
@@ -44,7 +44,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
  * @author Nicolas Gramlich
  * @since 18:47:08 - 19.03.2010
  */
-public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerometerListener, IOnSceneTouchListener {
+public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerationListener, IOnSceneTouchListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -95,12 +95,12 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerom
 	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(64, 128, TextureOptions.BILINEAR);
+		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 128, TextureOptions.BILINEAR);
 		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
 		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
 		this.mTriangleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_triangle_tiled.png", 0, 64, 2, 1); // 64x32
 		this.mHexagonFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_hexagon_tiled.png", 0, 96, 2, 1); // 64x32
-		this.mBitmapTextureAtlas.load(this.getTextureManager());
+		this.mBitmapTextureAtlas.load();
 	}
 
 	@Override
@@ -147,8 +147,13 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerom
 	}
 
 	@Override
-	public void onAccelerometerChanged(final AccelerometerData pAccelerometerData) {
-		final Vector2 gravity = Vector2Pool.obtain(pAccelerometerData.getX(), pAccelerometerData.getY());
+	public void onAccelerationAccuracyChanged(final AccelerationData pAccelerationData) {
+
+	}
+
+	@Override
+	public void onAccelerationChanged(final AccelerationData pAccelerationData) {
+		final Vector2 gravity = Vector2Pool.obtain(pAccelerationData.getX(), pAccelerationData.getY());
 		this.mPhysicsWorld.setGravity(gravity);
 		Vector2Pool.recycle(gravity);
 	}
@@ -157,14 +162,14 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerom
 	public void onResumeGame() {
 		super.onResumeGame();
 
-		this.enableAccelerometerSensor(this);
+		this.enableAccelerationSensor(this);
 	}
 
 	@Override
 	public void onPauseGame() {
 		super.onPauseGame();
 
-		this.disableAccelerometerSensor();
+		this.disableAccelerationSensor();
 	}
 
 	// ===========================================================

@@ -47,6 +47,7 @@
 		<activity android:name=".EntityModifierExample" android:configChanges="orientation"/>
 		<activity android:name=".EntityModifierIrregularExample" android:configChanges="orientation"/>
 		<activity android:name=".ETC1TextureExample" android:configChanges="orientation"/>
+		<activity android:name=".HullAlgorithmExample" android:configChanges="orientation"/>
 		<activity android:name=".ImageFormatsExample" android:configChanges="orientation"/>
 		<activity android:name=".LevelLoaderExample" android:configChanges="orientation"/>
 		<activity android:name=".LineExample" android:configChanges="orientation"/>

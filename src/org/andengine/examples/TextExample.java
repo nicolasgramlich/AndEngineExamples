@@ -59,7 +59,8 @@ public class TextExample extends SimpleBaseGameActivity {
 
 	@Override
 	public void onCreateResources() {
-		this.mFont = FontFactory.create(256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32).load(this.getTextureManager(), this.getFontManager());
+		this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32);
+		this.mFont.load();
 	}
 
 	@Override
