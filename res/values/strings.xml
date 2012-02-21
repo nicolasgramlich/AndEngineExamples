@@ -22,6 +22,9 @@
 	<string name="tv_xmllayoutexample_below">Lorem ipsum dolor sit amat...</string>
 
 	<string name="textbreakexample_text_default">Hello, World!</string>
+	
+	<string name="scriptingexample_code_hint">Enter code here...</string>
+	<string name="scriptingexample_code_apply">Apply</string>
 
     <!-- Example-Groups -->
     <string name="examplegroup_simple">Simple</string>
