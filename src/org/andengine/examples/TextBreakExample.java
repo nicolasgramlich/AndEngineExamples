@@ -9,6 +9,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.text.Text.TextOptions;
+import org.andengine.entity.text.Text.TextOptions.AutoWrap;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
@@ -102,7 +103,7 @@ public class TextBreakExample extends SimpleLayoutGameActivity implements TextWa
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
-		this.mText = new Text(50, 40, this.mFont, "", 1000, new TextOptions(true, AUTOWRAP_WIDTH, Text.LEADING_DEFAULT, HorizontalAlign.CENTER), vertexBufferObjectManager);
+		this.mText = new Text(50, 40, this.mFont, "", 1000, new TextOptions(AutoWrap.LETTERS, AUTOWRAP_WIDTH, Text.LEADING_DEFAULT, HorizontalAlign.CENTER), vertexBufferObjectManager);
 		scene.attachChild(this.mText);
 
 		this.mLeft = new Line(0, 0, 0, TextBreakExample.CAMERA_HEIGHT, this.getVertexBufferObjectManager());
