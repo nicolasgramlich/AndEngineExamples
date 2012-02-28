@@ -45,10 +45,10 @@ public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnCl
 	// ===========================================================
 
 	private float[] mMeshVertices = new float[] {
-			0, 100, Color.WHITE_PACKED,
-			-100, -100, Color.WHITE_PACKED,
-			0, 0, Color.WHITE_PACKED,
-			100, -100, Color.WHITE_PACKED
+			0, 100, Color.WHITE_ABGR_PACKED_FLOAT,
+			-100, -100, Color.WHITE_ABGR_PACKED_FLOAT,
+			0, 0, Color.WHITE_ABGR_PACKED_FLOAT,
+			100, -100, Color.WHITE_ABGR_PACKED_FLOAT
 	};
 	private int mMeshVertexCount = 4;
 	private Mesh mMesh;
@@ -154,7 +154,7 @@ public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnCl
 		System.arraycopy(this.mMeshVertices, 0, newMeshVertices, 0, this.mMeshVertices.length);
 		newMeshVertices[newMeshVertices.length - 3] = pX;
 		newMeshVertices[newMeshVertices.length - 2] = pY;
-		newMeshVertices[newMeshVertices.length - 1] = Color.WHITE_PACKED;
+		newMeshVertices[newMeshVertices.length - 1] = Color.WHITE_ABGR_PACKED_FLOAT;
 
 		this.mMeshVertices = newMeshVertices;
 		this.mMeshVertexCount++;
