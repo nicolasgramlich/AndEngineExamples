@@ -216,6 +216,7 @@ public class CityRadarActivity extends SimpleBaseGameActivity implements IOrient
 
 	@Override
 	public void onGameCreated() {
+		super.onGameCreated();
 		this.refreshCitySprites();
 	}
 

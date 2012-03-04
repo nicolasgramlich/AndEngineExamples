@@ -251,7 +251,7 @@ public class SnakeGameActivity extends SimpleBaseGameActivity implements SnakeCo
 
 	@Override
 	public void onGameCreated() {
-
+		super.onGameCreated();
 	}
 
 	// ===========================================================

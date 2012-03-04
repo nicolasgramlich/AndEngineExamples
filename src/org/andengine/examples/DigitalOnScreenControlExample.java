@@ -122,6 +122,7 @@ public class DigitalOnScreenControlExample extends SimpleBaseGameActivity {
 
 	@Override
 	public void onGameCreated() {
+		super.onGameCreated();
 		this.showDialog(DIALOG_ALLOWDIAGONAL_ID);
 	}
 

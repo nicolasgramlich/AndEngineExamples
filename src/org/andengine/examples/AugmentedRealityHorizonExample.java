@@ -71,6 +71,7 @@ package org.andengine.examples;
 //
 //	@Override
 //	public void onGameCreated() {
+//		super.onGameCreated();
 //		this.enableOrientationSensor(this);
 //	}
 //

@@ -73,7 +73,7 @@ public class BitmapFontExample extends SimpleBaseGameActivity {
 	}
 
 	public void onGameCreated() {
-
+		super.onGameCreated();
 	}
 
 	// ===========================================================

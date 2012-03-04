@@ -145,7 +145,7 @@ public class RacerGameActivity extends SimpleBaseGameActivity {
 
 	@Override
 	public void onGameCreated() {
-
+		super.onGameCreated();
 	}
 
 	// ===========================================================

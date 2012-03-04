@@ -100,6 +100,7 @@ public abstract class BaseBenchmark extends SimpleBaseGameActivity {
 
 	@Override
 	public void onGameCreated() {
+		super.onGameCreated();
 		this.mEngine.registerUpdateHandler(new TimerHandler(this.getBenchmarkStartOffset(), new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {

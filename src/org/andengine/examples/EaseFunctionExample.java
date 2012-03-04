@@ -249,6 +249,7 @@ public class EaseFunctionExample extends SimpleBaseGameActivity {
 
 	@Override
 	public void onGameCreated() {
+		super.onGameCreated();
 		this.reanimate();
 	}
 

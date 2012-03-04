@@ -139,6 +139,7 @@ public class PhysicsMouseJointExample extends SimpleBaseGameActivity implements 
 
 	@Override
 	public void onGameCreated() {
+		super.onGameCreated();
 		this.mEngine.enableVibrator(this);
 	}
 
