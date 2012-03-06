@@ -18,6 +18,7 @@ import org.andengine.opengl.texture.bitmap.BitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
 
 import android.widget.Toast;
@@ -66,12 +67,12 @@ public class SpriteExample extends SimpleBaseGameActivity implements OnClickList
 	@Override
 	public void onCreateResources() {
 		try {
-			this.mTexture = new BitmapTexture(this.getTextureManager()) {
+			this.mTexture = new BitmapTexture(this.getTextureManager(), new IInputStreamOpener() {
 				@Override
-				protected InputStream onGetInputStream() throws IOException {
+				public InputStream open() throws IOException {
 					return getAssets().open("gfx/face_box.png");
 				}
-			};
+			});
 
 			this.mTexture.load();
 			this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(this.mTexture);
