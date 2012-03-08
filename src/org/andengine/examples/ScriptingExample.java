@@ -1,7 +1,5 @@
 package org.andengine.examples;
 
-import java.io.IOException;
-
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
@@ -13,10 +11,7 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.extension.scripting.ScriptingEnvironment;
 import org.andengine.extension.scripting.Test;
-import org.andengine.opengl.texture.ITexture;
-import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
-import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.extension.scripting.engine.EngineProxy;
 import org.andengine.ui.activity.LayoutGameActivity;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.system.SystemUtils;
@@ -60,13 +55,6 @@ public class ScriptingExample extends LayoutGameActivity implements OnClickListe
 
 	@Override
 	protected void onCreate(Bundle pSavedInstanceState) {
-		try {
-			final String apkFilePath = SystemUtils.getApkFilePath(this);
-			ScriptingEnvironment.init(this, apkFilePath);
-		} catch (final NameNotFoundException e) {
-			Debug.e(e);
-		}
-
 		super.onCreate(pSavedInstanceState);
 	}
 
@@ -97,7 +85,7 @@ public class ScriptingExample extends LayoutGameActivity implements OnClickListe
 
 	@Override
 	public Engine onCreateEngine(final EngineOptions pEngineOptions) {
-		return ScriptingEnvironment.onCreateEngine(pEngineOptions);
+		return new Engine(pEngineOptions);
 	}
 
 	@Override
@@ -125,10 +113,6 @@ public class ScriptingExample extends LayoutGameActivity implements OnClickListe
 		final Scene scene = new Scene();
 		scene.setOnAreaTouchTraversalFrontToBack();
 		scene.setBackground(new Background(1, 1, 1, 1));
-		
-		final Sprite rectangle = (Sprite)Test.test();
-		scene.attachChild(rectangle);
-		scene.registerTouchArea(rectangle);
 
 		pOnCreateSceneCallback.onCreateSceneFinished(scene);
 	}
@@ -136,6 +120,29 @@ public class ScriptingExample extends LayoutGameActivity implements OnClickListe
 	@Override
 	public void onPopulateScene(final Scene pScene, final OnPopulateSceneCallback pOnPopulateSceneCallback) throws Exception {
 		pOnPopulateSceneCallback.onPopulateSceneFinished();
+	}
+
+	@Override
+	public synchronized void onGameCreated() {
+		super.onGameCreated();
+
+		this.runOnUpdateThread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					final String apkFilePath = SystemUtils.getApkFilePath(ScriptingExample.this);
+					ScriptingEnvironment.init(ScriptingExample.this, apkFilePath, ScriptingExample.this.getEngine());
+				} catch (final NameNotFoundException e) {
+					Debug.e(e);
+				}
+
+				final Sprite rectangle = (Sprite)Test.test();
+
+				final Scene scene = ScriptingExample.this.getEngine().getScene();
+				scene.attachChild(rectangle);
+				scene.registerTouchArea(rectangle);
+			}
+		});
 	}
 
 	@Override
