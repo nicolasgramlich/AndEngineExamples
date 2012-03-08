@@ -104,7 +104,7 @@ public class ButtonSpriteExample extends SimpleBaseGameActivity implements OnCli
 
 	@Override
 	public void onClick(final ButtonSprite pButtonSprite, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-		runOnUiThread(new Runnable() {
+		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				Toast.makeText(ButtonSpriteExample.this, "Clicked", Toast.LENGTH_LONG).show();
