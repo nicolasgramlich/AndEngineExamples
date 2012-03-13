@@ -36,6 +36,7 @@
 		<activity android:name=".AutoParallaxBackgroundExample" android:configChanges="orientation"/>
 		<activity android:name=".BitmapFontExample" android:configChanges="orientation"/>
 		<activity android:name=".BoundCameraExample" android:configChanges="orientation"/>
+		<activity android:name=".ButtonSpriteExample" android:configChanges="orientation"/>
 		<activity android:name=".CanvasTextureCompositingExample" android:configChanges="orientation"/>
 		<activity android:name=".ChangeableTextExample" android:configChanges="orientation"/>
 		<activity android:name=".CollisionDetectionExample" android:configChanges="orientation"/>
@@ -74,6 +75,7 @@
 		<activity android:name=".PhysicsRevoluteJointExample" android:configChanges="orientation"/>
 		<activity android:name=".PhysicsMouseJointExample" android:configChanges="orientation"/>
 		<activity android:name=".PinchZoomExample" android:configChanges="orientation"/>
+		<activity android:name=".PolygonExample" android:configChanges="orientation"/>
 		<activity android:name=".PVRCCZTextureExample" android:configChanges="orientation"/>
 		<activity android:name=".PVRGZTextureExample" android:configChanges="orientation"/>
 		<activity android:name=".PVRTextureExample" android:configChanges="orientation"/>

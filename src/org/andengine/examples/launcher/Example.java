@@ -6,6 +6,7 @@ import org.andengine.examples.AnimatedSpritesExample;
 import org.andengine.examples.AutoParallaxBackgroundExample;
 import org.andengine.examples.BitmapFontExample;
 import org.andengine.examples.BoundCameraExample;
+import org.andengine.examples.ButtonSpriteExample;
 import org.andengine.examples.CanvasTextureCompositingExample;
 import org.andengine.examples.CollisionDetectionExample;
 import org.andengine.examples.ColorKeyTextureSourceDecoratorExample;
@@ -46,6 +47,7 @@ import org.andengine.examples.PhysicsMouseJointExample;
 import org.andengine.examples.PhysicsRemoveExample;
 import org.andengine.examples.PhysicsRevoluteJointExample;
 import org.andengine.examples.PinchZoomExample;
+import org.andengine.examples.PolygonExample;
 import org.andengine.examples.R;
 import org.andengine.examples.RadialBlurExample;
 import org.andengine.examples.RectangleExample;
@@ -105,6 +107,7 @@ enum Example {
 	AUTOPARALLAXBACKGROUND(AutoParallaxBackgroundExample.class, R.string.example_autoparallaxbackground),
 	BITMAPFONT(BitmapFontExample.class, R.string.example_bitmapfont),
 	BOUNDCAMERA(BoundCameraExample.class, R.string.example_boundcamera),
+	BUTTONSPRITE(ButtonSpriteExample.class, R.string.example_buttonsprite),
 	CANVASTEXTURECOMPOSITING(CanvasTextureCompositingExample.class, R.string.example_canvastexturecompositing),
 	CHANGEABLETEXT(TextExample.class, R.string.example_changeabletext),
 	COLLISIONDETECTION(CollisionDetectionExample.class, R.string.example_collisiondetection),
@@ -119,6 +122,7 @@ enum Example {
 	HULLALGORITHM(HullAlgorithmExample.class, R.string.example_hullalgorithm),
 	IMAGEFORMATS(ImageFormatsExample.class, R.string.example_imageformats),
 	LEVELLOADER(LevelLoaderExample.class, R.string.example_levelloader),
+	POLYGON(PolygonExample.class, R.string.example_polygon),
 	LINE(LineExample.class, R.string.example_line),
 	LOADTEXTURE(LoadTextureExample.class, R.string.example_loadtexture),
 	MENU(MenuExample.class, R.string.example_menu),

@@ -49,6 +49,7 @@
 	<string name="example_autoparallaxbackground">Using an AutoParallaxBackground</string>
 	<string name="example_bitmapfont">Using a BitmapFont</string>
 	<string name="example_boundcamera">Using a BoundCamera</string>
+	<string name="example_buttonsprite">Simple two states button</string>
 	<string name="example_canvastexturecompositing">Compositing Textures (Canvas)</string>
 	<string name="example_changeabletext">Changeable Text</string>
 	<string name="example_collisiondetection">Collision Detection</string>
@@ -87,6 +88,7 @@
 	<string name="example_physicsjump">Combining Physics and Touch</string>
 	<string name="example_physicsremove">Removing a Physics Object</string>
 	<string name="example_pinchzoom">Using PinchZoom</string>
+	<string name="example_polygon">Drawing Polygons</string>
 	<string name="example_pvrccztexture">PVRCCZ Texture</string>
 	<string name="example_pvrgztexture">PVRGZ Texture</string>
 	<string name="example_pvrtexture">PVR Texture</string>
