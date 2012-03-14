@@ -117,5 +117,6 @@
 		<activity android:name=".game.racer.RacerGameActivity" android:configChanges="orientation"/>
 		
 		<activity android:name=".app.cityradar.CityRadarActivity" android:configChanges="orientation"/>
+		<activity android:name="SurfaceGestureExample" android:configChanges="orientation"></activity>
 	</application>
 </manifest>

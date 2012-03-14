@@ -133,4 +133,5 @@
 
 	<!-- Apps -->
 	<string name="example_app_cityradar">CityRadar</string>
+	<string name="example_surfacegesture">Using SurfaceGesture</string>
 </resources>
