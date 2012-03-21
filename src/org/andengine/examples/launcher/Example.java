@@ -7,6 +7,7 @@ import org.andengine.examples.AutoParallaxBackgroundExample;
 import org.andengine.examples.BitmapFontExample;
 import org.andengine.examples.BoundCameraExample;
 import org.andengine.examples.CanvasTextureCompositingExample;
+import org.andengine.examples.CardinalSplineMoveModifierExample;
 import org.andengine.examples.CollisionDetectionExample;
 import org.andengine.examples.ColorKeyTextureSourceDecoratorExample;
 import org.andengine.examples.CoordinateConversionExample;
@@ -106,6 +107,7 @@ enum Example {
 	AUTOPARALLAXBACKGROUND(AutoParallaxBackgroundExample.class, R.string.example_autoparallaxbackground),
 	BITMAPFONT(BitmapFontExample.class, R.string.example_bitmapfont),
 	BOUNDCAMERA(BoundCameraExample.class, R.string.example_boundcamera),
+	CARDINALSPLINEMOVEMODIFIER(CardinalSplineMoveModifierExample.class, R.string.example_cardinalsplinemovemodifier),
 	CANVASTEXTURECOMPOSITING(CanvasTextureCompositingExample.class, R.string.example_canvastexturecompositing),
 	CHANGEABLETEXT(TextExample.class, R.string.example_changeabletext),
 	COLLISIONDETECTION(CollisionDetectionExample.class, R.string.example_collisiondetection),
