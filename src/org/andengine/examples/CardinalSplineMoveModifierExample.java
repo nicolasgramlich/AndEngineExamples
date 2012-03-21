@@ -17,6 +17,7 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.math.MathUtils;
+import org.andengine.util.modifier.ease.EaseLinear;
 
 import android.opengl.GLES20;
 
@@ -35,9 +36,9 @@ public class CardinalSplineMoveModifierExample extends SimpleBaseGameActivity {
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 
-	private static final int COUNT = 500;
+	private static final int COUNT = 400;
 	private static final float DURATION = 4;
-	private static final float SIZE = 20;
+	private static final float SIZE = 25;
 
 	private static final float[] CONTROLPOINT_1_XS = {
 		2 * (CAMERA_WIDTH / 4),
@@ -96,14 +97,15 @@ public class CardinalSplineMoveModifierExample extends SimpleBaseGameActivity {
 		scene.setBackground(new Background(0, 0, 0));
 
 		for(int i = 0; i < COUNT; i++) {
-			this.addRectangleWithTension(scene, MathUtils.random(-1f, 1f), MathUtils.random(0, DURATION * 2f));
+			final float tension = MathUtils.random(-0.5f, 0.5f);
+			this.addRectangleWithTension(scene, tension, MathUtils.random(0, DURATION * 2f));
 		}
 
 		return scene;
 	}
 
 	private void addRectangleWithTension(final Scene pScene, final float pTension, float pDelay) {
-		final Rectangle rectangle = new Rectangle(0, 0, SIZE, SIZE, this.getVertexBufferObjectManager());
+		final Rectangle rectangle = new Rectangle(-SIZE, -SIZE, SIZE, SIZE, this.getVertexBufferObjectManager());
 		rectangle.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE);
 		if(pTension < 0) {
 			rectangle.setColor(1 - pTension, 0, 0, 0.5f);
@@ -125,12 +127,12 @@ public class CardinalSplineMoveModifierExample extends SimpleBaseGameActivity {
 				new LoopEntityModifier(
 					new SequenceEntityModifier(
 						new ParallelEntityModifier(
-							new CardinalSplineMoveModifier(CardinalSplineMoveModifierExample.DURATION, catmullRomMoveModifierConfig1),
-							new RotationModifier(CardinalSplineMoveModifierExample.DURATION, 0, 360)
+							new CardinalSplineMoveModifier(CardinalSplineMoveModifierExample.DURATION, catmullRomMoveModifierConfig1, EaseLinear.getInstance()),
+							new RotationModifier(CardinalSplineMoveModifierExample.DURATION, -45, -315)
 						),
 						new ParallelEntityModifier(
-							new CardinalSplineMoveModifier(CardinalSplineMoveModifierExample.DURATION, catmullRomMoveModifierConfig2),
-							new RotationModifier(CardinalSplineMoveModifierExample.DURATION, 0, 360)
+							new CardinalSplineMoveModifier(CardinalSplineMoveModifierExample.DURATION, catmullRomMoveModifierConfig2, EaseLinear.getInstance()),
+							new RotationModifier(CardinalSplineMoveModifierExample.DURATION, 45, 315)
 						)
 					)
 				)
