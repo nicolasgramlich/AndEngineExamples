@@ -37,6 +37,7 @@
 		<activity android:name=".BitmapFontExample" android:configChanges="orientation"/>
 		<activity android:name=".BoundCameraExample" android:configChanges="orientation"/>
 		<activity android:name=".CanvasTextureCompositingExample" android:configChanges="orientation"/>
+		<activity android:name=".CardinalSplineMoveModifierExample" android:configChanges="orientation"/>
 		<activity android:name=".ChangeableTextExample" android:configChanges="orientation"/>
 		<activity android:name=".CollisionDetectionExample" android:configChanges="orientation"/>
 		<activity android:name=".ColorKeyTextureSourceDecoratorExample" android:configChanges="orientation"/>

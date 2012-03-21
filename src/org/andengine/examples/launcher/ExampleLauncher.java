@@ -2,6 +2,7 @@ package org.andengine.examples.launcher;
 
 import java.util.Arrays;
 
+import org.andengine.AndEngine;
 import org.andengine.examples.R;
 import org.andengine.util.debug.Debug;
 
@@ -21,7 +22,7 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 /**
- * (c) 2010 Nicolas Gramlich 
+ * (c) 2010 Nicolas Gramlich
  * (c) 2011 Zynga Inc.
  * 
  * @author Nicolas Gramlich
@@ -35,8 +36,9 @@ public class ExampleLauncher extends ExpandableListActivity {
 	private static final String PREF_LAST_APP_LAUNCH_VERSIONCODE_ID = "last.app.launch.versioncode";
 
 	private static final int DIALOG_FIRST_APP_LAUNCH = 0;
-	private static final int DIALOG_NEW_IN_THIS_VERSION = DIALOG_FIRST_APP_LAUNCH + 1;
-	private static final int DIALOG_BENCHMARKS_SUBMIT_PLEASE = DIALOG_NEW_IN_THIS_VERSION + 1;
+	private static final int DIALOG_NEW_IN_THIS_VERSION = ExampleLauncher.DIALOG_FIRST_APP_LAUNCH + 1;
+	private static final int DIALOG_BENCHMARKS_SUBMIT_PLEASE = ExampleLauncher.DIALOG_NEW_IN_THIS_VERSION + 1;
+	private static final int DIALOG_DEVICE_NOT_SUPPORTED = ExampleLauncher.DIALOG_BENCHMARKS_SUBMIT_PLEASE + 1;
 
 	// ===========================================================
 	// Fields
@@ -56,6 +58,10 @@ public class ExampleLauncher extends ExpandableListActivity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		if(!AndEngine.isDeviceSupported()) {
+			this.showDialog(ExampleLauncher.DIALOG_DEVICE_NOT_SUPPORTED);
+		}
+
 		this.setContentView(R.layout.list_examples);
 
 		this.mExpandableExampleLauncherListAdapter = new ExpandableExampleLauncherListAdapter(this);
@@ -72,17 +78,17 @@ public class ExampleLauncher extends ExpandableListActivity {
 		final SharedPreferences prefs = this.getPreferences(Context.MODE_PRIVATE);
 
 		this.mVersionCodeCurrent = this.getVersionCode();
-		this.mVersionCodeLastLaunch = prefs.getInt(PREF_LAST_APP_LAUNCH_VERSIONCODE_ID, -1);
+		this.mVersionCodeLastLaunch = prefs.getInt(ExampleLauncher.PREF_LAST_APP_LAUNCH_VERSIONCODE_ID, -1);
 
 		if(this.isFirstTime("first.app.launch")) {
-			this.showDialog(DIALOG_FIRST_APP_LAUNCH);
-		} else if(this.mVersionCodeLastLaunch != -1 && this.mVersionCodeLastLaunch < this.mVersionCodeCurrent){
-			this.showDialog(DIALOG_NEW_IN_THIS_VERSION);
-		} else if(isFirstTime("please.submit.benchmarks")){
-			this.showDialog(DIALOG_BENCHMARKS_SUBMIT_PLEASE);
+			this.showDialog(ExampleLauncher.DIALOG_FIRST_APP_LAUNCH);
+		} else if((this.mVersionCodeLastLaunch != -1) && (this.mVersionCodeLastLaunch < this.mVersionCodeCurrent)){
+			this.showDialog(ExampleLauncher.DIALOG_NEW_IN_THIS_VERSION);
+		} else if(this.isFirstTime("please.submit.benchmarks")){
+			this.showDialog(ExampleLauncher.DIALOG_BENCHMARKS_SUBMIT_PLEASE);
 		}
 
-		prefs.edit().putInt(PREF_LAST_APP_LAUNCH_VERSIONCODE_ID, this.mVersionCodeCurrent).commit();
+		prefs.edit().putInt(ExampleLauncher.PREF_LAST_APP_LAUNCH_VERSIONCODE_ID, this.mVersionCodeCurrent).commit();
 	}
 
 	// ===========================================================
@@ -96,6 +102,13 @@ public class ExampleLauncher extends ExpandableListActivity {
 	@Override
 	protected Dialog onCreateDialog(final int pId) {
 		switch(pId) {
+			case DIALOG_DEVICE_NOT_SUPPORTED:
+				return new AlertDialog.Builder(this)
+					.setTitle(R.string.dialog_device_not_supported_title)
+					.setMessage(R.string.dialog_device_not_supported_message)
+					.setIcon(android.R.drawable.ic_dialog_alert)
+					.setPositiveButton(android.R.string.ok, null)
+					.create();
 			case DIALOG_FIRST_APP_LAUNCH:
 				return new AlertDialog.Builder(this)
 					.setTitle(R.string.dialog_first_app_launch_title)
@@ -113,21 +126,21 @@ public class ExampleLauncher extends ExpandableListActivity {
 			case DIALOG_NEW_IN_THIS_VERSION:
 				final int[] versionCodes = this.getResources().getIntArray(R.array.new_in_version_versioncode);
 				final int versionDescriptionsStartIndex = Math.max(0, Arrays.binarySearch(versionCodes, this.mVersionCodeLastLaunch) + 1);
-				
+
 				final String[] versionDescriptions = this.getResources().getStringArray(R.array.new_in_version_changes);
-				
+
 				final StringBuilder sb = new StringBuilder();
 				for(int i = versionDescriptions.length - 1; i >= versionDescriptionsStartIndex; i--) {
 					sb.append("--------------------------\n");
 					sb.append(">>>  Version: " + versionCodes[i] + "\n");
 					sb.append("--------------------------\n");
 					sb.append(versionDescriptions[i]);
-					
+
 					if(i > versionDescriptionsStartIndex){
 						sb.append("\n\n");
 					}
 				}
-				
+
 				return new AlertDialog.Builder(this)
 					.setTitle(R.string.dialog_new_in_this_version_title)
 					.setMessage(sb.toString())
@@ -138,9 +151,9 @@ public class ExampleLauncher extends ExpandableListActivity {
 				return super.onCreateDialog(pId);
 		}
 	}
-	
+
 	@Override
-	public void onGroupExpand(int pGroupPosition) {
+	public void onGroupExpand(final int pGroupPosition) {
 		switch(this.mExpandableExampleLauncherListAdapter.getGroup(pGroupPosition)){
 			case BENCHMARK:
 				Toast.makeText(this, "When running a benchmark, a dialog with the results will appear after some seconds.", Toast.LENGTH_SHORT).show();

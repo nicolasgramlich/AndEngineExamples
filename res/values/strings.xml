@@ -4,6 +4,9 @@
 
     <string name="btn_get_involved_caption">Open Source - Get involved...</string>
 
+    <string name="dialog_device_not_supported_title">Unsupported Device detected!</string>
+    <string name="dialog_device_not_supported_message">Your device isn\'t supported by <b>AndEngine</b>!\n\nPlease send your device information to nicolasgramlich@gmail.com so that we can hopefully add support in the next release!</string>
+
     <string name="dialog_first_app_launch_title">AndEngine - Examples</string>
     <string name="dialog_first_app_launch_message">Welcome to <b>AndEngine</b> the:\n - Free\n - Open Source\n - 2D OpenGL \n - Game-Engine\nfor the Google Android platform.\n\nThese <b>examples</b> are meant for <b>developers</b> to showcase what can be done with <b>AndEngine</b>.\n\nIt\'s Open Source - Get involved!\n\nBest Regards,\nNicolas Gramlich</string>
 
@@ -50,6 +53,7 @@
 	<string name="example_bitmapfont">Using a BitmapFont</string>
 	<string name="example_boundcamera">Using a BoundCamera</string>
 	<string name="example_canvastexturecompositing">Compositing Textures (Canvas)</string>
+	<string name="example_cardinalsplinemovemodifier">Cardinal Spline</string>
 	<string name="example_changeabletext">Changeable Text</string>
 	<string name="example_collisiondetection">Collision Detection</string>
 	<string name="example_colorkeytexturesourcedecorator">Using a ColorKeyTextureSourceDecorator</string>
