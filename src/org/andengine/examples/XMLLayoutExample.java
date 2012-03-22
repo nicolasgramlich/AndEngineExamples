@@ -13,6 +13,7 @@ import org.andengine.entity.particle.initializer.RotationParticleInitializer;
 import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
 import org.andengine.entity.particle.modifier.AlphaParticleModifier;
 import org.andengine.entity.particle.modifier.ColorParticleModifier;
+import org.andengine.entity.particle.modifier.ExpireParticleInitializer;
 import org.andengine.entity.particle.modifier.ExpireParticleModifier;
 import org.andengine.entity.particle.modifier.ScaleParticleModifier;
 import org.andengine.entity.scene.Scene;
@@ -115,13 +116,13 @@ public class XMLLayoutExample extends SimpleLayoutGameActivity {
 		particleSystem.addParticleInitializer(new BlendFunctionParticleInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
 		particleSystem.addParticleInitializer(new VelocityParticleInitializer<Sprite>(-2, 2, -20, -10));
 		particleSystem.addParticleInitializer(new RotationParticleInitializer<Sprite>(0.0f, 360.0f));
+		particleSystem.addParticleInitializer(new ExpireParticleInitializer<Sprite>(6));
 
 		particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 1.0f, 2.0f));
 		particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(0, 3, 1, 1, 0, 0.5f, 0, 0));
 		particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(4, 6, 1, 1, 0.5f, 1, 0, 1));
 		particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(0, 1, 0, 1));
 		particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(5, 6, 1, 0));
-		particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(6));
 
 		scene.attachChild(particleSystem);
 
