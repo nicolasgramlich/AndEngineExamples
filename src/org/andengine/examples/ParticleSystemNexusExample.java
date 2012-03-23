@@ -13,7 +13,7 @@ import org.andengine.entity.particle.initializer.RotationParticleInitializer;
 import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
 import org.andengine.entity.particle.modifier.AlphaParticleModifier;
 import org.andengine.entity.particle.modifier.ColorParticleModifier;
-import org.andengine.entity.particle.modifier.ExpireParticleModifier;
+import org.andengine.entity.particle.modifier.ExpireParticleInitializer;
 import org.andengine.entity.particle.modifier.ScaleParticleModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
@@ -97,9 +97,9 @@ public class ParticleSystemNexusExample extends SimpleBaseGameActivity {
 			particleSystem.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(5, -11));
 			particleSystem.addParticleInitializer(new RotationParticleInitializer<Sprite>(0.0f, 360.0f));
 			particleSystem.addParticleInitializer(new ColorParticleInitializer<Sprite>(1.0f, 1.0f, 0.0f));
+			particleSystem.addParticleInitializer(new ExpireParticleInitializer<Sprite>(6.5f));
 
 			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 0.5f, 2.0f));
-			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(6.5f));
 			particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(2.5f, 5.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f));
 			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(2.5f, 6.5f, 1.0f, 0.0f));
 
@@ -114,9 +114,9 @@ public class ParticleSystemNexusExample extends SimpleBaseGameActivity {
 			particleSystem.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, -11));
 			particleSystem.addParticleInitializer(new RotationParticleInitializer<Sprite>(0.0f, 360.0f));
 			particleSystem.addParticleInitializer(new ColorParticleInitializer<Sprite>(0.0f, 1.0f, 0.0f));
+			particleSystem.addParticleInitializer(new ExpireParticleInitializer<Sprite>(6.5f));
 
 			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 0.5f, 2.0f));
-			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(6.5f));
 			particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(2.5f, 5.5f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f));
 			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(2.5f, 6.5f, 1.0f, 0.0f));
 
@@ -131,9 +131,9 @@ public class ParticleSystemNexusExample extends SimpleBaseGameActivity {
 			particleSystem.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(5, 11));
 			particleSystem.addParticleInitializer(new RotationParticleInitializer<Sprite>(0.0f, 360.0f));
 			particleSystem.addParticleInitializer(new ColorParticleInitializer<Sprite>(0.0f, 0.0f, 1.0f));
+			particleSystem.addParticleInitializer(new ExpireParticleInitializer<Sprite>(6.5f));
 
 			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 0.5f, 2.0f));
-			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(6.5f));
 			particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(2.5f, 5.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f));
 			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(2.5f, 6.5f, 1.0f, 0.0f));
 
@@ -148,9 +148,9 @@ public class ParticleSystemNexusExample extends SimpleBaseGameActivity {
 			particleSystem.addParticleInitializer(new AccelerationParticleInitializer<Sprite>(-5, 11));
 			particleSystem.addParticleInitializer(new RotationParticleInitializer<Sprite>(0.0f, 360.0f));
 			particleSystem.addParticleInitializer(new ColorParticleInitializer<Sprite>(1.0f, 0.0f, 0.0f));
+			particleSystem.addParticleInitializer(new ExpireParticleInitializer<Sprite>(6.5f));
 
 			particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 0.5f, 2.0f));
-			particleSystem.addParticleModifier(new ExpireParticleModifier<Sprite>(6.5f));
 			particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(2.5f, 5.5f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f));
 			particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(2.5f, 6.5f, 1.0f, 0.0f));
 
