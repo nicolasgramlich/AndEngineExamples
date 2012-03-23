@@ -17,10 +17,7 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.math.MathUtils;
-<<<<<<< HEAD
-=======
 import org.andengine.util.modifier.ease.EaseLinear;
->>>>>>> GLES2
 
 import android.opengl.GLES20;
 
