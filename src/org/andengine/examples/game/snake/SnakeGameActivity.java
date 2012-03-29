@@ -19,7 +19,7 @@ import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
-import org.andengine.entity.text.Text.TextOptions;
+import org.andengine.entity.text.TextOptions;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.examples.game.snake.adt.Direction;
 import org.andengine.examples.game.snake.adt.SnakeSuicideException;

@@ -9,7 +9,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.batch.SpriteBatch;
-import org.andengine.entity.sprite.batch.SpriteBatch.HighPerformanceSpriteBatchVertexBufferObject;
+import org.andengine.entity.sprite.batch.vbo.HighPerformanceSpriteBatchVertexBufferObject;
 import org.andengine.entity.sprite.vbo.ISpriteVertexBufferObject;
 import org.andengine.entity.sprite.vbo.LowMemorySpriteVertexBufferObject;
 import org.andengine.opengl.shader.PositionTextureCoordinatesShaderProgram;
