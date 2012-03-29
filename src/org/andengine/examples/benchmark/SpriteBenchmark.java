@@ -8,9 +8,10 @@ import org.andengine.entity.modifier.AlphaModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.sprite.Sprite.ISpriteVertexBufferObject;
 import org.andengine.entity.sprite.batch.SpriteBatch;
 import org.andengine.entity.sprite.batch.SpriteBatch.HighPerformanceSpriteBatchVertexBufferObject;
+import org.andengine.entity.sprite.vbo.ISpriteVertexBufferObject;
+import org.andengine.entity.sprite.vbo.LowMemorySpriteVertexBufferObject;
 import org.andengine.opengl.shader.PositionTextureCoordinatesShaderProgram;
 import org.andengine.opengl.shader.constants.ShaderProgramConstants;
 import org.andengine.opengl.texture.ITexture;
@@ -119,7 +120,7 @@ public class SpriteBenchmark extends BaseBenchmark {
 
 	private void drawUsingSpritesWithSharedVertexBuffer(final Scene pScene) {
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
-		final ISpriteVertexBufferObject sharedVertexBuffer = new Sprite.LowMemorySpriteVertexBufferObject(this.getVertexBufferObjectManager(), Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
+		final ISpriteVertexBufferObject sharedVertexBuffer = new LowMemorySpriteVertexBufferObject(this.getVertexBufferObjectManager(), Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
 
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion, sharedVertexBuffer);
