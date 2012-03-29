@@ -15,13 +15,14 @@ import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.sprite.Sprite.ISpriteVertexBufferObject;
 import org.andengine.entity.sprite.batch.SpriteGroup;
+import org.andengine.entity.sprite.vbo.ISpriteVertexBufferObject;
+import org.andengine.entity.sprite.vbo.LowMemorySpriteVertexBufferObject;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.ITextureRegion;
-import org.andengine.opengl.vbo.VertexBufferObject.DrawType;
+import org.andengine.opengl.vbo.DrawType;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.opengl.GLES20;
@@ -154,7 +155,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 		);
 
 		/* As we are creating quite a lot of the same Sprites, we can let them share a VertexBuffer to significantly increase performance. */
-		final ISpriteVertexBufferObject sharedVertexBuffer = new Sprite.LowMemorySpriteVertexBufferObject(this.getVertexBufferObjectManager(), Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
+		final ISpriteVertexBufferObject sharedVertexBuffer = new LowMemorySpriteVertexBufferObject(this.getVertexBufferObjectManager(), Sprite.SPRITE_SIZE, DrawType.STATIC, true, Sprite.VERTEXBUFFEROBJECTATTRIBUTES_DEFAULT);
 
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			final Sprite face = new Sprite((CAMERA_WIDTH - 32) * this.mRandom.nextFloat(), (CAMERA_HEIGHT - 32) * this.mRandom.nextFloat(), this.mFaceTextureRegion, sharedVertexBuffer);

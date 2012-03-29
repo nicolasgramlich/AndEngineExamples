@@ -7,7 +7,7 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.Text;
-import org.andengine.entity.text.Text.TextOptions;
+import org.andengine.entity.text.TextOptions;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.font.BitmapFont;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
