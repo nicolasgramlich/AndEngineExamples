@@ -1,5 +1,7 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
@@ -9,15 +11,12 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
-import org.andengine.extension.scripting.ScriptingEnvironment;
+import org.andengine.extension.scripting.AndEngineScriptingExtension;
 import org.andengine.extension.scripting.Test;
-import org.andengine.extension.scripting.engine.EngineProxy;
 import org.andengine.ui.activity.LayoutGameActivity;
+import org.andengine.util.StreamUtils;
 import org.andengine.util.debug.Debug;
-import org.andengine.util.system.SystemUtils;
 
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -36,7 +35,6 @@ public class ScriptingExample extends LayoutGameActivity implements OnClickListe
 
 	static {
 		System.loadLibrary("gnustl_shared");
-//		System.loadLibrary("js");
 		System.loadLibrary("andenginescriptingextension");
 	}
 
@@ -52,11 +50,6 @@ public class ScriptingExample extends LayoutGameActivity implements OnClickListe
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-
-	@Override
-	protected void onCreate(Bundle pSavedInstanceState) {
-		super.onCreate(pSavedInstanceState);
-	}
 
 	// ===========================================================
 	// Getter & Setter
@@ -94,10 +87,11 @@ public class ScriptingExample extends LayoutGameActivity implements OnClickListe
 
 		this.mEditTextCode = (EditText) this.findViewById(R.id.scriptingexample_code);
 		try {
-			this.mEditTextCode.setText(SystemUtils.getApkFilePath(this));
-		} catch (final NameNotFoundException e) {
+			this.mEditTextCode.setText(StreamUtils.readFully(this.getAssets().open("js/scriptingexample.js")));
+		} catch (final IOException e) {
 			Debug.e(e);
 		}
+
 		this.findViewById(R.id.scriptingexample_code_apply).setOnClickListener(this);
 	}
 
@@ -129,12 +123,7 @@ public class ScriptingExample extends LayoutGameActivity implements OnClickListe
 		this.runOnUpdateThread(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					final String apkFilePath = SystemUtils.getApkFilePath(ScriptingExample.this);
-					ScriptingEnvironment.init(ScriptingExample.this, apkFilePath, ScriptingExample.this.getEngine());
-				} catch (final NameNotFoundException e) {
-					Debug.e(e);
-				}
+				AndEngineScriptingExtension.init(ScriptingExample.this, ScriptingExample.this.getEngine());
 
 				final Sprite rectangle = (Sprite)Test.test();
 
@@ -147,7 +136,14 @@ public class ScriptingExample extends LayoutGameActivity implements OnClickListe
 
 	@Override
 	public void onClick(final View pView) {
-		/* Do sth. */
+		final String script = this.mEditTextCode.getText().toString();
+
+		this.runOnUpdateThread(new Runnable() {
+			@Override
+			public void run() {
+				AndEngineScriptingExtension.runScript(script);
+			}
+		});
 	}
 
 	// ===========================================================
