@@ -7,6 +7,8 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.andengine.entity.IEntity;
+import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
@@ -125,11 +127,13 @@ public class ScriptingExample extends LayoutGameActivity implements OnClickListe
 			public void run() {
 				AndEngineScriptingExtension.init(ScriptingExample.this, ScriptingExample.this.getEngine());
 
-				final Sprite rectangle = (Sprite)Test.test();
+				final IEntity entity = (IEntity)Test.test();
 
 				final Scene scene = ScriptingExample.this.getEngine().getScene();
-				scene.attachChild(rectangle);
-				scene.registerTouchArea(rectangle);
+				scene.attachChild(entity);
+				if(entity instanceof ITouchArea) {
+					scene.registerTouchArea((ITouchArea)entity);
+				}
 			}
 		});
 	}
