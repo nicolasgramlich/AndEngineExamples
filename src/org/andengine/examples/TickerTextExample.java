@@ -66,7 +66,7 @@ public class TickerTextExample extends SimpleBaseGameActivity {
 
 	@Override
 	public void onCreateResources() {
-		this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 256, 256, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32);
+		this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 32, 32, TextureOptions.BILINEAR, Typeface.create(Typeface.DEFAULT, Typeface.BOLD), 32);
 		this.mFont.load();
 	}
 

@@ -19,7 +19,7 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.Constants;
-import org.andengine.util.algorithm.collision.ShapeCollisionChecker;
+import org.andengine.util.algorithm.collision.BaseCollisionChecker;
 import org.andengine.util.algorithm.hull.JarvisMarch;
 import org.andengine.util.color.Color;
 
@@ -121,7 +121,7 @@ public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnCl
 		} else if(pSceneTouchEvent.isActionMove()) {
 			{ /* Point-in-polygon test for the mesh. */
 				final float[] coords = this.mMesh.convertSceneToLocalCoordinates(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-				if(ShapeCollisionChecker.checkContains(this.mMeshVertices, this.mMeshVertexCount, 0, 1, 3, coords[Constants.VERTEX_INDEX_X], coords[Constants.VERTEX_INDEX_Y])) {
+				if(BaseCollisionChecker.checkContains(this.mMeshVertices, this.mMeshVertexCount, 0, 1, 3, coords[Constants.VERTEX_INDEX_X], coords[Constants.VERTEX_INDEX_Y])) {
 					this.mMesh.setColor(Color.GREEN);
 				} else {
 					this.mMesh.setColor(Color.RED);
@@ -129,7 +129,7 @@ public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnCl
 			}
 			{ /* Point-in-polygon test for the hull. */
 				final float[] coords = this.mHull.convertSceneToLocalCoordinates(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-				if(ShapeCollisionChecker.checkContains(this.mHullVertices, this.mHullVertexCount, 0, 1, 3, coords[Constants.VERTEX_INDEX_X], coords[Constants.VERTEX_INDEX_Y])) {
+				if(BaseCollisionChecker.checkContains(this.mHullVertices, this.mHullVertexCount, 0, 1, 3, coords[Constants.VERTEX_INDEX_X], coords[Constants.VERTEX_INDEX_Y])) {
 					this.mHull.setColor(Color.GREEN);
 				} else {
 					this.mHull.setColor(Color.RED);

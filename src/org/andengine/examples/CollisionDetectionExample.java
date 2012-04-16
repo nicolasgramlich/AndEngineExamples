@@ -199,7 +199,7 @@ public class CollisionDetectionExample extends SimpleBaseGameActivity {
 					line.setColor(0, 1, 0);
 				}
 				
-				if(!mCamera.isRectangularShapeVisible(face)) {
+				if(!mCamera.isEntityVisible(face)) {
 					centerRectangle.setColor(1, 0, 1);
 				}
 			}

@@ -4,13 +4,13 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.andengine.entity.IEntity;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnAreaTouchListener;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
-import org.andengine.entity.shape.IAreaShape;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
@@ -171,7 +171,7 @@ public class PhysicsMouseJointExample extends SimpleBaseGameActivity implements 
 	@Override
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 		if(pSceneTouchEvent.isActionDown()) {
-			final IAreaShape face = (IAreaShape) pTouchArea;
+			final IEntity face = (IEntity) pTouchArea;
 			/*
 			 * If we have a active MouseJoint, we are just moving it around
 			 * instead of creating a second one.
@@ -215,7 +215,7 @@ public class PhysicsMouseJointExample extends SimpleBaseGameActivity implements 
 	// Methods
 	// ===========================================================
 
-	public MouseJoint createMouseJoint(final IAreaShape pFace, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+	public MouseJoint createMouseJoint(final IEntity pFace, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 		final Body body = (Body) pFace.getUserData();
 		final MouseJointDef mouseJointDef = new MouseJointDef();
 
