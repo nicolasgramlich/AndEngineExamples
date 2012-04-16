@@ -105,7 +105,7 @@ public class SpriteRemoveExample extends SimpleBaseGameActivity implements IOnSc
 		this.mFaceToRemove.dispose();
 		this.mFaceToRemove = null;
 
-		engineLock.lock();
+		engineLock.unlock();
 		return true;
 	}
 
