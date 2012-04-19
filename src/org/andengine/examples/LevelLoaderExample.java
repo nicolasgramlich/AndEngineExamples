@@ -6,6 +6,7 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.andengine.entity.IEntity;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
@@ -14,11 +15,12 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.SAXUtils;
 import org.andengine.util.debug.Debug;
+import org.andengine.util.level.IEntityLoader;
 import org.andengine.util.level.LevelLoader;
-import org.andengine.util.level.LevelLoader.IEntityLoader;
 import org.andengine.util.level.constants.LevelConstants;
 import org.xml.sax.Attributes;
 
@@ -107,7 +109,7 @@ public class LevelLoaderExample extends SimpleBaseGameActivity {
 
 		levelLoader.registerEntityLoader(LevelConstants.TAG_LEVEL, new IEntityLoader() {
 			@Override
-			public void onLoadEntity(final String pEntityName, final Attributes pAttributes) {
+			public IEntity onLoadEntity(final String pEntityName, final Attributes pAttributes) {
 				final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_WIDTH);
 				final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_HEIGHT);
 				LevelLoaderExample.this.runOnUiThread(new Runnable() {
@@ -116,24 +118,43 @@ public class LevelLoaderExample extends SimpleBaseGameActivity {
 						Toast.makeText(LevelLoaderExample.this, "Loaded level with width=" + width + " and height=" + height + ".", Toast.LENGTH_LONG).show();
 					}
 				});
+
+				return scene;
 			}
 		});
 
 		levelLoader.registerEntityLoader(TAG_ENTITY, new IEntityLoader() {
 			@Override
-			public void onLoadEntity(final String pEntityName, final Attributes pAttributes) {
+			public IEntity onLoadEntity(final String pEntityName, final Attributes pAttributes) {
 				final int x = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_X);
 				final int y = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_Y);
 				final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_WIDTH);
 				final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_HEIGHT);
 				final String type = SAXUtils.getAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_TYPE);
 
-				LevelLoaderExample.this.addFace(scene, x, y, width, height, type);
+				final VertexBufferObjectManager vertexBufferObjectManager = LevelLoaderExample.this.getVertexBufferObjectManager();
+
+				final AnimatedSprite face;
+				if(type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_BOX)) {
+					face = new AnimatedSprite(x, y, width, height, LevelLoaderExample.this.mBoxFaceTextureRegion, vertexBufferObjectManager);
+				} else if(type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_CIRCLE)) {
+					face = new AnimatedSprite(x, y, width, height, LevelLoaderExample.this.mCircleFaceTextureRegion, vertexBufferObjectManager);
+				} else if(type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_TRIANGLE)) {
+					face = new AnimatedSprite(x, y, width, height, LevelLoaderExample.this.mTriangleFaceTextureRegion, vertexBufferObjectManager);
+				} else if(type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_HEXAGON)) {
+					face = new AnimatedSprite(x, y, width, height, LevelLoaderExample.this.mHexagonFaceTextureRegion, vertexBufferObjectManager);
+				} else {
+					throw new IllegalArgumentException();
+				}
+
+				face.animate(200);
+
+				return face;
 			}
 		});
 
 		try {
-			levelLoader.loadLevelFromAsset(this, "example.lvl");
+			levelLoader.loadLevelFromAsset(this.getAssets(), "example.lvl");
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
@@ -144,26 +165,6 @@ public class LevelLoaderExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
-	private void addFace(final Scene pScene, final float pX, final float pY, final int pWidth, final int pHeight, final String pType) {
-		final AnimatedSprite face;
-
-		if(pType.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_BOX)) {
-			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mBoxFaceTextureRegion, this.getVertexBufferObjectManager());
-		} else if(pType.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_CIRCLE)) {
-			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mCircleFaceTextureRegion, this.getVertexBufferObjectManager());
-		} else if(pType.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_TRIANGLE)) {
-			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mTriangleFaceTextureRegion, this.getVertexBufferObjectManager());
-		} else if(pType.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_HEXAGON)) {
-			face = new AnimatedSprite(pX, pY, pWidth, pHeight, this.mHexagonFaceTextureRegion, this.getVertexBufferObjectManager());
-		} else {
-			throw new IllegalArgumentException();
-		}
-
-		face.animate(200);
-
-		pScene.attachChild(face);
-	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
