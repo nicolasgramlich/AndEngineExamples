@@ -9,8 +9,6 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.Background;
-import org.andengine.entity.sprite.ButtonSprite;
-import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.texture.ITexture;
@@ -21,8 +19,6 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.adt.io.in.IInputStreamOpener;
 import org.andengine.util.debug.Debug;
 
-import android.widget.Toast;
-
 /**
  * (c) 2010 Nicolas Gramlich
  * (c) 2011 Zynga
@@ -30,7 +26,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class SpriteExample extends SimpleBaseGameActivity implements OnClickListener {
+public class SpriteExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -97,16 +93,6 @@ public class SpriteExample extends SimpleBaseGameActivity implements OnClickList
 		scene.attachChild(face);
 
 		return scene;
-	}
-
-	@Override
-	public void onClick(final ButtonSprite pButtonSprite, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(SpriteExample.this, "Clicked", Toast.LENGTH_LONG).show();
-			}
-		});
 	}
 
 	// ===========================================================
