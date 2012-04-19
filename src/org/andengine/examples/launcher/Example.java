@@ -6,6 +6,7 @@ import org.andengine.examples.AnimatedSpritesExample;
 import org.andengine.examples.AutoParallaxBackgroundExample;
 import org.andengine.examples.BitmapFontExample;
 import org.andengine.examples.BoundCameraExample;
+import org.andengine.examples.CCBLevelLoaderExample;
 import org.andengine.examples.CanvasTextureCompositingExample;
 import org.andengine.examples.CardinalSplineMoveModifierExample;
 import org.andengine.examples.CollisionDetectionExample;
@@ -108,6 +109,7 @@ enum Example {
 	BOUNDCAMERA(BoundCameraExample.class, R.string.example_boundcamera),
 	CARDINALSPLINEMOVEMODIFIER(CardinalSplineMoveModifierExample.class, R.string.example_cardinalsplinemovemodifier),
 	CANVASTEXTURECOMPOSITING(CanvasTextureCompositingExample.class, R.string.example_canvastexturecompositing),
+	CCBLEVELLOADER(CCBLevelLoaderExample.class, R.string.example_ccblevelloader),
 	CHANGEABLETEXT(TextExample.class, R.string.example_changeabletext),
 	COLLISIONDETECTION(CollisionDetectionExample.class, R.string.example_collisiondetection),
 	COLORKEYTEXTURESOURCEDECORATOR(ColorKeyTextureSourceDecoratorExample.class, R.string.example_colorkeytexturesourcedecorator),

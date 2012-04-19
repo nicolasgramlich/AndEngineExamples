@@ -18,10 +18,11 @@ import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.SAXUtils;
-import org.andengine.util.debug.Debug;
-import org.andengine.util.level.IEntityLoader;
-import org.andengine.util.level.LevelLoader;
+import org.andengine.util.level.EntityLoader;
 import org.andengine.util.level.constants.LevelConstants;
+import org.andengine.util.level.simple.SimpleLevelEntityLoaderDataSource;
+import org.andengine.util.level.simple.SimpleLevelLoader;
+import org.andengine.util.level.simple.SimpleLevelLoaderResult;
 import org.xml.sax.Attributes;
 
 import android.widget.Toast;
@@ -101,38 +102,37 @@ public class LevelLoaderExample extends SimpleBaseGameActivity {
 	public Scene onCreateScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		final Scene scene = new Scene();
-		scene.setBackground(new Background(0, 0, 0));
+		final SimpleLevelLoader levelLoader = new SimpleLevelLoader(this.getVertexBufferObjectManager());
 
-		final LevelLoader levelLoader = new LevelLoader();
-		levelLoader.setAssetBasePath("level/");
-
-		levelLoader.registerEntityLoader(LevelConstants.TAG_LEVEL, new IEntityLoader() {
+		levelLoader.registerEntityLoader(new EntityLoader<SimpleLevelEntityLoaderDataSource>(LevelConstants.TAG_LEVEL) {
 			@Override
-			public IEntity onLoadEntity(final String pEntityName, final Attributes pAttributes) {
+			public IEntity onLoadEntity(String pEntityName, Attributes pAttributes, SimpleLevelEntityLoaderDataSource pEntityLoaderDataSource) throws IOException {
 				final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_WIDTH);
 				final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_HEIGHT);
+				
 				LevelLoaderExample.this.runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
 						Toast.makeText(LevelLoaderExample.this, "Loaded level with width=" + width + " and height=" + height + ".", Toast.LENGTH_LONG).show();
 					}
 				});
-
+				
+				final Scene scene = new Scene();
+				scene.setBackground(new Background(0, 0, 0));
 				return scene;
 			}
 		});
 
-		levelLoader.registerEntityLoader(TAG_ENTITY, new IEntityLoader() {
+		levelLoader.registerEntityLoader(new EntityLoader<SimpleLevelEntityLoaderDataSource>(TAG_ENTITY) {
 			@Override
-			public IEntity onLoadEntity(final String pEntityName, final Attributes pAttributes) {
+			public IEntity onLoadEntity(String pEntityName, Attributes pAttributes, SimpleLevelEntityLoaderDataSource pSimpleLevelEntityLoaderDataSource) throws IOException {
 				final int x = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_X);
 				final int y = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_Y);
 				final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_WIDTH);
 				final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_HEIGHT);
 				final String type = SAXUtils.getAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_TYPE);
 
-				final VertexBufferObjectManager vertexBufferObjectManager = LevelLoaderExample.this.getVertexBufferObjectManager();
+				final VertexBufferObjectManager vertexBufferObjectManager = pSimpleLevelEntityLoaderDataSource.getVertexBufferObjectManager();
 
 				final AnimatedSprite face;
 				if(type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_BOX)) {
@@ -153,13 +153,9 @@ public class LevelLoaderExample extends SimpleBaseGameActivity {
 			}
 		});
 
-		try {
-			levelLoader.loadLevelFromAsset(this.getAssets(), "example.lvl");
-		} catch (final IOException e) {
-			Debug.e(e);
-		}
+		final SimpleLevelLoaderResult simpleLevelLoaderResult = levelLoader.loadLevelFromAsset(this.getAssets(), "level/example.lvl");
 
-		return scene;
+		return simpleLevelLoaderResult.getScene();
 	}
 
 	// ===========================================================

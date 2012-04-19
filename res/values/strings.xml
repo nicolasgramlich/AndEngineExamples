@@ -54,6 +54,7 @@
 	<string name="example_boundcamera">Using a BoundCamera</string>
 	<string name="example_canvastexturecompositing">Compositing Textures (Canvas)</string>
 	<string name="example_cardinalsplinemovemodifier">Cardinal Spline</string>
+	<string name="example_ccblevelloader">CCBLevelLoader (CocosBuilder)</string>
 	<string name="example_changeabletext">Changeable Text</string>
 	<string name="example_collisiondetection">Collision Detection</string>
 	<string name="example_colorkeytexturesourcedecorator">Using a ColorKeyTextureSourceDecorator</string>
