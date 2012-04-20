@@ -136,7 +136,7 @@ public class AttachDetachBenchmark extends BaseBenchmark {
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
 				final int randomChildIndex = AttachDetachBenchmark.this.mRandom.nextInt(spriteGroup.getChildCount());
-				final Sprite child = (Sprite)spriteGroup.getChild(randomChildIndex);
+				final Sprite child = (Sprite)spriteGroup.getChildByIndex(randomChildIndex);
 				child.detachSelf();
 				spriteGroup.attachChild(child);
 			}
