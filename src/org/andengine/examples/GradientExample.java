@@ -73,7 +73,8 @@ public class GradientExample extends SimpleBaseGameActivity implements IOnSceneT
 
 		this.mGradient = new Gradient(0, 0, GradientExample.CAMERA_WIDTH, GradientExample.CAMERA_HEIGHT, this.getVertexBufferObjectManager());
 		this.mGradient.setGradient(Color.RED, Color.BLUE, 1, 0);
-		this.mGradient.setCompressedInterpolation(true);
+		this.mGradient.setGradientFitToBounds(true);
+		this.mGradient.setGradientDitherEnabled(true);
 
 		scene.attachChild(this.mGradient);
 
@@ -91,9 +92,9 @@ public class GradientExample extends SimpleBaseGameActivity implements IOnSceneT
 
 	@Override
 	public void onClick(final ClickDetector pClickDetector, final int pPointerID, final float pSceneX, final float pSceneY) {
-		this.mGradient.setCompressedInterpolation(!this.mGradient.isCompressedInterpolation());
+		this.mGradient.setGradientFitToBounds(!this.mGradient.isGradientFitToBounds());
 
-		this.toastOnUIThread("" + this.mGradient.isCompressedInterpolation());
+		this.toastOnUIThread("Gradient fit to bounds: '" + this.mGradient.isGradientFitToBounds() + "'.");
 	}
 
 	// ===========================================================
