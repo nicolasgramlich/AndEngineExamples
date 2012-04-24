@@ -18,6 +18,7 @@ import org.andengine.examples.ETC1TextureExample;
 import org.andengine.examples.EaseFunctionExample;
 import org.andengine.examples.EntityModifierExample;
 import org.andengine.examples.EntityModifierIrregularExample;
+import org.andengine.examples.GradientExample;
 import org.andengine.examples.HullAlgorithmExample;
 import org.andengine.examples.ImageFormatsExample;
 import org.andengine.examples.LevelLoaderExample;
@@ -120,6 +121,7 @@ enum Example {
 	ENTITYMODIFIER(EntityModifierExample.class, R.string.example_entitymodifier),
 	ENTITYMODIFIERIRREGULAR(EntityModifierIrregularExample.class, R.string.example_entitymodifierirregular),
 	ETC1TEXTURE(ETC1TextureExample.class, R.string.example_etc1texture),
+	GRADIENT(GradientExample.class, R.string.example_gradient),
 	HULLALGORITHM(HullAlgorithmExample.class, R.string.example_hullalgorithm),
 	IMAGEFORMATS(ImageFormatsExample.class, R.string.example_imageformats),
 	LEVELLOADER(LevelLoaderExample.class, R.string.example_levelloader),

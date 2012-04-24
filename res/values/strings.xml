@@ -65,6 +65,7 @@
 	<string name="example_entitymodifier">Using EntityModifiers</string>
 	<string name="example_entitymodifierirregular">Irregular EntityModifiers</string>
 	<string name="example_etc1texture">Using ETC1 Textures</string>
+	<string name="example_gradient">Drawing a Gradient</string>
 	<string name="example_hullalgorithm">Hull Algorithm</string>
 	<string name="example_imageformats">Using ImageFormats (PNG, JPG, GIF, BMP)</string>
 	<string name="example_levelloader">Loading a Level from XML</string>
