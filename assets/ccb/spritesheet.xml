@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texture version="1" file="spritesheet.pvr.ccz" type="pvrccz" width="114" height="104" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="true">
+    <!-- Created with TexturePacker http://texturepacker.com -->
+    <!-- $TexturePacker:SmartUpdate:ce649832876c552e65d05a0c249f015c$ -->
+    <textureregion id="0" src="face_box.png" x="2" y="70" width="32" height="32" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="32" srcheight="32"/>
+    <textureregion id="1" src="face_circle_tiled.png" x="2" y="36" width="64" height="32" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="32"/>
+    <textureregion id="2" src="face_hexagon_tiled.png" x="68" y="2" width="64" height="32" rotated="true" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="32"/>
+    <textureregion id="3" src="face_triangle_tiled.png" x="2" y="2" width="64" height="32" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="64" srcheight="32"/>
+    <textureregion id="4" src="nineslice.png" x="102" y="2" width="10" height="10" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="10" srcheight="10"/>
+</texture>

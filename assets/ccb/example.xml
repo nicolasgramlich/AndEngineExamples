@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CCB stageHeight="320" stageWidth="480" centeredOrigin="false" version="3">
-	<CCLayer x="0" y="0" width="0" height="0" anchorPointX="0.5" anchorPointY="0.5" scaleX="1" scaleY="1" rotation="0" tag="-1" isRelativeAnchorPoint="true" visible="true">
-		<CCSprite x="240" y="160" width="32" height="32" anchorPointX="0.5" anchorPointY="0.5" scaleX="1" scaleY="1" rotation="0" tag="-1" isRelativeAnchorPoint="true" visible="true" opacity="128" red="255" green="0" blue="0" flipX="true" flipY="true" blendFunctionSource="1" blendFunctionDestination="771" textureRegion="face_box.png">
-		</CCSprite>
-	</CCLayer>
-</CCB>
