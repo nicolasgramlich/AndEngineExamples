@@ -35,7 +35,7 @@ import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegion
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.HorizontalAlign;
+import org.andengine.util.align.HorizontalAlign;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 

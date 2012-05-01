@@ -11,7 +11,7 @@ import org.andengine.entity.text.TextOptions;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.font.BitmapFont;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.HorizontalAlign;
+import org.andengine.util.align.HorizontalAlign;
 
 /**
  * (c) Zynga 2011

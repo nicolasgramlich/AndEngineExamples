@@ -16,7 +16,7 @@ import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleLayoutGameActivity;
-import org.andengine.util.HorizontalAlign;
+import org.andengine.util.align.HorizontalAlign;
 import org.andengine.util.color.Color;
 
 import android.graphics.Typeface;
@@ -103,7 +103,7 @@ public class TextBreakExample extends SimpleLayoutGameActivity implements TextWa
 		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
 
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
-		this.mText = new Text(50, 40, this.mFont, "", 1000, new TextOptions(AutoWrap.LETTERS, AUTOWRAP_WIDTH, Text.LEADING_DEFAULT, HorizontalAlign.CENTER), vertexBufferObjectManager);
+		this.mText = new Text(50, 40, this.mFont, "", 1000, new TextOptions(AutoWrap.LETTERS, AUTOWRAP_WIDTH, HorizontalAlign.CENTER), vertexBufferObjectManager);
 		scene.attachChild(this.mText);
 
 		this.mLeft = new Line(0, 0, 0, TextBreakExample.CAMERA_HEIGHT, this.getVertexBufferObjectManager());
@@ -134,7 +134,7 @@ public class TextBreakExample extends SimpleLayoutGameActivity implements TextWa
 	private void updateText() {
 		final String string = this.mEditText.getText().toString();
 		this.mText.setText(string);
-		
+
 		final float left = (this.mText.getWidth() * 0.5f) - (this.mText.getLineWidthMaximum() * 0.5f);
 		this.mLeft.setPosition(left, 0, left, TextBreakExample.CAMERA_HEIGHT);
 

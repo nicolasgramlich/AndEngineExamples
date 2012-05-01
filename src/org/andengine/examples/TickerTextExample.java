@@ -19,7 +19,7 @@ import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.HorizontalAlign;
+import org.andengine.util.align.HorizontalAlign;
 
 import android.graphics.Typeface;
 import android.opengl.GLES20;
