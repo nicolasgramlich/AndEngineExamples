@@ -95,8 +95,8 @@ public class SpriteBatchExample extends SimpleBaseGameActivity {
 		};
 		
 		final SpriteBatch staticSpriteBatch = new SpriteBatch(this.mBitmapTextureAtlas, 2, this.getVertexBufferObjectManager());
-		staticSpriteBatch.draw(this.mFaceTextureRegion, -50, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight(), 2, 2, 1, 1, 1, 1);
-		staticSpriteBatch.draw(this.mFaceTextureRegion, 50, 0, this.mFaceTextureRegion.getWidth(), this.mFaceTextureRegion.getHeight(), 45, 1, 1, 1, 1);
+		staticSpriteBatch.draw(faceSprite1);
+		staticSpriteBatch.draw(faceSprite2);
 		staticSpriteBatch.submit();
 
 		dynamicSpriteBatch.setPosition(centerX, centerY - 50);
