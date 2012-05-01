@@ -4,10 +4,16 @@ import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
+import org.andengine.entity.IEntity;
+import org.andengine.entity.IEntityMatcher;
+import org.andengine.entity.TagEntityMatcher;
+import org.andengine.entity.modifier.LoopEntityModifier;
+import org.andengine.entity.modifier.RotationModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.extension.cocosbuilder.CCBLevelLoader;
 import org.andengine.extension.cocosbuilder.CCBLevelLoaderResult;
+import org.andengine.extension.cocosbuilder.entity.CCSprite;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 /**
@@ -23,6 +29,8 @@ public class CCBLevelLoaderExample extends SimpleBaseGameActivity {
 
 	private static final int CAMERA_WIDTH = 480;
 	private static final int CAMERA_HEIGHT = 320;
+
+	private static final int EXAMPLE_SPRITE_TAG = 1337;
 
 	// ===========================================================
 	// Fields
@@ -61,7 +69,12 @@ public class CCBLevelLoaderExample extends SimpleBaseGameActivity {
 		final CCBLevelLoader ccbLevelLoader = new CCBLevelLoader(this.getAssets(), "ccb/", this.getVertexBufferObjectManager(), this.getTextureManager(), this.getFontManager());
 		CCBLevelLoaderResult ccbLevelLoaderResult = ccbLevelLoader.loadLevelFromAsset(this.getAssets(), "ccb/example.ccbaex");
 
-		scene.attachChild(ccbLevelLoaderResult.getRootEntity());
+		final IEntity rootEntity = ccbLevelLoaderResult.getRootEntity();
+
+		final CCSprite sprite = rootEntity.queryFirstForSubclass(new TagEntityMatcher(EXAMPLE_SPRITE_TAG));
+		sprite.registerEntityModifier(new LoopEntityModifier(new RotationModifier(1, 0, 360)));
+
+		scene.attachChild(rootEntity);
 
 		return scene;
 	}

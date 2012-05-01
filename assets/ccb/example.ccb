@@ -585,7 +585,7 @@
 						<key>type</key>
 						<string>Integer</string>
 						<key>value</key>
-						<integer>-1</integer>
+						<integer>1337</integer>
 					</dict>
 					<dict>
 						<key>name</key>
