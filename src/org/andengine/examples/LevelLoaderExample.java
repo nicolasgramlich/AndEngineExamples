@@ -20,7 +20,7 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.SAXUtils;
 import org.andengine.util.level.EntityLoader;
 import org.andengine.util.level.constants.LevelConstants;
-import org.andengine.util.level.simple.SimpleLevelEntityLoaderDataSource;
+import org.andengine.util.level.simple.SimpleLevelEntityLoaderData;
 import org.andengine.util.level.simple.SimpleLevelLoader;
 import org.andengine.util.level.simple.SimpleLevelLoaderResult;
 import org.xml.sax.Attributes;
@@ -104,9 +104,9 @@ public class LevelLoaderExample extends SimpleBaseGameActivity {
 
 		final SimpleLevelLoader levelLoader = new SimpleLevelLoader(this.getVertexBufferObjectManager());
 
-		levelLoader.registerEntityLoader(new EntityLoader<SimpleLevelEntityLoaderDataSource>(LevelConstants.TAG_LEVEL) {
+		levelLoader.registerEntityLoader(new EntityLoader<SimpleLevelEntityLoaderData>(LevelConstants.TAG_LEVEL) {
 			@Override
-			public IEntity onLoadEntity(String pEntityName, Attributes pAttributes, SimpleLevelEntityLoaderDataSource pEntityLoaderDataSource) throws IOException {
+			public IEntity onLoadEntity(final String pEntityName, final IEntity pParent, final Attributes pAttributes, final SimpleLevelEntityLoaderData pSimpleLevelEntityLoaderData) throws IOException {
 				final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_WIDTH);
 				final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, LevelConstants.TAG_LEVEL_ATTRIBUTE_HEIGHT);
 				
@@ -123,16 +123,16 @@ public class LevelLoaderExample extends SimpleBaseGameActivity {
 			}
 		});
 
-		levelLoader.registerEntityLoader(new EntityLoader<SimpleLevelEntityLoaderDataSource>(TAG_ENTITY) {
+		levelLoader.registerEntityLoader(new EntityLoader<SimpleLevelEntityLoaderData>(TAG_ENTITY) {
 			@Override
-			public IEntity onLoadEntity(String pEntityName, Attributes pAttributes, SimpleLevelEntityLoaderDataSource pSimpleLevelEntityLoaderDataSource) throws IOException {
+			public IEntity onLoadEntity(final String pEntityName, final IEntity pParent, final Attributes pAttributes, final SimpleLevelEntityLoaderData pSimpleLevelEntityLoaderData) throws IOException {
 				final int x = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_X);
 				final int y = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_Y);
 				final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_WIDTH);
 				final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_HEIGHT);
 				final String type = SAXUtils.getAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_TYPE);
 
-				final VertexBufferObjectManager vertexBufferObjectManager = pSimpleLevelEntityLoaderDataSource.getVertexBufferObjectManager();
+				final VertexBufferObjectManager vertexBufferObjectManager = pSimpleLevelEntityLoaderData.getVertexBufferObjectManager();
 
 				final AnimatedSprite face;
 				if(type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_BOX)) {

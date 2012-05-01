@@ -59,8 +59,8 @@ public class CCBLevelLoaderExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 
 		final CCBLevelLoader ccbLevelLoader = new CCBLevelLoader(this.getAssets(), "ccb/", this.getVertexBufferObjectManager(), this.getTextureManager(), this.getFontManager());
-		CCBLevelLoaderResult ccbLevelLoaderResult = ccbLevelLoader.loadLevelFromAsset(this.getAssets(), "ccb/example.xml");
-		
+		CCBLevelLoaderResult ccbLevelLoaderResult = ccbLevelLoader.loadLevelFromAsset(this.getAssets(), "ccb/example.ccbaex");
+
 		scene.attachChild(ccbLevelLoaderResult.getRootEntity());
 
 		return scene;
