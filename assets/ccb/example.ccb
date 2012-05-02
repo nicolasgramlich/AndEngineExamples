@@ -1265,9 +1265,9 @@
 				<key>customClass</key>
 				<string></string>
 				<key>memberVarAssignmentName</key>
-				<string></string>
+				<string>mCCRotatingSprite</string>
 				<key>memberVarAssignmentType</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>properties</key>
 				<array>
 					<dict>
@@ -1324,7 +1324,7 @@
 						<key>type</key>
 						<string>Degrees</string>
 						<key>value</key>
-						<real>2618.15625</real>
+						<real>624480.25</real>
 					</dict>
 					<dict>
 						<key>name</key>

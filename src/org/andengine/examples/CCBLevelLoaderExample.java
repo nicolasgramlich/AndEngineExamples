@@ -8,10 +8,13 @@ import org.andengine.entity.IEntity;
 import org.andengine.entity.TagEntityMatcher;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.RotationModifier;
+import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.extension.cocosbuilder.CCBLevelLoader;
 import org.andengine.extension.cocosbuilder.CCBLevelLoaderResult;
+import org.andengine.extension.cocosbuilder.MemberVariableAssignmentCCBEntityLoaderListener;
+import org.andengine.extension.cocosbuilder.entity.CCRotatingSprite;
 import org.andengine.extension.cocosbuilder.entity.CCSprite;
 import org.andengine.extension.cocosbuilder.loader.CCRotatingSpriteEntityLoader;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
@@ -35,6 +38,8 @@ public class CCBLevelLoaderExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+
+	public CCRotatingSprite mCCRotatingSprite;
 
 	// ===========================================================
 	// Constructors
@@ -70,15 +75,25 @@ public class CCBLevelLoaderExample extends SimpleBaseGameActivity {
 		/* Register EntityLoaders from extensions. */
 		ccbLevelLoader.registerEntityLoader(new CCRotatingSpriteEntityLoader());
 
-		/* Kick of parsing. */
-		final CCBLevelLoaderResult ccbLevelLoaderResult = ccbLevelLoader.loadLevelFromAsset(this.getAssets(), "ccb/example.ccbaex");
 
+		/* When loading the CCBAEX file, we want to pick up member variables and assign them to the owner. */
+		final Object owner = this;
+		final MemberVariableAssignmentCCBEntityLoaderListener memberVariableAssignmentCCBEntityLoaderListener = new MemberVariableAssignmentCCBEntityLoaderListener(owner);
+
+		/* Kick of parsing. */
+		final CCBLevelLoaderResult ccbLevelLoaderResult = ccbLevelLoader.loadLevelFromAsset(this.getAssets(), "ccb/example.ccbaex", memberVariableAssignmentCCBEntityLoaderListener);
+
+		/* Note: this.mCCRotatingSprite was magically assigned with the CCRotatingSprite entity from the CCBAEX file! */
+		this.mCCRotatingSprite.registerEntityModifier(new LoopEntityModifier(new ScaleModifier(1, 1, 2)));
+
+		/* Grab the root entity of the loaded CCBAEX file. */
 		final IEntity rootEntity = ccbLevelLoaderResult.getRootEntity();
 
 		/* Query for a CCSprite by its tag and do something with it. */
 		final CCSprite sprite = rootEntity.queryFirstForSubclass(new TagEntityMatcher(EXAMPLE_SPRITE_TAG));
 		sprite.registerEntityModifier(new LoopEntityModifier(new RotationModifier(1, 0, 360)));
 
+		/* Hook the root entity into the scene. */
 		scene.attachChild(rootEntity);
 
 		return scene;
