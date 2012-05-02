@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CCB stageWidth="480" stageHeight="320" centeredOrigin="false" version="1">
-	<CCLayer x="0" y="0" positionType="relativeBottomLeft" width="0" height="0" sizeType="absolute" anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPointForOffset="true" scaleX="1" scaleY="1" rotation="0" visible="true" tag="-1">
+	<CCLayer x="0" y="0" positionType="percentParent" width="100" height="100" sizeType="percentParent" anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPointForOffset="true" scaleX="1" scaleY="1" rotation="0" visible="true" tag="-1">
 		<CCSprite x="240" y="160" positionType="relativeBottomLeft" width="32" height="32" sizeType="absolute" anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPointForOffset="false" scaleX="2" scaleY="2" rotation="45" visible="true" tag="1337" blendFunctionSource="770" blendFunctionDestination="771" red="0" green="255" blue="0" alpha="255" texturePack="spritesheet.xml" textureRegion="face_box.png" flipX="true" flipY="true">
 			<CCLayerColor x="0" y="0" positionType="relativeBottomLeft" width="10" height="50" sizeType="absolute" anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPointForOffset="true" scaleX="1" scaleY="1" rotation="0" visible="true" tag="-1" blendFunctionSource="770" blendFunctionDestination="771" red="255" green="0" blue="0" alpha="128">
 				<CCSprite x="16" y="50" positionType="relativeBottomLeft" width="64" height="32" sizeType="absolute" anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPointForOffset="false" scaleX="0.5" scaleY="0.5" rotation="0" visible="true" tag="-1" blendFunctionSource="770" blendFunctionDestination="771" red="255" green="255" blue="255" alpha="255" texturePack="spritesheet.xml" textureRegion="face_circle_tiled.png" flipX="false" flipY="false" />
@@ -12,5 +12,6 @@
 			<CCLabelBMFont x="150" y="100" positionType="relativeBottomLeft" width="0" height="0" sizeType="absolute" anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPointForOffset="false" scaleX="1" scaleY="1" rotation="-45" visible="true" tag="-1" red="255" green="255" blue="255" alpha="255" fontName="BitmapFont.fnt" text="CCLabelBMFont" />
 		</CCLayerGradient>
 		<CCBFile x="0" y="0" positionType="relativeBottomLeft" width="0" height="0" sizeType="absolute" anchorPointX="0" anchorPointY="0" ignoreAnchorPointForOffset="false" scaleX="1" scaleY="1" rotation="0" visible="true" tag="-1" ccbFileName="example_include.ccbaex" />
+		<CCRotatingSprite x="50" y="50" positionType="percentParent" width="32" height="32" sizeType="absolute" anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPointForOffset="false" scaleX="1" scaleY="1" rotation="4646.334" visible="true" tag="-1" blendFunctionSource="1" blendFunctionDestination="771" red="255" green="255" blue="255" alpha="255" textureRegion="face_box.png" flipX="false" flipY="false" secondsPerRotation="2" />
 	</CCLayer>
 </CCB>
