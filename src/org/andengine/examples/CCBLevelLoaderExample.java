@@ -5,7 +5,6 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.IEntity;
-import org.andengine.entity.IEntityMatcher;
 import org.andengine.entity.TagEntityMatcher;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.RotationModifier;
@@ -14,6 +13,7 @@ import org.andengine.entity.util.FPSLogger;
 import org.andengine.extension.cocosbuilder.CCBLevelLoader;
 import org.andengine.extension.cocosbuilder.CCBLevelLoaderResult;
 import org.andengine.extension.cocosbuilder.entity.CCSprite;
+import org.andengine.extension.cocosbuilder.loader.CCRotatingSpriteEntityLoader;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 /**
@@ -67,10 +67,15 @@ public class CCBLevelLoaderExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 
 		final CCBLevelLoader ccbLevelLoader = new CCBLevelLoader(this.getAssets(), "ccb/", this.getVertexBufferObjectManager(), this.getTextureManager(), this.getFontManager());
-		CCBLevelLoaderResult ccbLevelLoaderResult = ccbLevelLoader.loadLevelFromAsset(this.getAssets(), "ccb/example.ccbaex");
+		/* Register EntityLoaders from extensions. */
+		ccbLevelLoader.registerEntityLoader(new CCRotatingSpriteEntityLoader());
+
+		/* Kick of parsing. */
+		final CCBLevelLoaderResult ccbLevelLoaderResult = ccbLevelLoader.loadLevelFromAsset(this.getAssets(), "ccb/example.ccbaex");
 
 		final IEntity rootEntity = ccbLevelLoaderResult.getRootEntity();
 
+		/* Query for a CCSprite by its tag and do something with it. */
 		final CCSprite sprite = rootEntity.queryFirstForSubclass(new TagEntityMatcher(EXAMPLE_SPRITE_TAG));
 		sprite.registerEntityModifier(new LoopEntityModifier(new RotationModifier(1, 0, 360)));
 
