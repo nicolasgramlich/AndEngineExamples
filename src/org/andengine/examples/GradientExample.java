@@ -12,7 +12,7 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.detector.ClickDetector;
 import org.andengine.input.touch.detector.ClickDetector.IClickDetectorListener;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.color.Color;
+import org.andengine.util.adt.color.Color;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -28,12 +28,13 @@ public class GradientExample extends SimpleBaseGameActivity implements IOnSceneT
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
-	private Gradient mGradient;
-	private ClickDetector mClickDetector;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
+
+	private Gradient mGradient;
+	private ClickDetector mClickDetector;
 
 	// ===========================================================
 	// Constructors
@@ -52,7 +53,7 @@ public class GradientExample extends SimpleBaseGameActivity implements IOnSceneT
 		final Camera camera = new Camera(0, 0, GradientExample.CAMERA_WIDTH, GradientExample.CAMERA_HEIGHT);
 		camera.setCenter(0, 0);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(GradientExample.CAMERA_WIDTH, GradientExample.CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(GradientExample.CAMERA_WIDTH, GradientExample.CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -94,7 +95,7 @@ public class GradientExample extends SimpleBaseGameActivity implements IOnSceneT
 	public void onClick(final ClickDetector pClickDetector, final int pPointerID, final float pSceneX, final float pSceneY) {
 		this.mGradient.setGradientFitToBounds(!this.mGradient.isGradientFitToBounds());
 
-		this.toastOnUIThread("Gradient fit to bounds: '" + this.mGradient.isGradientFitToBounds() + "'.");
+		this.toastOnUiThread("Gradient fit to bounds: '" + this.mGradient.isGradientFitToBounds() + "'.");
 	}
 
 	// ===========================================================

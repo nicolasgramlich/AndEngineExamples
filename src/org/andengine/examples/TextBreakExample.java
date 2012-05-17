@@ -6,7 +6,6 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.AutoWrap;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.text.TextOptions;
@@ -16,8 +15,8 @@ import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleLayoutGameActivity;
-import org.andengine.util.align.HorizontalAlign;
-import org.andengine.util.color.Color;
+import org.andengine.util.adt.align.HorizontalAlign;
+import org.andengine.util.adt.color.Color;
 
 import android.graphics.Typeface;
 import android.text.Editable;
@@ -100,7 +99,7 @@ public class TextBreakExample extends SimpleLayoutGameActivity implements TextWa
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 		this.mText = new Text(50, 40, this.mFont, "", 1000, new TextOptions(AutoWrap.LETTERS, AUTOWRAP_WIDTH, HorizontalAlign.CENTER), vertexBufferObjectManager);

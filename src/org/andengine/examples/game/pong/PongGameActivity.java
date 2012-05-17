@@ -115,7 +115,7 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mCamera.setCenter(0,0);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 	}
 
 	@Override
@@ -393,15 +393,6 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 		}
 	}
 
-	private void toast(final String pMessage) {
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(PongGameActivity.this, pMessage, Toast.LENGTH_SHORT).show();
-			}
-		});
-	}
-
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
@@ -512,12 +503,12 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {
 		@Override
 		public void onStarted(final ServerConnector<SocketConnection> pServerConnector) {
-			PongGameActivity.this.toast("CLIENT: Connected to server.");
+			PongGameActivity.this.toastOnUiThread("CLIENT: Connected to server.", Toast.LENGTH_SHORT);
 		}
 
 		@Override
 		public void onTerminated(final ServerConnector<SocketConnection> pServerConnector) {
-			PongGameActivity.this.toast("CLIENT: Disconnected from Server.");
+			PongGameActivity.this.toastOnUiThread("CLIENT: Disconnected from Server.", Toast.LENGTH_SHORT);
 			PongGameActivity.this.finish();
 		}
 	}
@@ -525,12 +516,12 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
 		@Override
 		public void onStarted(final ClientConnector<SocketConnection> pClientConnector) {
-			PongGameActivity.this.toast("SERVER: Client connected: " + pClientConnector.getConnection().getSocket().getInetAddress().getHostAddress());
+			PongGameActivity.this.toastOnUiThread("SERVER: Client connected: " + pClientConnector.getConnection().getSocket().getInetAddress().getHostAddress(), Toast.LENGTH_SHORT);
 		}
 
 		@Override
 		public void onTerminated(final ClientConnector<SocketConnection> pClientConnector) {
-			PongGameActivity.this.toast("SERVER: Client disconnected: " + pClientConnector.getConnection().getSocket().getInetAddress().getHostAddress());
+			PongGameActivity.this.toastOnUiThread("SERVER: Client disconnected: " + pClientConnector.getConnection().getSocket().getInetAddress().getHostAddress(), Toast.LENGTH_SHORT);
 		}
 	}
 }

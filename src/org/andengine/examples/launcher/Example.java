@@ -3,12 +3,18 @@ package org.andengine.examples.launcher;
 import org.andengine.examples.AnalogOnScreenControlExample;
 import org.andengine.examples.AnalogOnScreenControlsExample;
 import org.andengine.examples.AnimatedSpritesExample;
+import org.andengine.examples.AnimationPackExample;
+import org.andengine.examples.AugmentedRealityExample;
+import org.andengine.examples.AugmentedRealityHorizonExample;
 import org.andengine.examples.AutoParallaxBackgroundExample;
 import org.andengine.examples.BitmapFontExample;
 import org.andengine.examples.BoundCameraExample;
+import org.andengine.examples.ButtonSpriteExample;
 import org.andengine.examples.CCBLevelLoaderExample;
 import org.andengine.examples.CanvasTextureCompositingExample;
 import org.andengine.examples.CardinalSplineMoveModifierExample;
+import org.andengine.examples.ChangeableTextExample;
+import org.andengine.examples.ClipEntityExample;
 import org.andengine.examples.CollisionDetectionExample;
 import org.andengine.examples.ColorKeyTextureSourceDecoratorExample;
 import org.andengine.examples.CoordinateConversionExample;
@@ -21,7 +27,6 @@ import org.andengine.examples.EntityModifierIrregularExample;
 import org.andengine.examples.GradientExample;
 import org.andengine.examples.HullAlgorithmExample;
 import org.andengine.examples.ImageFormatsExample;
-import org.andengine.examples.LevelLoaderExample;
 import org.andengine.examples.LineExample;
 import org.andengine.examples.LoadTextureExample;
 import org.andengine.examples.MenuExample;
@@ -33,6 +38,7 @@ import org.andengine.examples.MultiplayerBluetoothExample;
 import org.andengine.examples.MultiplayerExample;
 import org.andengine.examples.MultiplayerServerDiscoveryExample;
 import org.andengine.examples.MusicExample;
+import org.andengine.examples.NineSliceSpriteExample;
 import org.andengine.examples.PVRCCZTextureExample;
 import org.andengine.examples.PVRGZTextureExample;
 import org.andengine.examples.PVRTextureExample;
@@ -69,7 +75,7 @@ import org.andengine.examples.TextBreakExample;
 import org.andengine.examples.TextExample;
 import org.andengine.examples.TextMenuExample;
 import org.andengine.examples.TextureOptionsExample;
-import org.andengine.examples.TexturePackerExample;
+import org.andengine.examples.TexturePackExample;
 import org.andengine.examples.TickerTextExample;
 import org.andengine.examples.TouchDragExample;
 import org.andengine.examples.UnloadResourcesExample;
@@ -103,15 +109,18 @@ enum Example {
 	ANALOGONSCREENCONTROL(AnalogOnScreenControlExample.class, R.string.example_analogonscreencontrol),
 	ANALOGONSCREENCONTROLS(AnalogOnScreenControlsExample.class, R.string.example_analogonscreencontrols),
 	ANIMATEDSPRITES(AnimatedSpritesExample.class, R.string.example_animatedsprites),
-//	AUGMENTEDREALITY(AugmentedRealityExample.class, R.string.example_augmentedreality),
-//	AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, R.string.example_augmentedrealityhorizon),
+	ANIMATIONPACK(AnimationPackExample.class, R.string.example_animationpack),
+	AUGMENTEDREALITY(AugmentedRealityExample.class, R.string.example_augmentedreality),
+	AUGMENTEDREALITYHORIZON(AugmentedRealityHorizonExample.class, R.string.example_augmentedrealityhorizon),
 	AUTOPARALLAXBACKGROUND(AutoParallaxBackgroundExample.class, R.string.example_autoparallaxbackground),
 	BITMAPFONT(BitmapFontExample.class, R.string.example_bitmapfont),
 	BOUNDCAMERA(BoundCameraExample.class, R.string.example_boundcamera),
+	BUTTONSPRITE(ButtonSpriteExample.class, R.string.example_buttonsprite),
 	CARDINALSPLINEMOVEMODIFIER(CardinalSplineMoveModifierExample.class, R.string.example_cardinalsplinemovemodifier),
 	CANVASTEXTURECOMPOSITING(CanvasTextureCompositingExample.class, R.string.example_canvastexturecompositing),
 	CCBLEVELLOADER(CCBLevelLoaderExample.class, R.string.example_ccblevelloader),
-	CHANGEABLETEXT(TextExample.class, R.string.example_changeabletext),
+	CHANGEABLETEXT(ChangeableTextExample.class, R.string.example_changeabletext),
+	CLIPENTIY(ClipEntityExample.class, R.string.example_clipentity),
 	COLLISIONDETECTION(CollisionDetectionExample.class, R.string.example_collisiondetection),
 	COLORKEYTEXTURESOURCEDECORATOR(ColorKeyTextureSourceDecoratorExample.class, R.string.example_colorkeytexturesourcedecorator),
 	COORDINATECONVERSION(CoordinateConversionExample.class, R.string.example_coordinateconversion),
@@ -124,7 +133,7 @@ enum Example {
 	GRADIENT(GradientExample.class, R.string.example_gradient),
 	HULLALGORITHM(HullAlgorithmExample.class, R.string.example_hullalgorithm),
 	IMAGEFORMATS(ImageFormatsExample.class, R.string.example_imageformats),
-	LEVELLOADER(LevelLoaderExample.class, R.string.example_levelloader),
+//	LEVELLOADER(LevelLoaderExample.class, R.string.example_levelloader),
 	LINE(LineExample.class, R.string.example_line),
 	LOADTEXTURE(LoadTextureExample.class, R.string.example_loadtexture),
 	MENU(MenuExample.class, R.string.example_menu),
@@ -136,6 +145,7 @@ enum Example {
 	MULTIPLAYERBLUETOOTH(MultiplayerBluetoothExample.class, R.string.example_multiplayerbluetooth),
 	MULTITOUCH(MultiTouchExample.class, R.string.example_multitouch),
 	MUSIC(MusicExample.class, R.string.example_music),
+	NINESLICESPRITE(NineSliceSpriteExample.class, R.string.example_nineslicesprite),
 	PAUSE(PauseExample.class, R.string.example_pause),
 	PATHMODIFIER(PathModifierExample.class, R.string.example_pathmodifier),
 	PARTICLESYSTEMNEXUS(ParticleSystemNexusExample.class, R.string.example_particlesystemnexus),
@@ -170,7 +180,7 @@ enum Example {
 	TEXTBREAK(TextBreakExample.class, R.string.example_textbreak),
 	TEXTMENU(TextMenuExample.class, R.string.example_textmenu),
 	TEXTUREOPTIONS(TextureOptionsExample.class, R.string.example_textureoptions),
-	TEXTUREPACKER(TexturePackerExample.class, R.string.example_texturepacker),
+	TEXTUREPACK(TexturePackExample.class, R.string.example_texturepack),
 	TMXTILEDMAP(TMXTiledMapExample.class, R.string.example_tmxtiledmap),
 	TICKERTEXT(TickerTextExample.class, R.string.example_tickertext),
 	TOUCHDRAG(TouchDragExample.class, R.string.example_touchdrag),

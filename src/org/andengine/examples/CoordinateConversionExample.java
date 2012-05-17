@@ -1,5 +1,7 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
@@ -13,18 +15,17 @@ import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.controller.MultiTouch;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.math.MathUtils;
 
-import android.opengl.GLES20;
 import android.widget.Toast;
 
 /**
@@ -48,13 +49,14 @@ public class CoordinateConversionExample extends SimpleBaseGameActivity {
 
 	private Camera mCamera;
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mFaceTexture;
 	private ITextureRegion mFaceTextureRegion;
 
 	private Scene mScene;
 
-	private BitmapTextureAtlas mOnScreenControlTexture;
+	private ITexture mOnScreenControlBaseTexture;
 	private ITextureRegion mOnScreenControlBaseTextureRegion;
+	private ITexture mOnScreenControlKnobTexture;
 	private ITextureRegion mOnScreenControlKnobTextureRegion;
 
 	private boolean mPlaceOnScreenControlsAtDifferentVerticalLocations = false;
@@ -77,7 +79,7 @@ public class CoordinateConversionExample extends SimpleBaseGameActivity {
 
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 		engineOptions.getTouchOptions().setNeedsMultiTouch(true);
 
 		if(MultiTouch.isSupported(this)) {
@@ -95,17 +97,18 @@ public class CoordinateConversionExample extends SimpleBaseGameActivity {
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+	public void onCreateResources() throws IOException {
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box.png", TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(this.mFaceTexture);
+		this.mFaceTexture.load();
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mOnScreenControlBaseTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/onscreen_control_base.png", TextureOptions.BILINEAR);
+		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.extractFromTexture(this.mOnScreenControlBaseTexture);
+		this.mOnScreenControlBaseTexture.load();
 
-		this.mOnScreenControlTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 128, TextureOptions.BILINEAR);
-		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
-		this.mOnScreenControlTexture.load();
+		this.mOnScreenControlKnobTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/onscreen_control_knob.png", TextureOptions.BILINEAR);
+		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.extractFromTexture(this.mOnScreenControlKnobTexture);
+		this.mOnScreenControlKnobTexture.load();
 	}
 
 	@Override
@@ -113,7 +116,7 @@ public class CoordinateConversionExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
-		this.mScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		this.mScene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		/* Create three lines that will form an arrow pointing to the eye. */
 		final Line arrowLineMain = new Line(0, 0, 0, 0, 3, this.getVertexBufferObjectManager());
@@ -129,34 +132,32 @@ public class CoordinateConversionExample extends SimpleBaseGameActivity {
 		final float centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final float centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
 
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager()) {
+		final Sprite sprite = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager()) {
 			@Override
 			protected void onManagedUpdate(final float pSecondsElapsed) {
 				super.onManagedUpdate(pSecondsElapsed);
 
-				final float[] eyeCoordinates = this.convertLocalToSceneCoordinates(11, 13);
+				final float[] eyeCoordinates = this.convertLocalCoordinatesToSceneCoordinates(11, 19);
 				final float eyeX = eyeCoordinates[VERTEX_INDEX_X];
 				final float eyeY = eyeCoordinates[VERTEX_INDEX_Y];
 
-				arrowLineMain.setPosition(eyeX, eyeY, eyeX, eyeY - 50);
-				arrowLineWingLeft.setPosition(eyeX, eyeY, eyeX - 10, eyeY - 10);
-				arrowLineWingRight.setPosition(eyeX, eyeY, eyeX + 10, eyeY - 10);
+				arrowLineMain.setPosition(eyeX, eyeY, eyeX, eyeY + 50);
+				arrowLineWingLeft.setPosition(eyeX, eyeY, eyeX - 10, eyeY + 10);
+				arrowLineWingRight.setPosition(eyeX, eyeY, eyeX + 10, eyeY + 10);
 			}
 		};
-		final PhysicsHandler physicsHandler = new PhysicsHandler(face);
-		face.registerUpdateHandler(physicsHandler);
+		final PhysicsHandler physicsHandler = new PhysicsHandler(sprite);
+		sprite.registerUpdateHandler(physicsHandler);
 
-		face.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(3, 1, 1.75f), new ScaleModifier(3, 1.75f, 1))));
+		sprite.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(3, 1, 1.75f), new ScaleModifier(3, 1.75f, 1))));
 
-		this.mScene.attachChild(face);
+		this.mScene.attachChild(sprite);
 		this.mScene.attachChild(arrowLineMain);
 		this.mScene.attachChild(arrowLineWingLeft);
 		this.mScene.attachChild(arrowLineWingRight);
 
 		/* Velocity control (left). */
-		final float x1 = 0;
-		final float y1 = CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight();
-		final AnalogOnScreenControl velocityOnScreenControl = new AnalogOnScreenControl(x1, y1, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, this.getVertexBufferObjectManager(), new IAnalogOnScreenControlListener() {
+		final AnalogOnScreenControl velocityOnScreenControl = new AnalogOnScreenControl(0, 0, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, this.getVertexBufferObjectManager(), new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				physicsHandler.setVelocity(pValueX * 100, pValueY * 100);
@@ -167,22 +168,24 @@ public class CoordinateConversionExample extends SimpleBaseGameActivity {
 				/* Nothing. */
 			}
 		});
-		velocityOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		velocityOnScreenControl.getControlBase().setAlpha(0.5f);
-
-		this.mScene.setChildScene(velocityOnScreenControl);
+		{
+			final Sprite controlBase = velocityOnScreenControl.getControlBase();
+			controlBase.setAlpha(0.5f);
+			controlBase.setOffsetCenter(0, 0);
+	
+			this.mScene.setChildScene(velocityOnScreenControl);
+		}
 
 
 		/* Rotation control (right). */
-		final float y2 = (this.mPlaceOnScreenControlsAtDifferentVerticalLocations) ? 0 : y1;
-		final float x2 = CAMERA_WIDTH - this.mOnScreenControlBaseTextureRegion.getWidth();
-		final AnalogOnScreenControl rotationOnScreenControl = new AnalogOnScreenControl(x2, y2, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, this.getVertexBufferObjectManager(), new IAnalogOnScreenControlListener() {
+		final float y = (this.mPlaceOnScreenControlsAtDifferentVerticalLocations) ? CAMERA_HEIGHT : 0;
+		final AnalogOnScreenControl rotationOnScreenControl = new AnalogOnScreenControl(CAMERA_WIDTH, y, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, this.getVertexBufferObjectManager(), new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
-				if(pValueX == x1 && pValueY == x1) {
-					face.setRotation(x1);
+				if(pValueX == (float) 0 && pValueY == (float) 0) {
+					sprite.setRotation((float) 0);
 				} else {
-					face.setRotation(MathUtils.radToDeg((float)Math.atan2(pValueX, -pValueY)));
+					sprite.setRotation(MathUtils.radToDeg((float)Math.atan2(pValueX, -pValueY)));
 				}
 			}
 
@@ -191,10 +194,17 @@ public class CoordinateConversionExample extends SimpleBaseGameActivity {
 				/* Nothing. */
 			}
 		});
-		rotationOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		rotationOnScreenControl.getControlBase().setAlpha(0.5f);
-
-		velocityOnScreenControl.setChildScene(rotationOnScreenControl);
+		{
+			final Sprite controlBase = rotationOnScreenControl.getControlBase();
+			if(this.mPlaceOnScreenControlsAtDifferentVerticalLocations) {
+				controlBase.setOffsetCenter(1, 1);
+			} else {
+				controlBase.setOffsetCenter(1, 0);
+			}
+			controlBase.setAlpha(0.5f);
+	
+			velocityOnScreenControl.setChildScene(rotationOnScreenControl);
+		}
 
 		return this.mScene;
 	}

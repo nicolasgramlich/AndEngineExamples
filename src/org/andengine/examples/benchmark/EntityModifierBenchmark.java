@@ -1,5 +1,7 @@
 package org.andengine.examples.benchmark;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
@@ -13,15 +15,15 @@ import org.andengine.entity.modifier.RotationModifier;
 import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.batch.SpriteGroup;
 import org.andengine.entity.sprite.vbo.ISpriteVertexBufferObject;
 import org.andengine.entity.sprite.vbo.LowMemorySpriteVertexBufferObject;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
@@ -48,7 +50,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mFaceTexture;
 	private ITextureRegion mFaceTextureRegion;
 
 	// ===========================================================
@@ -82,21 +84,20 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+	public void onCreateResources() throws IOException {
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box.png", TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(this.mFaceTexture);
+		this.mFaceTexture.load();
 	}
 
 	@Override
 	public Scene onCreateScene() {
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 //		this.drawUsingSprites(scene);
 //		this.drawUsingSpritesWithSharedVertexBuffer(scene);
@@ -184,7 +185,7 @@ public class EntityModifierBenchmark extends BaseBenchmark {
 		);
 
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
-		final SpriteGroup spriteGroup = new SpriteGroup(this.mBitmapTextureAtlas, EntityModifierBenchmark.SPRITE_COUNT, vertexBufferObjectManager);
+		final SpriteGroup spriteGroup = new SpriteGroup(this.mFaceTexture, EntityModifierBenchmark.SPRITE_COUNT, vertexBufferObjectManager);
 		spriteGroup.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 
 		for(int i = 0; i < EntityModifierBenchmark.SPRITE_COUNT; i++) {

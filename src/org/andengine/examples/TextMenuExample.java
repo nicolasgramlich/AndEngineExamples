@@ -1,14 +1,16 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
+import org.andengine.entity.scene.menu.animator.AlphaMenuSceneAnimator;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.TextMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ColorMenuItemDecorator;
@@ -18,13 +20,12 @@ import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.color.Color;
+import org.andengine.util.adt.color.Color;
 
-import android.opengl.GLES20;
 import android.view.KeyEvent;
 
 /**
@@ -51,14 +52,14 @@ public class TextMenuExample extends SimpleBaseGameActivity implements IOnMenuIt
 
 	private Camera mCamera;
 
-	protected Scene mMainScene;
+	private Scene mMainScene;
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mFaceTexture;
 	private ITextureRegion mFaceTextureRegion;
 
 	private Font mFont;
 
-	protected MenuScene mMenuScene;
+	private MenuScene mMenuScene;
 
 	// ===========================================================
 	// Constructors
@@ -76,22 +77,19 @@ public class TextMenuExample extends SimpleBaseGameActivity implements IOnMenuIt
 	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 	}
 
 	@Override
-	public void onCreateResources() {
+	public void onCreateResources() throws IOException {
 		FontFactory.setAssetBasePath("font/");
 
-		final ITexture fontTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 256, TextureOptions.BILINEAR);
-		this.mFont = FontFactory.createFromAsset(this.getFontManager(), fontTexture, this.getAssets(), "Plok.ttf", 48, true, android.graphics.Color.WHITE);
+		this.mFont = FontFactory.createFromAsset(this.getFontManager(), this.getTextureManager(), 256, 256, TextureOptions.BILINEAR, this.getAssets(), "Plok.ttf", 48, true, android.graphics.Color.WHITE);
 		this.mFont.load();
 
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 64, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box_menu.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box_menu.png", TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(this.mFaceTexture);
+		this.mFaceTexture.load();
 	}
 
 	@Override
@@ -100,13 +98,13 @@ public class TextMenuExample extends SimpleBaseGameActivity implements IOnMenuIt
 
 		this.mMenuScene = this.createMenuScene();
 
-		/* Just a simple scene with an animated face flying around. */
+		/* Just a simple scene with an sprite flying around. */
 		this.mMainScene = new Scene();
-		this.mMainScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		this.mMainScene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
-		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		face.registerEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
-		this.mMainScene.attachChild(face);
+		final Sprite sprite = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+		sprite.registerEntityModifier(new MoveModifier(30, 0, 0, CAMERA_WIDTH, CAMERA_HEIGHT));
+		this.mMainScene.attachChild(sprite);
 
 		return this.mMainScene;
 	}
@@ -152,14 +150,12 @@ public class TextMenuExample extends SimpleBaseGameActivity implements IOnMenuIt
 	// ===========================================================
 
 	protected MenuScene createMenuScene() {
-		final MenuScene menuScene = new MenuScene(this.mCamera);
+		final MenuScene menuScene = new MenuScene(this.mCamera, new AlphaMenuSceneAnimator());
 
 		final IMenuItem resetMenuItem = new ColorMenuItemDecorator(new TextMenuItem(MENU_RESET, this.mFont, "RESET", this.getVertexBufferObjectManager()), new Color(1,0,0), new Color(0,0,0));
-		resetMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(resetMenuItem);
 
 		final IMenuItem quitMenuItem = new ColorMenuItemDecorator(new TextMenuItem(MENU_QUIT, this.mFont, "QUIT", this.getVertexBufferObjectManager()), new Color(1,0,0), new Color(0,0,0));
-		quitMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		menuScene.addMenuItem(quitMenuItem);
 
 		menuScene.buildAnimations();

@@ -6,6 +6,12 @@
 	<false/>
 	<key>currentResolution</key>
 	<integer>0</integer>
+	<key>exportFlattenPaths</key>
+	<false/>
+	<key>exportPath</key>
+	<string>example_include.ccbaex</string>
+	<key>exportPlugIn</key>
+	<string>ccbaex</string>
 	<key>fileType</key>
 	<string>CocosBuilder</string>
 	<key>fileVersion</key>
@@ -117,7 +123,7 @@
 						<key>type</key>
 						<string>FntFile</string>
 						<key>value</key>
-						<string>BitmapFont.fnt</string>
+						<string>fonts/BitmapFont.fnt</string>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -179,7 +185,7 @@
 				<array>
 					<real>0.0</real>
 					<real>0.0</real>
-					<integer>1</integer>
+					<integer>0</integer>
 				</array>
 			</dict>
 			<dict>

@@ -1,5 +1,6 @@
 package org.andengine.examples.app.cityradar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -121,7 +122,7 @@ public class CityRadarActivity extends SimpleBaseGameActivity implements IOrient
 	}
 
 	@Override
-	public void onCreateResources() {
+	public void onCreateResources() throws IOException {
 		/* Init font. */
 		this.mFont = FontFactory.create(this.getFontManager(), this.getTextureManager(), 256, 256, TextureOptions.BILINEAR, Typeface.DEFAULT, 12, true, Color.WHITE);
 		this.mFont.load();

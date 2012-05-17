@@ -1,5 +1,7 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
@@ -7,13 +9,13 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.RotationModifier;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.util.GLState;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
@@ -36,7 +38,7 @@ public class Rotation3DExample extends SimpleBaseGameActivity {
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mFaceTexture;
 	private ITextureRegion mFaceTextureRegion;
 
 	// ===========================================================
@@ -56,16 +58,14 @@ public class Rotation3DExample extends SimpleBaseGameActivity {
 		final Camera camera = new Camera(0, 0, Rotation3DExample.CAMERA_WIDTH, Rotation3DExample.CAMERA_HEIGHT);
 		camera.setZClippingPlanes(-100, 100);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(Rotation3DExample.CAMERA_WIDTH, Rotation3DExample.CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(Rotation3DExample.CAMERA_WIDTH, Rotation3DExample.CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+	public void onCreateResources() throws IOException {
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box.png", TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(this.mFaceTexture);
+		this.mFaceTexture.load();
 	}
 
 	@Override
@@ -73,31 +73,30 @@ public class Rotation3DExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final float centerX = (Rotation3DExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final float centerY = (Rotation3DExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = Rotation3DExample.CAMERA_WIDTH / 2;
+		final float centerY = Rotation3DExample.CAMERA_HEIGHT / 2;
 
-		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager()) {
+		/* Create the sprite and add it to the scene. */
+		final Sprite sprite = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager()) {
 			@Override
 			protected void applyRotation(final GLState pGLState) {
 				final float rotation = this.mRotation;
 
 				if(rotation != 0) {
-					final float rotationCenterX = this.mRotationCenterX;
-					final float rotationCenterY = this.mRotationCenterY;
+					final float localRotationCenterX = this.mLocalRotationCenterX;
+					final float localRotationCenterY = this.mLocalRotationCenterY;
 
-					pGLState.translateModelViewGLMatrixf(rotationCenterX, rotationCenterY, 0);
+					pGLState.translateModelViewGLMatrixf(localRotationCenterX, localRotationCenterY, 0);
 					/* Note we are applying rotation around the y-axis and not the z-axis anymore! */
-					pGLState.rotateModelViewGLMatrixf(rotation, 0, 1, 0);
-					pGLState.translateModelViewGLMatrixf(-rotationCenterX, -rotationCenterY, 0);
+					pGLState.rotateModelViewGLMatrixf(-rotation, 0, 1, 0);
+					pGLState.translateModelViewGLMatrixf(-localRotationCenterX, -localRotationCenterY, 0);
 				}
 			}
 		};
-		face.registerEntityModifier(new LoopEntityModifier(new RotationModifier(6, 0, 360)));
-		scene.attachChild(face);
+		sprite.registerEntityModifier(new LoopEntityModifier(new RotationModifier(6, 0, 360)));
+		scene.attachChild(sprite);
 
 		return scene;
 	}

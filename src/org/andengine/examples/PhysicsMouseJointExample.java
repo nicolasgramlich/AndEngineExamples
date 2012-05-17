@@ -1,5 +1,7 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
@@ -10,7 +12,6 @@ import org.andengine.entity.scene.IOnAreaTouchListener;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
@@ -21,13 +22,14 @@ import org.andengine.extension.physics.box2d.util.constants.PhysicsConstants;
 import org.andengine.input.sensor.acceleration.AccelerationData;
 import org.andengine.input.sensor.acceleration.IAccelerationListener;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.debug.Debug;
+import org.andengine.util.adt.color.Color;
 
 import android.hardware.SensorManager;
 import android.widget.Toast;
@@ -59,15 +61,15 @@ public class PhysicsMouseJointExample extends SimpleBaseGameActivity implements 
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
-
+	private ITexture mBoxFaceTexture;
 	private TiledTextureRegion mBoxFaceTextureRegion;
+	private ITexture mCircleFaceTexture;
 	private TiledTextureRegion mCircleFaceTextureRegion;
 
 	private Scene mScene;
 
 	private PhysicsWorld mPhysicsWorld;
-	private int mFaceCount = 0;
+	private int mSpriteCount = 0;
 
 	private MouseJoint mMouseJointActive;
 	private Body mGroundBody;
@@ -90,17 +92,18 @@ public class PhysicsMouseJointExample extends SimpleBaseGameActivity implements 
 
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+	public void onCreateResources() throws IOException {
+		this.mBoxFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box_tiled.png", TextureOptions.BILINEAR);
+		this.mBoxFaceTextureRegion = TextureRegionFactory.extractTiledFromTexture(this.mBoxFaceTexture, 2, 1);
+		this.mBoxFaceTexture.load();
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 64, TextureOptions.BILINEAR);
-		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
-		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
-		this.mBitmapTextureAtlas.load();
+		this.mCircleFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_circle_tiled.png", TextureOptions.BILINEAR);
+		this.mCircleFaceTextureRegion = TextureRegionFactory.extractTiledFromTexture(this.mCircleFaceTexture, 2, 1);
+		this.mCircleFaceTexture.load();
 	}
 
 	@Override
@@ -108,7 +111,7 @@ public class PhysicsMouseJointExample extends SimpleBaseGameActivity implements 
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
-		this.mScene.setBackground(new Background(0, 0, 0));
+		this.mScene.getBackground().setColor(Color.BLACK);
 		this.mScene.setOnSceneTouchListener(this);
 		this.mScene.setOnAreaTouchListener(this);
 
@@ -116,10 +119,10 @@ public class PhysicsMouseJointExample extends SimpleBaseGameActivity implements 
 		this.mGroundBody = this.mPhysicsWorld.createBody(new BodyDef());
 
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
-		final Rectangle ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2, vertexBufferObjectManager);
-		final Rectangle roof = new Rectangle(0, 0, CAMERA_WIDTH, 2, vertexBufferObjectManager);
-		final Rectangle left = new Rectangle(0, 0, 2, CAMERA_HEIGHT, vertexBufferObjectManager);
-		final Rectangle right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT, vertexBufferObjectManager);
+		final Rectangle ground = new Rectangle(CAMERA_WIDTH / 2, 1, CAMERA_WIDTH, 2, vertexBufferObjectManager);
+		final Rectangle roof = new Rectangle(CAMERA_WIDTH / 2, CAMERA_HEIGHT - 1, CAMERA_WIDTH, 2, vertexBufferObjectManager);
+		final Rectangle left = new Rectangle(1, CAMERA_HEIGHT / 2, 1, CAMERA_HEIGHT, vertexBufferObjectManager);
+		final Rectangle right = new Rectangle(CAMERA_WIDTH - 1, CAMERA_HEIGHT / 2, 2, CAMERA_HEIGHT, vertexBufferObjectManager);
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
@@ -171,14 +174,14 @@ public class PhysicsMouseJointExample extends SimpleBaseGameActivity implements 
 	@Override
 	public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 		if(pSceneTouchEvent.isActionDown()) {
-			final IEntity face = (IEntity) pTouchArea;
+			final IEntity entity = (IEntity) pTouchArea;
 			/*
 			 * If we have a active MouseJoint, we are just moving it around
 			 * instead of creating a second one.
 			 */
 			if(this.mMouseJointActive == null) {
 				this.mEngine.vibrate(100);
-				this.mMouseJointActive = this.createMouseJoint(face, pTouchAreaLocalX, pTouchAreaLocalY);
+				this.mMouseJointActive = this.createMouseJoint(entity, pTouchAreaLocalX, pTouchAreaLocalY);
 			}
 			return true;
 		}
@@ -236,13 +239,12 @@ public class PhysicsMouseJointExample extends SimpleBaseGameActivity implements 
 	}
 
 	private void addFace(final float pX, final float pY) {
-		this.mFaceCount++;
-		Debug.d("Faces: " + this.mFaceCount);
+		this.mSpriteCount++;
 
 		final AnimatedSprite face;
 		final Body body;
 
-		if(this.mFaceCount % 2 == 0) {
+		if(this.mSpriteCount % 2 == 0) {
 			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion, this.getVertexBufferObjectManager());
 			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
 		} else {

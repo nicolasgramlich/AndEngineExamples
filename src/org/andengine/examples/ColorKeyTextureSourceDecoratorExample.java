@@ -58,7 +58,7 @@ public class ColorKeyTextureSourceDecoratorExample extends SimpleBaseGameActivit
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -88,8 +88,8 @@ public class ColorKeyTextureSourceDecoratorExample extends SimpleBaseGameActivit
 
 		final Scene scene = new Scene();
 
-		final float centerX = (CAMERA_WIDTH - this.mChromaticCircleTextureRegion.getWidth()) / 2;
-		final float centerY = (CAMERA_HEIGHT - this.mChromaticCircleTextureRegion.getHeight()) / 2;
+		final float centerX = CAMERA_WIDTH / 2;
+		final float centerY = CAMERA_HEIGHT / 2;
 
 		final Sprite chromaticCircle = new Sprite(centerX - 80, centerY, this.mChromaticCircleTextureRegion, this.getVertexBufferObjectManager());
 

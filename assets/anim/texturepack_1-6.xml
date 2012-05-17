@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<texture version="1" file="texturepack_1-6.pvr.ccz" type="pvrccz" width="43" height="64" pixelformat="RGBA_8888" minfilter="linear" magfilter="linear" wrapt="clamp" wraps="clamp" premultiplyalpha="true">
+    <!-- Created with TexturePacker http://texturepacker.com -->
+    <!-- $TexturePacker:SmartUpdate:281665338f2363e3d3ad17e335dc5b7d$ -->
+    <textureregion id="0" src="1.png" x="22" y="43" width="20" height="20" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="20" srcheight="20"/>
+    <textureregion id="1" src="2.png" x="22" y="22" width="20" height="20" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="20" srcheight="20"/>
+    <textureregion id="2" src="3.png" x="22" y="1" width="20" height="20" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="20" srcheight="20"/>
+    <textureregion id="3" src="4.png" x="1" y="43" width="20" height="20" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="20" srcheight="20"/>
+    <textureregion id="4" src="5.png" x="1" y="22" width="20" height="20" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="20" srcheight="20"/>
+    <textureregion id="5" src="6.png" x="1" y="1" width="20" height="20" rotated="false" trimmed="false" srcx="0" srcy="0" srcwidth="20" srcheight="20"/>
+</texture>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animationpack version="1">
+	<texturepacks>
+		<texturepack filename="texturepack_1-6.xml"/>
+	</texturepacks>
+	<animations>
+		<animation name="animation_135">
+    		<animationframe duration="500" textureregion="1.png"/>
+			<animationframe duration="500" textureregion="3.png"/>
+			<animationframe duration="500" textureregion="5.png"/>
+		</animation>
+		<animation name="animation_246">
+			<animationframe duration="500" textureregion="2.png"/>
+			<animationframe duration="500" textureregion="4.png"/>
+			<animationframe duration="500" textureregion="6.png"/>
+		</animation>
+	</animations>
+</animationpack>

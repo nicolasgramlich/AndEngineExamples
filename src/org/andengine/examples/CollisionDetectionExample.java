@@ -1,5 +1,7 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
@@ -17,18 +19,17 @@ import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.primitive.Line;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.controller.MultiTouch;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.math.MathUtils;
 
-import android.opengl.GLES20;
 import android.widget.Toast;
 
 /**
@@ -52,11 +53,12 @@ public class CollisionDetectionExample extends SimpleBaseGameActivity {
 
 	private Camera mCamera;
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mFaceTexture;
 	private ITextureRegion mFaceTextureRegion;
 
-	private BitmapTextureAtlas mOnScreenControlTexture;
+	private ITexture mOnScreenControlBaseTexture;
 	private ITextureRegion mOnScreenControlBaseTextureRegion;
+	private ITexture mOnScreenControlKnobTexture;
 	private ITextureRegion mOnScreenControlKnobTextureRegion;
 
 	private boolean mPlaceOnScreenControlsAtDifferentVerticalLocations = false;
@@ -77,7 +79,7 @@ public class CollisionDetectionExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 		engineOptions.getTouchOptions().setNeedsMultiTouch(true);
 
 		if(MultiTouch.isSupported(this)) {
@@ -95,17 +97,18 @@ public class CollisionDetectionExample extends SimpleBaseGameActivity {
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+	public void onCreateResources() throws IOException {
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box.png", TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(this.mFaceTexture);
+		this.mFaceTexture.load();
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		this.mOnScreenControlBaseTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/onscreen_control_base.png", TextureOptions.BILINEAR);
+		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.extractFromTexture(this.mOnScreenControlBaseTexture);
+		this.mOnScreenControlBaseTexture.load();
 
-		this.mOnScreenControlTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 128, TextureOptions.BILINEAR);
-		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
-		this.mOnScreenControlTexture.load();
+		this.mOnScreenControlKnobTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/onscreen_control_knob.png", TextureOptions.BILINEAR);
+		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.extractFromTexture(this.mOnScreenControlKnobTexture);
+		this.mOnScreenControlKnobTexture.load();
 	}
 
 	@Override
@@ -113,16 +116,16 @@ public class CollisionDetectionExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 
-		final float centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final float centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = CAMERA_WIDTH / 2;
+		final float centerY = CAMERA_HEIGHT / 2;
 
 		final LoopEntityModifier entityModifier = new LoopEntityModifier(new ParallelEntityModifier(new RotationModifier(6, 0, 360), new SequenceEntityModifier(new ScaleModifier(3, 1, 1.5f), new ScaleModifier(3, 1.5f, 1))));
 
 		/* Create A spinning rectangle and a line. */
-		final Rectangle centerRectangle = new Rectangle(centerX - 50, centerY - 16, 32, 32, this.getVertexBufferObjectManager());
+		final Rectangle centerRectangle = new Rectangle(centerX - 50, centerY, 32, 32, this.getVertexBufferObjectManager());
 		centerRectangle.registerEntityModifier(entityModifier);
 
 		scene.attachChild(centerRectangle);
@@ -131,16 +134,14 @@ public class CollisionDetectionExample extends SimpleBaseGameActivity {
 		line.registerEntityModifier(entityModifier.deepCopy());
 		scene.attachChild(line);
 
-		final Sprite face = new Sprite(centerX, centerY + 42, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		final PhysicsHandler physicsHandler = new PhysicsHandler(face);
-		face.registerUpdateHandler(physicsHandler);
+		final Sprite sprite = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+		final PhysicsHandler physicsHandler = new PhysicsHandler(sprite);
+		sprite.registerUpdateHandler(physicsHandler);
 
-		scene.attachChild(face);
+		scene.attachChild(sprite);
 
 		/* Velocity control (left). */
-		final float x1 = 0;
-		final float y1 = CAMERA_HEIGHT - this.mOnScreenControlBaseTextureRegion.getHeight();
-		final AnalogOnScreenControl velocityOnScreenControl = new AnalogOnScreenControl(x1, y1, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, this.getVertexBufferObjectManager(), new IAnalogOnScreenControlListener() {
+		final AnalogOnScreenControl velocityOnScreenControl = new AnalogOnScreenControl((float) 0, 0, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, this.getVertexBufferObjectManager(), new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
 				physicsHandler.setVelocity(pValueX * 100, pValueY * 100);
@@ -151,22 +152,24 @@ public class CollisionDetectionExample extends SimpleBaseGameActivity {
 				/* Nothing. */
 			}
 		});
-		velocityOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		velocityOnScreenControl.getControlBase().setAlpha(0.5f);
-
-		scene.setChildScene(velocityOnScreenControl);
+		{
+			final Sprite controlBase = velocityOnScreenControl.getControlBase();
+			controlBase.setAlpha(0.5f);
+			controlBase.setOffsetCenter(0, 0);
+	
+			scene.setChildScene(velocityOnScreenControl);
+		}
 
 
 		/* Rotation control (right). */
-		final float y2 = (this.mPlaceOnScreenControlsAtDifferentVerticalLocations) ? 0 : y1;
-		final float x2 = CAMERA_WIDTH - this.mOnScreenControlBaseTextureRegion.getWidth();
-		final AnalogOnScreenControl rotationOnScreenControl = new AnalogOnScreenControl(x2, y2, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, this.getVertexBufferObjectManager(), new IAnalogOnScreenControlListener() {
+		final float y = (this.mPlaceOnScreenControlsAtDifferentVerticalLocations) ? CAMERA_HEIGHT : 0;
+		final AnalogOnScreenControl rotationOnScreenControl = new AnalogOnScreenControl(CAMERA_WIDTH, y, this.mCamera, this.mOnScreenControlBaseTextureRegion, this.mOnScreenControlKnobTextureRegion, 0.1f, this.getVertexBufferObjectManager(), new IAnalogOnScreenControlListener() {
 			@Override
 			public void onControlChange(final BaseOnScreenControl pBaseOnScreenControl, final float pValueX, final float pValueY) {
-				if(pValueX == x1 && pValueY == x1) {
-					face.setRotation(x1);
+				if(pValueX == (float) 0 && pValueY == (float) 0) {
+					sprite.setRotation((float) 0);
 				} else {
-					face.setRotation(MathUtils.radToDeg((float)Math.atan2(pValueX, -pValueY)));
+					sprite.setRotation(MathUtils.radToDeg((float)Math.atan2(pValueX, -pValueY)));
 				}
 			}
 
@@ -175,8 +178,17 @@ public class CollisionDetectionExample extends SimpleBaseGameActivity {
 				/* Nothing. */
 			}
 		});
-		rotationOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
-		rotationOnScreenControl.getControlBase().setAlpha(0.5f);
+		{
+			final Sprite controlBase = rotationOnScreenControl.getControlBase();
+			if(this.mPlaceOnScreenControlsAtDifferentVerticalLocations) {
+				controlBase.setOffsetCenter(1, 1);
+			} else {
+				controlBase.setOffsetCenter(1, 0);
+			}
+			controlBase.setAlpha(0.5f);
+	
+			velocityOnScreenControl.setChildScene(rotationOnScreenControl);
+		}
 
 		velocityOnScreenControl.setChildScene(rotationOnScreenControl);
 
@@ -187,19 +199,19 @@ public class CollisionDetectionExample extends SimpleBaseGameActivity {
 
 			@Override
 			public void onUpdate(final float pSecondsElapsed) {
-				if(centerRectangle.collidesWith(face)) {
+				if(centerRectangle.collidesWith(sprite)) {
 					centerRectangle.setColor(1, 0, 0);
 				} else {
 					centerRectangle.setColor(0, 1, 0);
 				}
 				
-				if(line.collidesWith(face)){
+				if(line.collidesWith(sprite)){
 					line.setColor(1, 0, 0);
 				} else {
 					line.setColor(0, 1, 0);
 				}
 				
-				if(!mCamera.isEntityVisible(face)) {
+				if(!mCamera.isEntityVisible(sprite)) {
 					centerRectangle.setColor(1, 0, 1);
 				}
 			}

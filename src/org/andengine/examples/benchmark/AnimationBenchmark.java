@@ -5,7 +5,6 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.batch.SpriteGroup;
@@ -18,12 +17,17 @@ import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
+import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.opengl.vbo.attribute.VertexBufferObjectAttributes;
 import org.andengine.opengl.vbo.attribute.VertexBufferObjectAttributesBuilder;
+import org.andengine.util.debug.Debug;
 
 import android.opengl.GLES20;
 
@@ -48,7 +52,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private BuildableBitmapTextureAtlas mBuildableBitmapTextureAtlas;
 
 	private TiledTextureRegion mSnapdragonTextureRegion;
 	private TiledTextureRegion mHelicopterTextureRegion;
@@ -86,26 +90,31 @@ public class AnimationBenchmark extends BaseBenchmark {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
 	public void onCreateResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 512, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		this.mSnapdragonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "snapdragon_tiled.png", 0, 0, 4, 3);
-		this.mHelicopterTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "helicopter_tiled.png", 400, 0, 2, 2);
-		this.mBananaTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "banana_tiled.png", 0, 180, 4, 2);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 132, 180, 2, 1);
+		this.mSnapdragonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "snapdragon_tiled.png", 4, 3);
+		this.mHelicopterTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "helicopter_tiled.png", 2, 2);
+		this.mBananaTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "banana_tiled.png", 4, 2);
+		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "face_box_tiled.png", 2, 1);
 
-		this.mBitmapTextureAtlas.load();
+		try {
+			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+			this.mBuildableBitmapTextureAtlas.load();
+		} catch (TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
 	}
 
 	@Override
 	public Scene onCreateScene() {
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 		
 //		this.drawUsingSprites(scene); 
 //		this.drawUsingSpritesWithSharedVertexBuffer(scene);
@@ -169,7 +178,7 @@ public class AnimationBenchmark extends BaseBenchmark {
 	}
 
 	private void drawUsingSpriteBatch(Scene pScene) {
-		final SpriteGroupWithoutColor spriteGroup = new SpriteGroupWithoutColor(this.getVertexBufferObjectManager(), this.mBitmapTextureAtlas, 4 * SPRITE_COUNT, DrawType.DYNAMIC);
+		final SpriteGroupWithoutColor spriteGroup = new SpriteGroupWithoutColor(this.getVertexBufferObjectManager(), this.mBuildableBitmapTextureAtlas, 4 * SPRITE_COUNT, DrawType.DYNAMIC);
 		for(int i = 0; i < SPRITE_COUNT; i++) {
 			/* Quickly twinkling face. */
 			final AnimatedSprite face = new AnimatedSprite(this.mRandom.nextFloat() * (CAMERA_WIDTH - 32), this.mRandom.nextFloat() * (CAMERA_HEIGHT - 32), this.mFaceTextureRegion.deepCopy(), this.getVertexBufferObjectManager());

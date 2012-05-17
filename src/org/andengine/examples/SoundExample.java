@@ -11,14 +11,14 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.IOnAreaTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
@@ -43,7 +43,7 @@ public class SoundExample extends SimpleBaseGameActivity {
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mTankTexture;
 	private ITextureRegion mTankTextureRegion;
 
 	private Sound mExplosionSound;
@@ -66,19 +66,17 @@ public class SoundExample extends SimpleBaseGameActivity {
 
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 		engineOptions.getAudioOptions().setNeedsSound(true);
 
 		return engineOptions;
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 128, 256, TextureOptions.BILINEAR);
-		this.mTankTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "tank.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+	public void onCreateResources() throws IOException {
+		this.mTankTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/tank.png", TextureOptions.BILINEAR);
+		this.mTankTextureRegion = TextureRegionFactory.extractFromTexture(this.mTankTexture);
+		this.mTankTexture.load();
 
 		SoundFactory.setAssetBasePath("mfx/");
 		try {
@@ -93,7 +91,7 @@ public class SoundExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		final float centerX = (CAMERA_WIDTH - this.mTankTextureRegion.getWidth()) / 2;
 		final float centerY = (CAMERA_HEIGHT - this.mTankTextureRegion.getHeight()) / 2;

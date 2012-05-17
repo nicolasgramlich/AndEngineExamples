@@ -1,25 +1,32 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
+import org.andengine.entity.scene.menu.animator.AlphaMenuSceneAnimator;
+import org.andengine.entity.scene.menu.animator.SlideMenuSceneAnimator;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.adt.align.HorizontalAlign;
+import org.andengine.util.adt.align.VerticalAlign;
+import org.andengine.util.adt.spatial.Direction;
+import org.andengine.util.modifier.ease.EaseBounceOut;
 
-import android.opengl.GLES20;
 import android.view.KeyEvent;
 
 /**
@@ -47,14 +54,14 @@ public class MenuExample extends SimpleBaseGameActivity implements IOnMenuItemCl
 	protected Camera mCamera;
 
 	protected Scene mMainScene;
-
-	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private ITextureRegion mFaceTextureRegion;
-
 	protected MenuScene mMenuScene;
 
-	private BitmapTextureAtlas mMenuTexture;
+	private ITexture mFaceTexture;
+	protected ITextureRegion mFaceTextureRegion;
+
+	private ITexture mMenuResetTexture;
 	protected ITextureRegion mMenuResetTextureRegion;
+	private ITexture mMenuQuitTexture;
 	protected ITextureRegion mMenuQuitTextureRegion;
 
 	// ===========================================================
@@ -73,21 +80,22 @@ public class MenuExample extends SimpleBaseGameActivity implements IOnMenuItemCl
 	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 64, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box_menu.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+	public void onCreateResources() throws IOException {
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box_menu.png", TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(this.mFaceTexture);
+		this.mFaceTexture.load();
 
-		this.mMenuTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 128, TextureOptions.BILINEAR);
-		this.mMenuResetTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_reset.png", 0, 0);
-		this.mMenuQuitTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mMenuTexture, this, "menu_quit.png", 0, 50);
-		this.mMenuTexture.load();
+		this.mMenuResetTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/menu_reset.png", TextureOptions.BILINEAR);
+		this.mMenuResetTextureRegion = TextureRegionFactory.extractFromTexture(this.mMenuResetTexture);
+		this.mMenuResetTexture.load();
+
+		this.mMenuQuitTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/menu_quit.png", TextureOptions.BILINEAR);
+		this.mMenuQuitTextureRegion = TextureRegionFactory.extractFromTexture(this.mMenuQuitTexture);
+		this.mMenuQuitTexture.load();
 	}
 
 	@Override
@@ -96,13 +104,13 @@ public class MenuExample extends SimpleBaseGameActivity implements IOnMenuItemCl
 
 		this.createMenuScene();
 
-		/* Just a simple scene with an animated face flying around. */
+		/* Just a simple scene with an sprite flying around. */
 		this.mMainScene = new Scene();
-		this.mMainScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		this.mMainScene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
-		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		face.registerEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
-		this.mMainScene.attachChild(face);
+		final Sprite sprite = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+		sprite.registerEntityModifier(new MoveModifier(30, 0, 0, CAMERA_WIDTH, CAMERA_HEIGHT - sprite.getHeight()));
+		this.mMainScene.attachChild(sprite);
 
 		return this.mMainScene;
 	}
@@ -132,7 +140,7 @@ public class MenuExample extends SimpleBaseGameActivity implements IOnMenuItemCl
 
 				/* Remove the menu and reset it. */
 				this.mMainScene.clearChildScene();
-				this.mMenuScene.reset();
+				this.mMenuScene.resetAnimations();
 				return true;
 			case MENU_QUIT:
 				/* End Activity. */
@@ -148,15 +156,17 @@ public class MenuExample extends SimpleBaseGameActivity implements IOnMenuItemCl
 	// ===========================================================
 
 	protected void createMenuScene() {
-		this.mMenuScene = new MenuScene(this.mCamera);
+		this.mMenuScene = new MenuScene(this.mCamera, new AlphaMenuSceneAnimator());
 
 		final SpriteMenuItem resetMenuItem = new SpriteMenuItem(MENU_RESET, this.mMenuResetTextureRegion, this.getVertexBufferObjectManager());
-		resetMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mMenuScene.addMenuItem(resetMenuItem);
 
 		final SpriteMenuItem quitMenuItem = new SpriteMenuItem(MENU_QUIT, this.mMenuQuitTextureRegion, this.getVertexBufferObjectManager());
-		quitMenuItem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mMenuScene.addMenuItem(quitMenuItem);
+
+		final SlideMenuSceneAnimator menuSceneAnimator = new SlideMenuSceneAnimator(HorizontalAlign.CENTER, VerticalAlign.CENTER, Direction.UP_LEFT, EaseBounceOut.getInstance());
+		menuSceneAnimator.setMenuItemSpacing(10);
+		this.mMenuScene.setMenuSceneAnimator(menuSceneAnimator);
 
 		this.mMenuScene.buildAnimations();
 

@@ -5,13 +5,13 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleAsyncGameActivity;
 import org.andengine.util.progress.IProgressListener;
 
@@ -33,7 +33,7 @@ public class AsyncGameActivityExample extends SimpleAsyncGameActivity {
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mFaceTexture;
 	private ITextureRegion mFaceTextureRegion;
 
 	// ===========================================================
@@ -61,15 +61,14 @@ public class AsyncGameActivityExample extends SimpleAsyncGameActivity {
 		pProgressListener.onProgressChanged(0);
 		Thread.sleep(1000);
 		pProgressListener.onProgressChanged(20);
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		Thread.sleep(1000);
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box.png", TextureOptions.BILINEAR);
 		pProgressListener.onProgressChanged(40);
 		Thread.sleep(1000);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(AsyncGameActivityExample.this.mBitmapTextureAtlas, AsyncGameActivityExample.this, "face_box.png", 0, 0);
+		this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(AsyncGameActivityExample.this.mFaceTexture);
 		pProgressListener.onProgressChanged(60);
 		Thread.sleep(1000);
-		this.mBitmapTextureAtlas.load();
+		this.mFaceTexture.load();
 		pProgressListener.onProgressChanged(80);
 		Thread.sleep(1000);
 		pProgressListener.onProgressChanged(100);
@@ -80,20 +79,19 @@ public class AsyncGameActivityExample extends SimpleAsyncGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		return scene;
 	}
 
 	@Override
 	public void onPopulateSceneAsync(final Scene pScene, final IProgressListener pProgressListener) throws Exception {
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final float centerX = (AsyncGameActivityExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final float centerY = (AsyncGameActivityExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = AsyncGameActivityExample.CAMERA_WIDTH * 0.5f;
+		final float centerY = AsyncGameActivityExample.CAMERA_HEIGHT * 0.5f;
 
-		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		pScene.attachChild(face);
+		/* Create the sprite and add it to the scene. */
+		final Sprite sprite = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+		pScene.attachChild(sprite);
 	}
 
 	// ===========================================================

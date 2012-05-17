@@ -1,21 +1,24 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
+import org.andengine.engine.Engine.EngineLock;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.math.MathUtils;
+import org.andengine.util.debug.Debug;
 
 import android.widget.Toast;
 
@@ -38,7 +41,6 @@ public class LoadTextureExample extends SimpleBaseGameActivity {
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private Scene mScene;
 
 	// ===========================================================
@@ -55,11 +57,11 @@ public class LoadTextureExample extends SimpleBaseGameActivity {
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
-		Toast.makeText(this, "Touch the screen to load a completely new BitmapTextureAtlas in a random location with every touch!", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Touch the screen to load a completely new Texture and create a sprite from it!\nTouch it again to unload the Texture and remove the sprite.", Toast.LENGTH_LONG).show();
 
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -72,18 +74,23 @@ public class LoadTextureExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
-		this.mScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		this.mScene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		this.mScene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
 			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 				if(pSceneTouchEvent.isActionDown()) {
-					LoadTextureExample.this.loadNewTexture();
+					try {
+						LoadTextureExample.this.loadNewTexture(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+					} catch (final IOException e) {
+						Debug.e(e);
+					}
 				}
 
 				return true;
 			}
 		});
+		this.mScene.setOnSceneTouchListenerBindingOnActionDownEnabled(true);
 
 		return this.mScene;
 	}
@@ -92,17 +99,29 @@ public class LoadTextureExample extends SimpleBaseGameActivity {
 	// Methods
 	// ===========================================================
 
-	private void loadNewTexture() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+	private void loadNewTexture(final float pX, final float pY) throws IOException {
+		final ITexture texture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box.png", TextureOptions.BILINEAR);
+		final ITextureRegion faceTextureRegion = TextureRegionFactory.extractFromTexture(texture);
+		texture.load();
 
-		this.mBitmapTextureAtlas  = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
-		final ITextureRegion faceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+		final Sprite sprite = new Sprite(pX, pY, faceTextureRegion, this.getVertexBufferObjectManager()) {
+			@Override
+			public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
+				if(pSceneTouchEvent.isActionUp()) {
+					final EngineLock engineLock = LoadTextureExample.this.mEngine.getEngineLock();
+					engineLock.lock();
 
-		final float x = (CAMERA_WIDTH - faceTextureRegion.getWidth()) * MathUtils.RANDOM.nextFloat();
-		final float y = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) * MathUtils.RANDOM.nextFloat();
-		final Sprite clickToUnload = new Sprite(x, y, faceTextureRegion, this.getVertexBufferObjectManager());
-		this.mScene.attachChild(clickToUnload);
+					this.detachSelf();
+					texture.unload();
+					LoadTextureExample.this.mScene.unregisterTouchArea(this);
+
+					engineLock.unlock();
+				}
+				return true;
+			}
+		};
+		this.mScene.attachChild(sprite);
+		this.mScene.registerTouchArea(sprite);
 	}
 
 	// ===========================================================

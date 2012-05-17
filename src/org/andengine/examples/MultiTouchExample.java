@@ -1,5 +1,6 @@
 package org.andengine.examples;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import org.andengine.engine.camera.Camera;
@@ -7,15 +8,14 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.examples.adt.card.Card;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.input.touch.controller.MultiTouch;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
@@ -42,11 +42,10 @@ public class MultiTouchExample extends SimpleBaseGameActivity {
 	// ===========================================================
 
 	private Camera mCamera;
-	private BitmapTextureAtlas mCardDeckTexture;
-
 	private Scene mScene;
 
-	private HashMap<Card, ITextureRegion> mCardTotextureRegionMap;
+	private ITexture mCardDeckTexture;
+	private HashMap<Card, ITextureRegion> mCardToTextureRegionMap;
 
 	// ===========================================================
 	// Constructors
@@ -64,7 +63,7 @@ public class MultiTouchExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 		engineOptions.getTouchOptions().setNeedsMultiTouch(true);
 
 		if(MultiTouch.isSupported(this)) {
@@ -81,19 +80,16 @@ public class MultiTouchExample extends SimpleBaseGameActivity {
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mCardDeckTexture = new BitmapTextureAtlas(this.getTextureManager(), 1024, 512, TextureOptions.BILINEAR);
-		BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mCardDeckTexture, this, "carddeck_tiled.png", 0, 0);
+	public void onCreateResources() throws IOException {
+		this.mCardDeckTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/carddeck_tiled.png", TextureOptions.BILINEAR);
 		this.mCardDeckTexture.load();
 
-		this.mCardTotextureRegionMap = new HashMap<Card, ITextureRegion>();
+		this.mCardToTextureRegionMap = new HashMap<Card, ITextureRegion>();
 
 		/* Extract the TextureRegion of each card in the whole deck. */
 		for(final Card card : Card.values()) {
 			final ITextureRegion cardTextureRegion = TextureRegionFactory.extractFromTexture(this.mCardDeckTexture, card.getTexturePositionX(), card.getTexturePositionY(), Card.CARD_WIDTH, Card.CARD_HEIGHT);
-			this.mCardTotextureRegionMap.put(card, cardTextureRegion);
+			this.mCardToTextureRegionMap.put(card, cardTextureRegion);
 		}
 	}
 
@@ -104,12 +100,12 @@ public class MultiTouchExample extends SimpleBaseGameActivity {
 		this.mScene = new Scene();
 		this.mScene.setOnAreaTouchTraversalFrontToBack();
 
-		this.addCard(Card.CLUB_ACE, 200, 100);
-		this.addCard(Card.HEART_ACE, 200, 260);
-		this.addCard(Card.DIAMOND_ACE, 440, 100);
-		this.addCard(Card.SPADE_ACE, 440, 260);
+		this.addCard(Card.CLUB_ACE, CAMERA_WIDTH * 0.33f, CAMERA_HEIGHT * 0.33f);
+		this.addCard(Card.HEART_ACE, CAMERA_WIDTH * 0.33f, CAMERA_HEIGHT * 0.66f);
+		this.addCard(Card.DIAMOND_ACE, CAMERA_WIDTH * 0.66f, CAMERA_HEIGHT * 0.33f);
+		this.addCard(Card.SPADE_ACE, CAMERA_WIDTH * 0.66f, CAMERA_HEIGHT * 0.66f);
 
-		this.mScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		this.mScene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		this.mScene.setTouchAreaBindingOnActionDownEnabled(true);
 
@@ -120,8 +116,8 @@ public class MultiTouchExample extends SimpleBaseGameActivity {
 	// Methods
 	// ===========================================================
 
-	private void addCard(final Card pCard, final int pX, final int pY) {
-		final Sprite sprite = new Sprite(pX, pY, this.mCardTotextureRegionMap.get(pCard), this.getVertexBufferObjectManager()) {
+	private void addCard(final Card pCard, final float pX, final float pY) {
+		final Sprite sprite = new Sprite(pX, pY, this.mCardToTextureRegionMap.get(pCard), this.getVertexBufferObjectManager()) {
 			boolean mGrabbed = false;
 
 			@Override
@@ -133,7 +129,7 @@ public class MultiTouchExample extends SimpleBaseGameActivity {
 						break;
 					case TouchEvent.ACTION_MOVE:
 						if(this.mGrabbed) {
-							this.setPosition(pSceneTouchEvent.getX() - Card.CARD_WIDTH / 2, pSceneTouchEvent.getY() - Card.CARD_HEIGHT / 2);
+							this.setPosition(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 						}
 						break;
 					case TouchEvent.ACTION_UP:

@@ -1,5 +1,7 @@
 package org.andengine.examples.game.racer;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl;
 import org.andengine.engine.camera.hud.controls.AnalogOnScreenControl.IAnalogOnScreenControlListener;
@@ -9,7 +11,6 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.sprite.TiledSprite;
 import org.andengine.entity.util.FPSLogger;
@@ -18,16 +19,16 @@ import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.extension.physics.box2d.util.Vector2Pool;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.adt.color.Color;
 import org.andengine.util.math.MathUtils;
-
-import android.opengl.GLES20;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -60,18 +61,20 @@ public class RacerGameActivity extends SimpleBaseGameActivity {
 
 	private Camera mCamera;
 
-	private BitmapTextureAtlas mVehiclesTexture;
+	private ITexture mVehiclesTexture;
 	private TiledTextureRegion mVehiclesTextureRegion;
 
-	private BitmapTextureAtlas mBoxTexture;
+	private ITexture mBoxTexture;
 	private ITextureRegion mBoxTextureRegion;
 
-	private BitmapTextureAtlas mRacetrackTexture;
+	private ITexture mRacetrackStraightTexture;
 	private ITextureRegion mRacetrackStraightTextureRegion;
+	private ITexture mRacetrackCurveTexture;
 	private ITextureRegion mRacetrackCurveTextureRegion;
 
-	private BitmapTextureAtlas mOnScreenControlTexture;
+	private ITexture mOnScreenControlBaseTexture;
 	private ITextureRegion mOnScreenControlBaseTextureRegion;
+	private ITexture mOnScreenControlKnobTexture;
 	private ITextureRegion mOnScreenControlKnobTextureRegion;
 
 	private Scene mScene;
@@ -97,30 +100,34 @@ public class RacerGameActivity extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mVehiclesTexture = new BitmapTextureAtlas(this.getTextureManager(), 128, 16, TextureOptions.BILINEAR);
-		this.mVehiclesTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mVehiclesTexture, this, "vehicles.png", 0, 0, 6, 1);
+	public void onCreateResources() throws IOException {
+		this.mVehiclesTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/vehicles.png", TextureOptions.BILINEAR);
+		this.mVehiclesTextureRegion = TextureRegionFactory.extractTiledFromTexture(this.mVehiclesTexture, 6, 1);
 		this.mVehiclesTexture.load();
 
-		this.mRacetrackTexture = new BitmapTextureAtlas(this.getTextureManager(), 128, 256, TextureOptions.REPEATING_NEAREST);
-		this.mRacetrackStraightTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mRacetrackTexture, this, "racetrack_straight.png", 0, 0);
-		this.mRacetrackCurveTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mRacetrackTexture, this, "racetrack_curve.png", 0, 128);
-		this.mRacetrackTexture.load();
-
-		this.mOnScreenControlTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 128, TextureOptions.BILINEAR);
-		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
-		this.mOnScreenControlTexture.load();
-
-		this.mBoxTexture = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
-		this.mBoxTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBoxTexture, this, "box.png", 0, 0);
+		this.mBoxTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/box.png", TextureOptions.BILINEAR);
+		this.mBoxTextureRegion = TextureRegionFactory.extractFromTexture(this.mBoxTexture);
 		this.mBoxTexture.load();
+
+		this.mOnScreenControlBaseTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/onscreen_control_base.png", TextureOptions.BILINEAR);
+		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.extractFromTexture(this.mOnScreenControlBaseTexture);
+		this.mOnScreenControlBaseTexture.load();
+
+		this.mOnScreenControlKnobTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/onscreen_control_knob.png", TextureOptions.BILINEAR);
+		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.extractFromTexture(this.mOnScreenControlKnobTexture);
+		this.mOnScreenControlKnobTexture.load();
+
+		this.mRacetrackStraightTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/racetrack_straight.png", TextureOptions.REPEATING_NEAREST);
+		this.mRacetrackStraightTextureRegion = TextureRegionFactory.extractFromTexture(this.mRacetrackStraightTexture);
+		this.mRacetrackStraightTexture.load();
+
+		this.mRacetrackCurveTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/racetrack_curve.png", TextureOptions.REPEATING_NEAREST);
+		this.mRacetrackCurveTextureRegion = TextureRegionFactory.extractFromTexture(this.mRacetrackCurveTexture);
+		this.mRacetrackCurveTexture.load();
 	}
 
 	@Override
@@ -128,7 +135,7 @@ public class RacerGameActivity extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
-		this.mScene.setBackground(new Background(0, 0, 0));
+		this.mScene.getBackground().setColor(Color.BLACK);
 
 		this.mPhysicsWorld = new FixedStepPhysicsWorld(30, new Vector2(0, 0), false, 8, 1);
 
@@ -173,7 +180,6 @@ public class RacerGameActivity extends SimpleBaseGameActivity {
 				/* Nothing. */
 			}
 		});
-		analogOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		analogOnScreenControl.getControlBase().setAlpha(0.5f);
 		//		analogOnScreenControl.getControlBase().setScaleCenter(0, 128);
 		//		analogOnScreenControl.getControlBase().setScale(0.75f);

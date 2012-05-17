@@ -14,7 +14,6 @@ import org.andengine.entity.scene.IOnAreaTouchListener;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.examples.adt.messages.client.ClientMessageFlags;
@@ -36,10 +35,11 @@ import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
 import org.andengine.extension.multiplayer.protocol.util.MessagePool;
 import org.andengine.extension.multiplayer.protocol.util.WifiUtils;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.debug.Debug;
 
@@ -50,7 +50,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.widget.EditText;
-import android.widget.Toast;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -71,8 +70,8 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 
 	private static final int SERVER_PORT = 4444;
 
-	private static final short FLAG_MESSAGE_SERVER_ADD_FACE = 1;
-	private static final short FLAG_MESSAGE_SERVER_MOVE_FACE = FLAG_MESSAGE_SERVER_ADD_FACE + 1;
+	private static final short FLAG_MESSAGE_SERVER_ADD_SPRITE = 1;
+	private static final short FLAG_MESSAGE_SERVER_MOVE_SPRITE = FLAG_MESSAGE_SERVER_ADD_SPRITE + 1;
 
 	private static final int DIALOG_CHOOSE_SERVER_OR_CLIENT_ID = 0;
 	private static final int DIALOG_ENTER_SERVER_IP_ID = DIALOG_CHOOSE_SERVER_OR_CLIENT_ID + 1;
@@ -82,11 +81,11 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mFaceTexture;
 	private ITextureRegion mFaceTextureRegion;
 
-	private int mFaceIDCounter;
-	private final SparseArray<Sprite> mFaces = new SparseArray<Sprite>();
+	private int mSpriteIDCounter;
+	private final SparseArray<Sprite> mSprites = new SparseArray<Sprite>();
 
 	private String mServerIP = LOCALHOST_IP;
 	private SocketServer<SocketConnectionClientConnector> mSocketServer;
@@ -103,8 +102,8 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 	}
 
 	private void initMessagePool() {
-		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_ADD_FACE, AddFaceServerMessage.class);
-		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class);
+		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_ADD_SPRITE, AddSpriteServerMessage.class);
+		this.mMessagePool.registerMessage(FLAG_MESSAGE_SERVER_MOVE_SPRITE, MoveSpriteServerMessage.class);
 	}
 
 	// ===========================================================
@@ -121,17 +120,14 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-
-		this.mBitmapTextureAtlas.load();
+	public void onCreateResources() throws IOException {
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box.png", TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(this.mFaceTexture);
+		this.mFaceTexture.load();
 	}
 
 	@Override
@@ -139,7 +135,7 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		/* We allow only the server to actively send around messages. */
 		if(MultiplayerExample.this.mSocketServer != null) {
@@ -148,12 +144,12 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 				public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 					if(pSceneTouchEvent.isActionDown()) {
 						try {
-							final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_FACE);
-							addFaceServerMessage.set(MultiplayerExample.this.mFaceIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+							final AddSpriteServerMessage addSpriteServerMessage = (AddSpriteServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_SPRITE);
+							addSpriteServerMessage.set(MultiplayerExample.this.mSpriteIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 
-							MultiplayerExample.this.mSocketServer.sendBroadcastServerMessage(addFaceServerMessage);
+							MultiplayerExample.this.mSocketServer.sendBroadcastServerMessage(addSpriteServerMessage);
 
-							MultiplayerExample.this.mMessagePool.recycleMessage(addFaceServerMessage);
+							MultiplayerExample.this.mMessagePool.recycleMessage(addSpriteServerMessage);
 						} catch (final IOException e) {
 							Debug.e(e);
 						}
@@ -168,15 +164,15 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 					try {
-						final Sprite face = (Sprite)pTouchArea;
-						final Integer faceID = (Integer)face.getUserData();
+						final Sprite sprite = (Sprite)pTouchArea;
+						final int spriteID = (Integer)sprite.getUserData();
 
-						final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_MOVE_FACE);
-						moveFaceServerMessage.set(faceID, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+						final MoveSpriteServerMessage moveSpriteServerMessage = (MoveSpriteServerMessage) MultiplayerExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_MOVE_SPRITE);
+						moveSpriteServerMessage.set(spriteID, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 
-						MultiplayerExample.this.mSocketServer.sendBroadcastServerMessage(moveFaceServerMessage);
+						MultiplayerExample.this.mSocketServer.sendBroadcastServerMessage(moveSpriteServerMessage);
 
-						MultiplayerExample.this.mMessagePool.recycleMessage(moveFaceServerMessage);
+						MultiplayerExample.this.mMessagePool.recycleMessage(moveSpriteServerMessage);
 					} catch (final IOException e) {
 						Debug.e(e);
 						return false;
@@ -303,21 +299,22 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 	// Methods
 	// ===========================================================
 
-	public void addFace(final int pID, final float pX, final float pY) {
+	public void addSprite(final int pID, final float pX, final float pY) {
 		final Scene scene = this.mEngine.getScene();
-		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		face.setPosition(pX - face.getWidth() * 0.5f, pY - face.getHeight() * 0.5f);
-		face.setUserData(pID);
-		this.mFaces.put(pID, face);
-		scene.registerTouchArea(face);
-		scene.attachChild(face);
+
+		/* Create the sprite and add it to the scene. */
+		final Sprite sprite = new Sprite(pX, pY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+		sprite.setUserData(pID);
+
+		this.mSprites.put(pID, sprite);
+		scene.registerTouchArea(sprite);
+		scene.attachChild(sprite);
 	}
 
-	public void moveFace(final int pID, final float pX, final float pY) {
-		/* Find and move the face. */
-		final Sprite face = this.mFaces.get(pID);
-		face.setPosition(pX - face.getWidth() * 0.5f, pY - face.getHeight() * 0.5f);
+	public void moveSprite(final int pID, final float pX, final float pY) {
+		/* Find and move the sprite. */
+		final Sprite sprite = this.mSprites.get(pID);
+		sprite.setPosition(pX, pY);
 	}
 
 	private void initServerAndClient() {
@@ -355,19 +352,19 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 				}
 			});
 
-			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_ADD_FACE, AddFaceServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_ADD_SPRITE, AddSpriteServerMessage.class, new IServerMessageHandler<SocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					final AddFaceServerMessage addFaceServerMessage = (AddFaceServerMessage)pServerMessage;
-					MultiplayerExample.this.addFace(addFaceServerMessage.mID, addFaceServerMessage.mX, addFaceServerMessage.mY);
+					final AddSpriteServerMessage addSpriteServerMessage = (AddSpriteServerMessage)pServerMessage;
+					MultiplayerExample.this.addSprite(addSpriteServerMessage.mID, addSpriteServerMessage.mX, addSpriteServerMessage.mY);
 				}
 			});
 
-			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_MOVE_FACE, MoveFaceServerMessage.class, new IServerMessageHandler<SocketConnection>() {
+			this.mServerConnector.registerServerMessage(FLAG_MESSAGE_SERVER_MOVE_SPRITE, MoveSpriteServerMessage.class, new IServerMessageHandler<SocketConnection>() {
 				@Override
 				public void onHandleMessage(final ServerConnector<SocketConnection> pServerConnector, final IServerMessage pServerMessage) throws IOException {
-					final MoveFaceServerMessage moveFaceServerMessage = (MoveFaceServerMessage)pServerMessage;
-					MultiplayerExample.this.moveFace(moveFaceServerMessage.mID, moveFaceServerMessage.mX, moveFaceServerMessage.mY);
+					final MoveSpriteServerMessage moveSpriteServerMessage = (MoveSpriteServerMessage)pServerMessage;
+					MultiplayerExample.this.moveSprite(moveSpriteServerMessage.mID, moveSpriteServerMessage.mX, moveSpriteServerMessage.mY);
 				}
 			});
 
@@ -383,28 +380,23 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 
 	private void toast(final String pMessage) {
 		this.log(pMessage);
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(MultiplayerExample.this, pMessage, Toast.LENGTH_SHORT).show();
-			}
-		});
+		this.toastOnUiThread(pMessage);
 	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	public static class AddFaceServerMessage extends ServerMessage {
+	public static class AddSpriteServerMessage extends ServerMessage {
 		private int mID;
 		private float mX;
 		private float mY;
 
-		public AddFaceServerMessage() {
+		public AddSpriteServerMessage() {
 
 		}
 
-		public AddFaceServerMessage(final int pID, final float pX, final float pY) {
+		public AddSpriteServerMessage(final int pID, final float pX, final float pY) {
 			this.mID = pID;
 			this.mX = pX;
 			this.mY = pY;
@@ -418,7 +410,7 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 
 		@Override
 		public short getFlag() {
-			return FLAG_MESSAGE_SERVER_ADD_FACE;
+			return FLAG_MESSAGE_SERVER_ADD_SPRITE;
 		}
 
 		@Override
@@ -436,16 +428,16 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 		}
 	}
 
-	public static class MoveFaceServerMessage extends ServerMessage {
+	public static class MoveSpriteServerMessage extends ServerMessage {
 		private int mID;
 		private float mX;
 		private float mY;
 
-		public MoveFaceServerMessage() {
+		public MoveSpriteServerMessage() {
 
 		}
 
-		public MoveFaceServerMessage(final int pID, final float pX, final float pY) {
+		public MoveSpriteServerMessage(final int pID, final float pX, final float pY) {
 			this.mID = pID;
 			this.mX = pX;
 			this.mY = pY;
@@ -459,7 +451,7 @@ public class MultiplayerExample extends SimpleBaseGameActivity implements Client
 
 		@Override
 		public short getFlag() {
-			return FLAG_MESSAGE_SERVER_MOVE_FACE;
+			return FLAG_MESSAGE_SERVER_MOVE_SPRITE;
 		}
 
 		@Override

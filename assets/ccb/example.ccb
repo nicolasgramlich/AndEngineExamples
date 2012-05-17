@@ -134,7 +134,7 @@
 										<string>SpriteFrame</string>
 										<key>value</key>
 										<array>
-											<string>spritesheet.plist</string>
+											<string>spritesheets/spritesheet.plist</string>
 											<string>face_circle_tiled.png</string>
 										</array>
 									</dict>
@@ -444,7 +444,7 @@
 								<string>SpriteFrame</string>
 								<key>value</key>
 								<array>
-									<string></string>
+									<string>spritesheets/spritesheet.plist</string>
 									<string>nineslice.png</string>
 								</array>
 							</dict>
@@ -610,7 +610,7 @@
 						<string>SpriteFrame</string>
 						<key>value</key>
 						<array>
-							<string>spritesheet.plist</string>
+							<string>spritesheets/spritesheet.plist</string>
 							<string>face_box.png</string>
 						</array>
 					</dict>
@@ -762,7 +762,7 @@
 								<key>type</key>
 								<string>FontTTF</string>
 								<key>value</key>
-								<string>Droid.ttf</string>
+								<string>fonts/Droid.ttf</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -929,7 +929,7 @@
 								<key>type</key>
 								<string>FntFile</string>
 								<key>value</key>
-								<string>BitmapFont.fnt</string>
+								<string>fonts/BitmapFont.fnt</string>
 							</dict>
 							<dict>
 								<key>name</key>
@@ -1324,7 +1324,7 @@
 						<key>type</key>
 						<string>Degrees</string>
 						<key>value</key>
-						<real>624480.25</real>
+						<real>662181.3125</real>
 					</dict>
 					<dict>
 						<key>name</key>
@@ -1357,7 +1357,7 @@
 						<string>SpriteFrame</string>
 						<key>value</key>
 						<array>
-							<string></string>
+							<string>spritesheets/spritesheet.plist</string>
 							<string>face_box.png</string>
 						</array>
 					</dict>
@@ -1399,7 +1399,7 @@
 						<string>Blendmode</string>
 						<key>value</key>
 						<array>
-							<integer>1</integer>
+							<integer>770</integer>
 							<integer>771</integer>
 						</array>
 					</dict>

@@ -5,17 +5,17 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.examples.spritesheets.TexturePackerExampleSpritesheet;
-import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePack;
-import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackLoader;
-import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.TexturePackTextureRegionLibrary;
-import org.andengine.extension.texturepacker.opengl.texture.util.texturepacker.exception.TexturePackParseException;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.adt.color.Color;
 import org.andengine.util.debug.Debug;
+import org.andengine.util.texturepack.TexturePack;
+import org.andengine.util.texturepack.TexturePackLoader;
+import org.andengine.util.texturepack.TexturePackTextureRegionLibrary;
+import org.andengine.util.texturepack.exception.TexturePackParseException;
 
 /**
  * (c) 2011 Zynga
@@ -23,7 +23,7 @@ import org.andengine.util.debug.Debug;
  * @author Nicolas Gramlich
  * @since 9:55:51 - 02.08.2011
  */
-public class TexturePackerExample extends SimpleBaseGameActivity {
+public class TexturePackExample extends SimpleBaseGameActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -53,13 +53,14 @@ public class TexturePackerExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
 	public void onCreateResources() {
 		try {
-			final TexturePack spritesheetTexturePack = new TexturePackLoader(this.getTextureManager()).loadFromAsset(this.getAssets(), "gfx/spritesheets/texturepackerexample.xml", "gfx/spritesheets/");
+			final TexturePackLoader texturePackLoader = new TexturePackLoader(this.getAssets(), this.getTextureManager());
+			final TexturePack spritesheetTexturePack = texturePackLoader.loadFromAsset("gfx/spritesheets/texturepackerexample.xml", "gfx/spritesheets/");
 			spritesheetTexturePack.loadTexture();
 			this.mSpritesheetTexturePackTextureRegionLibrary = spritesheetTexturePack.getTexturePackTextureRegionLibrary();
 		} catch (final TexturePackParseException e) {
@@ -72,17 +73,16 @@ public class TexturePackerExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(1, 1, 1));
+		scene.getBackground().setColor(Color.BLACK);
 
-		TextureRegion faceTextureRegion = this.mSpritesheetTexturePackTextureRegionLibrary.get(TexturePackerExampleSpritesheet.FACE_BOX_ID);
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final float centerX = (CAMERA_WIDTH - faceTextureRegion.getWidth()) / 2;
-		final float centerY = (CAMERA_HEIGHT - faceTextureRegion.getHeight()) / 2;
+		final TextureRegion faceTextureRegion = this.mSpritesheetTexturePackTextureRegionLibrary.get(TexturePackerExampleSpritesheet.FACE_BOX_ID);
 
-		/* Create the face and add it to the scene. */
-		Sprite entity = new Sprite(centerX, centerY, faceTextureRegion, this.getVertexBufferObjectManager());
-		entity.setScale(20);
-		scene.attachChild(entity);
+		final float centerX = CAMERA_WIDTH / 2;
+		final float centerY = CAMERA_HEIGHT / 2;
+
+		/* Create the sprite and add it to the scene. */
+		final Sprite sprite = new Sprite(centerX, centerY, faceTextureRegion, this.getVertexBufferObjectManager());
+		scene.attachChild(sprite);
 
 		return scene;
 	}

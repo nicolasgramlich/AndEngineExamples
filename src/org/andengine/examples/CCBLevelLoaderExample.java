@@ -75,7 +75,6 @@ public class CCBLevelLoaderExample extends SimpleBaseGameActivity {
 		/* Register EntityLoaders from extensions. */
 		ccbLevelLoader.registerEntityLoader(new CCRotatingSpriteEntityLoader());
 
-
 		/* When loading the CCBAEX file, we want to pick up member variables and assign them to the owner. */
 		final Object owner = this;
 		final MemberVariableAssignmentCCBEntityLoaderListener memberVariableAssignmentCCBEntityLoaderListener = new MemberVariableAssignmentCCBEntityLoaderListener(owner);

@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AndEngineExamples</string>
+	<string name="app_name">AndEngineExamples</string>
 
-    <string name="btn_get_involved_caption">Open Source - Get involved...</string>
+	<string name="btn_get_involved_caption">Open Source - Get involved...</string>
 
-    <string name="dialog_device_not_supported_title">Unsupported Device detected!</string>
-    <string name="dialog_device_not_supported_message">Your device isn\'t supported by <b>AndEngine</b>!\n\nPlease send your device information to nicolasgramlich@gmail.com so that we can hopefully add support in the next release!</string>
+	<string name="dialog_device_not_supported_title">Unsupported Device detected!</string>
+	<string name="dialog_device_not_supported_message">Your device isn\'t supported by <b>AndEngine</b>!\n\nPlease send your device information to nicolasgramlich@gmail.com so that we can hopefully add support in the next release!</string>
 
-    <string name="dialog_first_app_launch_title">AndEngine - Examples</string>
-    <string name="dialog_first_app_launch_message">Welcome to <b>AndEngine</b> the:\n - Free\n - Open Source\n - 2D OpenGL \n - Game-Engine\nfor the Google Android platform.\n\nThese <b>examples</b> are meant for <b>developers</b> to showcase what can be done with <b>AndEngine</b>.\n\nIt\'s Open Source - Get involved!\n\nBest Regards,\nNicolas Gramlich</string>
+	<string name="dialog_first_app_launch_title">AndEngine - Examples</string>
+	<string name="dialog_first_app_launch_message">Welcome to <b>AndEngine</b> the:\n - Free\n - Open Source\n - 2D OpenGL \n - Game-Engine\nfor the Google Android platform.\n\nThese <b>examples</b> are meant for <b>developers</b> to showcase what can be done with <b>AndEngine</b>.\n\nIt\'s Open Source - Get involved!\n\nBest Regards,\nNicolas Gramlich</string>
 
-    <string name="dialog_new_in_this_version_title">New in this version...</string>
+	<string name="dialog_new_in_this_version_title">New in this version...</string>
 
-    <string name="dialog_benchmark_submit_title">Submitting Result...</string>
-    <string name="dialog_benchmark_submit_message">Please wait a moment...</string>
+	<string name="dialog_benchmark_submit_title">Submitting Result...</string>
+	<string name="dialog_benchmark_submit_message">Please wait a moment...</string>
 
-    <string name="dialog_benchmarks_submit_please_title">Benchmarks</string>
-    <string name="dialog_benchmarks_submit_please_message">Hi,\n\nmaybe you already noticed that the <b>AndEngineExamples</b> contain some <b>Benchmarks</b>.\n\nThe reason for that is that I am building a public <b>Performance-Database</b> that everyone can access and use for i.e. a feasibility analysis.\n\nSo please submit Benchmarks from all your devices and from time to time when there is a new version of AndEngine, so I can analyze if the tweaks I added were for the good or for the bad ;)\n\nBest Regards,\nNicolas</string>
+	<string name="dialog_benchmarks_submit_please_title">Benchmarks</string>
+	<string name="dialog_benchmarks_submit_please_message">Hi,\n\nmaybe you already noticed that the <b>AndEngineExamples</b> contain some <b>Benchmarks</b>.\n\nThe reason for that is that I am building a public <b>Performance-Database</b> that everyone can access and use for i.e. a feasibility analysis.\n\nSo please submit Benchmarks from all your devices and from time to time when there is a new version of AndEngine, so I can analyze if the tweaks I added were for the good or for the bad ;)\n\nBest Regards,\nNicolas</string>
 
-    <string name="dialog_modplayerexample_loading_to_external_title">Loading</string>
-    <string name="dialog_modplayerexample_loading_to_external_message">Transferring \'lepeltheme.mod\' to SDCard...</string>
+	<string name="dialog_modplayerexample_loading_to_external_title">Loading</string>
+	<string name="dialog_modplayerexample_loading_to_external_message">Transferring \'lepeltheme.mod\' to SDCard...</string>
 
 	<string name="tv_xmllayoutexample_above">You can put <b>one</b> <i>AndEngine</i> View into any Activity.</string>
 	<string name="tv_xmllayoutexample_below">Lorem ipsum dolor sit amat...</string>
 
 	<string name="textbreakexample_text_default">Hello, World!</string>
 
-    <!-- Example-Groups -->
-    <string name="examplegroup_simple">Simple</string>
+	<!-- Example-Groups -->
+	<string name="examplegroup_simple">Simple</string>
 	<string name="examplegroup_modifier_and_animation">Modifier &amp; Animation</string>
 	<string name="examplegroup_touch">Touch</string>
 	<string name="examplegroup_particlesystems">ParticleSystems</string>
@@ -47,15 +47,18 @@
 	<string name="example_analogonscreencontrol">Analog OnScreen-Control</string>
 	<string name="example_analogonscreencontrols">Dual Analog OnScreen-Control</string>
 	<string name="example_animatedsprites">Drawing Animated Sprites</string>
+	<string name="example_animationpack">Loading an AnimationPack</string>
 	<string name="example_augmentedreality">Using AugmentedReality</string>
 	<string name="example_augmentedrealityhorizon">An AugmentedReality Horizon</string>
 	<string name="example_autoparallaxbackground">Using an AutoParallaxBackground</string>
 	<string name="example_bitmapfont">Using a BitmapFont</string>
 	<string name="example_boundcamera">Using a BoundCamera</string>
+	<string name="example_buttonsprite">Drawing a ButtonSprite</string>
 	<string name="example_canvastexturecompositing">Compositing Textures (Canvas)</string>
 	<string name="example_cardinalsplinemovemodifier">Cardinal Spline</string>
 	<string name="example_ccblevelloader">CCBLevelLoader (CocosBuilder)</string>
 	<string name="example_changeabletext">Changeable Text</string>
+	<string name="example_clipentity">Using a ClipEntity</string>
 	<string name="example_collisiondetection">Collision Detection</string>
 	<string name="example_colorkeytexturesourcedecorator">Using a ColorKeyTextureSourceDecorator</string>
 	<string name="example_coordinateconversion">Coordinate Conversion</string>
@@ -80,6 +83,7 @@
 	<string name="example_multiplayerbluetooth">Multiplayer (Bluetooth)</string>
 	<string name="example_multitouch">MultiTouch</string>
 	<string name="example_music">Playing Music</string>
+	<string name="example_nineslicesprite">Drawing 9-Slice-Sprites</string>
 	<string name="example_pause">Pausing the Game</string>
 	<string name="example_pathmodifier">Using a PathModifier</string>
 	<string name="example_particlesystemcool">A Cool ParticleSystem</string>
@@ -114,7 +118,7 @@
 	<string name="example_textbreak">Breaking Text</string>
 	<string name="example_textmenu">Using TextMenus</string>
 	<string name="example_textureoptions">Using TextureOptions</string>
-	<string name="example_texturepacker">Using TexturePack(er)</string>
+	<string name="example_texturepack">Using a TexturePack</string>
 	<string name="example_tmxtiledmap">Using a TMXTiledMap</string>
 	<string name="example_tickertext">Drawing a TickerText</string>
 	<string name="example_touchdrag">Touch &amp; Drag Sprites</string>

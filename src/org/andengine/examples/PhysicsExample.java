@@ -10,7 +10,6 @@ import org.andengine.entity.IEntity;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
@@ -23,9 +22,14 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
+import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.adt.color.Color;
 import org.andengine.util.debug.Debug;
 
 import android.hardware.SensorManager;
@@ -58,7 +62,7 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerat
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private BuildableBitmapTextureAtlas mBuildableBitmapTextureAtlas;
 
 	private TiledTextureRegion mBoxFaceTextureRegion;
 	private TiledTextureRegion mCircleFaceTextureRegion;
@@ -68,7 +72,7 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerat
 	private Scene mScene;
 
 	private PhysicsWorld mPhysicsWorld;
-	private int mFaceCount = 0;
+	private int mSpriteCount = 0;
 
 	// ===========================================================
 	// Constructors
@@ -88,19 +92,25 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerat
 
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
 	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 128, TextureOptions.BILINEAR);
-		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
-		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
-		this.mTriangleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_triangle_tiled.png", 0, 64, 2, 1); // 64x32
-		this.mHexagonFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_hexagon_tiled.png", 0, 96, 2, 1); // 64x32
-		this.mBitmapTextureAtlas.load();
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 64, 128, TextureOptions.BILINEAR);
+		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "face_box_tiled.png", 2, 1);
+		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "face_circle_tiled.png", 2, 1);
+		this.mTriangleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "face_triangle_tiled.png", 2, 1);
+		this.mHexagonFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "face_hexagon_tiled.png", 2, 1);
+
+		try {
+			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+			this.mBuildableBitmapTextureAtlas.load();
+		} catch (TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
 	}
 
 	@Override
@@ -108,16 +118,16 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerat
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		this.mScene = new Scene();
-		this.mScene.setBackground(new Background(0, 0, 0));
+		this.mScene.getBackground().setColor(Color.BLACK);
 		this.mScene.setOnSceneTouchListener(this);
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
 
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
-		final Rectangle ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2, vertexBufferObjectManager);
-		final Rectangle roof = new Rectangle(0, 0, CAMERA_WIDTH, 2, vertexBufferObjectManager);
-		final Rectangle left = new Rectangle(0, 0, 2, CAMERA_HEIGHT, vertexBufferObjectManager);
-		final Rectangle right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT, vertexBufferObjectManager);
+		final Rectangle ground = new Rectangle(CAMERA_WIDTH / 2, 1, CAMERA_WIDTH, 2, vertexBufferObjectManager);
+		final Rectangle roof = new Rectangle(CAMERA_WIDTH / 2, CAMERA_HEIGHT - 1, CAMERA_WIDTH, 2, vertexBufferObjectManager);
+		final Rectangle left = new Rectangle(1, CAMERA_HEIGHT / 2, 1, CAMERA_HEIGHT, vertexBufferObjectManager);
+		final Rectangle right = new Rectangle(CAMERA_WIDTH - 1, CAMERA_HEIGHT / 2, 2, CAMERA_HEIGHT, vertexBufferObjectManager);
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
@@ -139,7 +149,7 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerat
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(this.mPhysicsWorld != null) {
 			if(pSceneTouchEvent.isActionDown()) {
-				this.addFace(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+				this.addSprite(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				return true;
 			}
 		}
@@ -176,31 +186,31 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerat
 	// Methods
 	// ===========================================================
 
-	private void addFace(final float pX, final float pY) {
-		this.mFaceCount++;
-		Debug.d("Faces: " + this.mFaceCount);
+	private void addSprite(final float pX, final float pY) {
+		this.mSpriteCount++;
+		this.toastOnUiThread("Sprites: " + this.mSpriteCount);
 
-		final AnimatedSprite face;
+		final AnimatedSprite animatedSprite;
 		final Body body;
 
-		if(this.mFaceCount % 4 == 0) {
-			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion, this.getVertexBufferObjectManager());
-			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
-		} else if (this.mFaceCount % 4 == 1) {
-			face = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion, this.getVertexBufferObjectManager());
-			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
-		} else if (this.mFaceCount % 4 == 2) {
-			face = new AnimatedSprite(pX, pY, this.mTriangleFaceTextureRegion, this.getVertexBufferObjectManager());
-			body = PhysicsExample.createTriangleBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
+		if(this.mSpriteCount % 4 == 0) {
+			animatedSprite = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion, this.getVertexBufferObjectManager());
+			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, animatedSprite, BodyType.DynamicBody, FIXTURE_DEF);
+		} else if (this.mSpriteCount % 4 == 1) {
+			animatedSprite = new AnimatedSprite(pX, pY, this.mCircleFaceTextureRegion, this.getVertexBufferObjectManager());
+			body = PhysicsFactory.createCircleBody(this.mPhysicsWorld, animatedSprite, BodyType.DynamicBody, FIXTURE_DEF);
+		} else if (this.mSpriteCount % 4 == 2) {
+			animatedSprite = new AnimatedSprite(pX, pY, this.mTriangleFaceTextureRegion, this.getVertexBufferObjectManager());
+			body = PhysicsExample.createTriangleBody(this.mPhysicsWorld, animatedSprite, BodyType.DynamicBody, FIXTURE_DEF);
 		} else {
-			face = new AnimatedSprite(pX, pY, this.mHexagonFaceTextureRegion, this.getVertexBufferObjectManager());
-			body = PhysicsExample.createHexagonBody(this.mPhysicsWorld, face, BodyType.DynamicBody, FIXTURE_DEF);
+			animatedSprite = new AnimatedSprite(pX, pY, this.mHexagonFaceTextureRegion, this.getVertexBufferObjectManager());
+			body = PhysicsExample.createHexagonBody(this.mPhysicsWorld, animatedSprite, BodyType.DynamicBody, FIXTURE_DEF);
 		}
 
-		face.animate(200);
+		animatedSprite.animate(200);
 
-		this.mScene.attachChild(face);
-		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
+		this.mScene.attachChild(animatedSprite);
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(animatedSprite, body, true, true));
 	}
 
 	/**
@@ -212,19 +222,19 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerat
 	 */
 	private static Body createTriangleBody(final PhysicsWorld pPhysicsWorld, final IEntity pEntity, final BodyType pBodyType, final FixtureDef pFixtureDef) {
 		/* Remember that the vertices are relative to the center-coordinates of the Shape. */
-		final float halfWidth = pEntity.getWidthScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
-		final float halfHeight = pEntity.getHeightScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
+		final float halfWidth = pEntity.getWidth() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
+		final float halfHeight = pEntity.getHeight() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
 
-		final float top = -halfHeight;
-		final float bottom = halfHeight;
-		final float left = -halfHeight;
+		final float top = halfHeight;
+		final float bottom = -halfHeight;
+		final float left = -halfWidth;
 		final float centerX = 0;
 		final float right = halfWidth;
 
 		final Vector2[] vertices = {
 				new Vector2(centerX, top),
-				new Vector2(right, bottom),
-				new Vector2(left, bottom)
+				new Vector2(left, bottom),
+				new Vector2(right, bottom)
 		};
 
 		return PhysicsFactory.createPolygonBody(pPhysicsWorld, pEntity, vertices, pBodyType, pFixtureDef);
@@ -243,8 +253,8 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerat
 	 */
 	private static Body createHexagonBody(final PhysicsWorld pPhysicsWorld, final IEntity pEntity, final BodyType pBodyType, final FixtureDef pFixtureDef) {
 		/* Remember that the vertices are relative to the center-coordinates of the Shape. */
-		final float halfWidth = pEntity.getWidthScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
-		final float halfHeight = pEntity.getHeightScaled() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
+		final float halfWidth = pEntity.getWidth() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
+		final float halfHeight = pEntity.getHeight() * 0.5f / PIXEL_TO_METER_RATIO_DEFAULT;
 
 		/* The top and bottom vertex of the hexagon are on the bottom and top of hexagon-sprite. */
 		final float top = -halfHeight;

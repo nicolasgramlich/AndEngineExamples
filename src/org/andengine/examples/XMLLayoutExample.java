@@ -1,13 +1,15 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
-import org.andengine.entity.particle.SpriteParticleSystem;
+import org.andengine.entity.Entity;
+import org.andengine.entity.particle.BatchedPseudoSpriteParticleSystem;
 import org.andengine.entity.particle.emitter.CircleOutlineParticleEmitter;
 import org.andengine.entity.particle.initializer.AlphaParticleInitializer;
-import org.andengine.entity.particle.initializer.BlendFunctionParticleInitializer;
 import org.andengine.entity.particle.initializer.ColorParticleInitializer;
 import org.andengine.entity.particle.initializer.RotationParticleInitializer;
 import org.andengine.entity.particle.initializer.VelocityParticleInitializer;
@@ -17,13 +19,13 @@ import org.andengine.entity.particle.modifier.ExpireParticleInitializer;
 import org.andengine.entity.particle.modifier.ScaleParticleModifier;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleLayoutGameActivity;
 
 import android.opengl.GLES20;
@@ -48,7 +50,7 @@ public class XMLLayoutExample extends SimpleLayoutGameActivity {
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mParticleTexture;
 	private ITextureRegion mParticleTextureRegion;
 
 	// ===========================================================
@@ -79,18 +81,14 @@ public class XMLLayoutExample extends SimpleLayoutGameActivity {
 
 		final Camera camera = new Camera(0, 0, XMLLayoutExample.CAMERA_WIDTH, XMLLayoutExample.CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(XMLLayoutExample.CAMERA_WIDTH, XMLLayoutExample.CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(XMLLayoutExample.CAMERA_WIDTH, XMLLayoutExample.CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	protected void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
-
-		this.mParticleTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "particle_point.png", 0, 0);
-
-		this.mBitmapTextureAtlas.load();
+	protected void onCreateResources() throws IOException {
+		this.mParticleTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/particle_point.png", TextureOptions.BILINEAR);
+		this.mParticleTextureRegion = TextureRegionFactory.extractFromTexture(this.mParticleTexture);
+		this.mParticleTexture.load();
 	}
 
 	@Override
@@ -99,8 +97,11 @@ public class XMLLayoutExample extends SimpleLayoutGameActivity {
 
 		final Scene scene = new Scene();
 
-		final CircleOutlineParticleEmitter particleEmitter = new CircleOutlineParticleEmitter(XMLLayoutExample.CAMERA_WIDTH * 0.5f, (XMLLayoutExample.CAMERA_HEIGHT * 0.5f) + 20, 80);
-		final SpriteParticleSystem particleSystem = new SpriteParticleSystem(particleEmitter, 60, 60, 360, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
+		final float centerX = XMLLayoutExample.CAMERA_WIDTH * 0.5f;
+		final float centerY = XMLLayoutExample.CAMERA_HEIGHT * 0.5f;
+
+		final CircleOutlineParticleEmitter particleEmitter = new CircleOutlineParticleEmitter(centerX, centerY, 80);
+		final BatchedPseudoSpriteParticleSystem particleSystem = new BatchedPseudoSpriteParticleSystem(particleEmitter, 160, 160, 1000, this.mParticleTextureRegion, this.getVertexBufferObjectManager());
 
 		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
 			@Override
@@ -109,19 +110,20 @@ public class XMLLayoutExample extends SimpleLayoutGameActivity {
 				return true;
 			}
 		});
+		particleSystem.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE);
 
-		particleSystem.addParticleInitializer(new ColorParticleInitializer<Sprite>(1, 0, 0));
-		particleSystem.addParticleInitializer(new AlphaParticleInitializer<Sprite>(0));
-		particleSystem.addParticleInitializer(new BlendFunctionParticleInitializer<Sprite>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
-		particleSystem.addParticleInitializer(new VelocityParticleInitializer<Sprite>(-2, 2, -20, -10));
-		particleSystem.addParticleInitializer(new RotationParticleInitializer<Sprite>(0.0f, 360.0f));
-		particleSystem.addParticleInitializer(new ExpireParticleInitializer<Sprite>(6));
+		particleSystem.addParticleInitializer(new ColorParticleInitializer<Entity>(1, 0, 0));
+		particleSystem.addParticleInitializer(new AlphaParticleInitializer<Entity>(0));
+//		particleSystem.addParticleInitializer(new BlendFunctionParticleInitializer<Entity>(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE));
+		particleSystem.addParticleInitializer(new VelocityParticleInitializer<Entity>(-2, 2, 10, 20));
+		particleSystem.addParticleInitializer(new RotationParticleInitializer<Entity>(0.0f, 360.0f));
+		particleSystem.addParticleInitializer(new ExpireParticleInitializer<Entity>(6));
 
-		particleSystem.addParticleModifier(new ScaleParticleModifier<Sprite>(0, 5, 1.0f, 2.0f));
-		particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(0, 3, 1, 1, 0, 0.5f, 0, 0));
-		particleSystem.addParticleModifier(new ColorParticleModifier<Sprite>(4, 6, 1, 1, 0.5f, 1, 0, 1));
-		particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(0, 1, 0, 1));
-		particleSystem.addParticleModifier(new AlphaParticleModifier<Sprite>(5, 6, 1, 0));
+		particleSystem.addParticleModifier(new ScaleParticleModifier<Entity>(0, 5, 1.0f, 2.0f));
+		particleSystem.addParticleModifier(new ColorParticleModifier<Entity>(0, 3, 1, 1, 0, 0.5f, 0, 0));
+		particleSystem.addParticleModifier(new ColorParticleModifier<Entity>(4, 6, 1, 1, 0.5f, 1, 0, 1));
+		particleSystem.addParticleModifier(new AlphaParticleModifier<Entity>(0, 1, 0, 1));
+		particleSystem.addParticleModifier(new AlphaParticleModifier<Entity>(5, 6, 1, 0));
 
 		scene.attachChild(particleSystem);
 

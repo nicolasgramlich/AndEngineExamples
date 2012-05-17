@@ -7,7 +7,6 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.modifier.LoopEntityModifier;
 import org.andengine.entity.modifier.RotationModifier;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.texture.TextureOptions;
@@ -66,13 +65,13 @@ public class CanvasTextureCompositingExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
 	public void onCreateResources() {
 		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 190, 190, TextureOptions.BILINEAR);
-		
+
 		final IBitmapTextureAtlasSource baseTextureSource = new EmptyBitmapTextureAtlasSource(190, 190);
 		final IBitmapTextureAtlasSource decoratedTextureAtlasSource = new BaseBitmapTextureAtlasSourceDecorator(baseTextureSource) {
 			@Override
@@ -91,7 +90,7 @@ public class CanvasTextureCompositingExample extends SimpleBaseGameActivity {
 				this.mPaint.setColorFilter(new LightingColorFilter(Color.RED, Color.TRANSPARENT));
 				pCanvas.drawBitmap(zynga, 0, 0, this.mPaint);
 			}
-			
+
 			@Override
 			public BaseBitmapTextureAtlasSourceDecorator deepCopy() {
 				throw new DeepCopyNotSupportedException();
@@ -107,11 +106,10 @@ public class CanvasTextureCompositingExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.5f, 0.5f, 0.5f));
+		scene.getBackground().setColor(0.5f, 0.5f, 0.5f);
 
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final float centerX = (CAMERA_WIDTH - this.mDecoratedBalloonTextureRegion.getWidth()) / 2;
-		final float centerY = (CAMERA_HEIGHT - this.mDecoratedBalloonTextureRegion.getHeight()) / 2;
+		final float centerX = CAMERA_WIDTH / 2;
+		final float centerY = CAMERA_HEIGHT / 2;
 
 		/* Create the balloon and add it to the scene. */
 		final Sprite balloon = new Sprite(centerX, centerY, this.mDecoratedBalloonTextureRegion, this.getVertexBufferObjectManager());

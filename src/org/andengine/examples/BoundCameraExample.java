@@ -1,5 +1,7 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.BoundCamera;
 import org.andengine.engine.camera.Camera;
@@ -21,10 +23,12 @@ import org.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.andengine.input.sensor.acceleration.AccelerationData;
 import org.andengine.input.sensor.acceleration.IAccelerationListener;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.hardware.SensorManager;
@@ -61,13 +65,13 @@ public class BoundCameraExample extends SimpleBaseGameActivity implements IAccel
 
 	private PhysicsWorld mPhysicsWorld;
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private TiledTextureRegion mBoxFaceTextureRegion;
+	private ITexture mFaceTexture;
+	private TiledTextureRegion mFaceTextureRegion;
 
-	private BitmapTextureAtlas mHUDTexture;
+	private ITexture mHUDTexture;
 	private TiledTextureRegion mToggleButtonTextureRegion;
 
-	private int mFaceCount;
+	private int mSpriteCount;
 
 	// ===========================================================
 	// Constructors
@@ -88,7 +92,7 @@ public class BoundCameraExample extends SimpleBaseGameActivity implements IAccel
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		this.mBoundChaseCamera = new BoundCamera(0, 0, CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2, 0, CAMERA_WIDTH, 0, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH * 2, CAMERA_HEIGHT), this.mCamera);
 	}
 
 	@Override
@@ -97,15 +101,13 @@ public class BoundCameraExample extends SimpleBaseGameActivity implements IAccel
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 32, TextureOptions.BILINEAR);
-		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
-		this.mBitmapTextureAtlas.load();
+	public void onCreateResources() throws IOException {
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box_tiled.png", TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.extractTiledFromTexture(this.mFaceTexture, 2, 1);
+		this.mFaceTexture.load();
 
-		this.mHUDTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 128,TextureOptions.BILINEAR);
-		this.mToggleButtonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mHUDTexture, this, "toggle_button.png", 0, 0, 2, 1); // 256x128
+		this.mHUDTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/toggle_button.png", TextureOptions.BILINEAR);
+		this.mToggleButtonTextureRegion =  TextureRegionFactory.extractTiledFromTexture(this.mHUDTexture, 2, 1);
 		this.mHUDTexture.load();
 	}
 
@@ -118,10 +120,11 @@ public class BoundCameraExample extends SimpleBaseGameActivity implements IAccel
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
 
-		final Rectangle ground = new Rectangle(0, CAMERA_HEIGHT - 2, CAMERA_WIDTH, 2, this.getVertexBufferObjectManager());
-		final Rectangle roof = new Rectangle(0, 0, CAMERA_WIDTH, 2, this.getVertexBufferObjectManager());
-		final Rectangle left = new Rectangle(0, 0, 2, CAMERA_HEIGHT, this.getVertexBufferObjectManager());
-		final Rectangle right = new Rectangle(CAMERA_WIDTH - 2, 0, 2, CAMERA_HEIGHT, this.getVertexBufferObjectManager());
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
+		final Rectangle ground = new Rectangle(CAMERA_WIDTH / 2, 1, CAMERA_WIDTH, 2, vertexBufferObjectManager);
+		final Rectangle roof = new Rectangle(CAMERA_WIDTH / 2, CAMERA_HEIGHT - 1, CAMERA_WIDTH, 2, vertexBufferObjectManager);
+		final Rectangle left = new Rectangle(1, CAMERA_HEIGHT / 2, 1, CAMERA_HEIGHT, vertexBufferObjectManager);
+		final Rectangle right = new Rectangle(CAMERA_WIDTH - 1, CAMERA_HEIGHT / 2, 2, CAMERA_HEIGHT, vertexBufferObjectManager);
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.5f, 0.5f);
 		PhysicsFactory.createBoxBody(this.mPhysicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
@@ -138,7 +141,7 @@ public class BoundCameraExample extends SimpleBaseGameActivity implements IAccel
 
 		final HUD hud = new HUD();
 
-		final TiledSprite toggleButton = new TiledSprite(CAMERA_WIDTH / 2 - this.mToggleButtonTextureRegion.getWidth(), CAMERA_HEIGHT / 2 - this.mToggleButtonTextureRegion.getHeight(), this.mToggleButtonTextureRegion, this.getVertexBufferObjectManager()) {
+		final TiledSprite toggleButton = new TiledSprite(CAMERA_WIDTH / 2 - this.mToggleButtonTextureRegion.getWidth(), CAMERA_HEIGHT / 2 - this.mToggleButtonTextureRegion.getHeight(), this.mToggleButtonTextureRegion, vertexBufferObjectManager) {
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				if(pSceneTouchEvent.isActionDown()) {
@@ -146,21 +149,11 @@ public class BoundCameraExample extends SimpleBaseGameActivity implements IAccel
 					if(boundsEnabled) {
 						BoundCameraExample.this.mBoundChaseCamera.setBoundsEnabled(false);
 						this.setCurrentTileIndex(1);
-						BoundCameraExample.this.runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								Toast.makeText(BoundCameraExample.this, "Bounds Disabled.", Toast.LENGTH_SHORT).show();
-							}
-						});
+						BoundCameraExample.this.toastOnUiThread("Bounds Disabled.");
 					} else {
 						BoundCameraExample.this.mBoundChaseCamera.setBoundsEnabled(true);
 						this.setCurrentTileIndex(0);
-						BoundCameraExample.this.runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								Toast.makeText(BoundCameraExample.this, "Bounds Enabled.", Toast.LENGTH_SHORT).show();
-							}
-						});
+						BoundCameraExample.this.toastOnUiThread("Bounds Enabled.");
 					}
 				}
 				return true;
@@ -217,17 +210,18 @@ public class BoundCameraExample extends SimpleBaseGameActivity implements IAccel
 	private void addFace(final float pX, final float pY) {
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 
-		final AnimatedSprite face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion, this.getVertexBufferObjectManager()).animate(100);
-		final Body body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
+		final AnimatedSprite animatedSprite = new AnimatedSprite(pX, pY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+		animatedSprite.animate(100);
+		final Body body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, animatedSprite, BodyType.DynamicBody, objectFixtureDef);
 
-		this.mScene.attachChild(face);
-		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(face, body, true, true));
+		this.mScene.attachChild(animatedSprite);
+		this.mPhysicsWorld.registerPhysicsConnector(new PhysicsConnector(animatedSprite, body, true, true));
 
-		if(this.mFaceCount == 0){
-			this.mBoundChaseCamera.setChaseEntity(face);
+		if(this.mSpriteCount == 0){
+			this.mBoundChaseCamera.setChaseEntity(animatedSprite);
 		}
 
-		this.mFaceCount++;
+		this.mSpriteCount++;
 	}
 
 	// ===========================================================

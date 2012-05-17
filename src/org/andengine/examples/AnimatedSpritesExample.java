@@ -5,7 +5,6 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.texture.TextureOptions;
@@ -61,15 +60,14 @@ public class AnimatedSpritesExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
 	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 512, 256, TextureOptions.NEAREST);
-//		this.mBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 512, 256, TextureOptions.BILINEAR);
+		this.mBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 512, 256, TextureOptions.BILINEAR);
 		
 		this.mSnapdragonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "snapdragon_tiled.png", 4, 3);
 		this.mHelicopterTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "helicopter_tiled.png", 2, 2);
@@ -89,25 +87,25 @@ public class AnimatedSpritesExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		/* Quickly twinkling face. */
-		final AnimatedSprite face = new AnimatedSprite(100, 50, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+		final AnimatedSprite face = new AnimatedSprite(CAMERA_WIDTH * 0.33f, CAMERA_HEIGHT * 0.33f, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 		face.animate(100);
 		scene.attachChild(face);
 
 		/* Continuously flying helicopter. */
-		final AnimatedSprite helicopter = new AnimatedSprite(320, 50, this.mHelicopterTextureRegion, this.getVertexBufferObjectManager());
+		final AnimatedSprite helicopter = new AnimatedSprite(CAMERA_WIDTH * 0.66f, CAMERA_HEIGHT * 0.33f, this.mHelicopterTextureRegion, this.getVertexBufferObjectManager());
 		helicopter.animate(new long[] { 100, 100 }, 1, 2, true);
 		scene.attachChild(helicopter);
 
 		/* Snapdragon. */
-		final AnimatedSprite snapdragon = new AnimatedSprite(300, 200, this.mSnapdragonTextureRegion, this.getVertexBufferObjectManager());
+		final AnimatedSprite snapdragon = new AnimatedSprite(CAMERA_WIDTH * 0.33f, CAMERA_HEIGHT * 0.66f, this.mSnapdragonTextureRegion, this.getVertexBufferObjectManager());
 		snapdragon.animate(100);
 		scene.attachChild(snapdragon);
 
 		/* Funny banana. */
-		final AnimatedSprite banana = new AnimatedSprite(100, 220, this.mBananaTextureRegion, this.getVertexBufferObjectManager());
+		final AnimatedSprite banana = new AnimatedSprite(CAMERA_WIDTH * 0.66f, CAMERA_HEIGHT * 0.66f, this.mBananaTextureRegion, this.getVertexBufferObjectManager());
 		banana.animate(100);
 		scene.attachChild(banana);
 

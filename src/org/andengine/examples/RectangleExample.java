@@ -5,19 +5,11 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.Entity;
-import org.andengine.entity.IEntity;
 import org.andengine.entity.primitive.Rectangle;
-import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.util.FPSLogger;
-import org.andengine.entity.util.ScreenCapture;
-import org.andengine.entity.util.ScreenCapture.IScreenCaptureCallback;
-import org.andengine.input.touch.TouchEvent;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.FileUtils;
-
-import android.widget.Toast;
+import org.andengine.util.adt.color.Color;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -33,6 +25,8 @@ public class RectangleExample extends SimpleBaseGameActivity {
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
+
+	private static final int RECTANGLE_SIZE = 180;
 
 	// ===========================================================
 	// Fields
@@ -54,7 +48,7 @@ public class RectangleExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -67,61 +61,24 @@ public class RectangleExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		final ScreenCapture screenCapture = new ScreenCapture();
-		scene.attachChild(screenCapture);
-		scene.setOnSceneTouchListener(new IOnSceneTouchListener() {
-			@Override
-			public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-				if(pSceneTouchEvent.isActionDown()) {
-					screenCapture.capture(180, 60, 360, 360, FileUtils.getAbsolutePathOnExternalStorage(RectangleExample.this, "Screen_" + System.currentTimeMillis() + ".png"), new IScreenCaptureCallback() {
-						@Override
-						public void onScreenCaptured(final String pFilePath) {
-							RectangleExample.this.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									Toast.makeText(RectangleExample.this, "Screenshot: " + pFilePath + " taken!", Toast.LENGTH_SHORT).show();
-								}
-							});
-						}
-
-						@Override
-						public void onScreenCaptureFailed(final String pFilePath, final Exception pException) {
-							RectangleExample.this.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									Toast.makeText(RectangleExample.this, "FAILED capturing Screenshot: " + pFilePath + " !", Toast.LENGTH_SHORT).show();
-								}
-							});
-						}
-					});
-				}
-				return true;
-			}
-		});
-
-		scene.setBackground(new Background(0, 0, 0));
+		scene.getBackground().setColor(Color.BLACK);
 
 		/* Create the rectangles. */
-		final IEntity rectangle1 = this.makeColoredRectangle(-180, -180, 1, 0, 0);
-		final IEntity rectangle2 = this.makeColoredRectangle(0, -180, 0, 1, 0);
-		final IEntity rectangle3 = this.makeColoredRectangle(0, 0, 0, 0, 1);
-		final IEntity rectangle4 = this.makeColoredRectangle(-180, 0, 1, 1, 0);
-
 		final Entity rectangleGroup = new Entity(CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2);
 
-		rectangleGroup.attachChild(rectangle1);
-		rectangleGroup.attachChild(rectangle2);
-		rectangleGroup.attachChild(rectangle3);
-		rectangleGroup.attachChild(rectangle4);
+		rectangleGroup.attachChild(this.makeColoredRectangle(-RECTANGLE_SIZE / 2, -RECTANGLE_SIZE / 2, Color.RED));
+		rectangleGroup.attachChild(this.makeColoredRectangle(RECTANGLE_SIZE / 2, -RECTANGLE_SIZE / 2, Color.GREEN));
+		rectangleGroup.attachChild(this.makeColoredRectangle(RECTANGLE_SIZE / 2, RECTANGLE_SIZE / 2, Color.BLUE));
+		rectangleGroup.attachChild(this.makeColoredRectangle(-RECTANGLE_SIZE / 2, RECTANGLE_SIZE / 2, Color.YELLOW));
 
 		scene.attachChild(rectangleGroup);
 
 		return scene;
 	}
 
-	private Rectangle makeColoredRectangle(final float pX, final float pY, final float pRed, final float pGreen, final float pBlue) {
-		final Rectangle coloredRect = new Rectangle(pX, pY, 180, 180, this.getVertexBufferObjectManager());
-		coloredRect.setColor(pRed, pGreen, pBlue);
+	private Rectangle makeColoredRectangle(final float pX, final float pY, final Color pColor) {
+		final Rectangle coloredRect = new Rectangle(pX, pY, RECTANGLE_SIZE, RECTANGLE_SIZE, this.getVertexBufferObjectManager());
+		coloredRect.setColor(pColor);
 		return coloredRect;
 	}
 

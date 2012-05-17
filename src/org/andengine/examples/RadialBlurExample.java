@@ -1,5 +1,7 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
@@ -18,8 +20,9 @@ import org.andengine.opengl.shader.ShaderProgram;
 import org.andengine.opengl.shader.constants.ShaderProgramConstants;
 import org.andengine.opengl.shader.exception.ShaderProgramException;
 import org.andengine.opengl.shader.exception.ShaderProgramLinkException;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.ITexture;
+import org.andengine.opengl.texture.TextureOptions;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.render.RenderTexture;
@@ -48,8 +51,8 @@ public class RadialBlurExample extends SimpleBaseGameActivity implements IOnScen
 	// ===========================================================
 
 	private Camera mCamera;
-	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private ITextureRegion mFaceTextureRegion;
+	private ITexture mBadgeTexture;
+	private ITextureRegion mBadgeTextureRegion;
 
 	private boolean mRadialBlurring = true;
 	private float mRadialBlurCenterX = 0.5f;
@@ -72,7 +75,7 @@ public class RadialBlurExample extends SimpleBaseGameActivity implements IOnScen
 	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, RadialBlurExample.CAMERA_WIDTH, RadialBlurExample.CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(RadialBlurExample.CAMERA_WIDTH, RadialBlurExample.CAMERA_HEIGHT), this.mCamera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(RadialBlurExample.CAMERA_WIDTH, RadialBlurExample.CAMERA_HEIGHT), this.mCamera);
 	}
 
 	@Override
@@ -134,17 +137,17 @@ public class RadialBlurExample extends SimpleBaseGameActivity implements IOnScen
 						GLES20.glUniform2f(RadialBlurShaderProgram.sUniformRadialBlurCenterLocation, RadialBlurExample.this.mRadialBlurCenterX, 1 - RadialBlurExample.this.mRadialBlurCenterY);
 					}
 				};
+				this.mRenderTextureSprite.setOffsetCenter(0, 0);
+				this.mRenderTextureSprite.setScaleY(-1);
 			}
 		};
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 512, 512);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "badge_large.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+	protected void onCreateResources() throws IOException {
+		this.mBadgeTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/badge_large.png", TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBadgeTextureRegion = TextureRegionFactory.extractFromTexture(this.mBadgeTexture);
+		this.mBadgeTexture.load();
 
 		this.getShaderProgramManager().loadShaderProgram(RadialBlurShaderProgram.getInstance());
 	}
@@ -155,14 +158,12 @@ public class RadialBlurExample extends SimpleBaseGameActivity implements IOnScen
 
 		final Scene scene = new Scene();
 
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final float centerX = (RadialBlurExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final float centerY = (RadialBlurExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = RadialBlurExample.CAMERA_WIDTH / 2;
+		final float centerY = RadialBlurExample.CAMERA_HEIGHT / 2;
 
-		/* Create the face and add it to the scene. */
-		final Sprite face = new Sprite(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-//		face.setScale(3);
-		scene.attachChild(face);
+		/* Create the sprite and add it to the scene. */
+		final Sprite sprite = new Sprite(centerX, centerY, this.mBadgeTextureRegion, this.getVertexBufferObjectManager());
+		scene.attachChild(sprite);
 
 		/* TouchListener */
 		this.mClickDetector = new ClickDetector(this);

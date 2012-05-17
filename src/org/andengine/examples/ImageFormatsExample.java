@@ -5,7 +5,6 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.texture.TextureOptions;
@@ -13,10 +12,14 @@ import org.andengine.opengl.texture.atlas.ITextureAtlas;
 import org.andengine.opengl.texture.atlas.ITextureAtlas.ITextureAtlasStateListener;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
+import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.debug.Debug;
 
 import android.widget.Toast;
 
@@ -39,7 +42,7 @@ public class ImageFormatsExample extends SimpleBaseGameActivity {
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private BuildableBitmapTextureAtlas mBuildableBitmapTextureAtlas;
 	private ITextureRegion mPNGTextureRegion;
 	private ITextureRegion mJPGTextureRegion;
 	private ITextureRegion mGIFTextureRegion;
@@ -63,7 +66,7 @@ public class ImageFormatsExample extends SimpleBaseGameActivity {
 
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -73,21 +76,22 @@ public class ImageFormatsExample extends SimpleBaseGameActivity {
 		final ITextureAtlasStateListener.TextureAtlasStateAdapter<IBitmapTextureAtlasSource> textureAtlasStateListener = new ITextureAtlasStateListener.TextureAtlasStateAdapter<IBitmapTextureAtlasSource>() {
 			@Override
 			public void onTextureAtlasSourceLoadExeption(final ITextureAtlas<IBitmapTextureAtlasSource> pTextureAtlas, final IBitmapTextureAtlasSource pBitmapTextureAtlasSource, final Throwable pThrowable) {
-				ImageFormatsExample.this.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						Toast.makeText(ImageFormatsExample.this, "Failed loading TextureSource: " + pBitmapTextureAtlasSource.toString(), Toast.LENGTH_LONG).show();
-					}
-				});
+				ImageFormatsExample.this.toastOnUiThread("Failed loading TextureSource: '" + pBitmapTextureAtlasSource.toString() + "'.", Toast.LENGTH_LONG);
 			}
 		};
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 128, 128, TextureOptions.BILINEAR, textureAtlasStateListener);
-		this.mPNGTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "imageformat_png.png", 0, 0);
-		this.mJPGTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "imageformat_jpg.jpg", 49, 0);
-		this.mGIFTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "imageformat_gif.gif", 0, 49);
-		this.mBMPTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "imageformat_bmp.bmp", 49, 49);
-		this.mBitmapTextureAtlas.load();
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 128, 128, TextureOptions.BILINEAR, textureAtlasStateListener);
+		this.mPNGTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "imageformat_png.png");
+		this.mJPGTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "imageformat_jpg.jpg");
+		this.mGIFTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "imageformat_gif.gif");
+		this.mBMPTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "imageformat_bmp.bmp");
+
+		try {
+			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+			this.mBuildableBitmapTextureAtlas.load();
+		} catch (TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
 	}
 
 	@Override
@@ -95,14 +99,14 @@ public class ImageFormatsExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		/* Create the icons and add them to the scene. */
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
-		scene.attachChild(new Sprite(160 - 24, 106 - 24, this.mPNGTextureRegion, vertexBufferObjectManager));
-		scene.attachChild(new Sprite(160 - 24, 213 - 24, this.mJPGTextureRegion, vertexBufferObjectManager));
-		scene.attachChild(new Sprite(320 - 24, 106 - 24, this.mGIFTextureRegion, vertexBufferObjectManager));
-		scene.attachChild(new Sprite(320 - 24, 213 - 24, this.mBMPTextureRegion, vertexBufferObjectManager));
+		scene.attachChild(new Sprite(160, 213, this.mPNGTextureRegion, vertexBufferObjectManager));
+		scene.attachChild(new Sprite(160, 106, this.mJPGTextureRegion, vertexBufferObjectManager));
+		scene.attachChild(new Sprite(320, 213, this.mGIFTextureRegion, vertexBufferObjectManager));
+		scene.attachChild(new Sprite(320, 106, this.mBMPTextureRegion, vertexBufferObjectManager));
 
 		return scene;
 	}

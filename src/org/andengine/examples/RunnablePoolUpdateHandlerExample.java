@@ -1,19 +1,22 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.adt.pool.RunnablePoolItem;
 import org.andengine.util.adt.pool.RunnablePoolUpdateHandler;
@@ -35,22 +38,22 @@ public class RunnablePoolUpdateHandlerExample extends SimpleBaseGameActivity imp
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
 
-	private static final int FACE_COUNT = 2;
+	private static final int SPRITE_COUNT = 2;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mFaceTexture;
 	private ITextureRegion mFaceTextureRegion;
 
-	private int mTargetFaceIndex = 0;
-	private final Sprite[] mFaces = new Sprite[FACE_COUNT];
+	private int mTargetSpriteIndex = 0;
+	private final Sprite[] mSprites = new Sprite[SPRITE_COUNT];
 
-	private final RunnablePoolUpdateHandler<FaceRotateRunnablePoolItem> mFaceRotateRunnablePoolUpdateHandler = new RunnablePoolUpdateHandler<FaceRotateRunnablePoolItem>() {
+	private final RunnablePoolUpdateHandler<SpriteRotateRunnablePoolItem> mFaceRotateRunnablePoolUpdateHandler = new RunnablePoolUpdateHandler<SpriteRotateRunnablePoolItem>() {
 		@Override
-		protected FaceRotateRunnablePoolItem onAllocatePoolItem() {
-			return new FaceRotateRunnablePoolItem();
+		protected SpriteRotateRunnablePoolItem onAllocatePoolItem() {
+			return new SpriteRotateRunnablePoolItem();
 		}
 	};
 
@@ -72,16 +75,14 @@ public class RunnablePoolUpdateHandlerExample extends SimpleBaseGameActivity imp
 
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 32, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+	public void onCreateResources() throws IOException {
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box.png", TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(this.mFaceTexture);
+		this.mFaceTexture.load();
 	}
 
 	@Override
@@ -89,18 +90,19 @@ public class RunnablePoolUpdateHandlerExample extends SimpleBaseGameActivity imp
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		scene.registerUpdateHandler(this.mFaceRotateRunnablePoolUpdateHandler);
 
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final float centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final float centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = CAMERA_WIDTH / 2;
+		final float centerY = CAMERA_HEIGHT / 2;
 
-		this.mFaces[0] = new Sprite(centerX - 50, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		this.mFaces[1] = new Sprite(centerX + 50, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		scene.attachChild(this.mFaces[0]);
-		scene.attachChild(this.mFaces[1]);
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
+		this.mSprites[0] = new Sprite(centerX - 50, centerY, this.mFaceTextureRegion, vertexBufferObjectManager);
+		this.mSprites[1] = new Sprite(centerX + 50, centerY, this.mFaceTextureRegion, vertexBufferObjectManager);
+
+		scene.attachChild(this.mSprites[0]);
+		scene.attachChild(this.mSprites[1]);
 
 		scene.setOnSceneTouchListener(this);
 
@@ -110,11 +112,11 @@ public class RunnablePoolUpdateHandlerExample extends SimpleBaseGameActivity imp
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 		if(pSceneTouchEvent.isActionDown()) {
-			this.mTargetFaceIndex = (this.mTargetFaceIndex + 1) % FACE_COUNT;
+			this.mTargetSpriteIndex = (this.mTargetSpriteIndex + 1) % SPRITE_COUNT;
 
-			final FaceRotateRunnablePoolItem faceRotateRunnablePoolItem = this.mFaceRotateRunnablePoolUpdateHandler.obtainPoolItem();
-			faceRotateRunnablePoolItem.setTargetFace(this.mFaces[this.mTargetFaceIndex]);
-			this.mFaceRotateRunnablePoolUpdateHandler.postPoolItem(faceRotateRunnablePoolItem);
+			final SpriteRotateRunnablePoolItem spriteRotateRunnablePoolItem = this.mFaceRotateRunnablePoolUpdateHandler.obtainPoolItem();
+			spriteRotateRunnablePoolItem.setTargetSprite(this.mSprites[this.mTargetSpriteIndex]);
+			this.mFaceRotateRunnablePoolUpdateHandler.postPoolItem(spriteRotateRunnablePoolItem);
 		}
 		return true;
 	}
@@ -127,7 +129,7 @@ public class RunnablePoolUpdateHandlerExample extends SimpleBaseGameActivity imp
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	public class FaceRotateRunnablePoolItem extends RunnablePoolItem {
+	public class SpriteRotateRunnablePoolItem extends RunnablePoolItem {
 		// ===========================================================
 		// Constants
 		// ===========================================================
@@ -136,7 +138,7 @@ public class RunnablePoolUpdateHandlerExample extends SimpleBaseGameActivity imp
 		// Fields
 		// ===========================================================
 
-		private Sprite mTargetFace;
+		private Sprite mTargetSprite;
 
 		// ===========================================================
 		// Constructors
@@ -146,8 +148,8 @@ public class RunnablePoolUpdateHandlerExample extends SimpleBaseGameActivity imp
 		// Getter & Setter
 		// ===========================================================
 
-		public void setTargetFace(final Sprite pTargetFace) {
-			this.mTargetFace = pTargetFace;
+		public void setTargetSprite(final Sprite pTargetSprite) {
+			this.mTargetSprite = pTargetSprite;
 		}
 
 		// ===========================================================
@@ -156,7 +158,7 @@ public class RunnablePoolUpdateHandlerExample extends SimpleBaseGameActivity imp
 
 		@Override
 		public void run() {
-			this.mTargetFace.setRotation(this.mTargetFace.getRotation() + 45);
+			this.mTargetSprite.setRotation(this.mTargetSprite.getRotation() + 45);
 		}
 
 		// ===========================================================

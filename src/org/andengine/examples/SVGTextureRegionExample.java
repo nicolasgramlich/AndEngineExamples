@@ -5,7 +5,6 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
@@ -71,7 +70,7 @@ public class SVGTextureRegionExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, SVGTextureRegionExample.CAMERA_WIDTH, SVGTextureRegionExample.CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(SVGTextureRegionExample.CAMERA_WIDTH, SVGTextureRegionExample.CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(SVGTextureRegionExample.CAMERA_WIDTH, SVGTextureRegionExample.CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -130,7 +129,7 @@ public class SVGTextureRegionExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.5f, 0.5f, 0.5f));
+		scene.getBackground().setColor(org.andengine.util.adt.color.Color.BLACK);
 
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
 		for(int i = 0; i < SVGTextureRegionExample.COUNT; i++) {

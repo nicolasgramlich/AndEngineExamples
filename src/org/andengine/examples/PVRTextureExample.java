@@ -11,7 +11,6 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.Entity;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.examples.adt.ZoomState;
@@ -92,7 +91,7 @@ public class PVRTextureExample extends SimpleBaseGameActivity {
 			}
 		};
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -144,7 +143,7 @@ public class PVRTextureExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		final float centerX = CAMERA_WIDTH / 2;
 		final float centerY = CAMERA_HEIGHT / 2;
@@ -153,10 +152,10 @@ public class PVRTextureExample extends SimpleBaseGameActivity {
 		container.setScale(0.5f);
 
 		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
-		container.attachChild(new Sprite(-512, -384, this.mHouseNearestTextureRegion, vertexBufferObjectManager));
-		container.attachChild(new Sprite(0, -384, this.mHouseLinearTextureRegion, vertexBufferObjectManager));
-		container.attachChild(new Sprite(-512, -128, this.mHouseMipMapsNearestTextureRegion, vertexBufferObjectManager));
-		container.attachChild(new Sprite(0, -128, this.mHouseMipMapsLinearTextureRegion, vertexBufferObjectManager));
+		container.attachChild(new Sprite(CAMERA_WIDTH * 0.33f, CAMERA_HEIGHT * 0.33f, this.mHouseNearestTextureRegion, vertexBufferObjectManager));
+		container.attachChild(new Sprite(CAMERA_WIDTH * 0.66f, CAMERA_HEIGHT * 0.33f, this.mHouseLinearTextureRegion, vertexBufferObjectManager));
+		container.attachChild(new Sprite(CAMERA_WIDTH * 0.33f, CAMERA_HEIGHT * 0.66f, this.mHouseMipMapsNearestTextureRegion, vertexBufferObjectManager));
+		container.attachChild(new Sprite(CAMERA_WIDTH * 0.66f, CAMERA_HEIGHT * 0.66f, this.mHouseMipMapsLinearTextureRegion, vertexBufferObjectManager));
 
 		scene.attachChild(container);
 

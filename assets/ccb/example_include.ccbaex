@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CCB stageWidth="480" stageHeight="320" centeredOrigin="false" version="1">
-	<CCLayer x="0" y="0" positionType="relativeBottomLeft" width="0" height="0" sizeType="percentParent" anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPointForOffset="true" scaleX="1" scaleY="1" rotation="0" visible="true" tag="-1">
-		<CCLabelBMFont x="240" y="280" positionType="relativeBottomLeft" width="0" height="0" sizeType="absolute" anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPointForOffset="false" scaleX="1" scaleY="1" rotation="0" visible="true" tag="-1" red="255" green="255" blue="255" alpha="255" fontName="BitmapFont.fnt" text="&lt;CCBFile&gt; supported!" />
+	<CCLayer memberVariableAssignmentName="" memberVariableAssignmentType="none" x="0" y="0" positionType="relativeBottomLeft" width="0" height="0" sizeType="absolute" anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPointForOffset="true" scaleX="1" scaleY="1" rotation="0" visible="true" tag="-1">
+		<CCLabelBMFont memberVariableAssignmentName="" memberVariableAssignmentType="none" x="240" y="280" positionType="relativeBottomLeft" width="0" height="0" sizeType="absolute" anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPointForOffset="false" scaleX="1" scaleY="1" rotation="0" visible="true" tag="-1" red="255" green="255" blue="255" alpha="255" fontName="fonts/BitmapFont.fnt" text="&lt;CCBFile&gt; supported!" />
 	</CCLayer>
 </CCB>

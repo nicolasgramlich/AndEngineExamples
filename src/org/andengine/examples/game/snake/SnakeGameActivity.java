@@ -29,18 +29,24 @@ import org.andengine.examples.game.snake.entity.SnakeHead;
 import org.andengine.examples.game.snake.util.constants.SnakeConstants;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
+import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
-import org.andengine.util.align.HorizontalAlign;
+import org.andengine.util.adt.align.HorizontalAlign;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.math.MathUtils;
 
 import android.graphics.Color;
-import android.opengl.GLES20;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -74,16 +80,17 @@ public class SnakeGameActivity extends SimpleBaseGameActivity implements SnakeCo
 
 	private Font mFont;
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private BuildableBitmapTextureAtlas mBuildableBitmapTextureAtlas;
 	private ITextureRegion mTailPartTextureRegion;
 	private TiledTextureRegion mHeadTextureRegion;
 	private TiledTextureRegion mFrogTextureRegion;
 
-	private BitmapTextureAtlas mBackgroundTexture;
+	private ITexture mBackgroundTexture;
 	private ITextureRegion mBackgroundTextureRegion;
 
-	private BitmapTextureAtlas mOnScreenControlTexture;
+	private ITexture mOnScreenControlBaseTexture;
 	private ITextureRegion mOnScreenControlBaseTextureRegion;
+	private ITexture mOnScreenControlKnobTexture;
 	private ITextureRegion mOnScreenControlKnobTextureRegion;
 
 	private Scene mScene;
@@ -115,34 +122,43 @@ public class SnakeGameActivity extends SimpleBaseGameActivity implements SnakeCo
 	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 		engineOptions.getAudioOptions().setNeedsSound(true);
 		return engineOptions;
 	}
 
 	@Override
-	public void onCreateResources() {
+	public void onCreateResources() throws IOException {
 		/* Load the font we are going to use. */
 		FontFactory.setAssetBasePath("font/");
 		this.mFont = FontFactory.createFromAsset(this.getFontManager(), this.getTextureManager(), 512, 512, TextureOptions.BILINEAR, this.getAssets(), "Plok.ttf", 32, true, Color.WHITE);
 		this.mFont.load();
 
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		/* Load all the textures this game needs. */
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 128, 128);
-		this.mHeadTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "snake_head.png", 0, 0, 3, 1);
-		this.mTailPartTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "snake_tailpart.png", 96, 0);
-		this.mFrogTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "frog.png", 0, 64, 3, 1);
-		this.mBitmapTextureAtlas.load();
-
-		this.mBackgroundTexture = new BitmapTextureAtlas(this.getTextureManager(), 1024, 512);
-		this.mBackgroundTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, "snake_background.png", 0, 0);
+		this.mBackgroundTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/snake_background.png");
+		this.mBackgroundTextureRegion = TextureRegionFactory.extractFromTexture(this.mBackgroundTexture);
 		this.mBackgroundTexture.load();
 
-		this.mOnScreenControlTexture = new BitmapTextureAtlas(this.getTextureManager(), 256, 128, TextureOptions.BILINEAR);
-		this.mOnScreenControlBaseTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_base.png", 0, 0);
-		this.mOnScreenControlKnobTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mOnScreenControlTexture, this, "onscreen_control_knob.png", 128, 0);
-		this.mOnScreenControlTexture.load();
+		this.mOnScreenControlBaseTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/onscreen_control_base.png", TextureOptions.BILINEAR);
+		this.mOnScreenControlBaseTextureRegion = TextureRegionFactory.extractFromTexture(this.mOnScreenControlBaseTexture);
+		this.mOnScreenControlBaseTexture.load();
+
+		this.mOnScreenControlKnobTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/onscreen_control_knob.png", TextureOptions.BILINEAR);
+		this.mOnScreenControlKnobTextureRegion = TextureRegionFactory.extractFromTexture(this.mOnScreenControlKnobTexture);
+		this.mOnScreenControlKnobTexture.load();
+
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 128, 128);
+		this.mHeadTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "snake_head.png", 3, 1);
+		this.mTailPartTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "snake_tailpart.png");
+		this.mFrogTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "frog.png", 3, 1);
+
+		try {
+			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+			this.mBuildableBitmapTextureAtlas.load();
+		} catch (final TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
 
 		/* Load all the sounds this game needs. */
 		try {
@@ -169,7 +185,6 @@ public class SnakeGameActivity extends SimpleBaseGameActivity implements SnakeCo
 
 		/* The ScoreText showing how many points the pEntity scored. */
 		this.mScoreText = new Text(5, 5, this.mFont, "Score: 0", "Score: XXXX".length(), this.getVertexBufferObjectManager());
-		this.mScoreText.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mScoreText.setAlpha(0.5f);
 		this.mScene.getChildByIndex(LAYER_SCORE).attachChild(this.mScoreText);
 
@@ -202,7 +217,6 @@ public class SnakeGameActivity extends SimpleBaseGameActivity implements SnakeCo
 			}
 		});
 		/* Make the controls semi-transparent. */
-		this.mDigitalOnScreenControl.getControlBase().setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
 		this.mDigitalOnScreenControl.getControlBase().setAlpha(0.5f);
 
 		this.mScene.setChildScene(this.mDigitalOnScreenControl);

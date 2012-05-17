@@ -9,7 +9,6 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
@@ -20,7 +19,13 @@ import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
+import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
+import org.andengine.opengl.texture.atlas.buildable.builder.ITextureAtlasBuilder.TextureAtlasBuilderException;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
+import org.andengine.util.adt.color.Color;
+import org.andengine.util.debug.Debug;
 
 import android.hardware.SensorManager;
 
@@ -51,15 +56,14 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
-
+	private BuildableBitmapTextureAtlas mBuildableBitmapTextureAtlas;
 	private TiledTextureRegion mBoxFaceTextureRegion;
 	private TiledTextureRegion mCircleFaceTextureRegion;
 
 	private Scene mScene;
-
 	private PhysicsWorld mPhysicsWorld;
-	private int mFaceCount = 0;
+
+	private int mSpriteCount = 0;
 
 	// ===========================================================
 	// Constructors
@@ -92,23 +96,29 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
 	public void onCreateResources() {
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1); // 64x32
-		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png", 0, 32, 2, 1); // 64x32
 
-		this.mBitmapTextureAtlas.load();
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 64, 64, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		this.mBoxFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "face_box_tiled.png", 2, 1);
+		this.mCircleFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBuildableBitmapTextureAtlas, this, "face_circle_tiled.png", 2, 1);
+
+		try {
+			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+			this.mBuildableBitmapTextureAtlas.load();
+		} catch (TextureAtlasBuilderException e) {
+			Debug.e(e);
+		}
 	}
 
 	@Override
 	public Scene onCreateScene() {
 		this.mScene = new Scene();
-		this.mScene.setBackground(new Background(0, 0, 0));
+		this.mScene.getBackground().setColor(Color.BLACK);
 		this.mScene.setOnSceneTouchListener(this);
 
 		this.mPhysicsWorld = new PhysicsWorld(new Vector2(0, 2 * SensorManager.GRAVITY_EARTH / PhysicsConstants.PIXEL_TO_METER_RATIO_DEFAULT), false);
@@ -172,15 +182,14 @@ public class PhysicsBenchmark extends BaseBenchmark implements IOnSceneTouchList
 	// ===========================================================
 
 	private void addFace(final Scene pScene, final float pX, final float pY) {
-		this.mFaceCount++;
+		this.mSpriteCount++;
 
 		final AnimatedSprite face;
 		final Body body;
 
-
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 
-		if(this.mFaceCount % 2 == 0) {
+		if(this.mSpriteCount % 2 == 0) {
 			face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion, this.getVertexBufferObjectManager());
 			body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 		} else {

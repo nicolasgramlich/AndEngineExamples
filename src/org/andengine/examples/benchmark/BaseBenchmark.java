@@ -80,12 +80,8 @@ public abstract class BaseBenchmark extends SimpleBaseGameActivity {
 
 	protected void showResult(final float pFPS) {
 		this.mFPS = pFPS;
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				BaseBenchmark.this.showDialog(DIALOG_SHOW_RESULT);
-			}
-		});
+
+		this.showDialogOnUiThread(DIALOG_SHOW_RESULT);
 	}
 
 	// ===========================================================
@@ -195,8 +191,8 @@ public abstract class BaseBenchmark extends SimpleBaseGameActivity {
 				}
 				
 				try{
-					final float memoryTotal = SystemUtils.getMemoryTotal();
-					final float memoryFree = SystemUtils.getMemoryFree();
+					final float memoryTotal = SystemUtils.getSystemMemorySize();
+					final float memoryFree = SystemUtils.getSystemMemoryFreeSize();
 					
 					nameValuePairs.add(new BasicNameValuePair("device_memoryinfo_total", String.valueOf(memoryTotal)));
 					nameValuePairs.add(new BasicNameValuePair("device_memoryinfo_free", String.valueOf(memoryFree)));
@@ -205,8 +201,8 @@ public abstract class BaseBenchmark extends SimpleBaseGameActivity {
 				}
 				
 				try{
-					final int cpuFrequencyCurrent = SystemUtils.getCPUFrequencyCurrent();
-					final int cpuFrequencyMax = SystemUtils.getCPUFrequencyMax();
+					final long cpuFrequencyCurrent = SystemUtils.getCPUFrequencyCurrent();
+					final long cpuFrequencyMax = SystemUtils.getCPUFrequencyMax();
 					
 					nameValuePairs.add(new BasicNameValuePair("device_cpuinfo_frequency_current", String.valueOf(cpuFrequencyCurrent)));
 					nameValuePairs.add(new BasicNameValuePair("device_cpuinfo_frequency_max", String.valueOf(cpuFrequencyMax)));

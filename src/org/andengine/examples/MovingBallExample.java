@@ -1,17 +1,19 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.handler.physics.PhysicsHandler;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
@@ -37,7 +39,7 @@ public class MovingBallExample extends SimpleBaseGameActivity {
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mFaceTexture;
 	private TiledTextureRegion mFaceTextureRegion;
 
 	// ===========================================================
@@ -56,16 +58,14 @@ public class MovingBallExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, MovingBallExample.CAMERA_WIDTH, MovingBallExample.CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(MovingBallExample.CAMERA_WIDTH, MovingBallExample.CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(MovingBallExample.CAMERA_WIDTH, MovingBallExample.CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png", 0, 0, 2, 1);
-		this.mBitmapTextureAtlas.load();
+	public void onCreateResources() throws IOException {
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_circle_tiled.png", TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.extractTiledFromTexture(this.mFaceTexture, 2, 1);
+		this.mFaceTexture.load();
 	}
 
 	@Override
@@ -73,10 +73,11 @@ public class MovingBallExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
-		final float centerX = (MovingBallExample.CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
-		final float centerY = (MovingBallExample.CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
+		final float centerX = MovingBallExample.CAMERA_WIDTH / 2;
+		final float centerY = MovingBallExample.CAMERA_HEIGHT / 2;
+
 		final Ball ball = new Ball(centerX, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
 
 		scene.attachChild(ball);
@@ -104,15 +105,15 @@ public class MovingBallExample extends SimpleBaseGameActivity {
 
 		@Override
 		protected void onManagedUpdate(final float pSecondsElapsed) {
-			if(this.mX < 0) {
+			if(this.mX < (this.getWidth() * 0.5f)) {
 				this.mPhysicsHandler.setVelocityX(MovingBallExample.DEMO_VELOCITY);
-			} else if(this.mX + this.getWidth() > MovingBallExample.CAMERA_WIDTH) {
+			} else if(this.mX + (this.getWidth() * 0.5f) > MovingBallExample.CAMERA_WIDTH) {
 				this.mPhysicsHandler.setVelocityX(-MovingBallExample.DEMO_VELOCITY);
 			}
 
-			if(this.mY < 0) {
+			if(this.mY < (this.getHeight() * 0.5f)) {
 				this.mPhysicsHandler.setVelocityY(MovingBallExample.DEMO_VELOCITY);
-			} else if(this.mY + this.getHeight() > MovingBallExample.CAMERA_HEIGHT) {
+			} else if(this.mY + (this.getHeight() * 0.5f) > MovingBallExample.CAMERA_HEIGHT) {
 				this.mPhysicsHandler.setVelocityY(-MovingBallExample.DEMO_VELOCITY);
 			}
 

@@ -1,18 +1,20 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 /**
@@ -34,8 +36,8 @@ public class UnloadResourcesExample extends SimpleBaseGameActivity {
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
-	private ITextureRegion mClickToUnloadTextureRegion;
+	private ITexture mTexture;
+	private ITextureRegion mTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -53,16 +55,14 @@ public class UnloadResourcesExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 128, 128, TextureOptions.BILINEAR);
-		this.mClickToUnloadTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "click_to_unload.png", 0, 0);
-		this.mBitmapTextureAtlas.load();
+	public void onCreateResources() throws IOException {
+		this.mTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/click_to_unload.png", TextureOptions.BILINEAR);
+		this.mTextureRegion = TextureRegionFactory.extractFromTexture(this.mTexture);
+		this.mTexture.load();
 	}
 
 	@Override
@@ -70,20 +70,25 @@ public class UnloadResourcesExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
-		final float centerX = (CAMERA_WIDTH - this.mClickToUnloadTextureRegion.getWidth()) / 2;
-		final float centerY = (CAMERA_HEIGHT - this.mClickToUnloadTextureRegion.getHeight()) / 2;
-		final Sprite clickToUnload = new Sprite(centerX, centerY, this.mClickToUnloadTextureRegion, this.getVertexBufferObjectManager()) {
+		final float centerX = CAMERA_WIDTH / 2;
+		final float centerY = CAMERA_HEIGHT / 2;
+
+		final Sprite clickToUnload = new Sprite(centerX, centerY, this.mTextureRegion, this.getVertexBufferObjectManager()) {
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				if(pSceneTouchEvent.isActionDown()) {
 					/* Completely remove all resources associated with this sprite. */
 					this.dispose();
-					UnloadResourcesExample.this.mBitmapTextureAtlas.unload();
+
+					UnloadResourcesExample.this.mTexture.unload();
+					UnloadResourcesExample.this.mTexture = null;
+					UnloadResourcesExample.this.mTextureRegion = null;
 					
 					/* And remove the sprite from the Scene. */
 					this.detachSelf();
+
 					return true;
 				} else {
 					return false;

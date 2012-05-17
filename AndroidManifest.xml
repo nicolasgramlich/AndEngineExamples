@@ -13,7 +13,6 @@
 	<uses-permission android:name="android.permission.BLUETOOTH"/>
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-	<uses-permission android:name="android.permission.WAKE_LOCK"/>
 	<uses-permission android:name="android.permission.CAMERA"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -32,15 +31,18 @@
 		<activity android:name=".AnalogOnScreenControlExample" android:configChanges="orientation"/>
 		<activity android:name=".AnalogOnScreenControlsExample" android:configChanges="orientation"/>
 		<activity android:name=".AnimatedSpritesExample" android:configChanges="orientation"/>
+		<activity android:name=".AnimationPackExample" android:configChanges="orientation"/>
 		<activity android:name=".AugmentedRealityExample" android:configChanges="orientation"/>
 		<activity android:name=".AugmentedRealityHorizonExample" android:configChanges="orientation"/>
 		<activity android:name=".AutoParallaxBackgroundExample" android:configChanges="orientation"/>
 		<activity android:name=".BitmapFontExample" android:configChanges="orientation"/>
 		<activity android:name=".BoundCameraExample" android:configChanges="orientation"/>
+		<activity android:name=".ButtonSpriteExample" android:configChanges="orientation"/>
 		<activity android:name=".CanvasTextureCompositingExample" android:configChanges="orientation"/>
 		<activity android:name=".CardinalSplineMoveModifierExample" android:configChanges="orientation"/>
 		<activity android:name=".CCBLevelLoaderExample" android:configChanges="orientation"/>
 		<activity android:name=".ChangeableTextExample" android:configChanges="orientation"/>
+		<activity android:name=".ClipEntityExample" android:configChanges="orientation"/>
 		<activity android:name=".CollisionDetectionExample" android:configChanges="orientation"/>
 		<activity android:name=".ColorKeyTextureSourceDecoratorExample" android:configChanges="orientation"/>
 		<activity android:name=".CoordinateConversionExample" android:configChanges="orientation"/>
@@ -65,6 +67,7 @@
 		<activity android:name=".MultiplayerBluetoothExample" android:configChanges="orientation"/>
 		<activity android:name=".MultiTouchExample" android:configChanges="orientation"/>
 		<activity android:name=".MusicExample" android:configChanges="orientation"/>
+		<activity android:name=".NineSliceSpriteExample" android:configChanges="orientation"/>
 		<activity android:name=".ParticleSystemCoolExample" android:configChanges="orientation"/>
 		<activity android:name=".ParticleSystemNexusExample" android:configChanges="orientation"/>
 		<activity android:name=".ParticleSystemSimpleExample" android:configChanges="orientation"/>
@@ -99,7 +102,7 @@
 		<activity android:name=".TextBreakExample" android:configChanges="orientation"/>
 		<activity android:name=".TextMenuExample" android:configChanges="orientation"/>
 		<activity android:name=".TextureOptionsExample" android:configChanges="orientation"/>
-		<activity android:name=".TexturePackerExample" android:configChanges="orientation"/>
+		<activity android:name=".TexturePackExample" android:configChanges="orientation"/>
 		<activity android:name=".TMXTiledMapExample" android:configChanges="orientation"/>
 		<activity android:name=".TickerTextExample" android:configChanges="orientation"/>
 		<activity android:name=".TouchDragExample" android:configChanges="orientation"/>

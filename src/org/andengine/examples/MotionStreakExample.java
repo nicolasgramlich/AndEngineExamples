@@ -22,9 +22,8 @@ import org.andengine.opengl.texture.render.RenderTexture;
 import org.andengine.opengl.util.GLState;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.adt.color.Color;
 import org.andengine.util.modifier.ease.EaseQuadInOut;
-
-import android.widget.Toast;
 
 /**
  * (c) Zynga 2011
@@ -39,6 +38,8 @@ public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSc
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
+
+	private static final int RECTANGLE_SIZE = 180;
 
 	// ===========================================================
 	// Fields
@@ -62,7 +63,7 @@ public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSc
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, MotionStreakExample.CAMERA_WIDTH, MotionStreakExample.CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(MotionStreakExample.CAMERA_WIDTH, MotionStreakExample.CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(MotionStreakExample.CAMERA_WIDTH, MotionStreakExample.CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSc
 				final int currentRenderTextureIndex = this.mCurrentRenderTextureIndex;
 				final int otherRenderTextureIndex = (currentRenderTextureIndex + 1) % RENDERTEXTURE_COUNT;
 
-				this.mRenderTextures[currentRenderTextureIndex].begin(pGLState, false, true);
+				this.mRenderTextures[currentRenderTextureIndex].begin(pGLState);
 				{
 					/* Draw current frame. */
 					super.onDrawFrame(pGLState);
@@ -133,6 +134,8 @@ public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSc
 
 					final ITextureRegion renderTextureATextureRegion = TextureRegionFactory.extractFromTexture(this.mRenderTextures[i]);
 					this.mRenderTextureSprites[i] = new Sprite(0, 0, renderTextureATextureRegion, vertexBufferObjectManager);
+					this.mRenderTextureSprites[i].setOffsetCenter(0, 0);
+					this.mRenderTextureSprites[i].setScaleY(-1);
 				}
 			}
 		};
@@ -152,10 +155,10 @@ public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSc
 
 		final Entity rectangleGroup = new Entity(MotionStreakExample.CAMERA_WIDTH / 2, MotionStreakExample.CAMERA_HEIGHT / 2);
 
-		rectangleGroup.attachChild(this.makeColoredRectangle(-180, -180, 1, 0, 0));
-		rectangleGroup.attachChild(this.makeColoredRectangle(0, -180, 0, 1, 0));
-		rectangleGroup.attachChild(this.makeColoredRectangle(0, 0, 0, 0, 1));
-		rectangleGroup.attachChild(this.makeColoredRectangle(-180, 0, 1, 1, 0));
+		rectangleGroup.attachChild(this.makeColoredRectangle(-RECTANGLE_SIZE / 2, -RECTANGLE_SIZE / 2, Color.RED));
+		rectangleGroup.attachChild(this.makeColoredRectangle(RECTANGLE_SIZE / 2, -RECTANGLE_SIZE / 2, Color.GREEN));
+		rectangleGroup.attachChild(this.makeColoredRectangle(RECTANGLE_SIZE / 2, RECTANGLE_SIZE / 2, Color.BLUE));
+		rectangleGroup.attachChild(this.makeColoredRectangle(-RECTANGLE_SIZE / 2, RECTANGLE_SIZE / 2, Color.YELLOW));
 
 		/* Spin the rectangles. */
 		rectangleGroup.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new RotationModifier(10, 0, 7200, EaseQuadInOut.getInstance()), new DelayModifier(2))));
@@ -173,12 +176,7 @@ public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSc
 		if(pSceneTouchEvent.isActionDown()) {
 			MotionStreakExample.this.mMotionStreaking = !MotionStreakExample.this.mMotionStreaking;
 
-			MotionStreakExample.this.runOnUiThread(new Runnable(){
-				@Override
-				public void run() {
-					Toast.makeText(MotionStreakExample.this, "MotionStreaking " + (MotionStreakExample.this.mMotionStreaking ? "enabled." : "disabled."), Toast.LENGTH_SHORT).show();
-				}
-			});
+			MotionStreakExample.this.toastOnUiThread("MotionStreaking " + ((MotionStreakExample.this.mMotionStreaking) ? "enabled." : "disabled."));
 		}
 		return true;
 	}
@@ -187,9 +185,9 @@ public class MotionStreakExample extends SimpleBaseGameActivity implements IOnSc
 	// Methods
 	// ===========================================================
 	
-	private Rectangle makeColoredRectangle(final float pX, final float pY, final float pRed, final float pGreen, final float pBlue) {
-		final Rectangle coloredRect = new Rectangle(pX, pY, 180, 180, this.getVertexBufferObjectManager());
-		coloredRect.setColor(pRed, pGreen, pBlue);
+	private Rectangle makeColoredRectangle(final float pX, final float pY, final Color pColor) {
+		final Rectangle coloredRect = new Rectangle(pX, pY, RECTANGLE_SIZE, RECTANGLE_SIZE, this.getVertexBufferObjectManager());
+		coloredRect.setColor(pColor);
 		return coloredRect;
 	}
 

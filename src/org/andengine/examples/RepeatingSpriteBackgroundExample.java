@@ -1,5 +1,7 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
@@ -13,9 +15,12 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.entity.scene.background.RepeatingSpriteBackground;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.util.FPSLogger;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
+import org.andengine.opengl.texture.ITexture;
+import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
-import org.andengine.opengl.texture.atlas.bitmap.source.AssetBitmapTextureAtlasSource;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
+import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
@@ -38,9 +43,10 @@ public class RepeatingSpriteBackgroundExample extends SimpleBaseGameActivity {
 	// Fields
 	// ===========================================================
 
+	private ITexture mBackgroundTexture;
 	private RepeatingSpriteBackground mGrassBackground;
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mPlayerTexture;
 	private TiledTextureRegion mPlayerTextureRegion;
 
 	// ===========================================================
@@ -59,17 +65,19 @@ public class RepeatingSpriteBackgroundExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+	public void onCreateResources() throws IOException {
+		this.mBackgroundTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/background_grass.png", TextureOptions.REPEATING_NEAREST);
+		this.mBackgroundTexture.load();
+		final ITextureRegion backgroundTextureRegion = TextureRegionFactory.extractFromTexture(this.mBackgroundTexture);
+		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, backgroundTextureRegion, this.getVertexBufferObjectManager());
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 128, 128);
-		this.mPlayerTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "player.png", 0, 0, 3, 4);
-		this.mGrassBackground = new RepeatingSpriteBackground(CAMERA_WIDTH, CAMERA_HEIGHT, this.getTextureManager(), AssetBitmapTextureAtlasSource.create(this.getAssets(), "gfx/background_grass.png"), this.getVertexBufferObjectManager());
-		this.mBitmapTextureAtlas.load();
+		this.mPlayerTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/player.png");
+		this.mPlayerTextureRegion = TextureRegionFactory.extractTiledFromTexture(this.mPlayerTexture, 3, 4);
+		this.mPlayerTexture.load();
 	}
 
 	@Override
@@ -79,14 +87,14 @@ public class RepeatingSpriteBackgroundExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 		scene.setBackground(this.mGrassBackground);
 
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final float centerX = (CAMERA_WIDTH - this.mPlayerTextureRegion.getWidth()) / 2;
-		final float centerY = (CAMERA_HEIGHT - this.mPlayerTextureRegion.getHeight()) / 2;
+		final float centerX = CAMERA_WIDTH / 2;
+		final float centerY = CAMERA_HEIGHT / 2;
 
 		/* Create the sprite and add it to the scene. */
 		final AnimatedSprite player = new AnimatedSprite(centerX, centerY, 48, 64, this.mPlayerTextureRegion, this.getVertexBufferObjectManager());
+		player.setOffsetCenterY(0);
 
-		final Path path = new Path(5).to(10, 10).to(10, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, CAMERA_HEIGHT - 74).to(CAMERA_WIDTH - 58, 10).to(10, 10);
+		final Path path = new Path(5).to(32, 16).to(32, CAMERA_HEIGHT - 48).to(CAMERA_WIDTH - 32, CAMERA_HEIGHT - 48).to(CAMERA_WIDTH - 32, 16).to(32, 16);
 
 		player.registerEntityModifier(new LoopEntityModifier(new PathModifier(30, path, null, new IPathModifierListener() {
 			@Override
@@ -98,16 +106,16 @@ public class RepeatingSpriteBackgroundExample extends SimpleBaseGameActivity {
 			public void onPathWaypointStarted(final PathModifier pPathModifier, final IEntity pEntity, final int pWaypointIndex) {
 				switch(pWaypointIndex) {
 					case 0:
-						player.animate(new long[]{200, 200, 200}, 6, 8, true);
+						player.animate(new long[]{ 200, 200, 200 }, 0, 2, true);
 						break;
 					case 1:
-						player.animate(new long[]{200, 200, 200}, 3, 5, true);
+						player.animate(new long[]{ 200, 200, 200 }, 3, 5, true);
 						break;
 					case 2:
-						player.animate(new long[]{200, 200, 200}, 0, 2, true);
+						player.animate(new long[]{ 200, 200, 200 }, 6, 8, true);
 						break;
 					case 3:
-						player.animate(new long[]{200, 200, 200}, 9, 11, true);
+						player.animate(new long[]{ 200, 200, 200 }, 9, 11, true);
 						break;
 				}
 			}

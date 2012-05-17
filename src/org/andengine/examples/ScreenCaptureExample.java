@@ -14,13 +14,14 @@ import org.andengine.entity.primitive.Line;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.entity.util.ScreenCapture;
 import org.andengine.entity.util.ScreenCapture.IScreenCaptureCallback;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.FileUtils;
+import org.andengine.util.adt.color.Color;
 
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class ScreenCaptureExample extends SimpleBaseGameActivity {
 
 	private static final int CAMERA_WIDTH = 720;
 	private static final int CAMERA_HEIGHT = 480;
+
+	private static final int RECTANGLE_SIZE = 180;
 
 	// ===========================================================
 	// Fields
@@ -61,7 +64,7 @@ public class ScreenCaptureExample extends SimpleBaseGameActivity {
 
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -76,7 +79,7 @@ public class ScreenCaptureExample extends SimpleBaseGameActivity {
 		final Scene scene = new Scene();
 		final ScreenCapture screenCapture = new ScreenCapture();
 
-		scene.setBackground(new Background(0, 0, 0));
+		scene.getBackground().setColor(Color.BLACK);
 
 		/* Create three lines that will form an arrow pointing to the eye. */
 		final Line arrowLineMain = new Line(0, 0, 0, 0, 3, this.getVertexBufferObjectManager());
@@ -92,11 +95,6 @@ public class ScreenCaptureExample extends SimpleBaseGameActivity {
 		scene.attachChild(arrowLineWingRight);
 
 		/* Create the rectangles. */
-		final Rectangle rect1 = this.makeColoredRectangle(-180, -180, 1, 0, 0);
-		final Rectangle rect2 = this.makeColoredRectangle(0, -180, 0, 1, 0);
-		final Rectangle rect3 = this.makeColoredRectangle(0, 0, 0, 0, 1);
-		final Rectangle rect4 = this.makeColoredRectangle(-180, 0, 1, 1, 0);
-
 		final Entity rectangleGroup = new Entity(CAMERA_WIDTH / 2, CAMERA_HEIGHT / 2);
 		rectangleGroup.registerEntityModifier(new LoopEntityModifier(new ParallelEntityModifier(
 				new SequenceEntityModifier(
@@ -106,10 +104,10 @@ public class ScreenCaptureExample extends SimpleBaseGameActivity {
 				new RotationModifier(20, 0, 360))
 		));
 
-		rectangleGroup.attachChild(rect1);
-		rectangleGroup.attachChild(rect2);
-		rectangleGroup.attachChild(rect3);
-		rectangleGroup.attachChild(rect4);
+		rectangleGroup.attachChild(this.makeColoredRectangle(-RECTANGLE_SIZE / 2, -RECTANGLE_SIZE / 2, Color.RED));
+		rectangleGroup.attachChild(this.makeColoredRectangle(RECTANGLE_SIZE / 2, -RECTANGLE_SIZE / 2, Color.GREEN));
+		rectangleGroup.attachChild(this.makeColoredRectangle(RECTANGLE_SIZE / 2, RECTANGLE_SIZE / 2, Color.BLUE));
+		rectangleGroup.attachChild(this.makeColoredRectangle(-RECTANGLE_SIZE / 2, RECTANGLE_SIZE / 2, Color.YELLOW));
 
 		scene.attachChild(rectangleGroup);
 
@@ -121,25 +119,18 @@ public class ScreenCaptureExample extends SimpleBaseGameActivity {
 				if(pSceneTouchEvent.isActionDown()) {
 					final int viewWidth = ScreenCaptureExample.this.mRenderSurfaceView.getWidth();
 					final int viewHeight = ScreenCaptureExample.this.mRenderSurfaceView.getHeight();
-					screenCapture.capture(viewWidth, viewHeight, FileUtils.getAbsolutePathOnExternalStorage(ScreenCaptureExample.this, "Screen_" + System.currentTimeMillis() + ".png"), new IScreenCaptureCallback() {
+
+					FileUtils.ensureDirectoriesExistOnExternalStorage(ScreenCaptureExample.this, "");
+
+					screenCapture.capture(0, viewHeight / 2, viewWidth, viewHeight / 2, FileUtils.getAbsolutePathOnExternalStorage(ScreenCaptureExample.this, "Screen_" + System.currentTimeMillis() + ".png"), new IScreenCaptureCallback() {
 						@Override
 						public void onScreenCaptured(final String pFilePath) {
-							ScreenCaptureExample.this.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									Toast.makeText(ScreenCaptureExample.this, "Screenshot: " + pFilePath + " taken!", Toast.LENGTH_SHORT).show();
-								}
-							});
+							ScreenCaptureExample.this.toastOnUiThread("Screenshot: '" + pFilePath + "' taken!");
 						}
-
+  
 						@Override
 						public void onScreenCaptureFailed(final String pFilePath, final Exception pException) {
-							ScreenCaptureExample.this.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									Toast.makeText(ScreenCaptureExample.this, "FAILED capturing Screenshot: " + pFilePath + " !", Toast.LENGTH_SHORT).show();
-								}
-							});
+							ScreenCaptureExample.this.toastOnUiThread("FAILED capturing screenshot: '" + pFilePath + "' !", Toast.LENGTH_LONG);
 						}
 					});
 				}
@@ -150,12 +141,13 @@ public class ScreenCaptureExample extends SimpleBaseGameActivity {
 		return scene;
 	}
 
-	private Rectangle makeColoredRectangle(final float pX, final float pY, final float pRed, final float pGreen, final float pBlue) {
-		final Rectangle coloredRect = new Rectangle(pX, pY, 180, 180, this.getVertexBufferObjectManager());
-		coloredRect.setColor(pRed, pGreen, pBlue);
+	private Rectangle makeColoredRectangle(final float pX, final float pY, final Color pColor) {
+		final VertexBufferObjectManager vertexBufferObjectManager = this.getVertexBufferObjectManager();
+		final Rectangle coloredRect = new Rectangle(pX, pY, RECTANGLE_SIZE, RECTANGLE_SIZE, vertexBufferObjectManager);
+		coloredRect.setColor(pColor);
 
-		final Rectangle subRectangle = new Rectangle(45, 45, 90, 90, this.getVertexBufferObjectManager());
-		subRectangle.registerEntityModifier(new LoopEntityModifier(new RotationModifier(3, 0, 360)));
+		final Rectangle subRectangle = new Rectangle(RECTANGLE_SIZE / 2, RECTANGLE_SIZE / 2, RECTANGLE_SIZE / 2, RECTANGLE_SIZE / 2, vertexBufferObjectManager);
+		subRectangle.registerEntityModifier(new LoopEntityModifier(new RotationModifier(5, 0, 360)));
 
 		coloredRect.attachChild(subRectangle);
 

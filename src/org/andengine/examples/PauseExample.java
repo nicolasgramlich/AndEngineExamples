@@ -1,5 +1,7 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
@@ -7,13 +9,13 @@ import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.scene.CameraScene;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 
 import android.view.KeyEvent;
@@ -38,12 +40,13 @@ public class PauseExample extends SimpleBaseGameActivity {
 	// ===========================================================
 
 	private Camera mCamera;
-
-	private BitmapTextureAtlas mBitmapTextureAtlas;
 	private Scene mMainScene;
-	private ITextureRegion mFaceTextureRegion;
-	private ITextureRegion mPausedTextureRegion;
 	private CameraScene mPauseScene;
+
+	private ITexture mFaceTexture;
+	private ITextureRegion mFaceTextureRegion;
+	private ITexture mPausedTexture;
+	private ITextureRegion mPausedTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -61,17 +64,18 @@ public class PauseExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mCamera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
+	public void onCreateResources() throws IOException {
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box_menu.png", TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.extractFromTexture(this.mFaceTexture);
+		this.mFaceTexture.load();
 
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 256, 128, TextureOptions.BILINEAR);
-		this.mPausedTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "paused.png", 0, 0);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box_menu.png", 0, 50);
-		this.mBitmapTextureAtlas.load();
+		this.mPausedTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/paused.png", TextureOptions.BILINEAR);
+		this.mPausedTextureRegion = TextureRegionFactory.extractFromTexture(this.mPausedTexture);
+		this.mPausedTexture.load();
 	}
 
 	@Override
@@ -89,11 +93,11 @@ public class PauseExample extends SimpleBaseGameActivity {
 
 		/* Just a simple */
 		this.mMainScene = new Scene();
-		this.mMainScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		this.mMainScene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
-		final Sprite face = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		face.registerEntityModifier(new MoveModifier(30, 0, CAMERA_WIDTH - face.getWidth(), 0, CAMERA_HEIGHT - face.getHeight()));
-		this.mMainScene.attachChild(face);
+		final Sprite sprite = new Sprite(0, 0, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+		sprite.registerEntityModifier(new MoveModifier(30, 0, 0, CAMERA_WIDTH, CAMERA_HEIGHT));
+		this.mMainScene.attachChild(sprite);
 
 		return this.mMainScene;
 	}

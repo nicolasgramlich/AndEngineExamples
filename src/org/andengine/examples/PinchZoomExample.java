@@ -1,5 +1,6 @@
 package org.andengine.examples;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import org.andengine.engine.camera.ZoomCamera;
@@ -8,7 +9,6 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.examples.adt.card.Card;
@@ -19,9 +19,9 @@ import org.andengine.input.touch.detector.PinchZoomDetector.IPinchZoomDetectorLi
 import org.andengine.input.touch.detector.ScrollDetector;
 import org.andengine.input.touch.detector.ScrollDetector.IScrollDetectorListener;
 import org.andengine.input.touch.detector.SurfaceScrollDetector;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
@@ -48,11 +48,11 @@ public class PinchZoomExample extends SimpleBaseGameActivity implements IOnScene
 	// ===========================================================
 
 	private ZoomCamera mZoomCamera;
-	private BitmapTextureAtlas mCardDeckTexture;
-
 	private Scene mScene;
 
-	private HashMap<Card, ITextureRegion> mCardTotextureRegionMap;
+	private ITexture mCardDeckTexture;
+	private HashMap<Card, ITextureRegion> mCardToTextureRegionMap;
+
 	private SurfaceScrollDetector mScrollDetector;
 	private PinchZoomDetector mPinchZoomDetector;
 	private float mPinchZoomStartedCameraZoomFactor;
@@ -73,7 +73,7 @@ public class PinchZoomExample extends SimpleBaseGameActivity implements IOnScene
 	public EngineOptions onCreateEngineOptions() {
 		this.mZoomCamera = new ZoomCamera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mZoomCamera);
+		final EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), this.mZoomCamera);
 
 		if(MultiTouch.isSupported(this)) {
 			if(MultiTouch.isSupportedDistinct(this)) {
@@ -89,19 +89,16 @@ public class PinchZoomExample extends SimpleBaseGameActivity implements IOnScene
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mCardDeckTexture = new BitmapTextureAtlas(this.getTextureManager(), 1024, 512, TextureOptions.BILINEAR);
-		BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mCardDeckTexture, this, "carddeck_tiled.png", 0, 0);
+	public void onCreateResources() throws IOException {
+		this.mCardDeckTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/carddeck_tiled.png", TextureOptions.BILINEAR);
 		this.mCardDeckTexture.load();
 
-		this.mCardTotextureRegionMap = new HashMap<Card, ITextureRegion>();
+		this.mCardToTextureRegionMap = new HashMap<Card, ITextureRegion>();
 
 		/* Extract the TextureRegion of each card in the whole deck. */
 		for(final Card card : Card.values()) {
 			final ITextureRegion cardTextureRegion = TextureRegionFactory.extractFromTexture(this.mCardDeckTexture, card.getTexturePositionX(), card.getTexturePositionY(), Card.CARD_WIDTH, Card.CARD_HEIGHT);
-			this.mCardTotextureRegionMap.put(card, cardTextureRegion);
+			this.mCardToTextureRegionMap.put(card, cardTextureRegion);
 		}
 	}
 
@@ -112,12 +109,12 @@ public class PinchZoomExample extends SimpleBaseGameActivity implements IOnScene
 		this.mScene = new Scene();
 		this.mScene.setOnAreaTouchTraversalFrontToBack();
 
-		this.addCard(Card.CLUB_ACE, 200, 100);
-		this.addCard(Card.HEART_ACE, 200, 260);
-		this.addCard(Card.DIAMOND_ACE, 440, 100);
-		this.addCard(Card.SPADE_ACE, 440, 260);
+		this.addCard(Card.CLUB_ACE, CAMERA_WIDTH * 0.33f, CAMERA_HEIGHT * 0.33f);
+		this.addCard(Card.HEART_ACE, CAMERA_WIDTH * 0.33f, CAMERA_HEIGHT * 0.66f);
+		this.addCard(Card.DIAMOND_ACE, CAMERA_WIDTH * 0.66f, CAMERA_HEIGHT * 0.33f);
+		this.addCard(Card.SPADE_ACE, CAMERA_WIDTH * 0.66f, CAMERA_HEIGHT * 0.66f);
 
-		this.mScene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		this.mScene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		this.mScrollDetector = new SurfaceScrollDetector(this);
 		this.mPinchZoomDetector = new PinchZoomDetector(this);
@@ -131,19 +128,19 @@ public class PinchZoomExample extends SimpleBaseGameActivity implements IOnScene
 	@Override
 	public void onScrollStarted(final ScrollDetector pScollDetector, final int pPointerID, final float pDistanceX, final float pDistanceY) {
 		final float zoomFactor = this.mZoomCamera.getZoomFactor();
-		this.mZoomCamera.offsetCenter(-pDistanceX / zoomFactor, -pDistanceY / zoomFactor);
+		this.mZoomCamera.offsetCenter(-pDistanceX / zoomFactor, pDistanceY / zoomFactor);
 	}
 
 	@Override
 	public void onScroll(final ScrollDetector pScollDetector, final int pPointerID, final float pDistanceX, final float pDistanceY) {
 		final float zoomFactor = this.mZoomCamera.getZoomFactor();
-		this.mZoomCamera.offsetCenter(-pDistanceX / zoomFactor, -pDistanceY / zoomFactor);
+		this.mZoomCamera.offsetCenter(-pDistanceX / zoomFactor, pDistanceY / zoomFactor);
 	}
 	
 	@Override
 	public void onScrollFinished(final ScrollDetector pScollDetector, final int pPointerID, final float pDistanceX, final float pDistanceY) {
 		final float zoomFactor = this.mZoomCamera.getZoomFactor();
-		this.mZoomCamera.offsetCenter(-pDistanceX / zoomFactor, -pDistanceY / zoomFactor);
+		this.mZoomCamera.offsetCenter(-pDistanceX / zoomFactor, pDistanceY / zoomFactor);
 	}
 
 	@Override
@@ -182,8 +179,8 @@ public class PinchZoomExample extends SimpleBaseGameActivity implements IOnScene
 	// Methods
 	// ===========================================================
 
-	private void addCard(final Card pCard, final int pX, final int pY) {
-		final Sprite sprite = new Sprite(pX, pY, this.mCardTotextureRegionMap.get(pCard), this.getVertexBufferObjectManager()) {
+	private void addCard(final Card pCard, final float pX, final float pY) {
+		final Sprite sprite = new Sprite(pX, pY, this.mCardToTextureRegionMap.get(pCard), this.getVertexBufferObjectManager()) {
 			boolean mGrabbed = false;
 
 			@Override

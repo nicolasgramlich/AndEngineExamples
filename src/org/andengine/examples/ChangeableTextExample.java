@@ -7,7 +7,6 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.text.Text;
 import org.andengine.entity.util.FPSCounter;
 import org.andengine.opengl.font.Font;
@@ -54,7 +53,7 @@ public class ChangeableTextExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
@@ -69,19 +68,21 @@ public class ChangeableTextExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(fpsCounter);
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
-		final Text elapsedText = new Text(100, 160, this.mFont, "Seconds elapsed:", "Seconds elapsed: XXXXX".length(), this.getVertexBufferObjectManager());
-		final Text fpsText = new Text(250, 240, this.mFont, "FPS:", "FPS: XXXXX".length(), this.getVertexBufferObjectManager());
+		final float centerX = CAMERA_WIDTH / 2;
+
+		final Text elapsedText = new Text(centerX, 320, this.mFont, "Seconds elapsed:", "Seconds elapsed: XXXXXX".length(), this.getVertexBufferObjectManager());
+		final Text fpsText = new Text(centerX, 160, this.mFont, "FPS:", "FPS: XXXXX".length(), this.getVertexBufferObjectManager());
 
 		scene.attachChild(elapsedText);
 		scene.attachChild(fpsText);
 
-		scene.registerUpdateHandler(new TimerHandler(1 / 20.0f, true, new ITimerCallback() {
+		scene.registerUpdateHandler(new TimerHandler(1 / 10.0f, true, new ITimerCallback() {
 			@Override
 			public void onTimePassed(final TimerHandler pTimerHandler) {
-				elapsedText.setText("Seconds elapsed: " + ChangeableTextExample.this.mEngine.getSecondsElapsedTotal());
-				fpsText.setText("FPS: " + fpsCounter.getFPS());
+				elapsedText.setText(String.format("Seconds elapsed: %.2f", ChangeableTextExample.this.mEngine.getSecondsElapsedTotal()));
+				fpsText.setText(String.format("FPS: %.2f", fpsCounter.getFPS()));
 			}
 		}));
 

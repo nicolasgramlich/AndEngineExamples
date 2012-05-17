@@ -11,17 +11,19 @@ import org.andengine.entity.primitive.DrawMode;
 import org.andengine.entity.primitive.Mesh;
 import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.input.touch.detector.ClickDetector;
+import org.andengine.input.touch.detector.ClickDetector.IClickDetectorListener;
+import org.andengine.opengl.util.GLState;
 import org.andengine.opengl.vbo.DrawType;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.Constants;
+import org.andengine.util.adt.color.Color;
 import org.andengine.util.algorithm.collision.BaseCollisionChecker;
 import org.andengine.util.algorithm.hull.JarvisMarch;
-import org.andengine.util.color.Color;
 
 import android.widget.Toast;
 
@@ -32,7 +34,7 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * @since 11:54:51 - 03.04.2010
  */
-public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnClickListener, IOnSceneTouchListener {
+public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnClickListener, IOnSceneTouchListener, IClickDetectorListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -50,6 +52,9 @@ public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnCl
 			0, 0, Color.WHITE_ABGR_PACKED_FLOAT,
 			100, -100, Color.WHITE_ABGR_PACKED_FLOAT
 	};
+
+	private final ClickDetector mClickDetector = new ClickDetector(this);
+
 	private int mMeshVertexCount = 4;
 	private Mesh mMesh;
 	private Mesh mHull;
@@ -88,7 +93,7 @@ public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnCl
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 		scene.setOnSceneTouchListener(this);
 
 		return scene;
@@ -103,24 +108,19 @@ public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnCl
 
 	@Override
 	public void onClick(final ButtonSprite pButtonSprite, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(HullAlgorithmExample.this, "Clicked", Toast.LENGTH_LONG).show();
-			}
-		});
+		this.toastOnUiThread("Clicked", Toast.LENGTH_LONG);
 	}
 
 	@Override
 	public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-		if(pSceneTouchEvent.isActionUp()) {
-			final float[] coords = this.mMesh.convertSceneToLocalCoordinates(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-			this.disposeMeshAndHull();
-			this.addMeshVertex(coords[Constants.VERTEX_INDEX_X], coords[Constants.VERTEX_INDEX_Y]);
-			this.buildMeshAndHull();
-		} else if(pSceneTouchEvent.isActionMove()) {
+		this.mClickDetector.onSceneTouchEvent(pScene, pSceneTouchEvent);
+		
+		if(pSceneTouchEvent.isActionUp() || pSceneTouchEvent.isActionCancel()) {
+			this.mMesh.setColor(Color.WHITE);
+			this.mHull.setColor(Color.WHITE);
+		} else {
 			{ /* Point-in-polygon test for the mesh. */
-				final float[] coords = this.mMesh.convertSceneToLocalCoordinates(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+				final float[] coords = this.mMesh.convertSceneCoordinatesToLocalCoordinates(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				if(BaseCollisionChecker.checkContains(this.mMeshVertices, this.mMeshVertexCount, 0, 1, 3, coords[Constants.VERTEX_INDEX_X], coords[Constants.VERTEX_INDEX_Y])) {
 					this.mMesh.setColor(Color.GREEN);
 				} else {
@@ -128,7 +128,7 @@ public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnCl
 				}
 			}
 			{ /* Point-in-polygon test for the hull. */
-				final float[] coords = this.mHull.convertSceneToLocalCoordinates(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+				final float[] coords = this.mHull.convertSceneCoordinatesToLocalCoordinates(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 				if(BaseCollisionChecker.checkContains(this.mHullVertices, this.mHullVertexCount, 0, 1, 3, coords[Constants.VERTEX_INDEX_X], coords[Constants.VERTEX_INDEX_Y])) {
 					this.mHull.setColor(Color.GREEN);
 				} else {
@@ -138,6 +138,14 @@ public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnCl
 		}
 
 		return true;
+	}
+
+	@Override
+	public void onClick(ClickDetector pClickDetector, int pPointerID, float pSceneX, float pSceneY) {
+		final float[] coords = this.mMesh.convertSceneCoordinatesToLocalCoordinates(pSceneX, pSceneY);
+		this.disposeMeshAndHull();
+		this.addMeshVertex(coords[Constants.VERTEX_INDEX_X], coords[Constants.VERTEX_INDEX_Y]);
+		this.buildMeshAndHull();
 	}
 
 	private void disposeMeshAndHull() {
@@ -161,18 +169,41 @@ public class HullAlgorithmExample extends SimpleBaseGameActivity implements OnCl
 	}
 
 	private void buildMeshAndHull() {
-		/* Calculate the coordinates for the face, so its centered on the camera. */
 		final float centerX = HullAlgorithmExample.CAMERA_WIDTH * 0.5f;
 		final float centerY = HullAlgorithmExample.CAMERA_HEIGHT * 0.5f;
 
-		this.mMesh = new Mesh(centerX, centerY, this.mMeshVertices, this.mMeshVertexCount, DrawMode.LINE_LOOP, this.getVertexBufferObjectManager(), DrawType.STATIC);
+		this.mMesh = new Mesh(centerX, centerY, this.mMeshVertices, this.mMeshVertexCount, DrawMode.LINE_LOOP, this.getVertexBufferObjectManager(), DrawType.STATIC) {
+			@Override
+			protected void preDraw(GLState pGLState, Camera pCamera) {
+				pGLState.lineWidth(2.5f);
+				super.preDraw(pGLState, pCamera);
+			}
+
+			@Override
+			protected void postDraw(GLState pGLState, Camera pCamera) {
+				super.postDraw(pGLState, pCamera);
+				pGLState.lineWidth(GLState.LINE_WIDTH_DEFAULT);
+			}
+		};
 		this.getEngine().getScene().attachChild(this.mMesh);
 
 		this.mHullVertices = new float[this.mMeshVertices.length];
 		System.arraycopy(this.mMeshVertices, 0, this.mHullVertices, 0, this.mMeshVertices.length);
 		this.mHullVertexCount = new JarvisMarch().computeHull(this.mHullVertices, this.mMeshVertexCount, 0, 1, 3);
 
-		this.mHull = new Mesh(centerX, centerY, this.mHullVertices, this.mHullVertexCount, DrawMode.LINE_LOOP, this.getVertexBufferObjectManager(), DrawType.STATIC);
+		this.mHull = new Mesh(centerX, centerY, this.mHullVertices, this.mHullVertexCount, DrawMode.LINE_LOOP, this.getVertexBufferObjectManager(), DrawType.STATIC) {
+			@Override
+			protected void preDraw(GLState pGLState, Camera pCamera) {
+				pGLState.lineWidth(5f);
+				super.preDraw(pGLState, pCamera);
+			}
+
+			@Override
+			protected void postDraw(GLState pGLState, Camera pCamera) {
+				super.postDraw(pGLState, pCamera);
+				pGLState.lineWidth(GLState.LINE_WIDTH_DEFAULT);
+			}
+		};
 		this.mHull.registerEntityModifier(new LoopEntityModifier(new SequenceEntityModifier(new ScaleModifier(1, 0.95f, 1.05f), new ScaleModifier(1, 1.05f, 0.95f))));
 		this.mHull.setColor(Color.RED);
 		this.getEngine().getScene().attachChild(this.mHull);

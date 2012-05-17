@@ -5,10 +5,8 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.ButtonSprite;
 import org.andengine.entity.sprite.ButtonSprite.OnClickListener;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.util.FPSLogger;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
@@ -41,10 +39,10 @@ public class ButtonSpriteExample extends SimpleBaseGameActivity implements OnCli
 	// Fields
 	// ===========================================================
 
-	private BuildableBitmapTextureAtlas mBitmapTextureAtlas;
-	private ITextureRegion mFace1TextureRegion;
-	private ITextureRegion mFace2TextureRegion;
-	private ITextureRegion mFace3TextureRegion;
+	private BuildableBitmapTextureAtlas mBuildableBitmapTextureAtlas;
+	private ITextureRegion mButtonNormalTextureRegion;
+	private ITextureRegion mPressedTextureRegion;
+	private ITextureRegion mDisabledTextureRegion;
 
 	// ===========================================================
 	// Constructors
@@ -69,14 +67,14 @@ public class ButtonSpriteExample extends SimpleBaseGameActivity implements OnCli
 	public void onCreateResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 
-		this.mBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 512, 512);
-		this.mFace1TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png");
-		this.mFace2TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_circle_tiled.png");
-		this.mFace3TextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBitmapTextureAtlas, this, "face_hexagon_tiled.png");
+		this.mBuildableBitmapTextureAtlas = new BuildableBitmapTextureAtlas(this.getTextureManager(), 512, 512);
+		this.mButtonNormalTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "button_normal.png");
+		this.mPressedTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "button_pressed.png");
+		this.mDisabledTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(this.mBuildableBitmapTextureAtlas, this, "button_disabled.png");
 		
 		try {
-			this.mBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
-			this.mBitmapTextureAtlas.load();
+			this.mBuildableBitmapTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 0, 0));
+			this.mBuildableBitmapTextureAtlas.load();
 		} catch (TextureAtlasBuilderException e) {
 			Debug.e(e);
 		}
@@ -87,16 +85,16 @@ public class ButtonSpriteExample extends SimpleBaseGameActivity implements OnCli
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
-		/* Calculate the coordinates for the face, so its centered on the camera. */
-		final float centerX = (CAMERA_WIDTH - this.mFace1TextureRegion.getWidth()) / 2;
-		final float centerY = (CAMERA_HEIGHT - this.mFace1TextureRegion.getHeight()) / 2;
+		final float centerX = CAMERA_WIDTH / 2;
+		final float centerY = CAMERA_HEIGHT / 2;
 
 		/* Create the button and add it to the scene. */
-		final Sprite face = new ButtonSprite(centerX, centerY, this.mFace1TextureRegion, this.mFace2TextureRegion, this.mFace3TextureRegion, this.getVertexBufferObjectManager(), this);
-		scene.registerTouchArea(face);
-		scene.attachChild(face);
+		final ButtonSprite buttonSprite = new ButtonSprite(centerX, centerY, this.mButtonNormalTextureRegion, this.mPressedTextureRegion, this.mDisabledTextureRegion, this.getVertexBufferObjectManager(), this);
+		buttonSprite.setScale(2);
+		scene.registerTouchArea(buttonSprite);
+		scene.attachChild(buttonSprite);
 		scene.setTouchAreaBindingOnActionDownEnabled(true);
 
 		return scene;
@@ -104,12 +102,7 @@ public class ButtonSpriteExample extends SimpleBaseGameActivity implements OnCli
 
 	@Override
 	public void onClick(final ButtonSprite pButtonSprite, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(ButtonSpriteExample.this, "Clicked", Toast.LENGTH_LONG).show();
-			}
-		});
+		this.toastOnUiThread("Clicked", Toast.LENGTH_LONG);
 	}
 
 	// ===========================================================

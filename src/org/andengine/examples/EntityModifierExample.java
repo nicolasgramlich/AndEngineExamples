@@ -1,5 +1,7 @@
 package org.andengine.examples;
 
+import java.io.IOException;
+
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
@@ -17,19 +19,16 @@ import org.andengine.entity.modifier.ScaleModifier;
 import org.andengine.entity.modifier.SequenceEntityModifier;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.util.FPSLogger;
+import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
+import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.opengl.texture.region.TiledTextureRegion;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.modifier.IModifier;
 import org.andengine.util.modifier.LoopModifier;
-
-import android.opengl.GLES20;
-import android.widget.Toast;
 
 /**
  * (c) 2010 Nicolas Gramlich
@@ -50,7 +49,7 @@ public class EntityModifierExample extends SimpleBaseGameActivity {
 	// Fields
 	// ===========================================================
 
-	private BitmapTextureAtlas mBitmapTextureAtlas;
+	private ITexture mFaceTexture;
 	private TiledTextureRegion mFaceTextureRegion;
 
 	// ===========================================================
@@ -69,16 +68,14 @@ public class EntityModifierExample extends SimpleBaseGameActivity {
 	public EngineOptions onCreateEngineOptions() {
 		final Camera camera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
+		return new EngineOptions(true, ScreenOrientation.LANDSCAPE_SENSOR, new RatioResolutionPolicy(CAMERA_WIDTH, CAMERA_HEIGHT), camera);
 	}
 
 	@Override
-	public void onCreateResources() {
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-
-		this.mBitmapTextureAtlas = new BitmapTextureAtlas(this.getTextureManager(), 64, 32, TextureOptions.BILINEAR);
-		this.mFaceTextureRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(this.mBitmapTextureAtlas, this, "face_box_tiled.png", 0, 0, 2, 1);
-		this.mBitmapTextureAtlas.load();
+	public void onCreateResources() throws IOException {
+		this.mFaceTexture = new AssetBitmapTexture(this.getTextureManager(), this.getAssets(), "gfx/face_box_tiled.png", TextureOptions.BILINEAR);
+		this.mFaceTextureRegion = TextureRegionFactory.extractTiledFromTexture(this.mFaceTexture, 2, 1);
+		this.mFaceTexture.load();
 	}
 
 	@Override
@@ -86,7 +83,7 @@ public class EntityModifierExample extends SimpleBaseGameActivity {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
 		final Scene scene = new Scene();
-		scene.setBackground(new Background(0.09804f, 0.6274f, 0.8784f));
+		scene.getBackground().setColor(0.09804f, 0.6274f, 0.8784f);
 
 		final float centerX = (CAMERA_WIDTH - this.mFaceTextureRegion.getWidth()) / 2;
 		final float centerY = (CAMERA_HEIGHT - this.mFaceTextureRegion.getHeight()) / 2;
@@ -94,53 +91,32 @@ public class EntityModifierExample extends SimpleBaseGameActivity {
 		final Rectangle rect = new Rectangle(centerX + 100, centerY, 32, 32, this.getVertexBufferObjectManager());
 		rect.setColor(1, 0, 0);
 
-		final AnimatedSprite face = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
-		face.animate(100);
-		face.setBlendFunction(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+		final AnimatedSprite animatedSprite = new AnimatedSprite(centerX - 100, centerY, this.mFaceTextureRegion, this.getVertexBufferObjectManager());
+		animatedSprite.animate(100);
 
 		final LoopEntityModifier entityModifier =
 			new LoopEntityModifier(
 					new IEntityModifierListener() {
 						@Override
 						public void onModifierStarted(final IModifier<IEntity> pModifier, final IEntity pItem) {
-							EntityModifierExample.this.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									Toast.makeText(EntityModifierExample.this, "Sequence started.", Toast.LENGTH_SHORT).show();
-								}
-							});
+							EntityModifierExample.this.toastOnUiThread("Sequence started.");
 						}
 
 						@Override
 						public void onModifierFinished(final IModifier<IEntity> pEntityModifier, final IEntity pEntity) {
-							EntityModifierExample.this.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									Toast.makeText(EntityModifierExample.this, "Sequence finished.", Toast.LENGTH_SHORT).show();
-								}
-							});
+							EntityModifierExample.this.toastOnUiThread("Sequence finished.");
 						}
 					},
 					2,
 					new ILoopEntityModifierListener() {
 						@Override
 						public void onLoopStarted(final LoopModifier<IEntity> pLoopModifier, final int pLoop, final int pLoopCount) {
-							EntityModifierExample.this.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									Toast.makeText(EntityModifierExample.this, "Loop: '" + (pLoop + 1) + "' of '" + pLoopCount + "' started.", Toast.LENGTH_SHORT).show();
-								}
-							});
+							EntityModifierExample.this.toastOnUiThread("Loop: '" + (pLoop + 1) + "' of '" + pLoopCount + "' started.");
 						}
 
 						@Override
 						public void onLoopFinished(final LoopModifier<IEntity> pLoopModifier, final int pLoop, final int pLoopCount) {
-							EntityModifierExample.this.runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									Toast.makeText(EntityModifierExample.this, "Loop: '" + (pLoop + 1) + "' of '" + pLoopCount + "' finished.", Toast.LENGTH_SHORT).show();
-								}
-							});
+							EntityModifierExample.this.toastOnUiThread("Loop: '" + (pLoop + 1) + "' of '" + pLoopCount + "' finished.");
 						}
 					},
 					new SequenceEntityModifier(
@@ -160,10 +136,10 @@ public class EntityModifierExample extends SimpleBaseGameActivity {
 					)
 			);
 
-		face.registerEntityModifier(entityModifier);
+		animatedSprite.registerEntityModifier(entityModifier);
 		rect.registerEntityModifier(entityModifier.deepCopy());
 
-		scene.attachChild(face);
+		scene.attachChild(animatedSprite);
 		scene.attachChild(rect);
 
 		return scene;
