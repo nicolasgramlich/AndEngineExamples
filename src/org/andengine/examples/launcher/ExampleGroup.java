@@ -118,7 +118,7 @@ public enum ExampleGroup {
 			Example.RUNNABLEPOOLUPDATEHANDLER,
 			Example.SVGTEXTUREREGION,
 			Example.XMLLAYOUT,
-//			Example.LEVELLOADER,
+			Example.LEVELLOADER,
 			Example.CCBLEVELLOADER
 		),
 	APP(R.string.examplegroup_app,
