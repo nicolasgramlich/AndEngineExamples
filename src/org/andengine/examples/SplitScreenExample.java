@@ -176,7 +176,8 @@ public class SplitScreenExample extends SimpleBaseGameActivity implements IAccel
 	private void addFace(final float pX, final float pY) {
 		final FixtureDef objectFixtureDef = PhysicsFactory.createFixtureDef(1, 0.5f, 0.5f);
 
-		final AnimatedSprite face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion, this.getVertexBufferObjectManager()).animate(100);
+		final AnimatedSprite face = new AnimatedSprite(pX, pY, this.mBoxFaceTextureRegion, this.getVertexBufferObjectManager());
+		face.animate(100);
 		final Body body = PhysicsFactory.createBoxBody(this.mPhysicsWorld, face, BodyType.DynamicBody, objectFixtureDef);
 
 		this.mScene.attachChild(face);
