@@ -27,6 +27,7 @@ import org.andengine.examples.EntityModifierIrregularExample;
 import org.andengine.examples.GradientExample;
 import org.andengine.examples.HullAlgorithmExample;
 import org.andengine.examples.ImageFormatsExample;
+import org.andengine.examples.LevelLoaderExample;
 import org.andengine.examples.LineExample;
 import org.andengine.examples.LoadTextureExample;
 import org.andengine.examples.MenuExample;
@@ -133,7 +134,7 @@ enum Example {
 	GRADIENT(GradientExample.class, R.string.example_gradient),
 	HULLALGORITHM(HullAlgorithmExample.class, R.string.example_hullalgorithm),
 	IMAGEFORMATS(ImageFormatsExample.class, R.string.example_imageformats),
-//	LEVELLOADER(LevelLoaderExample.class, R.string.example_levelloader),
+	LEVELLOADER(LevelLoaderExample.class, R.string.example_levelloader),
 	LINE(LineExample.class, R.string.example_line),
 	LOADTEXTURE(LoadTextureExample.class, R.string.example_loadtexture),
 	MENU(MenuExample.class, R.string.example_menu),

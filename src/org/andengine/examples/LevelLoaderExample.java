@@ -23,6 +23,7 @@ import org.andengine.ui.activity.SimpleBaseGameActivity;
 import org.andengine.util.SAXUtils;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.level.EntityLoader;
+import org.andengine.util.level.LevelUtils;
 import org.andengine.util.level.constants.LevelConstants;
 import org.andengine.util.level.simple.SimpleLevelEntityLoaderData;
 import org.andengine.util.level.simple.SimpleLevelLoader;
@@ -48,10 +49,6 @@ public class LevelLoaderExample extends SimpleBaseGameActivity {
 	private static final int CAMERA_HEIGHT = 320;
 
 	private static final String TAG_ENTITY = "entity";
-	private static final String TAG_ENTITY_ATTRIBUTE_X = "x";
-	private static final String TAG_ENTITY_ATTRIBUTE_Y = "y";
-	private static final String TAG_ENTITY_ATTRIBUTE_WIDTH = "width";
-	private static final String TAG_ENTITY_ATTRIBUTE_HEIGHT = "height";
 	private static final String TAG_ENTITY_ATTRIBUTE_TYPE = "type";
 
 	private static final Object TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_BOX = "box";
@@ -132,26 +129,24 @@ public class LevelLoaderExample extends SimpleBaseGameActivity {
 		levelLoader.registerEntityLoader(new EntityLoader<SimpleLevelEntityLoaderData>(TAG_ENTITY) {
 			@Override
 			public IEntity onLoadEntity(final String pEntityName, final IEntity pParent, final Attributes pAttributes, final SimpleLevelEntityLoaderData pSimpleLevelEntityLoaderData) throws IOException {
-				final int x = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_X);
-				final int y = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_Y);
-				final int width = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_WIDTH);
-				final int height = SAXUtils.getIntAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_HEIGHT);
 				final String type = SAXUtils.getAttributeOrThrow(pAttributes, TAG_ENTITY_ATTRIBUTE_TYPE);
 
 				final VertexBufferObjectManager vertexBufferObjectManager = pSimpleLevelEntityLoaderData.getVertexBufferObjectManager();
 
 				final AnimatedSprite animatedSprite;
 				if(type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_BOX)) {
-					animatedSprite = new AnimatedSprite(x, y, width, height, LevelLoaderExample.this.mBoxFaceTextureRegion, vertexBufferObjectManager);
+					animatedSprite = new AnimatedSprite(0, 0, LevelLoaderExample.this.mBoxFaceTextureRegion, vertexBufferObjectManager);
 				} else if(type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_CIRCLE)) {
-					animatedSprite = new AnimatedSprite(x, y, width, height, LevelLoaderExample.this.mCircleFaceTextureRegion, vertexBufferObjectManager);
+					animatedSprite = new AnimatedSprite(0, 0, LevelLoaderExample.this.mCircleFaceTextureRegion, vertexBufferObjectManager);
 				} else if(type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_TRIANGLE)) {
-					animatedSprite = new AnimatedSprite(x, y, width, height, LevelLoaderExample.this.mTriangleFaceTextureRegion, vertexBufferObjectManager);
+					animatedSprite = new AnimatedSprite(0, 0, LevelLoaderExample.this.mTriangleFaceTextureRegion, vertexBufferObjectManager);
 				} else if(type.equals(TAG_ENTITY_ATTRIBUTE_TYPE_VALUE_HEXAGON)) {
-					animatedSprite = new AnimatedSprite(x, y, width, height, LevelLoaderExample.this.mHexagonFaceTextureRegion, vertexBufferObjectManager);
+					animatedSprite = new AnimatedSprite(0, 0, LevelLoaderExample.this.mHexagonFaceTextureRegion, vertexBufferObjectManager);
 				} else {
 					throw new IllegalArgumentException();
 				}
+				LevelUtils.setPosition(pAttributes, animatedSprite);
+				LevelUtils.setSize(pAttributes, animatedSprite);
 
 				animatedSprite.animate(200);
 
