@@ -62,6 +62,7 @@ import org.andengine.examples.SpriteExample;
 import org.andengine.examples.SpriteRemoveExample;
 import org.andengine.examples.StrokeFontExample;
 import org.andengine.examples.SubMenuExample;
+import org.andengine.examples.SurfaceGestureExample;
 import org.andengine.examples.TMXTiledMapExample;
 import org.andengine.examples.TextBreakExample;
 import org.andengine.examples.TextExample;
@@ -161,6 +162,7 @@ enum Example {
 	SPRITEREMOVE(SpriteRemoveExample.class, R.string.example_spriteremove),
 	STROKEFONT(StrokeFontExample.class, R.string.example_strokefont),
 	SUBMENU(SubMenuExample.class, R.string.example_submenu),
+	SURFACEGESTURE(SurfaceGestureExample.class, R.string.example_surfacegesture),
 	SVGTEXTUREREGION(SVGTextureRegionExample.class, R.string.example_svgtextureregion),
 	TEXT(TextExample.class, R.string.example_text),
 	TEXTBREAK(TextBreakExample.class, R.string.example_textbreak),

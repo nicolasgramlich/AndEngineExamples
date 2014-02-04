@@ -196,7 +196,7 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 
 	@Override
 	public void onGameCreated() {
-
+		super.onGameCreated();
 	}
 
 	// ===========================================================
