@@ -21,27 +21,25 @@ import org.andengine.entity.util.FPSLogger;
 import org.andengine.examples.adt.messages.client.ClientMessageFlags;
 import org.andengine.examples.adt.messages.server.ConnectionCloseServerMessage;
 import org.andengine.examples.adt.messages.server.ServerMessageFlags;
-import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
-import org.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
-import org.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
-import org.andengine.extension.multiplayer.protocol.client.IServerMessageHandler;
-import org.andengine.extension.multiplayer.protocol.client.SocketServerDiscoveryClient;
-import org.andengine.extension.multiplayer.protocol.client.SocketServerDiscoveryClient.ISocketServerDiscoveryClientListener;
-import org.andengine.extension.multiplayer.protocol.client.connector.ServerConnector;
-import org.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector;
-import org.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector.ISocketConnectionServerConnectorListener;
-import org.andengine.extension.multiplayer.protocol.server.SocketServer;
-import org.andengine.extension.multiplayer.protocol.server.SocketServer.ISocketServerListener;
-import org.andengine.extension.multiplayer.protocol.server.SocketServerDiscoveryServer;
-import org.andengine.extension.multiplayer.protocol.server.SocketServerDiscoveryServer.ISocketServerDiscoveryServerListener;
-import org.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
-import org.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector;
-import org.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
-import org.andengine.extension.multiplayer.protocol.shared.IDiscoveryData.DefaultDiscoveryData;
-import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
-import org.andengine.extension.multiplayer.protocol.util.IPUtils;
-import org.andengine.extension.multiplayer.protocol.util.MessagePool;
-import org.andengine.extension.multiplayer.protocol.util.WifiUtils;
+import org.andengine.extension.multiplayer.adt.message.IMessage;
+import org.andengine.extension.multiplayer.adt.message.server.IServerMessage;
+import org.andengine.extension.multiplayer.adt.message.server.ServerMessage;
+import org.andengine.extension.multiplayer.client.IServerMessageHandler;
+import org.andengine.extension.multiplayer.client.SocketServerDiscoveryClient;
+import org.andengine.extension.multiplayer.client.SocketServerDiscoveryClient.ISocketServerDiscoveryClientListener;
+import org.andengine.extension.multiplayer.client.connector.ServerConnector;
+import org.andengine.extension.multiplayer.client.connector.SocketConnectionServerConnector;
+import org.andengine.extension.multiplayer.client.connector.SocketConnectionServerConnector.ISocketConnectionServerConnectorListener;
+import org.andengine.extension.multiplayer.server.SocketServer;
+import org.andengine.extension.multiplayer.server.SocketServer.ISocketServerListener;
+import org.andengine.extension.multiplayer.server.SocketServerDiscoveryServer;
+import org.andengine.extension.multiplayer.server.SocketServerDiscoveryServer.ISocketServerDiscoveryServerListener;
+import org.andengine.extension.multiplayer.server.connector.ClientConnector;
+import org.andengine.extension.multiplayer.server.connector.SocketConnectionClientConnector;
+import org.andengine.extension.multiplayer.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
+import org.andengine.extension.multiplayer.shared.IDiscoveryData.DefaultDiscoveryData;
+import org.andengine.extension.multiplayer.shared.SocketConnection;
+import org.andengine.extension.multiplayer.util.MessagePool;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
@@ -49,6 +47,8 @@ import org.andengine.opengl.texture.bitmap.AssetBitmapTexture;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.IPUtils;
+import org.andengine.util.WifiUtils;
 import org.andengine.util.debug.Debug;
 
 import android.app.AlertDialog;
@@ -151,16 +151,12 @@ public class MultiplayerServerDiscoveryExample extends SimpleBaseGameActivity im
 				@Override
 				public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 					if(pSceneTouchEvent.isActionDown()) {
-						try {
-							final AddSpriteServerMessage addSpriteServerMessage = (AddSpriteServerMessage) MultiplayerServerDiscoveryExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_SPRITE);
-							addSpriteServerMessage.set(MultiplayerServerDiscoveryExample.this.mSpriteIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+						final AddSpriteServerMessage addSpriteServerMessage = (AddSpriteServerMessage) MultiplayerServerDiscoveryExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_SPRITE);
+            addSpriteServerMessage.set(MultiplayerServerDiscoveryExample.this.mSpriteIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 
-							MultiplayerServerDiscoveryExample.this.mSocketServer.sendBroadcastServerMessage(addSpriteServerMessage);
+            MultiplayerServerDiscoveryExample.this.mSocketServer.sendBroadcastServerMessage(addSpriteServerMessage);
 
-							MultiplayerServerDiscoveryExample.this.mMessagePool.recycleMessage(addSpriteServerMessage);
-						} catch (final IOException e) {
-							Debug.e(e);
-						}
+            MultiplayerServerDiscoveryExample.this.mMessagePool.recycleMessage(addSpriteServerMessage);
 						return true;
 					} else {
 						return false;
@@ -171,20 +167,15 @@ public class MultiplayerServerDiscoveryExample extends SimpleBaseGameActivity im
 			scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-					try {
-						final Sprite sprite = (Sprite)pTouchArea;
-						final int spriteID = (Integer)sprite.getUserData();
+					final Sprite sprite = (Sprite)pTouchArea;
+          final int spriteID = (Integer)sprite.getUserData();
 
-						final MoveSpriteServerMessage moveSpriteServerMessage = (MoveSpriteServerMessage) MultiplayerServerDiscoveryExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_MOVE_SPRITE);
-						moveSpriteServerMessage.set(spriteID, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+          final MoveSpriteServerMessage moveSpriteServerMessage = (MoveSpriteServerMessage) MultiplayerServerDiscoveryExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_MOVE_SPRITE);
+          moveSpriteServerMessage.set(spriteID, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 
-						MultiplayerServerDiscoveryExample.this.mSocketServer.sendBroadcastServerMessage(moveSpriteServerMessage);
+          MultiplayerServerDiscoveryExample.this.mSocketServer.sendBroadcastServerMessage(moveSpriteServerMessage);
 
-						MultiplayerServerDiscoveryExample.this.mMessagePool.recycleMessage(moveSpriteServerMessage);
-					} catch (final IOException e) {
-						Debug.e(e);
-						return false;
-					}
+          MultiplayerServerDiscoveryExample.this.mMessagePool.recycleMessage(moveSpriteServerMessage);
 					return true;
 				}
 			});
@@ -233,11 +224,7 @@ public class MultiplayerServerDiscoveryExample extends SimpleBaseGameActivity im
 	@Override
 	protected void onDestroy() {
 		if(this.mSocketServer != null) {
-			try {
-				this.mSocketServer.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
-			} catch (final IOException e) {
-				Debug.e(e);
-			}
+			this.mSocketServer.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
 			this.mSocketServer.terminate();
 		}
 
