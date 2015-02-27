@@ -30,14 +30,13 @@ import org.andengine.examples.game.pong.adt.messages.server.UpdateBallServerMess
 import org.andengine.examples.game.pong.adt.messages.server.UpdatePaddleServerMessage;
 import org.andengine.examples.game.pong.adt.messages.server.UpdateScoreServerMessage;
 import org.andengine.examples.game.pong.util.constants.PongConstants;
-import org.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
-import org.andengine.extension.multiplayer.protocol.client.IServerMessageHandler;
-import org.andengine.extension.multiplayer.protocol.client.connector.ServerConnector;
-import org.andengine.extension.multiplayer.protocol.client.connector.SocketConnectionServerConnector.ISocketConnectionServerConnectorListener;
-import org.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
-import org.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
-import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
-import org.andengine.extension.multiplayer.protocol.util.WifiUtils;
+import org.andengine.extension.multiplayer.adt.message.server.IServerMessage;
+import org.andengine.extension.multiplayer.client.IServerMessageHandler;
+import org.andengine.extension.multiplayer.client.connector.ServerConnector;
+import org.andengine.extension.multiplayer.client.connector.SocketConnectionServerConnector.ISocketConnectionServerConnectorListener;
+import org.andengine.extension.multiplayer.server.connector.ClientConnector;
+import org.andengine.extension.multiplayer.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
+import org.andengine.extension.multiplayer.shared.SocketConnection;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
@@ -46,6 +45,8 @@ import org.andengine.opengl.texture.TextureOptions;
 import org.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.ui.activity.SimpleBaseGameActivity;
+import org.andengine.util.WifiUtils;
+import org.andengine.util.WifiUtils.WifiUtilsException;
 import org.andengine.util.debug.Debug;
 
 import android.app.AlertDialog;
@@ -179,11 +180,7 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 			@Override
 			public void onUpdate(final float pSecondsElapsed) {
 				if(PongGameActivity.this.mPaddleID != PADDLEID_NOT_SET) {
-					try {
-						PongGameActivity.this.mServerConnector.sendClientMessage(new MovePaddleClientMessage(PongGameActivity.this.mPaddleID, PongGameActivity.this.mPaddleCenterY));
-					} catch (final IOException e) {
-						Debug.e(e);
-					}
+					PongGameActivity.this.mServerConnector.sendClientMessage(new MovePaddleClientMessage(PongGameActivity.this.mPaddleID, PongGameActivity.this.mPaddleCenterY));
 				}
 			}
 
@@ -218,13 +215,9 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem) {
 		switch(pItem.getItemId()) {
 			case MENU_PING:
-				try {
-					final ConnectionPingClientMessage connectionPingClientMessage = new ConnectionPingClientMessage(); // TODO Pooling
-					connectionPingClientMessage.setTimestamp(System.currentTimeMillis());
-					this.mServerConnector.sendClientMessage(connectionPingClientMessage);
-				} catch (final IOException e) {
-					Debug.e(e);
-				}
+				final ConnectionPingClientMessage connectionPingClientMessage = new ConnectionPingClientMessage(); // TODO Pooling
+        connectionPingClientMessage.setTimestamp(System.currentTimeMillis());
+        this.mServerConnector.sendClientMessage(connectionPingClientMessage);
 				return true;
 			default:
 				return super.onMenuItemSelected(pFeatureId, pItem);
@@ -243,7 +236,7 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 					.setMessage("The IP of your Server is:\n" + WifiUtils.getWifiIPv4Address(this))
 					.setPositiveButton(android.R.string.ok, null)
 					.create();
-				} catch (final UnknownHostException e) {
+				} catch (final WifiUtilsException e) {
 					return new AlertDialog.Builder(this)
 					.setIcon(android.R.drawable.ic_dialog_alert)
 					.setTitle("Your Server-IP ...")
@@ -311,12 +304,8 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 	@Override
 	protected void onDestroy() {
 		if(this.mServer != null) {
-			try {
-				this.mServer.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
-			} catch (final IOException e) {
-				Debug.e(e);
-			}
-			this.mServer.terminate();
+			this.mServer.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
+//			this.mServer.terminate();
 		}
 
 		if(this.mServerConnector != null) {
@@ -501,16 +490,16 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 	}
 
 	private class ExampleServerConnectorListener implements ISocketConnectionServerConnectorListener {
-		@Override
-		public void onStarted(final ServerConnector<SocketConnection> pServerConnector) {
-			PongGameActivity.this.toastOnUiThread("CLIENT: Connected to server.", Toast.LENGTH_SHORT);
-		}
+    @Override
+    public void onStarted(ServerConnector<SocketConnection> pServerConnector) {
+      PongGameActivity.this.toastOnUiThread("CLIENT: Connected to server.", Toast.LENGTH_SHORT);     
+    }
 
-		@Override
-		public void onTerminated(final ServerConnector<SocketConnection> pServerConnector) {
-			PongGameActivity.this.toastOnUiThread("CLIENT: Disconnected from Server.", Toast.LENGTH_SHORT);
-			PongGameActivity.this.finish();
-		}
+    @Override
+    public void onTerminated(ServerConnector<SocketConnection> pServerConnector) {
+      PongGameActivity.this.toastOnUiThread("CLIENT: Disconnected from Server.", Toast.LENGTH_SHORT);
+      PongGameActivity.this.finish();
+    }
 	}
 
 	private class ExampleClientConnectorListener implements ISocketConnectionClientConnectorListener {
@@ -523,5 +512,6 @@ public class PongGameActivity extends SimpleBaseGameActivity implements PongCons
 		public void onTerminated(final ClientConnector<SocketConnection> pClientConnector) {
 			PongGameActivity.this.toastOnUiThread("SERVER: Client disconnected: " + pClientConnector.getConnection().getSocket().getInetAddress().getHostAddress(), Toast.LENGTH_SHORT);
 		}
-	}
+
+  }
 }
