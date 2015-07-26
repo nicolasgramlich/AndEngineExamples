@@ -217,7 +217,7 @@ public class PhysicsExample extends SimpleBaseGameActivity implements IAccelerat
 
 		final float top = -halfHeight;
 		final float bottom = halfHeight;
-		final float left = -halfHeight;
+		final float left = -halfWidth;
 		final float centerX = 0;
 		final float right = halfWidth;
 
