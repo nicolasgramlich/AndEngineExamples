@@ -18,21 +18,21 @@ import org.andengine.examples.adt.messages.client.ClientMessageFlags;
 import org.andengine.examples.adt.messages.server.ConnectionCloseServerMessage;
 import org.andengine.examples.adt.messages.server.ServerMessageFlags;
 import org.andengine.examples.util.BluetoothListDevicesActivity;
-import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
-import org.andengine.extension.multiplayer.protocol.adt.message.server.IServerMessage;
-import org.andengine.extension.multiplayer.protocol.adt.message.server.ServerMessage;
-import org.andengine.extension.multiplayer.protocol.client.IServerMessageHandler;
-import org.andengine.extension.multiplayer.protocol.client.connector.BluetoothSocketConnectionServerConnector;
-import org.andengine.extension.multiplayer.protocol.client.connector.BluetoothSocketConnectionServerConnector.IBluetoothSocketConnectionServerConnectorListener;
-import org.andengine.extension.multiplayer.protocol.client.connector.ServerConnector;
-import org.andengine.extension.multiplayer.protocol.exception.BluetoothException;
-import org.andengine.extension.multiplayer.protocol.server.BluetoothSocketServer;
-import org.andengine.extension.multiplayer.protocol.server.BluetoothSocketServer.IBluetoothSocketServerListener;
-import org.andengine.extension.multiplayer.protocol.server.connector.BluetoothSocketConnectionClientConnector;
-import org.andengine.extension.multiplayer.protocol.server.connector.BluetoothSocketConnectionClientConnector.IBluetoothSocketConnectionClientConnectorListener;
-import org.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
-import org.andengine.extension.multiplayer.protocol.shared.BluetoothSocketConnection;
-import org.andengine.extension.multiplayer.protocol.util.MessagePool;
+import org.andengine.extension.multiplayer.adt.message.IMessage;
+import org.andengine.extension.multiplayer.adt.message.server.IServerMessage;
+import org.andengine.extension.multiplayer.adt.message.server.ServerMessage;
+import org.andengine.extension.multiplayer.client.IServerMessageHandler;
+import org.andengine.extension.multiplayer.client.connector.BluetoothSocketConnectionServerConnector;
+import org.andengine.extension.multiplayer.client.connector.BluetoothSocketConnectionServerConnector.IBluetoothSocketConnectionServerConnectorListener;
+import org.andengine.extension.multiplayer.client.connector.ServerConnector;
+import org.andengine.util.exception.BluetoothException;
+import org.andengine.extension.multiplayer.server.BluetoothSocketServer;
+import org.andengine.extension.multiplayer.server.BluetoothSocketServer.IBluetoothSocketServerListener;
+import org.andengine.extension.multiplayer.server.connector.BluetoothSocketConnectionClientConnector;
+import org.andengine.extension.multiplayer.server.connector.BluetoothSocketConnectionClientConnector.IBluetoothSocketConnectionClientConnectorListener;
+import org.andengine.extension.multiplayer.server.connector.ClientConnector;
+import org.andengine.extension.multiplayer.shared.BluetoothSocketConnection;
+import org.andengine.extension.multiplayer.util.MessagePool;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.TextureOptions;
@@ -195,11 +195,7 @@ public class MultiplayerBluetoothExample extends SimpleBaseGameActivity implemen
 	@Override
 	protected void onDestroy() {
 		if(this.mBluetoothSocketServer != null) {
-			try {
-				this.mBluetoothSocketServer.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
-			} catch (final IOException e) {
-				Debug.e(e);
-			}
+			this.mBluetoothSocketServer.sendBroadcastServerMessage(new ConnectionCloseServerMessage());
 			this.mBluetoothSocketServer.terminate();
 		}
 
@@ -240,16 +236,12 @@ public class MultiplayerBluetoothExample extends SimpleBaseGameActivity implemen
 				@Override
 				public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
 					if(pSceneTouchEvent.isActionDown()) {
-						try {
-							final AddSpriteServerMessage addSpriteServerMessage = (AddSpriteServerMessage) MultiplayerBluetoothExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_SPRITE);
-							addSpriteServerMessage.set(MultiplayerBluetoothExample.this.mSpriteIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+						final AddSpriteServerMessage addSpriteServerMessage = (AddSpriteServerMessage) MultiplayerBluetoothExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_ADD_SPRITE);
+						addSpriteServerMessage.set(MultiplayerBluetoothExample.this.mSpriteIDCounter++, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 
-							MultiplayerBluetoothExample.this.mBluetoothSocketServer.sendBroadcastServerMessage(addSpriteServerMessage);
+						MultiplayerBluetoothExample.this.mBluetoothSocketServer.sendBroadcastServerMessage(addSpriteServerMessage);
 
-							MultiplayerBluetoothExample.this.mMessagePool.recycleMessage(addSpriteServerMessage);
-						} catch (final IOException e) {
-							Debug.e(e);
-						}
+						MultiplayerBluetoothExample.this.mMessagePool.recycleMessage(addSpriteServerMessage);
 						return true;
 					} else {
 						return false;
@@ -260,20 +252,15 @@ public class MultiplayerBluetoothExample extends SimpleBaseGameActivity implemen
 			scene.setOnAreaTouchListener(new IOnAreaTouchListener() {
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final ITouchArea pTouchArea, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-					try {
-						final Sprite sprite = (Sprite)pTouchArea;
-						final int spriteID = (Integer)sprite.getUserData();
+					final Sprite sprite = (Sprite)pTouchArea;
+					final int spriteID = (Integer)sprite.getUserData();
 
-						final MoveSpriteServerMessage moveSpriteServerMessage = (MoveSpriteServerMessage) MultiplayerBluetoothExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_MOVE_SPRITE);
-						moveSpriteServerMessage.set(spriteID, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+					final MoveSpriteServerMessage moveSpriteServerMessage = (MoveSpriteServerMessage) MultiplayerBluetoothExample.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_MOVE_SPRITE);
+					moveSpriteServerMessage.set(spriteID, pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
 
-						MultiplayerBluetoothExample.this.mBluetoothSocketServer.sendBroadcastServerMessage(moveSpriteServerMessage);
+					MultiplayerBluetoothExample.this.mBluetoothSocketServer.sendBroadcastServerMessage(moveSpriteServerMessage);
 
-						MultiplayerBluetoothExample.this.mMessagePool.recycleMessage(moveSpriteServerMessage);
-					} catch (final IOException e) {
-						Debug.e(e);
-						return false;
-					}
+					MultiplayerBluetoothExample.this.mMessagePool.recycleMessage(moveSpriteServerMessage);
 					return true;
 				}
 			});

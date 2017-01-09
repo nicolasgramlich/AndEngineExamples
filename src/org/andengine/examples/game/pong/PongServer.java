@@ -21,16 +21,16 @@ import org.andengine.examples.game.pong.adt.messages.server.UpdateBallServerMess
 import org.andengine.examples.game.pong.adt.messages.server.UpdatePaddleServerMessage;
 import org.andengine.examples.game.pong.adt.messages.server.UpdateScoreServerMessage;
 import org.andengine.examples.game.pong.util.constants.PongConstants;
-import org.andengine.extension.multiplayer.protocol.adt.message.IMessage;
-import org.andengine.extension.multiplayer.protocol.adt.message.client.IClientMessage;
-import org.andengine.extension.multiplayer.protocol.server.IClientMessageHandler;
-import org.andengine.extension.multiplayer.protocol.server.SocketServer;
-import org.andengine.extension.multiplayer.protocol.server.SocketServer.ISocketServerListener.DefaultSocketServerListener;
-import org.andengine.extension.multiplayer.protocol.server.connector.ClientConnector;
-import org.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector;
-import org.andengine.extension.multiplayer.protocol.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
-import org.andengine.extension.multiplayer.protocol.shared.SocketConnection;
-import org.andengine.extension.multiplayer.protocol.util.MessagePool;
+import org.andengine.extension.multiplayer.adt.message.IMessage;
+import org.andengine.extension.multiplayer.adt.message.client.IClientMessage;
+import org.andengine.extension.multiplayer.server.IClientMessageHandler;
+import org.andengine.extension.multiplayer.server.SocketServer;
+import org.andengine.extension.multiplayer.server.SocketServer.ISocketServerListener.DefaultSocketServerListener;
+import org.andengine.extension.multiplayer.server.connector.ClientConnector;
+import org.andengine.extension.multiplayer.server.connector.SocketConnectionClientConnector;
+import org.andengine.extension.multiplayer.server.connector.SocketConnectionClientConnector.ISocketConnectionClientConnectorListener;
+import org.andengine.extension.multiplayer.shared.SocketConnection;
+import org.andengine.extension.multiplayer.util.MessagePool;
 import org.andengine.extension.physics.box2d.FixedStepPhysicsWorld;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
@@ -183,12 +183,8 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 
 			final SmartList<SocketConnectionClientConnector> clientConnectors = this.mClientConnectors;
 			for(int i = 0; i < clientConnectors.size(); i++) {
-				try {
-					final ClientConnector<SocketConnection> clientConnector = clientConnectors.get(i);
-					clientConnector.sendServerMessage(updateScoreServerMessage);
-				} catch (final IOException e) {
-					Debug.e(e);
-				}
+				final ClientConnector<SocketConnection> clientConnector = clientConnectors.get(i);
+				clientConnector.sendServerMessage(updateScoreServerMessage);
 			}
 			this.mMessagePool.recycleMessage(updateScoreServerMessage);
 		}
@@ -238,18 +234,14 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 			updatePaddleServerMessages.add(updatePaddleServerMessage);
 		}
 
-		try {
-			/* Update Ball. */
-			this.sendBroadcastServerMessage(updateBallServerMessage);
+		/* Update Ball. */
+		this.sendBroadcastServerMessage(updateBallServerMessage);
 
 			/* Update Paddles. */
-			for(int j = 0; j < updatePaddleServerMessages.size(); j++) {
-				this.sendBroadcastServerMessage(updatePaddleServerMessages.get(j));
-			}
-			this.sendBroadcastServerMessage(updateBallServerMessage);
-		} catch (final IOException e) {
-			Debug.e(e);
-		}
+		for(int j = 0; j < updatePaddleServerMessages.size(); j++) {
+            this.sendBroadcastServerMessage(updatePaddleServerMessages.get(j));
+        }
+		this.sendBroadcastServerMessage(updateBallServerMessage);
 
 		/* Recycle messages. */
 		this.mMessagePool.recycleMessage(updateBallServerMessage);
@@ -291,20 +283,12 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 				final ConnectionEstablishClientMessage connectionEstablishClientMessage = (ConnectionEstablishClientMessage) pClientMessage;
 				if(connectionEstablishClientMessage.getProtocolVersion() == MessageConstants.PROTOCOL_VERSION) {
 					final ConnectionEstablishedServerMessage connectionEstablishedServerMessage = (ConnectionEstablishedServerMessage) PongServer.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_CONNECTION_ESTABLISHED);
-					try {
-						pClientConnector.sendServerMessage(connectionEstablishedServerMessage);
-					} catch (IOException e) {
-						Debug.e(e);
-					}
+					pClientConnector.sendServerMessage(connectionEstablishedServerMessage);
 					PongServer.this.mMessagePool.recycleMessage(connectionEstablishedServerMessage);
 				} else {
 					final ConnectionRejectedProtocolMissmatchServerMessage connectionRejectedProtocolMissmatchServerMessage = (ConnectionRejectedProtocolMissmatchServerMessage) PongServer.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_CONNECTION_REJECTED_PROTOCOL_MISSMATCH);
 					connectionRejectedProtocolMissmatchServerMessage.setProtocolVersion(MessageConstants.PROTOCOL_VERSION);
-					try {
-						pClientConnector.sendServerMessage(connectionRejectedProtocolMissmatchServerMessage);
-					} catch (IOException e) {
-						Debug.e(e);
-					}
+					pClientConnector.sendServerMessage(connectionRejectedProtocolMissmatchServerMessage);
 					PongServer.this.mMessagePool.recycleMessage(connectionRejectedProtocolMissmatchServerMessage);
 				}
 			}
@@ -314,11 +298,7 @@ public class PongServer extends SocketServer<SocketConnectionClientConnector> im
 			@Override
 			public void onHandleMessage(final ClientConnector<SocketConnection> pClientConnector, final IClientMessage pClientMessage) throws IOException {
 				final ConnectionPongServerMessage connectionPongServerMessage = (ConnectionPongServerMessage) PongServer.this.mMessagePool.obtainMessage(FLAG_MESSAGE_SERVER_CONNECTION_PONG);
-				try {
-					pClientConnector.sendServerMessage(connectionPongServerMessage);
-				} catch (IOException e) {
-					Debug.e(e);
-				}
+				pClientConnector.sendServerMessage(connectionPongServerMessage);
 				PongServer.this.mMessagePool.recycleMessage(connectionPongServerMessage);
 			}
 		});

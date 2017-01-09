@@ -58,7 +58,7 @@ public class ExampleLauncher extends ExpandableListActivity {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if(!AndEngine.isDeviceSupported()) {
+		if(!AndEngine.isDeviceSupported(this)) {
 			this.showDialog(ExampleLauncher.DIALOG_DEVICE_NOT_SUPPORTED);
 		}
 
